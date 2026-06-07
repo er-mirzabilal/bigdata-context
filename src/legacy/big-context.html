@@ -826,5 +826,11 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){if(!started){started=true;el.textContent='';ci=0;del=false;}if(!running){running=true;tick();}}else{running=false;if(timer){clearTimeout(timer);timer=0;}}});},{threshold:0.35});
   io.observe(el);
 })();
+(function(){
+  // Pause marquee CSS animation when off-screen
+  const ms=document.querySelectorAll('.bc-marquee');if(!ms.length)return;
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{e.target.classList.toggle('bc-off',!e.isIntersecting);});},{threshold:0.01});
+  ms.forEach(m=>io.observe(m));
+})();
 </script></body>
 </html>
