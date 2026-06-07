@@ -305,16 +305,14 @@ svg.tl{width:100%;height:auto;display:block}
 @media(prefers-reduced-motion:reduce){.bc-caret{display:none}}
 /* === MOBILE OPTIMIZATIONS (≤640px) === */
 @media (max-width:640px){
-  .bc-section{padding:clamp(56px,9vw,80px) 0}
-  .bc-hero{min-height:auto;padding-top:96px;padding-bottom:64px}
+  .bc-section{padding:clamp(56px,9vw,80px) 0 !important}
+  .bc-hero{min-height:auto !important;padding:96px 0 64px !important}
   .bc-bloom{filter:none;animation:bcBloom 1.2s ease-out forwards .2s;opacity:.55}
-  .st-atom{min-height:auto;padding:48px 20px}
-  .st-lin{padding:40px 20px}
-  .st-prob{padding:40px 20px}
-  .st-cl{padding:48px 20px}
+  .st-atom{min-height:auto !important;padding:48px 20px !important}
+  .st-lin{padding:40px 20px !important}
+  .st-prob{padding:40px 20px !important}
+  .st-cl{padding:48px 20px !important}
   .cl-body{gap:14px}
-  .bc-closeout .bc-h2,#bc-flip + .bc-caret,.bc-h2[style*="max-width:none"]{}
-  /* allow closer headline to wrap and shrink */
   #bc-flip{display:inline}
   section.bc-closeout .bc-h2{font-size:clamp(1.75rem,7vw,2.6rem);line-height:1.08;white-space:normal}
 }
