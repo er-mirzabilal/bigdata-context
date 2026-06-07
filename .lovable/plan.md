@@ -1,24 +1,36 @@
-## Optimize the "Make enterprise data work at AI‑scale" background animation
+# Hero Mobile Refinement
 
-Edit only the `#bc-neural` IIFE in `src/legacy/big-context.html` (lines ~693–767). No design or markup changes.
+Scope: `src/legacy/big-context.html` only. CSS-only edits inside a `@media(max-width:640px)` block. No JS, no animation logic changes.
 
-### Changes
+## Changes
 
-1. **Pause when off-screen** — IntersectionObserver on `#get-started`; only `requestAnimationFrame` while `isIntersecting`. Cancel rAF and clear `trail` / `shoots` when hidden.
-2. **Pause when tab hidden** — `visibilitychange` listener mirrors the same start/stop.
-3. **Lower DPR cap** from 2 → 1.5 (≈45% fewer pixels to fill).
-4. **Reduce star count** — density divisor 950 → 1600; cap 720 → 380 (220 on widths < 720).
-5. **Drop per‑star `shadowBlur`** (Canvas2D's most expensive op) — replace with a cheap additive arc, drawn only when `s.flash > 0.25`. Big stars still twinkle but without the blur tax every frame.
-6. **Cache the two background radial gradients** once in `size()` instead of recreating them per frame.
-7. **Cap frame rate to ~60fps** — skip rAF tick if `dt < 1/60 - 2ms` (prevents 120Hz monitors from doubling the cost).
-8. **Skip cursor trail block** entirely when the trail array is empty.
+### 1. Calm the background on mobile
+- Reduce `.bc-bloom` size from `60vw` → `78vw` but drop opacity (`.55`) and shift its center up/left so it sits behind the headline area instead of bleeding into the tagline.
+- Reduce `#bc-particles` opacity to `.45` on mobile so the network graphic recedes behind text.
+- Keep all animations intact (no perf change requested here).
 
-### Expected result
+### 2. Headline legibility
+- Tighten `.bc-name` to `font-size: clamp(2.2rem, 9.5vw, 3rem)` and `line-height: 1.05` on mobile so "Big Context™ & Company" breaks cleanly on 2 lines with the `&` not landing on the bright bloom.
+- Shrink the `sup` ™ slightly and pull it closer (`top:-1.2em`) so it doesn't float visually detached.
 
-- Smooth scroll into and past the section.
-- 0 CPU when the section is off-screen or the tab is hidden.
-- Visually identical (slight DPR drop is imperceptible on the soft particle field; shadow glow on idle big stars is the only visible nuance and is replaced with an equivalent additive glow on flashing stars).
+### 3. Tagline spacing
+- Reduce `.bc-tag` `margin-top` from `32px` → `20px` and font-size to `clamp(1.15rem, 5vw, 1.4rem)` so "Make enterprise data work at AI-scale." reads as one tight 2-line block.
 
-### Not changed
+### 4. CTA stack
+- Change `.bc-hero-cta` to `flex-direction: column; gap: 10px; margin-top: 28px` on mobile.
+- Make both buttons full-width (`width:100%; justify-content:center`) for clear tap targets.
+- Keeps existing button styling/colors.
 
-- Hero `#bc-particles` canvas and the atom/orbit animation. Same treatment can be applied if you want — say the word.
+### 5. Hero rhythm
+- Reduce `.bc-hero` `padding-top` from `80px` → `64px` on mobile and set `min-height: auto; padding-bottom: 100px` so the SCROLL cue is reachable without an oversized empty stretch.
+
+### 6. Optional: section-edge padding
+- Tighten `.bc-hero .bc-wrap` horizontal padding floor to `20px` (currently `clamp(22px,…)`) so headline gets a couple more px to breathe.
+
+## Files touched
+- `src/legacy/big-context.html` — extend the existing `@media(max-width:640px)` block (around line 48) with the new rules. ~20 lines of CSS, no markup changes.
+
+## Out of scope
+- Particle simulation perf (already addressed earlier).
+- Desktop hero — untouched.
+- Copy changes.
