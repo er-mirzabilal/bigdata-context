@@ -559,7 +559,7 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const ctx=c.getContext('2d'); const LAV=gcs('--p-lav')||'199,157,240', NODE=gcs('--p-node')||'217,179,255';
   let w,h,dpr,nodes=[],mouse={x:null,y:null},raf,cx0=0,cy0=0,maxR=0,target=0,spawnAcc=0,lastTs=0; const LINK=132, SPAWN=0.32;
-  function size(){dpr=Math.min(devicePixelRatio||1,2);w=c.clientWidth;h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+  function size(){dpr=Math.min(devicePixelRatio||1,1.5);w=c.clientWidth;h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
   function mk(rad,ang){const t=Math.random();const kind=t<0.12?'lav':(t<0.18?'node':'soft');
     return{ang,baseRad:rad,spd:(0.05+Math.random()*0.06)/(0.5+rad/maxR),ph:Math.random()*Math.PI*2,r:Math.random()*1.5+.7,kind,x:0,y:0,a:0};}
   function seed(central){const rad=central?Math.random()*maxR*0.5:Math.sqrt(Math.random())*maxR;nodes.push(mk(rad,Math.random()*Math.PI*2));}
@@ -567,9 +567,12 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
     if(Math.random()<0.34){ seed(Math.random()<0.55); return; }
     const p=nodes[(Math.random()*nodes.length)|0];
     const rad=Math.max(8,Math.min(maxR,p.baseRad+(Math.random()-0.5)*46)); const ang=p.ang+(Math.random()-0.5)*0.5; nodes.push(mk(rad,ang)); }
-  function init(){cx0=w*0.6;cy0=h*0.44;maxR=Math.min(w,h)*0.46;target=Math.min(Math.floor(w*h/13000),115);
+  function init(){cx0=w*0.6;cy0=h*0.44;maxR=Math.min(w,h)*0.46;
+    const mobile=innerWidth<720;
+    target=Math.min(Math.floor(w*h/(mobile?22000:13000)),mobile?55:115);
     nodes=[];const seeds=Math.min(12,target);for(let i=0;i<seeds;i++)seed(i%2===0);spawnAcc=0;lastTs=0;}
-  function frame(now){now=now||0;const dt=lastTs?Math.min(0.05,(now-lastTs)/1000):0;lastTs=now;
+  let visible=true;
+  function frame(now){if(!visible){raf=0;return;}now=now||0;const dt=lastTs?Math.min(0.05,(now-lastTs)/1000):0;lastTs=now;
     if(nodes.length<target){spawnAcc+=dt;while(spawnAcc>=SPAWN&&nodes.length<target){spawnAcc-=SPAWN;grow();}}
     for(const p of nodes){p.a+=(1-p.a)*Math.min(1,dt*1.6);p.ang+=p.spd*0.016;const rad=p.baseRad+Math.sin(now*0.0006+p.ph)*6;
       let x=cx0+Math.cos(p.ang)*rad,y=cy0+Math.sin(p.ang)*rad*0.74;
@@ -586,6 +589,12 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();if(e.clientY>=r.top&&e.clientY<=r.bottom){mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;}else{mouse.x=mouse.y=null;}});
   addEventListener('mouseleave',()=>{mouse.x=mouse.y=null;});
   let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(start,200);});start();
+  if(!reduce){
+    const hero=c.closest('.bc-hero')||c.parentElement;
+    const io=new IntersectionObserver(es=>{es.forEach(e=>{const wasVisible=visible;visible=e.isIntersecting&&!document.hidden;if(visible&&!wasVisible){lastTs=0;if(!raf)raf=requestAnimationFrame(frame);}else if(!visible&&raf){cancelAnimationFrame(raf);raf=0;}});},{threshold:0.01});
+    if(hero)io.observe(hero);
+    document.addEventListener('visibilitychange',()=>{const v=!document.hidden && (hero?hero.getBoundingClientRect().bottom>0 && hero.getBoundingClientRect().top<innerHeight:true);const wasVisible=visible;visible=v;if(visible&&!wasVisible){lastTs=0;if(!raf)raf=requestAnimationFrame(frame);}else if(!visible&&raf){cancelAnimationFrame(raf);raf=0;}});
+  }
 })();
 </script>
 <script>
