@@ -813,15 +813,16 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   const el=document.getElementById('bc-flip'); if(!el) return;
   const words=['work','reliable','accurate','governed','legible','useful','unleashed'];
   if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent='work';return;}
-  let wi=0,ci=0,del=false,started=false;
+  let wi=0,ci=0,del=false,started=false,running=false,timer=0;
   function tick(){
+    if(!running){return;}
     const w=words[wi];
     if(!del){ci++;el.textContent=w.slice(0,ci);
-      if(ci>=w.length){del=true;return setTimeout(tick,1600);} return setTimeout(tick,90);}
+      if(ci>=w.length){del=true;timer=setTimeout(tick,1600);return;} timer=setTimeout(tick,90);return;}
     ci--;el.textContent=w.slice(0,ci);
-    if(ci<=0){del=false;wi=(wi+1)%words.length;return setTimeout(tick,360);} return setTimeout(tick,42);
+    if(ci<=0){del=false;wi=(wi+1)%words.length;timer=setTimeout(tick,360);return;} timer=setTimeout(tick,42);
   }
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!started){started=true;el.textContent='';ci=0;del=false;tick();}});},{threshold:0.35});
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){if(!started){started=true;el.textContent='';ci=0;del=false;}if(!running){running=true;tick();}}else{running=false;if(timer){clearTimeout(timer);timer=0;}}});},{threshold:0.35});
   io.observe(el);
 })();
 </script></body>
