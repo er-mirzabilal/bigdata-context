@@ -644,7 +644,8 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   bindHover(document.getElementById('nucHit'),'bcos');
   document.getElementById('what').addEventListener('click',()=>{if(pinned){pinned=null;setActive(null);}});
   const pulses=[],ripples=[];let t0=null,last=null;
-  function frame(ts){if(t0===null){t0=ts;last=ts;}const t=(ts-t0)/1000;const dt=Math.min(0.05,(ts-last)/1000);last=ts;
+  let atomVisible=true,atomRaf=0;
+  function frame(ts){if(!atomVisible){atomRaf=0;return;}if(t0===null){t0=ts;last=ts;}const t=(ts-t0)/1000;const dt=Math.min(0.05,(ts-last)/1000);last=ts;
     svcAlpha+=(svcAlphaTarget-svcAlpha)*Math.min(1,dt*7);ringMul+=(ringMulTarget-ringMul)*Math.min(1,dt*5);opsAlpha+=(opsAlphaTarget-opsAlpha)*Math.min(1,dt*6);
     const sc=1+(0.026+0.05*opsAlpha)*Math.sin(t*(1.05+0.5*opsAlpha));nucleus.setAttribute('transform','scale('+sc.toFixed(4)+')');
     spec.setAttribute('cx',(-14+5*Math.sin(t*0.6)).toFixed(2));spec.setAttribute('cy',(-15+4*Math.cos(t*0.5)).toFixed(2));
@@ -663,8 +664,14 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
     for(let i=pulses.length-1;i>=0;i--){const p=pulses[i];const k=(t-p.start)/p.dur;if(k>=1){if(p.el)p.el.remove();pulses.splice(i,1);continue;}
       const e=1-Math.pow(1-k,2.2);const px=p.x*(1-e),py=p.y*(1-e);if(!p.el){p.el=document.createElementNS(NS,'circle');p.el.setAttribute('fill','var(--lavender-hot)');pulseLayer.appendChild(p.el);}
       p.el.setAttribute('cx',px.toFixed(2));p.el.setAttribute('cy',py.toFixed(2));p.el.setAttribute('r',(2.6*(1-k)+0.6).toFixed(2));p.el.setAttribute('opacity',(0.85*(1-k)).toFixed(2));}
-    requestAnimationFrame(frame);}
-  requestAnimationFrame(frame);
+    atomRaf=requestAnimationFrame(frame);}
+  atomRaf=requestAnimationFrame(frame);
+  (function(){
+    const sec=document.getElementById('what');if(!sec)return;
+    const io=new IntersectionObserver(es=>{es.forEach(e=>{const was=atomVisible;atomVisible=e.isIntersecting&&!document.hidden;if(atomVisible&&!was){t0=null;last=null;if(!atomRaf)atomRaf=requestAnimationFrame(frame);}else if(!atomVisible&&atomRaf){cancelAnimationFrame(atomRaf);atomRaf=0;}});},{threshold:0.01});
+    io.observe(sec);
+    document.addEventListener('visibilitychange',()=>{const r=sec.getBoundingClientRect();const v=!document.hidden&&r.bottom>0&&r.top<innerHeight;const was=atomVisible;atomVisible=v;if(v&&!was){t0=null;last=null;if(!atomRaf)atomRaf=requestAnimationFrame(frame);}else if(!v&&atomRaf){cancelAnimationFrame(atomRaf);atomRaf=0;}});
+  })();
 })();
 </script>
 
