@@ -45,6 +45,14 @@ a{color:inherit;text-decoration:none}
 .bc-btn-ghost{background:rgba(var(--p-lav),.07);color:var(--paper);border:1px solid rgba(var(--p-lav),.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .bc-btn-ghost:hover{border-color:var(--lavender);background:rgba(var(--p-lav),.15);color:var(--lavender-hot)}
 @media(max-width:860px){.bc-nav-links a:not(.bc-btn){display:none}}
+@media(max-width:640px){
+  .bc-nav-in{padding:12px 18px}
+  .bc-mark{width:18px;height:18px}
+  .bc-wordmark{font-size:15px;white-space:nowrap;min-width:0;gap:6px}
+  .bc-wm-suf{display:none}
+  .bc-nav-links{gap:10px}
+  .bc-nav-links .bc-btn{padding:8px 14px;font-size:11px;white-space:nowrap;flex-shrink:0}
+}
 
 .bc-hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:80px;overflow:hidden;background:radial-gradient(120% 90% at 62% 42%, var(--void-2) 0%, var(--void) 58%, var(--void-3) 100%)}
 #bc-particles{position:absolute;inset:0;width:100%;height:100%;z-index:0}
@@ -308,7 +316,7 @@ svg.tl{width:100%;height:auto;display:block}
 
 <nav class="bc-nav">
   <div class="bc-nav-in">
-    <a href="#top" class="bc-wordmark"><svg class="bc-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g stroke="var(--lavender)" stroke-opacity=".5" stroke-width="1.1"><line x1="12" y1="4" x2="5" y2="12"/><line x1="12" y1="4" x2="19" y2="12"/><line x1="5" y1="12" x2="12" y2="20"/><line x1="19" y1="12" x2="12" y2="20"/><line x1="5" y1="12" x2="19" y2="12"/></g><g fill="var(--node)"><circle cx="12" cy="4" r="2.9"/><circle cx="5" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/><circle cx="12" cy="20" r="2.9"/></g></svg>Big Context<sup>&trade;</sup> &amp; Company</a>
+    <a href="#top" class="bc-wordmark"><svg class="bc-mark" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g stroke="var(--lavender)" stroke-opacity=".5" stroke-width="1.1"><line x1="12" y1="4" x2="5" y2="12"/><line x1="12" y1="4" x2="19" y2="12"/><line x1="5" y1="12" x2="12" y2="20"/><line x1="19" y1="12" x2="12" y2="20"/><line x1="5" y1="12" x2="19" y2="12"/></g><g fill="var(--node)"><circle cx="12" cy="4" r="2.9"/><circle cx="5" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/><circle cx="12" cy="20" r="2.9"/></g></svg>Big Context<sup>&trade;</sup><span class="bc-wm-suf"> &amp; Company</span></a>
     <div class="bc-nav-links">
       <a href="#pragmatics">Pragmatics</a>
       <a href="#what">Platform</a>
