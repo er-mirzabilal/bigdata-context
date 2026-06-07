@@ -113,7 +113,6 @@ a{color:inherit;text-decoration:none}
 .bc-marquee{overflow:hidden;margin:36px 0 28px;-webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
 .bc-mq-track{display:flex;gap:12px;width:max-content;animation:bcScroll 34s linear infinite}
 .bc-marquee:hover .bc-mq-track{animation-play-state:paused}
-.bc-marquee.bc-off .bc-mq-track{animation-play-state:paused}
 .bc-mq-track+.bc-mq-track{margin-top:12px}
 .bc-mq-track.rev{animation-direction:reverse}
 .bc-logo{flex:0 0 auto;width:180px;aspect-ratio:1.9/1;background:rgba(20,12,30,.5);border:1px solid var(--hair);border-radius:12px;display:flex;align-items:center;justify-content:center;transition:all .25s}
@@ -303,19 +302,6 @@ svg.tl{width:100%;height:auto;display:block}
 .bc-caret{display:inline-block;width:2px;height:.8em;background:var(--lavender);margin-left:2px;vertical-align:-.05em;border-radius:1px;box-shadow:0 0 7px rgba(var(--p-lav),.75);animation:bcBlink 1.05s steps(1,end) infinite}
 @keyframes bcBlink{50%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.bc-caret{display:none}}
-/* === MOBILE OPTIMIZATIONS (≤640px) === */
-@media (max-width:640px){
-  .bc-section{padding:clamp(56px,9vw,80px) 0 !important}
-  .bc-hero{min-height:auto !important;padding:96px 0 64px !important}
-  .bc-bloom{filter:none;animation:bcBloom 1.2s ease-out forwards .2s;opacity:.55}
-  .st-atom{min-height:auto !important;padding:48px 20px !important}
-  .st-lin{padding:40px 20px !important}
-  .st-prob{padding:40px 20px !important}
-  .st-cl{padding:48px 20px !important}
-  .cl-body{gap:14px}
-  #bc-flip{display:inline}
-  section.bc-closeout .bc-h2{font-size:clamp(1.75rem,7vw,2.6rem);line-height:1.08;white-space:normal}
-}
 </style>
 </head>
 <body>
@@ -558,7 +544,7 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   const ctx=c.getContext('2d'); const LAV=gcs('--p-lav')||'199,157,240', NODE=gcs('--p-node')||'217,179,255';
   let w,h,dpr,nodes=[],mouse={x:null,y:null},raf,cx0=0,cy0=0,maxR=0,target=0,spawnAcc=0,lastTs=0; const LINK=132, SPAWN=0.32;
-  function size(){dpr=Math.min(devicePixelRatio||1,1.5);w=c.clientWidth;h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+  function size(){dpr=Math.min(devicePixelRatio||1,2);w=c.clientWidth;h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
   function mk(rad,ang){const t=Math.random();const kind=t<0.12?'lav':(t<0.18?'node':'soft');
     return{ang,baseRad:rad,spd:(0.05+Math.random()*0.06)/(0.5+rad/maxR),ph:Math.random()*Math.PI*2,r:Math.random()*1.5+.7,kind,x:0,y:0,a:0};}
   function seed(central){const rad=central?Math.random()*maxR*0.5:Math.sqrt(Math.random())*maxR;nodes.push(mk(rad,Math.random()*Math.PI*2));}
@@ -566,12 +552,9 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
     if(Math.random()<0.34){ seed(Math.random()<0.55); return; }
     const p=nodes[(Math.random()*nodes.length)|0];
     const rad=Math.max(8,Math.min(maxR,p.baseRad+(Math.random()-0.5)*46)); const ang=p.ang+(Math.random()-0.5)*0.5; nodes.push(mk(rad,ang)); }
-  function init(){cx0=w*0.6;cy0=h*0.44;maxR=Math.min(w,h)*0.46;
-    const mobile=innerWidth<720;
-    target=Math.min(Math.floor(w*h/(mobile?22000:13000)),mobile?55:115);
+  function init(){cx0=w*0.6;cy0=h*0.44;maxR=Math.min(w,h)*0.46;target=Math.min(Math.floor(w*h/13000),115);
     nodes=[];const seeds=Math.min(12,target);for(let i=0;i<seeds;i++)seed(i%2===0);spawnAcc=0;lastTs=0;}
-  let visible=true;
-  function frame(now){if(!visible){raf=0;return;}now=now||0;const dt=lastTs?Math.min(0.05,(now-lastTs)/1000):0;lastTs=now;
+  function frame(now){now=now||0;const dt=lastTs?Math.min(0.05,(now-lastTs)/1000):0;lastTs=now;
     if(nodes.length<target){spawnAcc+=dt;while(spawnAcc>=SPAWN&&nodes.length<target){spawnAcc-=SPAWN;grow();}}
     for(const p of nodes){p.a+=(1-p.a)*Math.min(1,dt*1.6);p.ang+=p.spd*0.016;const rad=p.baseRad+Math.sin(now*0.0006+p.ph)*6;
       let x=cx0+Math.cos(p.ang)*rad,y=cy0+Math.sin(p.ang)*rad*0.74;
@@ -588,12 +571,6 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();if(e.clientY>=r.top&&e.clientY<=r.bottom){mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;}else{mouse.x=mouse.y=null;}});
   addEventListener('mouseleave',()=>{mouse.x=mouse.y=null;});
   let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(start,200);});start();
-  if(!reduce){
-    const hero=c.closest('.bc-hero')||c.parentElement;
-    const io=new IntersectionObserver(es=>{es.forEach(e=>{const wasVisible=visible;visible=e.isIntersecting&&!document.hidden;if(visible&&!wasVisible){lastTs=0;if(!raf)raf=requestAnimationFrame(frame);}else if(!visible&&raf){cancelAnimationFrame(raf);raf=0;}});},{threshold:0.01});
-    if(hero)io.observe(hero);
-    document.addEventListener('visibilitychange',()=>{const v=!document.hidden && (hero?hero.getBoundingClientRect().bottom>0 && hero.getBoundingClientRect().top<innerHeight:true);const wasVisible=visible;visible=v;if(visible&&!wasVisible){lastTs=0;if(!raf)raf=requestAnimationFrame(frame);}else if(!visible&&raf){cancelAnimationFrame(raf);raf=0;}});
-  }
 })();
 </script>
 <script>
@@ -643,8 +620,7 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   bindHover(document.getElementById('nucHit'),'bcos');
   document.getElementById('what').addEventListener('click',()=>{if(pinned){pinned=null;setActive(null);}});
   const pulses=[],ripples=[];let t0=null,last=null;
-  let atomVisible=true,atomRaf=0;
-  function frame(ts){if(!atomVisible){atomRaf=0;return;}if(t0===null){t0=ts;last=ts;}const t=(ts-t0)/1000;const dt=Math.min(0.05,(ts-last)/1000);last=ts;
+  function frame(ts){if(t0===null){t0=ts;last=ts;}const t=(ts-t0)/1000;const dt=Math.min(0.05,(ts-last)/1000);last=ts;
     svcAlpha+=(svcAlphaTarget-svcAlpha)*Math.min(1,dt*7);ringMul+=(ringMulTarget-ringMul)*Math.min(1,dt*5);opsAlpha+=(opsAlphaTarget-opsAlpha)*Math.min(1,dt*6);
     const sc=1+(0.026+0.05*opsAlpha)*Math.sin(t*(1.05+0.5*opsAlpha));nucleus.setAttribute('transform','scale('+sc.toFixed(4)+')');
     spec.setAttribute('cx',(-14+5*Math.sin(t*0.6)).toFixed(2));spec.setAttribute('cy',(-15+4*Math.cos(t*0.5)).toFixed(2));
@@ -663,14 +639,8 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
     for(let i=pulses.length-1;i>=0;i--){const p=pulses[i];const k=(t-p.start)/p.dur;if(k>=1){if(p.el)p.el.remove();pulses.splice(i,1);continue;}
       const e=1-Math.pow(1-k,2.2);const px=p.x*(1-e),py=p.y*(1-e);if(!p.el){p.el=document.createElementNS(NS,'circle');p.el.setAttribute('fill','var(--lavender-hot)');pulseLayer.appendChild(p.el);}
       p.el.setAttribute('cx',px.toFixed(2));p.el.setAttribute('cy',py.toFixed(2));p.el.setAttribute('r',(2.6*(1-k)+0.6).toFixed(2));p.el.setAttribute('opacity',(0.85*(1-k)).toFixed(2));}
-    atomRaf=requestAnimationFrame(frame);}
-  atomRaf=requestAnimationFrame(frame);
-  (function(){
-    const sec=document.getElementById('what');if(!sec)return;
-    const io=new IntersectionObserver(es=>{es.forEach(e=>{const was=atomVisible;atomVisible=e.isIntersecting&&!document.hidden;if(atomVisible&&!was){t0=null;last=null;if(!atomRaf)atomRaf=requestAnimationFrame(frame);}else if(!atomVisible&&atomRaf){cancelAnimationFrame(atomRaf);atomRaf=0;}});},{threshold:0.01});
-    io.observe(sec);
-    document.addEventListener('visibilitychange',()=>{const r=sec.getBoundingClientRect();const v=!document.hidden&&r.bottom>0&&r.top<innerHeight;const was=atomVisible;atomVisible=v;if(v&&!was){t0=null;last=null;if(!atomRaf)atomRaf=requestAnimationFrame(frame);}else if(!v&&atomRaf){cancelAnimationFrame(atomRaf);atomRaf=0;}});
-  })();
+    requestAnimationFrame(frame);}
+  requestAnimationFrame(frame);
 })();
 </script>
 
@@ -812,23 +782,16 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   const el=document.getElementById('bc-flip'); if(!el) return;
   const words=['work','reliable','accurate','governed','legible','useful','unleashed'];
   if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent='work';return;}
-  let wi=0,ci=0,del=false,started=false,running=false,timer=0;
+  let wi=0,ci=0,del=false,started=false;
   function tick(){
-    if(!running){return;}
     const w=words[wi];
     if(!del){ci++;el.textContent=w.slice(0,ci);
-      if(ci>=w.length){del=true;timer=setTimeout(tick,1600);return;} timer=setTimeout(tick,90);return;}
+      if(ci>=w.length){del=true;return setTimeout(tick,1600);} return setTimeout(tick,90);}
     ci--;el.textContent=w.slice(0,ci);
-    if(ci<=0){del=false;wi=(wi+1)%words.length;timer=setTimeout(tick,360);return;} timer=setTimeout(tick,42);
+    if(ci<=0){del=false;wi=(wi+1)%words.length;return setTimeout(tick,360);} return setTimeout(tick,42);
   }
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){if(!started){started=true;el.textContent='';ci=0;del=false;}if(!running){running=true;tick();}}else{running=false;if(timer){clearTimeout(timer);timer=0;}}});},{threshold:0.35});
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!started){started=true;el.textContent='';ci=0;del=false;tick();}});},{threshold:0.35});
   io.observe(el);
-})();
-(function(){
-  // Pause marquee CSS animation when off-screen
-  const ms=document.querySelectorAll('.bc-marquee');if(!ms.length)return;
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{e.target.classList.toggle('bc-off',!e.isIntersecting);});},{threshold:0.01});
-  ms.forEach(m=>io.observe(m));
 })();
 </script></body>
 </html>
