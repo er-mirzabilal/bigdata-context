@@ -389,8 +389,9 @@ svg.tl{width:100%;height:auto;display:block}
   </div>
 </section>
 
-<section class="stage st-cl">
+<section class="stage st-cl" aria-labelledby="cl-figure-title">
   <div class="wrap">
+    <h2 class="cl-sr" id="cl-figure-title">From siloed data, through the Pragmatic Context Layer, to AI agents</h2>
     <div class="cl-body">
       <div class="cl-col cl-silos bc-reveal"><div class="cl-head"><div class="cl-eyebrow">01 &mdash; The Past</div><h3 class="cl-head-t old">The old world</h3><div class="cl-head-s">Siloed data &amp; latent knowledge.</div></div><div class="cl-silo"><div class="cl-silo-h">Locked-in silos</div><ul><li>Microsoft Fabric</li><li>Databricks</li><li>Snowflake</li><li>Google BigQuery</li><li>AWS</li><li>Oracle</li><li>SAP</li><li>ServiceNow</li><li>Workday</li></ul><div class="cl-more">&hellip; and more</div></div><div class="cl-silo"><div class="cl-silo-h">Tribal knowledge<span class="sub">Unstructured &amp; latent</span></div><ul><li>Undocumented business logic</li><li>Spreadsheets &amp; docs</li><li>Slack &amp; email threads</li><li>In people&rsquo;s heads</li></ul><div class="cl-more">&hellip; and more</div></div></div>
       <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g fill="none" stroke="var(--lavender)" stroke-width="1.2"><path d="M0 30 Q40 30 58 150" stroke-opacity=".2"/><path d="M0 90 Q44 90 58 150" stroke-opacity=".27"/><path d="M0 150 Q48 150 58 150" stroke-opacity=".34"/><path d="M0 210 Q44 210 58 150" stroke-opacity=".27"/><path d="M0 270 Q40 270 58 150" stroke-opacity=".2"/></g><g><circle class="cl-pulse" r="2.4"><animateMotion dur="3s" begin="0s" repeatCount="indefinite" path="M0 30 Q40 30 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="3.6s" begin="-1.2s" repeatCount="indefinite" path="M0 90 Q44 90 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="2.7s" begin="-.6s" repeatCount="indefinite" path="M0 150 Q48 150 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="3.3s" begin="-2s" repeatCount="indefinite" path="M0 210 Q44 210 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="2.9s" begin="-1.5s" repeatCount="indefinite" path="M0 270 Q40 270 58 150"/></circle></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M70 0 C70 38 296 12 296 74" stroke-opacity=".38"/><path d="M110 0 C110 40 272 22 272 74" stroke-opacity=".22"/><path d="M150 0 C150 42 248 32 248 74" stroke-opacity=".12"/></g><circle cx="296" cy="71" r="2.6" fill="var(--lavender-hot)" opacity=".9"/><circle class="cl-pulse" r="2.4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M70 0 C70 38 296 12 296 71"/></circle></svg></div>
@@ -576,6 +577,13 @@ svg.tl{width:100%;height:auto;display:block}
 <script>
 const bcIO=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');bcIO.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
 document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
+(function(){
+  const mq=matchMedia('(prefers-reduced-motion:reduce)');
+  const svgs=document.querySelectorAll('.cl-wires svg');
+  function apply(){svgs.forEach(s=>{if(typeof s.pauseAnimations!=='function')return;mq.matches?s.pauseAnimations():s.unpauseAnimations();});}
+  apply();
+  if(mq.addEventListener)mq.addEventListener('change',apply);else if(mq.addListener)mq.addListener(apply);
+})();
 addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.style.background=scrollY>40?'rgba(10,6,16,.85)':'rgba(10,6,16,.6)';});
 (function(){
   const c=document.getElementById('bc-particles'); if(!c) return;
