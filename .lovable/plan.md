@@ -1,29 +1,41 @@
-## Goal
-You're deploying to Vercel, so the 8 brand logos need to live in the git repo (not Lovable's CDN at `/__l5e/assets-v1/...`, which only resolves on Lovable's infrastructure).
+# Mobile Polish for the First Figure
 
-## What I'll do
+Six improvements to the "Old World → Context Layer → AI Agents" transformation figure on mobile, taking it from ~4 screens of scroll to ~2.5 with a clearer story. All changes are mobile-scoped (max-width media queries) — desktop layout stays exactly as it is.
 
-1. **Re-download the 8 logos from the Lovable CDN** back into the project as real binary files:
-   - `public/logos/herschel.png`
-   - `public/logos/puma-golf.png`
-   - `public/logos/otherwise.png`
-   - `public/logos/my-trove.webp`
-   - `public/logos/palm-tree-crew.png`
-   - `public/logos/cotopaxi.png`
-   - `public/logos/and-marketing.png`
-   - `public/logos/hotmex-express.png`
+## 1. Compress "The old world" lists into pill chips
 
-   I'll put them under `public/logos/` so they're served as static files at `/logos/<name>` on Vercel with no bundler/import gymnastics — this works cleanly for `src/legacy/big-context.html` which references plain URLs.
+- On mobile, the 9 silo bullets and 4 tribal-knowledge bullets become compact 2-column pill chips (small rounded tags in a wrap grid).
+- Cuts that section's height by roughly 60% and visually reads as a "wall of fragmentation," which fits the message.
+- The "… AND MORE" label becomes a final muted chip instead of a floating footnote.
 
-2. **Rewrite the `<img src="...">` references** in `src/legacy/big-context.html` (both the forward and reverse marquee tracks, 16 entries total) from the current `/__l5e/assets-v1/...` URLs to `/logos/<filename>`.
+## 2. Animated flow connector between stages
 
-3. **Delete the 8 `.asset.json` pointer files** in `src/assets/logos/` so the repo no longer carries dead CDN pointers.
+- The faint vertical line between stages gets a downward-traveling pulse dot (reusing the existing pulse animation from the desktop wires) plus a small chevron at the bottom.
+- Reads as past → core → future even when only one stage is on screen.
+- Hidden under `prefers-reduced-motion`, consistent with the rest of the figure.
 
-4. **Delete the CDN-hosted copies** via `assets--delete_asset` so we're not leaving orphaned uploads behind (optional — say the word if you'd rather keep them as a backup).
+## 3. Numbered stage eyebrows
 
-## Notes
-- Nothing else changes — the logo styling (invert filter, padding, hover) and marquee markup stay exactly as they are.
-- Total added repo weight: ~317 KB across the 8 files.
-- After this, the ecosystem section will render identically on Lovable preview and on Vercel.
+- Eyebrows become "01 — The Past", "02 — The Evolution", "03 — The Future" so users stay oriented in the sequence during the long scroll.
+- Applied on all breakpoints (it helps on desktop too, but is subtle).
 
-Want me to proceed?
+## 4. Tighter agents grid
+
+- Smaller cards on mobile: reduced icon size, tighter padding, smaller gap.
+- "Strategy" (the 9th, orphaned card) spans both columns so the grid ends cleanly.
+- Saves about half a screen of height.
+
+## 5. Scroll-reveal animation per stage
+
+- Each stage (header + cards) fades and slides up subtly as it enters the viewport, using a lightweight IntersectionObserver already-in-page script pattern.
+- One-time reveal, ~0.5s ease-out, disabled under `prefers-reduced-motion`.
+
+## 6. Reduced vertical padding on mobile
+
+- Gaps between the three stages and around the figure shrink ~30% on small screens to keep scroll momentum.
+
+## Technical details
+
+- All changes live in `src/legacy/big-context.html` (CSS + markup + a small inline IntersectionObserver script for reveals).
+- Mobile rules scoped under the existing figure mobile breakpoint; desktop wires, pulses, and 3-column layout untouched.
+- Verification: preview at 390px width, walk the figure top to bottom, and confirm desktop at 1280px is unchanged.
