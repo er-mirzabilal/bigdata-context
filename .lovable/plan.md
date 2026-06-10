@@ -1,41 +1,40 @@
-# Mobile Polish for the First Figure
+# Mobile Figure: Offset Titles + Crossing Wires
 
-Six improvements to the "Old World → Context Layer → AI Agents" transformation figure on mobile, taking it from ~4 screens of scroll to ~2.5 with a clearer story. All changes are mobile-scoped (max-width media queries) — desktop layout stays exactly as it is.
+Apply the chosen "Offset titles + wires" direction to the first figure on mobile, breaking the centered, linear stack into an alternating left/right composition with bundles of curved connector lines.
 
-## 1. Compress "The old world" lists into pill chips
+## What changes (mobile only, ≤880px)
 
-- On mobile, the 9 silo bullets and 4 tribal-knowledge bullets become compact 2-column pill chips (small rounded tags in a wrap grid).
-- Cuts that section's height by roughly 60% and visually reads as a "wall of fragmentation," which fits the message.
-- The "… AND MORE" label becomes a final muted chip instead of a floating footnote.
+### 1. Offset stage headers
+- **Stage 01 — The Past**: header left-aligned, flush to the left edge.
+- **Stage 02 — The Evolution**: header right-aligned, title in italic for contrast.
+- **Stage 03 — The Future**: header left-aligned again.
+- Eyebrow, title, and subtitle keep their existing styles — only alignment changes.
 
-## 2. Animated flow connector between stages
+### 2. Offset content blocks (zig-zag rhythm)
+- Stage 01 silo cards shift slightly left (small right margin).
+- Stage 02 core card shifts slightly right (small left margin) so the eye travels diagonally.
+- Stage 03 agents grid shifts slightly left, mirroring stage 01.
 
-- The faint vertical line between stages gets a downward-traveling pulse dot (reusing the existing pulse animation from the desktop wires) plus a small chevron at the bottom.
-- Reads as past → core → future even when only one stage is on screen.
-- Hidden under `prefers-reduced-motion`, consistent with the rest of the figure.
+### 3. Multi-line curved wire connectors
+- Replace the single straight vertical line + chevron between stages with a small SVG of **3 curved bezier paths** that sweep diagonally:
+  - Between 01 → 02: curves flow from the left side (under the silo cards) across to the right (where the core card begins), with fading opacities (.4/.2/.1) and a glowing dot at the convergence point.
+  - Between 02 → 03: mirrored — curves flow from right back to the left toward the agents grid.
+- Reuse the existing pulse-dot treatment (`lavender-hot` glow); a traveling pulse animates along the strongest path via SMIL `animateMotion`, consistent with the desktop wires. Hidden under `prefers-reduced-motion`.
+- Connector height stays compact (~70–80px), so this also trims vertical space versus the current 52px line + heading gaps.
 
-## 3. Numbered stage eyebrows
-
-- Eyebrows become "01 — The Past", "02 — The Evolution", "03 — The Future" so users stay oriented in the sequence during the long scroll.
-- Applied on all breakpoints (it helps on desktop too, but is subtle).
-
-## 4. Tighter agents grid
-
-- Smaller cards on mobile: reduced icon size, tighter padding, smaller gap.
-- "Strategy" (the 9th, orphaned card) spans both columns so the grid ends cleanly.
-- Saves about half a screen of height.
-
-## 5. Scroll-reveal animation per stage
-
-- Each stage (header + cards) fades and slides up subtly as it enters the viewport, using a lightweight IntersectionObserver already-in-page script pattern.
-- One-time reveal, ~0.5s ease-out, disabled under `prefers-reduced-motion`.
-
-## 6. Reduced vertical padding on mobile
-
-- Gaps between the three stages and around the figure shrink ~30% on small screens to keep scroll momentum.
+### 4. Tighter vertical rhythm
+- Because connectors now do diagonal work, the gaps around them shrink further; net effect is a figure that reads less like a list and more like one continuous circuit.
 
 ## Technical details
 
-- All changes live in `src/legacy/big-context.html` (CSS + markup + a small inline IntersectionObserver script for reveals).
-- Mobile rules scoped under the existing figure mobile breakpoint; desktop wires, pulses, and 3-column layout untouched.
-- Verification: preview at 390px width, walk the figure top to bottom, and confirm desktop at 1280px is unchanged.
+- All changes live in `src/legacy/big-context.html`:
+  - Two small inline `<svg>` connector blocks (mobile-only, replacing the current `.cl-wires` mobile background hack) with `viewBox="0 0 390 80"` and `preserveAspectRatio="none"` so curves stretch with width.
+  - CSS scoped under the existing `@media (max-width:880px)` block: header alignment overrides, card offset margins, connector sizing, pulse animation.
+- Desktop is untouched: the 3-column grid, horizontal wire bundles, and pulses keep their current rules; new mobile CSS only overrides within the breakpoint.
+- The existing desktop `.cl-wires` SVGs stay in the markup (hidden on mobile as today); the new mobile connector SVGs are hidden on desktop.
+
+## Verification
+
+- Preview at 390px: confirm zig-zag alignment, wires connect visually card-to-card, pulse dots animate, no horizontal overflow.
+- Preview at 1280px: confirm desktop figure is pixel-identical to current.
+- Toggle `prefers-reduced-motion`: pulses hidden, static wires remain.
