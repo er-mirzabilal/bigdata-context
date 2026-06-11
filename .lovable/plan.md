@@ -1,40 +1,62 @@
-# Mobile Figure: Offset Titles + Crossing Wires
+# Mobile UI/UX Improvement Pass — Home Page
 
-Apply the chosen "Offset titles + wires" direction to the first figure on mobile, breaking the centered, linear stack into an alternating left/right composition with bundles of curved connector lines.
+A section-by-section polish pass applied only within the mobile breakpoint (≤880px / ≤640px where noted). Desktop stays pixel-identical.
 
-## What changes (mobile only, ≤880px)
+## 1. Hero
+- Tighten vertical rhythm: reduce the dead space between the CTA group and the "Scroll" cue.
+- Stack CTAs with clear hierarchy — primary button full-width, secondary links smaller beneath it.
+- Lower the particle constellation opacity behind text (or shift it) so the headline stays crisp.
 
-### 1. Offset stage headers
-- **Stage 01 — The Past**: header left-aligned, flush to the left edge.
-- **Stage 02 — The Evolution**: header right-aligned, title in italic for contrast.
-- **Stage 03 — The Future**: header left-aligned again.
-- Eyebrow, title, and subtitle keep their existing styles — only alignment changes.
+## 2. Thesis / 01
+- Promote the closing line ("We build the context layer…") from footnote-style to a visually distinct pull-quote block (left accent border, larger type).
+- Trim/split long paragraphs to shorter mobile line counts with slightly increased line-height.
 
-### 2. Offset content blocks (zig-zag rhythm)
-- Stage 01 silo cards shift slightly left (small right margin).
-- Stage 02 core card shifts slightly right (small left margin) so the eye travels diagonally.
-- Stage 03 agents grid shifts slightly left, mirroring stage 01.
+## 3. First Figure (silo chips)
+- Reduce silo pill chip font-size and gaps on mobile so the chip cloud reads as compact tags, not a wall.
+- Cap chips per card if needed with a "+N more" style overflow chip.
 
-### 3. Multi-line curved wire connectors
-- Replace the single straight vertical line + chevron between stages with a small SVG of **3 curved bezier paths** that sweep diagonally:
-  - Between 01 → 02: curves flow from the left side (under the silo cards) across to the right (where the core card begins), with fading opacities (.4/.2/.1) and a glowing dot at the convergence point.
-  - Between 02 → 03: mirrored — curves flow from right back to the left toward the agents grid.
-- Reuse the existing pulse-dot treatment (`lavender-hot` glow); a traveling pulse animates along the strongest path via SMIL `animateMotion`, consistent with the desktop wires. Hidden under `prefers-reduced-motion`.
-- Connector height stays compact (~70–80px), so this also trims vertical space versus the current 52px line + heading gaps.
+## 4. Ecosystem / 02
+- Add edge fade masks (CSS mask gradients) on the logo marquee so logos don't clip abruptly.
+- Normalize logo sizing/brightness so none render dim or tiny.
+- Add a short eyebrow + one-line intro above the logos for context.
 
-### 4. Tighter vertical rhythm
-- Because connectors now do diagonal work, the gaps around them shrink further; net effect is a figure that reads less like a list and more like one continuous circuit.
+## 5. Pragmatics / 03
+- Enlarge "SEE OPS RESOURCES →" into a proper tappable link/button (≥44px touch target).
+- Break the three dense paragraphs into 2 shorter ones + a key-point list.
+
+## 6. What We Do / 04
+- Shrink the orbit visual to ~40% of viewport height on mobile and add small labels to the orbit nodes.
+- Give tier cards visible touch affordance: chevron, pressed/active state, full-card tap area.
+
+## 7. Our Advantage / 05
+- Replace stacked plain-text stats (500+ / 40+ / 98%+) with compact stat cards in a 3-up row (or 1×3 stack with tight height).
+- Add a count-up animation on scroll-into-view, disabled under `prefers-reduced-motion`.
+
+## 8. Legacy vs BCOS + 12 Failure Modes
+- Collapse the 12 failure-mode cards: show the first 4, with a "Show all 12" expander button (animated reveal).
+- Improve Legacy/BCOS toggle affordance: clearer active state, larger tap targets, subtle press feedback.
+
+## 9. Resources / 06
+- Make the entire resource card the tap target (stretched link) with an active/pressed state.
+
+## 10. Final CTA + Footer
+- Fix layout shift from the word-flip headline by reserving width (fixed min-width on the flipping span sized to the longest word).
+
+## Global
+- Add `scroll-margin-top` to all anchor target sections so the sticky nav doesn't cover headings.
+- Collapse/shrink the sticky nav on scroll-down, reveal on scroll-up (mobile only).
 
 ## Technical details
-
-- All changes live in `src/legacy/big-context.html`:
-  - Two small inline `<svg>` connector blocks (mobile-only, replacing the current `.cl-wires` mobile background hack) with `viewBox="0 0 390 80"` and `preserveAspectRatio="none"` so curves stretch with width.
-  - CSS scoped under the existing `@media (max-width:880px)` block: header alignment overrides, card offset margins, connector sizing, pulse animation.
-- Desktop is untouched: the 3-column grid, horizontal wire bundles, and pulses keep their current rules; new mobile CSS only overrides within the breakpoint.
-- The existing desktop `.cl-wires` SVGs stay in the markup (hidden on mobile as today); the new mobile connector SVGs are hidden on desktop.
+- All changes live in `src/legacy/big-context.html` (CSS inside the existing `@media (max-width:880px)` block plus small markup tweaks; the expander, count-up, and nav-collapse use small vanilla JS appended to the existing script blocks).
+- All new animations respect `prefers-reduced-motion`, consistent with the accessibility pass already done on the first figure.
+- No desktop rules touched; every override is scoped inside mobile media queries.
 
 ## Verification
+- Preview at 390px: walk every section top-to-bottom, confirm no horizontal overflow, tap targets ≥44px, expander and count-up work.
+- Preview at 1280–1920px: confirm desktop is unchanged.
+- Toggle reduced motion: count-up, expander animation, and word-flip all degrade to static.
 
-- Preview at 390px: confirm zig-zag alignment, wires connect visually card-to-card, pulse dots animate, no horizontal overflow.
-- Preview at 1280px: confirm desktop figure is pixel-identical to current.
-- Toggle `prefers-reduced-motion`: pulses hidden, static wires remain.
+## Suggested order (if done in phases)
+1. Sections 8 + 7 (biggest vertical-space wins)
+2. Sections 4 + 6 (visual clarity)
+3. Sections 1, 2, 3, 5, 9, 10 + global nav/anchors (polish)
