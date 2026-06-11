@@ -909,5 +909,47 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!started){started=true;el.textContent='';ci=0;del=false;tick();}});},{threshold:0.35});
   io.observe(el);
 })();
-</script></body>
+</script>
+<script>
+/* Mobile-only: hide nav on scroll-down, show on scroll-up */
+(function(){
+  if(!matchMedia('(max-width:760px)').matches) return;
+  const nav=document.querySelector('.bc-nav'); if(!nav) return;
+  let lastY=scrollY, ticking=false;
+  addEventListener('scroll',()=>{
+    if(ticking) return; ticking=true;
+    requestAnimationFrame(()=>{
+      const y=scrollY, dy=y-lastY;
+      if(y>120 && dy>4) nav.classList.add('bc-nav--hide');
+      else if(dy<-4 || y<80) nav.classList.remove('bc-nav--hide');
+      lastY=y; ticking=false;
+    });
+  },{passive:true});
+})();
+/* Mobile-only: collapse 12 failure-mode cards behind "Show all" expander */
+(function(){
+  const grid=document.getElementById('grid'); if(!grid) return;
+  const mq=matchMedia('(max-width:760px)');
+  let btn=null;
+  function mount(){
+    if(!mq.matches){ if(btn){btn.remove();btn=null;} grid.classList.remove('bc-expanded'); return; }
+    if(btn) return;
+    if(grid.children.length<=4) return;
+    btn=document.createElement('button');
+    btn.type='button'; btn.className='bc-expand-btn';
+    btn.setAttribute('aria-expanded','false');
+    btn.textContent='Show all 12 ↓';
+    btn.addEventListener('click',()=>{
+      const open=grid.classList.toggle('bc-expanded');
+      btn.setAttribute('aria-expanded',String(open));
+      btn.textContent=open?'Show less ↑':'Show all 12 ↓';
+      if(!open) grid.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    grid.after(btn);
+  }
+  mount();
+  if(mq.addEventListener) mq.addEventListener('change',mount); else if(mq.addListener) mq.addListener(mount);
+})();
+</script>
+</body>
 </html>
