@@ -346,6 +346,74 @@ svg.tl{width:100%;height:auto;display:block}
 .bc-caret{display:inline-block;width:2px;height:.8em;background:var(--lavender);margin-left:2px;vertical-align:-.05em;border-radius:1px;box-shadow:0 0 7px rgba(var(--p-lav),.75);animation:bcBlink 1.05s steps(1,end) infinite}
 @keyframes bcBlink{50%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.bc-caret{display:none}}
+
+/* ===== Mobile UX pass (≤760px) ===== */
+@media (max-width:760px){
+  /* Global: sticky-nav offset for anchor jumps */
+  section[id],header[id]{scroll-margin-top:64px}
+  /* Auto-collapse nav on scroll-down */
+  .bc-nav{transition:transform .28s ease, background .28s ease}
+  .bc-nav.bc-nav--hide{transform:translateY(-100%)}
+
+  /* 1. Hero — tighten gap to scroll cue, lift particle contrast */
+  .bc-hero{padding-bottom:84px}
+  .bc-cue{bottom:18px}
+  #bc-particles{opacity:.45}
+  .bc-hero-cta .bc-btn:not(.bc-btn-ghost){order:-1}
+  .bc-hero-cta .bc-btn-ghost{font-size:11.5px}
+
+  /* 2. Thesis — promote closer to pull-quote */
+  .bc-thesis .bc-punch{font-size:1.05rem;line-height:1.45;margin-bottom:28px}
+  .bc-closer{padding:16px 18px;border-left:3px solid var(--lavender);background:rgba(109,47,145,.10);border-radius:0 12px 12px 0;font-size:1.1rem}
+
+  /* 3. First figure silo chips — denser */
+  .cl-silo ul{gap:5px}
+  .cl-silo li{font-size:11px;padding:3px 8px}
+
+  /* 4. Ecosystem — narrower logo cards, stronger edge fade, intro */
+  .bc-marquee{-webkit-mask:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+  .bc-logo{width:138px;padding:14px}
+  .bc-logo img{opacity:.92}
+  .bc-eco-intro{font-family:var(--serif);font-size:1.05rem;color:var(--muted);line-height:1.45;margin-top:6px;max-width:32ch}
+
+  /* 5. Pragmatics — bigger tap target on OPS link */
+  .bc-prag-link{font-size:13px;padding:12px 16px;border:1px solid rgba(var(--p-lav),.4);border-radius:999px;min-height:44px;background:rgba(var(--p-lav),.06)}
+
+  /* 6. What we do — shrink orbit, full-bleed tier tap target */
+  .atom-wrap{max-width:260px}
+  .hint{display:block;font-size:9.5px;bottom:-4px}
+  .tier{padding:16px 16px 18px;min-height:44px;position:relative}
+  .tier::after{content:"›";position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--lavender);font-size:22px;line-height:1;opacity:.55}
+  .tier:active{background:rgba(109,47,145,.18)}
+
+  /* 7. Our Advantage — compact stat cards */
+  .bc-stats{gap:14px}
+  .bc-stat{background:rgba(20,12,30,.5);border:1px solid var(--line);border-radius:14px;padding:18px 18px}
+  .bc-stat .num{font-size:2.6rem}
+  .bc-stat .lbl{font-size:.92rem;margin-top:6px}
+
+  /* 8. 12 Failure modes — collapsed by default w/ expander */
+  .grid{position:relative}
+  .grid:not(.bc-expanded) .pcard:nth-child(n+5){display:none}
+  .bc-expand-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;width:100%;min-height:44px;padding:12px 18px;border-radius:999px;background:transparent;border:1px solid rgba(var(--p-lav),.4);color:var(--lavender);font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+  .bc-expand-btn:hover,.bc-expand-btn:focus-visible{background:rgba(var(--p-lav),.08);color:var(--lavender-hot)}
+  /* Toggle: better touch & pressed state */
+  .bc-tcard{min-height:44px}
+  .bc-tcard:active{transform:scale(.985)}
+  .bc-tcard[aria-pressed="true"]::after{content:"";position:absolute;left:50%;bottom:-1px;transform:translateX(-50%);width:38px;height:2px;background:var(--lavender);border-radius:2px;box-shadow:0 0 10px rgba(var(--p-lav),.7)}
+  .bc-tcard{position:relative}
+
+  /* 9. Resources — pressed state on entire card */
+  .bc-cta-row{min-height:44px;-webkit-tap-highlight-color:transparent}
+  .bc-cta-row:active{background:rgba(109,47,145,.18);transform:scale(.99)}
+
+  /* 10. Closeout flip — fix layout shift */
+  .bc-flip{display:inline-block;min-width:6.5ch;text-align:left}
+}
+@media (max-width:760px) and (prefers-reduced-motion:reduce){
+  .bc-nav{transition:none}
+  .bc-tcard:active,.bc-cta-row:active{transform:none}
+}
 </style>
 </head>
 <body>
