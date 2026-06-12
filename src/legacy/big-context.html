@@ -1237,7 +1237,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   const lowSpec = (navigator.hardwareConcurrency||4)<4 || (navigator.deviceMemory||8)<4;
   const isMobile = ()=>matchMedia('(max-width:880px)').matches;
 
-  // Augment core
+  // Augment core (legacy state/ops elements kept for back-compat but hidden by CSS)
   core.insertAdjacentHTML('beforeend',
     '<div class="cl-core-ring" aria-hidden="true"></div>'+
     '<div class="cl-core-state" aria-hidden="true">&middot; &middot; &middot;</div>'+
@@ -1245,7 +1245,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   const stateEl = core.querySelector('.cl-core-state');
   const opsEl = core.querySelector('.cl-core-ops');
 
-  // Augment agents with index + latency badge
+  // Augment agents with index + latency badge + status dot
   agents.forEach((a,i)=>{
     a.dataset.clAgent = String(i);
     const b = document.createElement('span');
@@ -1253,6 +1253,10 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     b.setAttribute('aria-hidden','true');
     b.textContent = '000ms';
     a.appendChild(b);
+    const s = document.createElement('span');
+    s.className = 'cl-agent-status';
+    s.setAttribute('aria-hidden','true');
+    a.appendChild(s);
   });
 
   // Build canvas
