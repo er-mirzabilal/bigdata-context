@@ -681,7 +681,25 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   apply();
   if(mq.addEventListener)mq.addEventListener('change',apply);else if(mq.addListener)mq.addListener(apply);
 })();
-addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.style.background=scrollY>40?'rgba(10,6,16,.85)':'rgba(10,6,16,.6)';});
+/* Navbar scroll behavior: compact pill + progress hairline */
+(function(){
+  const nav=document.getElementById('bcNav');
+  const prog=document.getElementById('bcNavProg');
+  if(!nav) return;
+  let ticking=false;
+  function update(){
+    const y=scrollY||document.documentElement.scrollTop;
+    if(y>24) nav.classList.add('bc-nav--scrolled'); else nav.classList.remove('bc-nav--scrolled');
+    if(prog){
+      const h=document.documentElement.scrollHeight-innerHeight;
+      const p=h>0?Math.min(100,Math.max(0,(y/h)*100)):0;
+      prog.style.setProperty('--p',p.toFixed(2)+'%');
+    }
+    ticking=false;
+  }
+  addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(update);ticking=true;}},{passive:true});
+  update();
+})();
 (function(){
   const c=document.getElementById('bc-sphere'); if(!c) return;
   const gcs=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
