@@ -440,6 +440,31 @@ svg.tl{width:100%;height:auto;display:block}
 }
 
 /* ===== Figure cycle: Context Core + agent-initiated request/response ===== */
+/* Silo logo grid */
+.cl-silo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cl-silo-tile{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:rgba(20,12,30,.55);border:1px solid var(--hair);border-radius:12px;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s}
+.cl-silo-tile img{width:50%;height:50%;object-fit:contain;opacity:.62;filter:saturate(.6);transition:opacity .25s,filter .25s,transform .25s}
+.cl-silo-tile:hover{border-color:rgba(var(--p-lav),.4);background:rgba(40,18,58,.5)}
+.cl-silo-tile:hover img{opacity:.95;filter:none}
+.cl-silo-tile.cl-row-active{border-color:rgba(var(--p-lav),.7);background:rgba(60,26,90,.6);box-shadow:0 0 24px -6px rgba(var(--p-lav),.6)}
+.cl-silo-tile.cl-row-active img{opacity:1;filter:none;transform:scale(1.06)}
+
+/* Core simplification */
+.cl-core-chip svg{width:72px;height:60px}
+.cl-core-tagline{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--muted);line-height:1.4;max-width:24ch;margin:6px auto 0}
+
+/* Agents → icon chips */
+.cl-agents{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-content:center}
+.cl-agents .cl-head{grid-column:1 / -1}
+.cl-agent{flex-direction:column;justify-content:center;gap:6px;padding:10px 6px;border-radius:14px;text-align:center;background:rgba(20,12,30,.5);border:1px solid var(--hair);min-height:64px}
+.cl-agent .ico{width:30px;height:30px;border-radius:8px}
+.cl-agent .ico svg{width:18px;height:18px}
+.cl-agent-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:.55;transition:opacity .2s,color .2s;white-space:nowrap}
+.cl-agent:hover .cl-agent-label,.cl-agent.is-active .cl-agent-label{opacity:1;color:var(--lavender)}
+.cl-agent.span2{grid-column:auto}
+.cl-agents .cl-more{grid-column:1 / -1;text-align:center;margin-top:4px}
+
+/* Cycle canvas + state overlays */
 .cl-body{position:relative}
 .cl-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
 .cl-canvas .wire{fill:none;stroke:rgba(var(--p-lav),.16);stroke-width:1;transition:stroke .25s}
@@ -457,12 +482,11 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-core-ops{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--muted-2);text-transform:uppercase;white-space:nowrap;z-index:3}
 .cl-agent.is-active{border-color:rgba(var(--p-lav),.6);background:rgba(50,22,76,.55);box-shadow:0 8px 24px -10px rgba(var(--p-lav),.6)}
 .cl-agent.is-active .ico{background:rgba(var(--p-lav),.3);color:var(--lavender-hot);border-color:rgba(var(--p-lav),.5)}
-.cl-agent-badge{position:absolute;top:50%;right:8px;transform:translateY(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--lavender);text-transform:uppercase;padding:2px 6px;background:rgba(10,6,16,.7);border:1px solid rgba(var(--p-lav),.35);border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s}
+.cl-agent-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--lavender);text-transform:uppercase;padding:2px 6px;background:rgba(10,6,16,.85);border:1px solid rgba(var(--p-lav),.4);border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap}
 .cl-agent.is-active .cl-agent-badge{opacity:1}
-.cl-silo li.cl-row-active{color:var(--lavender-hot);transition:color .2s}
-.cl-silo li.cl-row-active::before{background:var(--lavender-hot);box-shadow:0 0 8px rgba(var(--p-lav),.9)}
 @media (prefers-reduced-motion:reduce){.cl-canvas .dot,.cl-core-ring{display:none}.cl-agent.is-active{transition:none}}
-@media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}}
+@media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}.cl-silo-grid{grid-template-columns:repeat(4,1fr)}.cl-agents{grid-template-columns:repeat(5,1fr)}}
+@media (max-width:520px){.cl-silo-grid{grid-template-columns:repeat(4,1fr);gap:6px}.cl-agents{grid-template-columns:repeat(4,1fr);gap:8px}.cl-agent{padding:8px 4px;min-height:56px}.cl-agent-label{font-size:8.5px}}
 </style>
 </head>
 <body>
