@@ -449,6 +449,15 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-silo-tile.cl-row-active{border-color:rgba(var(--p-lav),.7);background:rgba(60,26,90,.6);box-shadow:0 0 24px -6px rgba(var(--p-lav),.6)}
 .cl-silo-tile.cl-row-active .cl-brand{opacity:1;background:var(--lavender-hot);transform:scale(1.08)}
 
+/* Latent + abstract source variants */
+.cl-silo-tile.cl-latent{border-style:dashed;border-color:rgba(var(--p-lav),.38);background:rgba(20,12,30,.35)}
+.cl-silo-tile.cl-text .cl-glyph{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--lavender);opacity:.78;text-transform:uppercase}
+
+/* Directional flow: dashes drift core-ward on left wires, agent-ward on right wires */
+@keyframes cl-flow{to{stroke-dashoffset:-32}}
+.cl-wires .cl-flowline{stroke-dasharray:5 7;animation:cl-flow 1.8s linear infinite}
+@media (prefers-reduced-motion:reduce){.cl-wires .cl-flowline{animation:none}}
+
 /* Core simplification */
 .cl-core-chip svg{width:72px;height:60px}
 .cl-core-tagline{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--muted);line-height:1.4;max-width:24ch;margin:6px auto 0}
