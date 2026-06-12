@@ -1,50 +1,50 @@
-## Goal
-Strip the figure to the minimum text needed to read it in ~3 seconds, while keeping the current icon-only rail behavior and the Tribal Knowledge group.
+# Figure refinements
 
-## Changes to `src/legacy/big-context.html`
+Four targeted changes to the central figure in `src/legacy/big-context.html` (the three‑rail Sources → Pragmatic Context Layer → Agents diagram). Scope is presentational — no JS/business‑logic changes.
 
-### 1. Column headers (rewrite the 3 eyebrow + title + subtitle blocks)
-Replace the current verbose headers with short, parallel three-beat headers:
+## 1. Make flow feel one‑directional (fix the "writing back" read)
 
-- **Left:** title `Siloed Data` · subtitle `Locked in tools`
-- **Center:** title `Pragmatic Context Layer` · subtitle `Independent · Open`
-- **Right:** title `AI Agents` · subtitle `Across your enterprise`
+Today the right‑side wires curve from the core *outward* with pulses traveling out — combined with the lavender glow, the right rail reads as electric bolts going *back* into agents.
 
-Remove the long "The world we need: a pragmatic context layer" phrasing — the center title now carries it.
+Changes:
+- Both wire panels (left and right) animate strictly **left → right**: Sources → Core, Core → Agents. Pulse `animateMotion` paths and `keyPoints` set so dots always travel rightward.
+- Add a subtle directional taper: thin at the origin, slightly thicker near the destination, with a short fading "comet tail" on each pulse (SVG `<linearGradient>` along the path) so motion direction is unambiguous even when paused.
+- Add a layer of **faint static paths** behind the active wires (lower opacity, no animation) so the structure reads as a flow field, not just five lit cables. Matches the "faint paths too" note.
+- Drop the lavender end‑cap dot on the right wires (it currently looks like a spark hitting the source).
 
-### 2. Left rail — keep two icon groups, no names
-Current rail already renders icons only. Keep the structure but:
+## 2. Two concentric word orbits around the core
 
-- Keep the **Locked-in Silos** group (Microsoft Fabric, Databricks, Snowflake, BigQuery, AWS, Oracle, SAP, ServiceNow, Workday) as icon chips only.
-- Keep the **Tribal Knowledge** group as a second icon cluster below it (docs, spreadsheet, chat/slack, person-head glyphs) — icon-only, no item names.
-- Remove the `LOCKED-IN SILOS` and `TRIBAL KNOWLEDGE` eyebrow labels and the `… AND MORE` text. Replace each group's identity with a single tiny caption under the cluster: `Systems` and `Knowledge`. That's the only text in the left column besides the header.
+Replace the single outer ring of words with two counter‑rotating rings.
 
-### 3. Center core — remove the checkmark bullet list
-The orbit tokens (`METRICS · ENTITIES · POLICIES · TASKS`) already communicate "what flows through." Remove the 5-item checklist:
-- Semantic definitions
-- Relationships & ontologies
-- Business context
-- Governance & trust
-- Works across all data
+- **Outer ring (slower, brighter):** `TASKS · METRICS · ENTITIES · POLICIES · DEFINITIONS · BUSINESS LOGIC · SCHEMA · SEMANTICS`
+- **Inner ring (faster, dimmer, smaller type):** `DECISION TRACES · EXPERTISE · NUANCES · TRIBAL KNOWLEDGE · EXCEPTIONS · PREFERENCES`
 
-Keep: hex frame + logo glyph + orbit rings + pulse dot + the single label `Pragmatic Context Layer` (now the column title, so the in-core duplicate label `BIG CONTEXT OS` / `Pragmatic Context Layer` block collapses to just the logo + orbit). One small caption under the core: `One layer. Every agent.`
+Implementation: enable the existing `.cl-orbit-in` group (currently `display:none`), repoint its `textPath` at `#cl-orb-inner`, swap in the new word list, and tune `font-size` / `letter-spacing` / animation duration so the two rings read as a hierarchy (structured outside, latent inside) rather than noise.
 
-### 4. Right rail — icon-only, no names
-Already icon-only in current build. Confirm no agent name labels render at rest (Finance, HR, Procurement, Support, Risk, Data, Analytics, Marketing, Strategy). Keep hover/active latency badge behavior as-is. Single tiny caption under the cluster: `Agents`.
+## 3. Add a "Latent" sources cluster on the left rail
 
-### 5. Cleanup
-- Delete the now-unused CSS rules for `.cl-silo-eyebrow`, `.cl-bullets`, `.cl-core-title`, `.cl-and-more`, and any agent-name label classes if they exist.
-- Keep all wire/animation/JS logic untouched — only markup + a handful of class removals.
+The left rail currently has two clusters: **Systems** (Snowflake, Databricks, BigQuery, AWS, Oracle, SAP, Salesforce, HubSpot) and **Knowledge** (Slack, Notion, Sheets, Confluence). Add a third:
 
-## Resulting text inventory (down from ~30 phrases to 8)
-1. `Siloed Data` / `Locked in tools`
-2. `Pragmatic Context Layer` / `Independent · Open`
-3. `AI Agents` / `Across your enterprise`
-4. `Systems` (under silo cluster)
-5. `Knowledge` (under tribal cluster)
-6. `One layer. Every agent.` (under core)
-7. `Agents` (under agent cluster)
-8. Orbit tokens: `METRICS · ENTITIES · POLICIES · TASKS`
+- **Latent** — represented as soft token chips rather than vendor logos, since these aren't products. Suggested chips: *People*, *Tribal knowledge*, *Decisions*, *Inferred concepts*, *Conventions*. Styled with a dotted/soft outline to visually distinguish from the system tiles and signal "not a SaaS source."
+- Add a `cl-cluster-caption` of "Latent" beneath them, matching the existing Systems/Knowledge captions.
+- Re‑weight the wire bundle so a couple of pulses originate from the Latent cluster too, so the rail visually delivers what the orbit's inner ring promises.
+
+## 4. Add a "Semantics" cluster on the left rail
+
+New fourth cluster on the Sources rail for semantic/modeling tools:
+
+- **Semantics** — tiles for *Atlan*, *Cube*, *AtScale*, *Unity Catalog*, *Semantic Views*, *dbt*, *Confluence*. Uses simple‑icons brand logos where available (atlan, cube, dbt, databricks for Unity Catalog, confluence); the abstract ones (AtScale, Semantic Views) get a neutral glyph tile in the same visual family.
+- Caption: "Semantics".
+- Place after Systems and Knowledge, before Latent, so the rail reads top‑to‑bottom as: **Systems → Knowledge → Semantics → Latent** (concrete → abstract).
+
+## Technical notes
+
+- All edits are in `src/legacy/big-context.html` only.
+- Orbit ring change reuses the existing `#cl-orb-inner` path def and `.cl-orbit-in` styles already in the stylesheet — mostly an un‑hide + content swap.
+- Pulse direction fix is purely SVG attribute changes on the right `.cl-wires` block (line 609) — paths reversed so `M` starts at the core side and ends at the rail side, then `animateMotion` plays start→end as usual.
+- New left‑rail tiles slot into the existing `.cl-silo-grid` markup; no grid/layout refactor needed beyond letting the grid grow two more rows.
 
 ## Out of scope
-No changes to wires, orbit animation, hex frame, pulse dot, latency badges, hover behavior, responsive breakpoints, or reduced-motion fallback.
+
+- No changes to the right‑rail Agents list, the page copy, the hero, or any non‑figure section.
+- No changes to JS interactivity (hover states, active tier sync, etc.).
