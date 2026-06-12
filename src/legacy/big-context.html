@@ -487,6 +487,67 @@ svg.tl{width:100%;height:auto;display:block}
 @media (prefers-reduced-motion:reduce){.cl-canvas .dot,.cl-core-ring{display:none}.cl-agent.is-active{transition:none}}
 @media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}.cl-silo-grid{grid-template-columns:repeat(4,1fr)}.cl-agents{grid-template-columns:repeat(5,1fr)}}
 @media (max-width:520px){.cl-silo-grid{grid-template-columns:repeat(4,1fr);gap:6px}.cl-agents{grid-template-columns:repeat(4,1fr);gap:8px}.cl-agent{padding:8px 4px;min-height:56px}.cl-agent-label{font-size:8.5px}}
+
+/* ===== Vertical-rail redesign (3 rails + orbiting core) ===== */
+@media (min-width:881px){
+  .cl-body{grid-template-columns:96px 1fr 96px;align-items:center;min-height:480px;gap:0}
+  .cl-wires{display:none}
+  .cl-col.cl-silos,.cl-col.cl-agents{justify-content:center}
+  .cl-silos .cl-head,.cl-agents .cl-head,.cl-core-col .cl-head{display:none}
+  .cl-rail-header{font-family:var(--mono);font-size:9px;letter-spacing:.32em;color:var(--lavender);text-transform:uppercase;text-align:center;margin:0 0 14px;opacity:.7}
+  .cl-silo-grid{display:flex;flex-direction:column;gap:10px;align-items:center;position:relative;padding:8px 0}
+  .cl-silo-grid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(var(--p-lav),.18) 15%,rgba(var(--p-lav),.18) 85%,transparent);transform:translateX(-50%);z-index:0}
+  .cl-silo-tile{width:36px;height:36px;aspect-ratio:auto;border-radius:50%;flex:0 0 36px;position:relative;z-index:1;background:rgba(20,12,30,.85)}
+  .cl-silo-tile .cl-brand{width:56%;height:56%}
+  .cl-silo-label{position:absolute;right:calc(100% + 12px);top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--lavender);text-transform:uppercase;background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.3);padding:3px 8px;border-radius:6px;opacity:0;pointer-events:none;white-space:nowrap;transition:opacity .18s;z-index:6}
+  .cl-silo-tile:hover .cl-silo-label,.cl-silo-tile.cl-row-active .cl-silo-label{opacity:1}
+  .cl-more{display:none}
+  /* Agents rail */
+  .cl-agents{display:flex;flex-direction:column;gap:10px;align-items:center;position:relative;padding:8px 0;align-content:initial}
+  .cl-agents::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(var(--p-lav),.18) 15%,rgba(var(--p-lav),.18) 85%,transparent);transform:translateX(-50%);z-index:0}
+  .cl-agent{width:36px;height:36px;min-height:0;padding:0;border-radius:50%;flex:0 0 36px;flex-direction:row;justify-content:center;gap:0;background:rgba(20,12,30,.85);position:relative;z-index:1}
+  .cl-agent.span2{grid-column:auto}
+  .cl-agent .ico{width:32px;height:32px;border-radius:50%;background:rgba(var(--p-lav),.12)}
+  .cl-agent .ico svg{width:16px;height:16px}
+  .cl-agent-label{position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%);font-size:9px;background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.3);padding:3px 8px;border-radius:6px;opacity:0;pointer-events:none;color:var(--lavender);white-space:nowrap;z-index:6;letter-spacing:.14em}
+  .cl-agent:hover .cl-agent-label,.cl-agent.is-active .cl-agent-label{opacity:1}
+  .cl-agent-status{position:absolute;right:-1px;bottom:-1px;width:8px;height:8px;border-radius:50%;background:rgba(var(--p-lav),.25);border:1.5px solid rgba(10,6,16,1);transition:background .25s,box-shadow .25s;z-index:2}
+  .cl-agent.is-active .cl-agent-status{background:var(--lavender-hot);box-shadow:0 0 8px rgba(var(--p-lav),.95)}
+  /* Floating drift on agent chips */
+  .cl-agent{animation:cl-float 6s ease-in-out infinite}
+  .cl-agent:nth-child(2n){animation-delay:-1.4s}
+  .cl-agent:nth-child(3n){animation-delay:-2.8s}
+  .cl-agent:nth-child(5n){animation-delay:-4.2s}
+  /* Core: hex frame + glyph + orbit rings */
+  .cl-core-col{display:flex;align-items:center;justify-content:center}
+  .cl-core{background:none;border:none;box-shadow:none;padding:0;width:240px;height:240px;display:flex;align-items:center;justify-content:center;overflow:visible;border-radius:50%}
+  .cl-core::before,.cl-core::after{display:none}
+  .cl-core-chip,.cl-core-tag,.cl-core-title,.cl-core-tagline,.cl-core-state,.cl-core-ops,.cl-core-ring{display:none!important}
+  .cl-core-glyph{position:relative;margin:0;z-index:3}
+  .cl-core-hex{position:absolute;width:118px;height:118px;display:flex;align-items:center;justify-content:center;z-index:2;animation:cl-breath 3.4s ease-in-out infinite}
+  .cl-core-hex svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .cl-hex-frame{stroke:rgba(var(--p-lav),.5);stroke-width:1;fill:rgba(var(--p-lav),.04)}
+  .cl-hex-pulse{stroke:rgba(var(--p-lav),.9);stroke-width:1;fill:none;opacity:0;transform-origin:50% 50%;transform-box:fill-box}
+  .cl-core.is-active .cl-hex-pulse{animation:cl-hexpulse .65s ease-out}
+  .cl-core.is-active .cl-hex-frame{stroke:rgba(var(--p-lav),.95)}
+  .cl-core-orbit{position:absolute;width:240px;height:240px;overflow:visible;pointer-events:none;z-index:1}
+  .cl-orbit-out,.cl-orbit-in{transform-origin:0 0;transform-box:fill-box}
+  .cl-orbit-out{animation:cl-rot 40s linear infinite}
+  .cl-orbit-in{animation:cl-rot-rev 60s linear infinite}
+  .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.55);letter-spacing:.42em;text-transform:uppercase;font-size:9px;transition:fill .35s}
+  .cl-orbit-in .cl-orbit-text{fill:rgba(var(--p-lav),.32);font-size:7.5px;letter-spacing:.32em}
+  .cl-core.is-active .cl-orbit-out .cl-orbit-text{fill:rgba(var(--p-lav),.95)}
+  .cl-pulse-dot{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:rgba(var(--p-lav),.3);transition:background .2s,box-shadow .3s;z-index:4}
+  .cl-core.is-active .cl-pulse-dot{background:var(--lavender-hot);box-shadow:0 0 10px rgba(var(--p-lav),.95)}
+  .cl-canvas .orbit-token{font-family:var(--mono);font-size:9px;fill:var(--lavender-hot);letter-spacing:.2em;text-transform:uppercase;filter:drop-shadow(0 0 4px rgba(var(--p-lav),.9))}
+  /* Mid-rail headers slot in via JS */
+}
+@keyframes cl-breath{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes cl-rot{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes cl-rot-rev{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+@keyframes cl-hexpulse{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.18)}}
+@keyframes cl-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@media (prefers-reduced-motion:reduce){.cl-core-hex,.cl-orbit-out,.cl-orbit-in,.cl-agent{animation:none!important}}
 </style>
 </head>
 <body>
