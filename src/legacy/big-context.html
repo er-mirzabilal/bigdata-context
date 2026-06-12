@@ -760,7 +760,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     if(!visible){raf=requestAnimationFrame(frame); return;}
 
     if(!reduce){
-      rotY += dt*0.16; // slow rotate (~ 40s/rev)
+      rotY += dt*0.08; // slow rotate (~ 80s/rev)
+
       // ease parallax toward target
       parallaxRX += (targetRX-0.28-parallaxRX)*Math.min(1,dt*3);
       parallaxRY += (targetRY-parallaxRY)*Math.min(1,dt*3);
