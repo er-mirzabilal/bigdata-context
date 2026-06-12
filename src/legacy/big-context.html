@@ -440,6 +440,31 @@ svg.tl{width:100%;height:auto;display:block}
 }
 
 /* ===== Figure cycle: Context Core + agent-initiated request/response ===== */
+/* Silo logo grid */
+.cl-silo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cl-silo-tile{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:rgba(20,12,30,.55);border:1px solid var(--hair);border-radius:12px;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s}
+.cl-silo-tile .cl-brand{display:block;width:54%;height:54%;background:var(--lavender);-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat;opacity:.55;transition:opacity .25s,transform .25s,background .25s}
+.cl-silo-tile:hover{border-color:rgba(var(--p-lav),.4);background:rgba(40,18,58,.5)}
+.cl-silo-tile:hover .cl-brand{opacity:.95;background:var(--lavender-hot)}
+.cl-silo-tile.cl-row-active{border-color:rgba(var(--p-lav),.7);background:rgba(60,26,90,.6);box-shadow:0 0 24px -6px rgba(var(--p-lav),.6)}
+.cl-silo-tile.cl-row-active .cl-brand{opacity:1;background:var(--lavender-hot);transform:scale(1.08)}
+
+/* Core simplification */
+.cl-core-chip svg{width:72px;height:60px}
+.cl-core-tagline{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--muted);line-height:1.4;max-width:24ch;margin:6px auto 0}
+
+/* Agents → icon chips */
+.cl-agents{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-content:center}
+.cl-agents .cl-head{grid-column:1 / -1}
+.cl-agent{flex-direction:column;justify-content:center;gap:6px;padding:10px 6px;border-radius:14px;text-align:center;background:rgba(20,12,30,.5);border:1px solid var(--hair);min-height:64px}
+.cl-agent .ico{width:30px;height:30px;border-radius:8px}
+.cl-agent .ico svg{width:18px;height:18px}
+.cl-agent-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);opacity:.55;transition:opacity .2s,color .2s;white-space:nowrap}
+.cl-agent:hover .cl-agent-label,.cl-agent.is-active .cl-agent-label{opacity:1;color:var(--lavender)}
+.cl-agent.span2{grid-column:auto}
+.cl-agents .cl-more{grid-column:1 / -1;text-align:center;margin-top:4px}
+
+/* Cycle canvas + state overlays */
 .cl-body{position:relative}
 .cl-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
 .cl-canvas .wire{fill:none;stroke:rgba(var(--p-lav),.16);stroke-width:1;transition:stroke .25s}
@@ -457,12 +482,11 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-core-ops{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--muted-2);text-transform:uppercase;white-space:nowrap;z-index:3}
 .cl-agent.is-active{border-color:rgba(var(--p-lav),.6);background:rgba(50,22,76,.55);box-shadow:0 8px 24px -10px rgba(var(--p-lav),.6)}
 .cl-agent.is-active .ico{background:rgba(var(--p-lav),.3);color:var(--lavender-hot);border-color:rgba(var(--p-lav),.5)}
-.cl-agent-badge{position:absolute;top:50%;right:8px;transform:translateY(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--lavender);text-transform:uppercase;padding:2px 6px;background:rgba(10,6,16,.7);border:1px solid rgba(var(--p-lav),.35);border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s}
+.cl-agent-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--lavender);text-transform:uppercase;padding:2px 6px;background:rgba(10,6,16,.85);border:1px solid rgba(var(--p-lav),.4);border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap}
 .cl-agent.is-active .cl-agent-badge{opacity:1}
-.cl-silo li.cl-row-active{color:var(--lavender-hot);transition:color .2s}
-.cl-silo li.cl-row-active::before{background:var(--lavender-hot);box-shadow:0 0 8px rgba(var(--p-lav),.9)}
 @media (prefers-reduced-motion:reduce){.cl-canvas .dot,.cl-core-ring{display:none}.cl-agent.is-active{transition:none}}
-@media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}}
+@media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}.cl-silo-grid{grid-template-columns:repeat(4,1fr)}.cl-agents{grid-template-columns:repeat(5,1fr)}}
+@media (max-width:520px){.cl-silo-grid{grid-template-columns:repeat(4,1fr);gap:6px}.cl-agents{grid-template-columns:repeat(4,1fr);gap:8px}.cl-agent{padding:8px 4px;min-height:56px}.cl-agent-label{font-size:8.5px}}
 </style>
 </head>
 <body>
@@ -514,11 +538,11 @@ svg.tl{width:100%;height:auto;display:block}
   <div class="wrap">
     <h2 class="cl-sr" id="cl-figure-title">From siloed data, through the Pragmatic Context Layer, to AI agents</h2>
     <div class="cl-body">
-      <div class="cl-col cl-silos bc-reveal"><div class="cl-head"><div class="cl-eyebrow">01 &mdash; The Past</div><h3 class="cl-head-t old">The old world</h3><div class="cl-head-s">Siloed data &amp; latent knowledge.</div></div><div class="cl-silo"><div class="cl-silo-h">Locked-in silos</div><ul><li>Microsoft Fabric</li><li>Databricks</li><li>Snowflake</li><li>Google BigQuery</li><li>AWS</li><li>Oracle</li><li>SAP</li><li>ServiceNow</li><li>Workday</li></ul><div class="cl-more">&hellip; and more</div></div><div class="cl-silo"><div class="cl-silo-h">Tribal knowledge<span class="sub">Unstructured &amp; latent</span></div><ul><li>Undocumented business logic</li><li>Spreadsheets &amp; docs</li><li>Slack &amp; email threads</li><li>In people&rsquo;s heads</li></ul><div class="cl-more">&hellip; and more</div></div></div>
+      <div class="cl-col cl-silos bc-reveal"><div class="cl-head"><div class="cl-eyebrow">01 &mdash; The Past</div><h3 class="cl-head-t old">Siloed data</h3><div class="cl-head-s">Locked-in platforms &amp; tribal knowledge.</div></div><div class="cl-silo-grid"><div class="cl-silo-tile" data-cl-tile title="Snowflake"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/snowflake.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="Databricks"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/databricks.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="BigQuery"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/googlebigquery.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="AWS"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/amazonwebservices.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="Oracle"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/oracle.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="SAP"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/sap.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="Salesforce"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/salesforce.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="HubSpot"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="Slack"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/slack.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="Notion"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/notion.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="Sheets"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/googlesheets.svg')"></i></div><div class="cl-silo-tile" data-cl-tile title="Confluence"><i class="cl-brand" style="--brand:url('https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/confluence.svg')"></i></div></div><div class="cl-more">&hellip; and more</div></div>
       <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g fill="none" stroke="var(--lavender)" stroke-width="1.2"><path d="M0 30 Q40 30 58 150" stroke-opacity=".2"/><path d="M0 90 Q44 90 58 150" stroke-opacity=".27"/><path d="M0 150 Q48 150 58 150" stroke-opacity=".34"/><path d="M0 210 Q44 210 58 150" stroke-opacity=".27"/><path d="M0 270 Q40 270 58 150" stroke-opacity=".2"/></g><g><circle class="cl-pulse" r="2.4"><animateMotion dur="3s" begin="0s" repeatCount="indefinite" path="M0 30 Q40 30 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="3.6s" begin="-1.2s" repeatCount="indefinite" path="M0 90 Q44 90 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="2.7s" begin="-.6s" repeatCount="indefinite" path="M0 150 Q48 150 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="3.3s" begin="-2s" repeatCount="indefinite" path="M0 210 Q44 210 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="2.9s" begin="-1.5s" repeatCount="indefinite" path="M0 270 Q40 270 58 150"/></circle></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M70 0 C70 38 296 12 296 74" stroke-opacity=".38"/><path d="M110 0 C110 40 272 22 272 74" stroke-opacity=".22"/><path d="M150 0 C150 42 248 32 248 74" stroke-opacity=".12"/></g><circle cx="296" cy="71" r="2.6" fill="var(--lavender-hot)" opacity=".9"/><circle class="cl-pulse" r="2.4"><animateMotion dur="2.6s" repeatCount="indefinite" path="M70 0 C70 38 296 12 296 71"/></circle></svg></div>
-      <div class="cl-col cl-core-col bc-reveal"><div class="cl-head"><div class="cl-eyebrow">02 &mdash; The Evolution</div><h3 class="cl-head-t mid">The world we need</h3><div class="cl-head-s">Independent. Open. Above the stack.</div></div><div class="cl-core"><div class="cl-core-glyph"><span class="cl-core-chip"><svg aria-hidden="true" focusable="false" width="48" height="40" viewBox="0 0 48 40" fill="none"><g stroke="var(--lavender)" stroke-opacity=".55" stroke-width="1"><line x1="24" y1="7" x2="11" y2="20"/><line x1="24" y1="7" x2="37" y2="20"/><line x1="11" y1="20" x2="24" y2="33"/><line x1="37" y1="20" x2="24" y2="33"/><line x1="11" y1="20" x2="37" y2="20"/></g><g fill="var(--node)"><circle cx="24" cy="7" r="3.1"/><circle cx="11" cy="20" r="3.1"/><circle cx="37" cy="20" r="3.1"/><circle cx="24" cy="33" r="3.1"/></g></svg></span></div><div class="cl-core-tag">Big Context OS</div><div class="cl-core-title">Pragmatic<br>Context Layer</div><ul class="cl-feats"><li><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(var(--p-lav),.5)"/><path d="M5 8.2 7.2 10.4 11.2 5.8" stroke="var(--lavender)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Semantic definitions</li><li><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(var(--p-lav),.5)"/><path d="M5 8.2 7.2 10.4 11.2 5.8" stroke="var(--lavender)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Relationships &amp; ontologies</li><li><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(var(--p-lav),.5)"/><path d="M5 8.2 7.2 10.4 11.2 5.8" stroke="var(--lavender)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Business context</li><li><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(var(--p-lav),.5)"/><path d="M5 8.2 7.2 10.4 11.2 5.8" stroke="var(--lavender)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Governance &amp; trust</li><li><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="rgba(var(--p-lav),.5)"/><path d="M5 8.2 7.2 10.4 11.2 5.8" stroke="var(--lavender)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Works across all data</li></ul></div></div>
+      <div class="cl-col cl-core-col bc-reveal"><div class="cl-head"><div class="cl-eyebrow">02 &mdash; The Evolution</div><h3 class="cl-head-t mid">The world we need</h3><div class="cl-head-s">Independent. Open. Above the stack.</div></div><div class="cl-core"><div class="cl-core-glyph"><span class="cl-core-chip"><svg aria-hidden="true" focusable="false" width="48" height="40" viewBox="0 0 48 40" fill="none"><g stroke="var(--lavender)" stroke-opacity=".55" stroke-width="1"><line x1="24" y1="7" x2="11" y2="20"/><line x1="24" y1="7" x2="37" y2="20"/><line x1="11" y1="20" x2="24" y2="33"/><line x1="37" y1="20" x2="24" y2="33"/><line x1="11" y1="20" x2="37" y2="20"/></g><g fill="var(--node)"><circle cx="24" cy="7" r="3.1"/><circle cx="11" cy="20" r="3.1"/><circle cx="37" cy="20" r="3.1"/><circle cx="24" cy="33" r="3.1"/></g></svg></span></div><div class="cl-core-tag">Big Context OS</div><div class="cl-core-title">Pragmatic<br>Context Layer</div><div class="cl-core-tagline">One context layer for every agent.</div></div></div>
       <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g fill="none" stroke="var(--lavender)" stroke-width="1.2"><path d="M0 150 Q18 30 58 30" stroke-opacity=".2"/><path d="M0 150 Q14 90 58 90" stroke-opacity=".27"/><path d="M0 150 Q10 150 58 150" stroke-opacity=".34"/><path d="M0 150 Q14 210 58 210" stroke-opacity=".27"/><path d="M0 150 Q18 270 58 270" stroke-opacity=".2"/></g><g><circle class="cl-pulse" r="2.4"><animateMotion dur="3.1s" begin="-.9s" repeatCount="indefinite" path="M0 150 Q18 30 58 30"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="3.5s" begin="-1.8s" repeatCount="indefinite" path="M0 150 Q14 90 58 90"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="2.8s" begin="-.3s" repeatCount="indefinite" path="M0 150 Q10 150 58 150"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="3.2s" begin="-2.4s" repeatCount="indefinite" path="M0 150 Q14 210 58 210"/></circle><circle class="cl-pulse" r="2.4"><animateMotion dur="3s" begin="-1s" repeatCount="indefinite" path="M0 150 Q18 270 58 270"/></circle></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M300 0 C300 44 78 22 78 74" stroke-opacity=".38"/><path d="M262 0 C262 40 110 26 110 74" stroke-opacity=".22"/><path d="M224 0 C224 36 142 30 142 74" stroke-opacity=".12"/></g><circle cx="78" cy="71" r="2.6" fill="var(--lavender-hot)" opacity=".9"/><circle class="cl-pulse" r="2.4"><animateMotion dur="2.8s" begin="-1s" repeatCount="indefinite" path="M300 0 C300 44 78 22 78 71"/></circle></svg></div>
-      <div class="cl-col cl-agents bc-reveal"><div class="cl-head"><div class="cl-eyebrow">03 &mdash; The Future</div><h3 class="cl-head-t new">Powers AI agents</h3><div class="cl-head-s">Across your enterprise.</div></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 14V9.5M9 14V4.5M14 14v-3" stroke-linecap="round"/></svg></span>Finance</div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="9" cy="6.2" r="2.5"/><path d="M4 14.5c0-2.8 2.3-4.3 5-4.3s5 1.5 5 4.3" stroke-linecap="round"/></svg></span>HR</div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 3.5h1.8l1.4 7.2h6.3l1.3-5.2H5.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="7.5" cy="14.6" r="1.05"/><circle cx="13" cy="14.6" r="1.05"/></svg></span>Procurement</div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 10.5V8.5a5 5 0 0 1 10 0v2" stroke-linecap="round"/><rect x="2.8" y="10.2" width="2.6" height="4.4" rx="1.1"/><rect x="12.6" y="10.2" width="2.6" height="4.4" rx="1.1"/></svg></span>Support</div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 2.5l5.2 2v3.8c0 3.2-2.3 5.3-5.2 6.2-2.9-.9-5.2-3-5.2-6.2V4.5z" stroke-linejoin="round"/></svg></span>Risk</div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><ellipse cx="9" cy="5" rx="5" ry="2.2"/><path d="M4 5v8c0 1.2 2.2 2.2 5 2.2s5-1 5-2.2V5" stroke-linecap="round"/><path d="M4 9.2c0 1.2 2.2 2.2 5 2.2s5-1 5-2.2" stroke-linecap="round"/></svg></span>Data</div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 3v12h12" stroke-linecap="round"/><path d="M6 12l3-3 2 2 3.5-4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Analytics</div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 8v2.5l7 3V5L4 8z" stroke-linejoin="round"/><path d="M11 6c1.4.6 2.3 1.7 2.3 3s-.9 2.4-2.3 3" stroke-linecap="round"/></svg></span>Marketing</div><div class="cl-agent span2"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 3v12" stroke-linecap="round"/><path d="M5 3.5h7.5l-1.6 2.6 1.6 2.6H5z" stroke-linejoin="round"/></svg></span>Strategy</div><div class="cl-more">&hellip; and more</div></div>
+      <div class="cl-col cl-agents bc-reveal"><div class="cl-head"><div class="cl-eyebrow">03 &mdash; The Future</div><h3 class="cl-head-t new">Powers AI agents</h3><div class="cl-head-s">Across your enterprise.</div></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 14V9.5M9 14V4.5M14 14v-3" stroke-linecap="round"/></svg></span><span class="cl-agent-label">Finance</span></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="9" cy="6.2" r="2.5"/><path d="M4 14.5c0-2.8 2.3-4.3 5-4.3s5 1.5 5 4.3" stroke-linecap="round"/></svg></span><span class="cl-agent-label">HR</span></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 3.5h1.8l1.4 7.2h6.3l1.3-5.2H5.2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="7.5" cy="14.6" r="1.05"/><circle cx="13" cy="14.6" r="1.05"/></svg></span><span class="cl-agent-label">Procurement</span></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 10.5V8.5a5 5 0 0 1 10 0v2" stroke-linecap="round"/><rect x="2.8" y="10.2" width="2.6" height="4.4" rx="1.1"/><rect x="12.6" y="10.2" width="2.6" height="4.4" rx="1.1"/></svg></span><span class="cl-agent-label">Support</span></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 2.5l5.2 2v3.8c0 3.2-2.3 5.3-5.2 6.2-2.9-.9-5.2-3-5.2-6.2V4.5z" stroke-linejoin="round"/></svg></span><span class="cl-agent-label">Risk</span></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><ellipse cx="9" cy="5" rx="5" ry="2.2"/><path d="M4 5v8c0 1.2 2.2 2.2 5 2.2s5-1 5-2.2V5" stroke-linecap="round"/><path d="M4 9.2c0 1.2 2.2 2.2 5 2.2s5-1 5-2.2" stroke-linecap="round"/></svg></span><span class="cl-agent-label">Data</span></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 3v12h12" stroke-linecap="round"/><path d="M6 12l3-3 2 2 3.5-4.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="cl-agent-label">Analytics</span></div><div class="cl-agent"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 8v2.5l7 3V5L4 8z" stroke-linejoin="round"/><path d="M11 6c1.4.6 2.3 1.7 2.3 3s-.9 2.4-2.3 3" stroke-linecap="round"/></svg></span><span class="cl-agent-label">Marketing</span></div><div class="cl-agent span2"><span class="ico"><svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 3v12" stroke-linecap="round"/><path d="M5 3.5h7.5l-1.6 2.6 1.6 2.6H5z" stroke-linejoin="round"/></svg></span><span class="cl-agent-label">Strategy</span></div><div class="cl-more">&hellip; and more</div></div>
     </div>
   </div>
 </section>
@@ -1142,10 +1166,10 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 (function(){
   const body = document.querySelector('.st-cl .cl-body');
   if(!body) return;
-  const silos = Array.from(body.querySelectorAll('.cl-silo'));
+  const siloTiles = Array.from(body.querySelectorAll('.cl-silo-tile'));
   const agents = Array.from(body.querySelectorAll('.cl-agent'));
   const core = body.querySelector('.cl-core');
-  if(!silos.length || !agents.length || !core) return;
+  if(!siloTiles.length || !agents.length || !core) return;
 
   const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
   const lowSpec = (navigator.hardwareConcurrency||4)<4 || (navigator.deviceMemory||8)<4;
@@ -1183,13 +1207,11 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   function buildWires(){
     canvas.innerHTML = '';
     leftWires.length = 0; rightWires.length = 0;
-    silos.forEach(silo=>{
-      for(let i=0;i<3;i++){
-        const p = document.createElementNS(NS,'path'); p.setAttribute('class','wire');
-        const a = document.createElementNS(NS,'circle'); a.setAttribute('class','arrow'); a.setAttribute('r','2.2');
-        canvas.appendChild(p); canvas.appendChild(a);
-        leftWires.push({path:p, arrow:a, silo, frac:(i+1)/4});
-      }
+    siloTiles.forEach(tile=>{
+      const p = document.createElementNS(NS,'path'); p.setAttribute('class','wire');
+      const a = document.createElementNS(NS,'circle'); a.setAttribute('class','arrow'); a.setAttribute('r','2.2');
+      canvas.appendChild(p); canvas.appendChild(a);
+      leftWires.push({path:p, arrow:a, tile});
     });
     agents.forEach(agent=>{
       const p = document.createElementNS(NS,'path'); p.setAttribute('class','wire req');
@@ -1210,8 +1232,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     coreL = {x: cr.left-br.left, y: cr.top-br.top + cr.height/2};
     coreR = {x: cr.right-br.left, y: cr.top-br.top + cr.height/2};
     leftWires.forEach(w=>{
-      const sr = w.silo.getBoundingClientRect();
-      const x = sr.right-br.left, y = sr.top-br.top + sr.height*w.frac;
+      const sr = w.tile.getBoundingClientRect();
+      const x = sr.right-br.left, y = sr.top-br.top + sr.height/2;
       const mx = (x + coreL.x)/2;
       w.path.setAttribute('d','M'+x+','+y+' C'+mx+','+y+' '+mx+','+coreL.y+' '+coreL.x+','+coreL.y);
       w.arrow.setAttribute('cx', coreL.x-4); w.arrow.setAttribute('cy', coreL.y);
@@ -1288,15 +1310,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     await pulse(wire, 420, true, false);
     setState('JOIN'); corePulse();
 
-    // Pick silos: at least one from each card, total 3-5
-    const byCard = new Map();
-    leftWires.forEach((w,i)=>{
-      const k = silos.indexOf(w.silo);
-      if(!byCard.has(k)) byCard.set(k,[]);
-      byCard.get(k).push(i);
-    });
+    // Pick 3-5 random silo tiles
     const chosen = new Set();
-    byCard.forEach(arr=>chosen.add(arr[Math.floor(Math.random()*arr.length)]));
     const target = 3 + Math.floor(Math.random()*3);
     while(chosen.size<target && chosen.size<leftWires.length){
       chosen.add(Math.floor(Math.random()*leftWires.length));
@@ -1304,14 +1319,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     const pick = Array.from(chosen).map(i=>leftWires[i]);
 
     pick.forEach(w=>activate(w, 1700));
-    const lit = [];
-    pick.forEach(w=>{
-      const lis = w.silo.querySelectorAll('li');
-      if(lis.length){
-        const li = lis[Math.floor(Math.random()*lis.length)];
-        li.classList.add('cl-row-active'); lit.push(li);
-      }
-    });
+    pick.forEach(w=>w.tile.classList.add('cl-row-active'));
     // Gather: core -> silos (parallel)
     await Promise.all(pick.map(w=>pulse(w, 700, true, false)));
 
@@ -1319,7 +1327,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     // Return: silos -> core, slight stagger
     await Promise.all(pick.map((w,i)=>new Promise(r=>setTimeout(()=>pulse(w, 700, false, false).then(r), i*45))));
     corePulse();
-    lit.forEach(li=>li.classList.remove('cl-row-active'));
+    pick.forEach(w=>w.tile.classList.remove('cl-row-active'));
 
     setState('SEND');
     activate(wire, 600);
