@@ -1,126 +1,116 @@
-
 ## Goal
 
-Replace the always-on, independent pulse loops in the first figure with a clear, directional **request → gather → return** cycle initiated by individual agents, anchored by a new **Context Core** node in the visual center.
-
-Scope: only the figure inside `<section class="stage st-cl">` in `src/legacy/big-context.html` (CSS block `.cl-*` and the matching markup). No other section, no new dependencies.
+Restructure the first figure (`.st-cl` in `src/legacy/big-context.html`) into a **3-vertical-rail** layout: thin silo rail (left) · orbiting Context Core (center) · thin agent rail (right). Keep all existing content, brand logos, cycle state machine, latency badges, hover-to-fire, and reduced-motion fallback.
 
 ---
 
-## New structure
-
-Today the figure is a 5-column grid: `silos | wires | (gap) | wires | agents`. We collapse the two middle wire columns into a single SVG canvas that spans silos→agents with the **Context Core** sitting in the middle.
+## Layout
 
 ```text
-┌──────────┐                                            ┌──────────┐
-│  SILOS   │── wireL₁ ──╲                  ╱── wireR₁ ──│  AGENT 1 │
-│  (chips) │── wireL₂ ──╲╲   ┌────────┐   ╱╱── wireR₂ ──│  AGENT 2 │
-│          │── wireL₃ ───┼──▶│  CORE  │──┼──── wireR₃ ──│  AGENT 3 │
-│          │── wireL₄ ──╱╱   │ MERGE  │   ╲╲── wireR₄ ──│  AGENT 4 │
-│          │── wireL₅ ──╱    └────────┘    ╲── wireR₅ ──│  AGENT 5 │
-└──────────┘                                            └──────────┘
+┌──────┐                                          ┌──────┐
+│  ▢   │                                          │  ◯   │
+│  ▢   │ ─╲                                    ╱─ │  ◯   │
+│  ▢   │ ──╲        ╭───────────────╮       ╱── │  ◯   │
+│  ▢   │ ───┼──────▶│   METRICS     │◀─────┼─── │  ◯   │
+│ silo │ ───┤       │  ╱ HEX+LOGO ╲ │      ├─── │ agent│
+│ rail │ ───┤       │  ╲   ENT.   ╱ │      ├─── │ rail │
+│  ▢   │ ──╱        ╰── POLICIES ──╯       ╲── │  ◯   │
+│  ▢   │ ─╱            TASKS                ╲─ │  ◯   │
+└──────┘                                          └──────┘
+   12 chips         orbit ring + hex + glyph         10 chips
 ```
 
-- Wires + Core live in one absolutely-positioned `<svg>` overlay so endpoints can be anchored to real DOM nodes (silo cards and agent cards) via a small layout pass on resize.
-- Silo cards and agent cards keep their existing styling; we only add `data-cl-node` ids so the SVG layer can find their connection points.
+- **Silo rail**: single column of 28–32px monochrome logo chips with a faint vertical spine line behind them. Label appears only on hover (tooltip-style, mono caps).
+- **Agent rail**: mirrored vertical column, same chip size, each with a small status dot (idle/active/resolved). Permanent labels removed; label on hover only.
+- **Core**: just the existing logo glyph (no card, no bullet list, no tagline) inside a **faint hex frame** (thin 1px lavender stroke, low opacity, breathing softly).
 
 ---
 
-## The Context Core
+## Orbiting Context Core
 
-A floating node centered between the two columns:
-
-- ~64px hexagon (SVG `<polygon>`), thin lavender stroke, soft outer glow, subtle 8s idle rotation + 3s breath (scale 1 → 1.02).
-- Inside: a `<text>` element in JetBrains Mono cycling through states driven by the cycle phase:
-  - idle → `· · ·`
-  - gathering → `JOIN`
-  - merging → `MERGE`
-  - returning → `→`
-- Label below: `CONTEXT LAYER` in mono caps + a tiny live counter (`N ops/s`) computed from cycle completions over the last 5s.
-- On silo pulses arrival: one-shot ring expansion (scale 1 → 1.06, opacity 1 → 0).
-- On dispatch to agent: a single bright dot ejects from the core's right edge along the chosen wire.
+- **Logo + faint hex frame** in the center. Hex breathes (scale 1 → 1.04, 3s) at rest; hard flash on cycle completion.
+- **Two concentric SVG circles** with `<textPath>` carrying the tokens:
+  - Outer ring (radius ~78px, rotates clockwise 40s): `METRICS · ENTITIES · POLICIES · TASKS · METRICS · ENTITIES · POLICIES · TASKS` (duplicated so text fills the full circumference).
+  - Inner ring (radius ~58px, counter-rotates 60s): same 4 tokens, smaller, dimmer — adds depth.
+- Tokens in JetBrains Mono, 9–10px, letter-spaced, lavender at ~55% opacity.
+- On request arrival at core: outer ring brightens briefly (opacity 0.55 → 0.9, 300ms).
+- On dispatch: one matching token (whichever is nearest the chosen agent's wire angle) "snaps off" the orbit — clones into a free `<text>` that flies along the wire to the agent chip, then fades.
+- Hex frame ring pulse (scale 1 → 1.08, opacity 1 → 0, 600ms) on each cycle completion.
 
 ---
 
-## Cycle state machine
+## Wires
 
-Per agent, one cycle is:
-
-1. **Wake (120ms)** — agent card lifts 2px, icon glows, small mono `[ requesting ]` chip fades in on the card. Latency badge starts ticking (`000ms` → up).
-2. **Request (400ms)** — single bright pulse travels agent → core along that agent's right-side wire. Core glyph switches to `· · ·` → `JOIN` on arrival.
-3. **Gather (700ms)** — core fires pulses to 3–5 randomly chosen silo wires **simultaneously** (same animation start time). Each chosen silo briefly highlights one row (`li` gets `.cl-row-active` for 600ms).
-4. **Return (900ms)** — all chosen silos send pulses back to the core, arriving within a 250ms window (staggered slightly for organic feel). Core glyph switches to `MERGE`, ring pulses outward.
-5. **Dispatch (500ms)** — one thicker, brighter pulse travels core → agent. Latency badge settles on its final value (180–340ms range), agent card glow fades, `[ requesting ]` chip swaps to `[ resolved ]` for 400ms then fades.
-
-Scheduler:
-- A single `requestAnimationFrame` loop drives all cycles.
-- Every 1.8–2.6s (jittered) it picks an agent from a shuffled queue (no agent repeats until all have fired once) and starts a cycle.
-- Hovering an agent immediately enqueues a cycle for it (with a 1-cycle cooldown to prevent spam).
-- Max 2 concurrent cycles so the diagram stays readable.
-
-At rest: wires render as dim static SVG paths with a faint lavender→transparent gradient indicating direction. No pulses on idle wires.
+- Single SVG canvas spanning the full figure width.
+- Each silo chip → core hex edge; core hex edge → each agent chip.
+- Wires stay dim at rest with the existing direction gradient. No permanent arrowheads — arrowheads fade in only during an active pulse.
+- Subtle vertical spine line behind each rail (1px, very low opacity) to ground the chip column visually.
 
 ---
 
-## Directional cues (still-frame readable)
+## Density reductions
 
-- Each wire uses a `<linearGradient>` along its length: dim at origin, brighter at destination, so direction reads even without motion.
-- During an active segment, an SVG `<marker>` arrowhead fades in at 60% opacity at the destination end, then fades out when the pulse completes.
-- Request wires (agent → core) use a dashed stroke (`stroke-dasharray: 3 4`); response wires (core → agent, silo → core) are solid. This gives "asking" vs "answering" a permanent visual difference.
-
----
-
-## Parallel silo selection
-
-- Each cycle picks `3 + floor(random*3)` silo wires (3–5) from the available 5–7 endpoints.
-- Selection is biased so the two silo cards (`Locked-in silos`, `Tribal knowledge`) are both represented at least once per cycle.
-- The selected wires animate concurrently (same `performance.now()` start), unlike today's staggered loop.
+- Remove silo card containers, list items, eyebrow labels per silo card. Silos become a flat vertical chip list grouped only by a small section header (`SILOS` mono caps, top of rail).
+- Remove agent card containers, permanent agent labels, descriptions.
+- Remove the "One context layer for every agent" tagline.
+- Remove the visible `N ops/s` counter. Replace with a tiny 6px pulse-meter dot under the hex that blinks once per cycle completion.
+- Latency badges stay but float above the agent chip on hover/active only (already implemented).
 
 ---
 
-## Responsive + accessibility
+## Motion
 
-- **Desktop (>900px):** full layout as described.
-- **Tablet (640–900px):** Core shrinks to 48px, wire count visually reduced to 4 by hiding 2 with `opacity:0` but logic unchanged.
-- **Mobile (≤640px):** stack vertical (silos top, core middle, agents bottom). Replace the two wire SVGs with a single vertical SVG. Run **one cycle at a time**, no concurrency, slower cadence (3.5s).
-- **`prefers-reduced-motion`:** render one static frame — dim wires + arrowheads + core in idle state. No cycles, no rotations, no breath. Hover still highlights the agent card but does not trigger animation.
-- **Hardware budget:** if `navigator.hardwareConcurrency < 4` or `deviceMemory < 4`, behave like reduced-motion.
-- **IntersectionObserver:** pause the scheduler when the figure is out of view.
-- **A11y:** the SVG stays `aria-hidden="true"`; the section's existing visually-hidden `<h2>` and silo/agent text continue to carry meaning for screen readers. Latency badges get `aria-hidden`.
+- **Core hex**: 3s breath at rest; 600ms hard flash + ring pulse on cycle completion.
+- **Orbit rings**: continuously rotate; outer 40s CW, inner 60s CCW.
+- **Token snap-off**: per dispatch, clone nearest token, animate along wire path to agent chip over 500ms with ease-out, fade at end.
+- **Silo chips**: selected chips during gather phase get the existing `.cl-row-active` glow (lavender outline + scale 1.06) for 600ms.
+- **Agent chips**: gentle ±2px vertical float, staggered phase per chip. On active: status dot turns lavender, slight scale.
+- **Pulses on wires**: keep existing request → gather → return → dispatch state machine and timing.
 
 ---
 
-## Implementation steps
+## Responsive
 
-1. **Markup pass** (`src/legacy/big-context.html`, the `st-cl` section):
-   - Add `data-cl-node` ids to each silo card and each agent card.
-   - Replace the two `<div class="cl-wires">` blocks with one `<div class="cl-stage">` containing: one absolutely-positioned `<svg class="cl-canvas">` + a `<div class="cl-core">` (hexagon + glyph + label + ops counter).
-   - Keep silo cards and agent cards exactly as they are.
+- **>900px**: full 3-rail layout as described.
+- **640–900px**: rails narrower, chip size 24px, orbit radius reduced, inner ring hidden.
+- **≤640px**: stack vertical — silos top (horizontal chip row), core middle, agents bottom (horizontal chip row). Orbit rings shrink; one cycle at a time.
+- **`prefers-reduced-motion`**: static frame — dim wires, hex frame, rings shown but not rotating, no breath, no pulses.
 
-2. **CSS pass** (in the same `<style>` block, near the existing `.cl-*` rules):
-   - New rules: `.cl-stage`, `.cl-canvas`, `.cl-core`, `.cl-core-hex`, `.cl-core-glyph`, `.cl-core-label`, `.cl-core-ops`, `.cl-agent-badge`, `.cl-agent.is-active`, `.cl-row-active`, plus dashed vs solid wire classes.
-   - Remove now-unused `.cl-pulse`, `.cl-mwire`, and the inline `<animateMotion>` styles.
-   - Add reduced-motion overrides and mobile vertical layout.
+---
 
-3. **JS pass** (new `<script>` block at the bottom of the file, next to the existing sphere script):
-   - `layoutWires()` — measure silo/agent card positions relative to `.cl-stage`, compute wire endpoints + core anchor, write `<path>` `d` attributes and gradient stops. Re-run on `ResizeObserver`.
-   - `Cycle` class — manages one agent's request/response cycle through the 5 phases via `performance.now()` offsets.
-   - `Scheduler` — `requestAnimationFrame` loop, shuffled agent queue, hover override, concurrency cap, IntersectionObserver pause, capability gates.
-   - `Core` controller — drives glyph text, ring pulse, ops/s counter.
-   - All inline, no imports, ~6–8 KB.
+## Implementation steps (in `src/legacy/big-context.html`, `.st-cl` section only)
+
+1. **Markup**:
+   - Replace the silo logo grid wrapper with `.cl-silo-rail` containing the 12 existing brand chips in a single column + small `SILOS` header.
+   - Replace the agent grid with `.cl-agent-rail` containing the 10 existing agent chips in a single column + small `AGENTS` header + status dot per chip.
+   - Replace `.cl-core` card with a minimal `.cl-core` containing: hex SVG frame, existing logo glyph, two `<circle>` + `<text><textPath>` orbit rings, pulse-meter dot. Remove tagline + ops counter + bullet list.
+   - Keep all `data-cl-node` ids so wire layout still resolves.
+
+2. **CSS** (in same `<style>` block):
+   - Add `.cl-silo-rail`, `.cl-agent-rail`, `.cl-rail-spine`, `.cl-rail-header`.
+   - Add `.cl-hex-frame`, `.cl-orbit-outer`, `.cl-orbit-inner`, `.cl-orbit-text`, `.cl-pulse-dot`.
+   - Add `.cl-agent-status` (dot states: idle/active/resolved).
+   - Restyle chips to 28–32px circular with hover-only label tooltips.
+   - Update grid to a 3-column layout: `auto 1fr auto` (rails fixed-width, canvas flexes).
+   - Reduced-motion overrides for orbit rotation and breath.
+
+3. **JS** (existing `<script>` block):
+   - Update `layoutWires()` endpoint anchors to use rail chip centers (already keyed off `data-cl-node`, just verify positions).
+   - On dispatch, compute angle of agent chip relative to core, pick nearest orbit token, clone its `<text>` into the canvas SVG, animate along that wire's path using `getPointAtLength()` over 500ms.
+   - Drive pulse-meter dot opacity from cycle-completion timestamps (one blink per resolved cycle).
+   - Remove `N ops/s` counter logic. Keep cycle scheduler, hover override, IntersectionObserver pause, capability gates exactly as-is.
 
 4. **Verification**:
-   - Desktop 1280–1920: cycles fire every ~2s, parallel silo pulses arrive at core simultaneously, core glyph cycles through states, agent latency badge ticks, arrows readable.
-   - Hover an agent: that agent fires a cycle immediately.
-   - Mobile 390: vertical layout, single cycle at a time, no horizontal scroll.
-   - Reduced motion: static frame only.
-   - 60fps in DevTools perf panel; rest of page (hero sphere, marquee, other sections) untouched.
+   - Desktop ≥900px: 3 rails visible, orbit text rotates smoothly, tokens snap off on dispatch, hex breathes.
+   - Hover silo/agent chip: label tooltip appears; hovering an agent fires a cycle.
+   - Mobile 390: stacked layout, single cycle at a time.
+   - Reduced motion: static frame, no rotation.
+   - 60fps; no other section affected.
 
 ---
 
 ## Out of scope
 
-- No changes to hero, navbar, marquee, or any other section.
-- No three.js / WebGL — pure SVG + DOM + rAF.
-- No new dependencies.
-- No copy changes to silo names, agent names, eyebrows, or headings.
+- No copy changes to silo/agent names or section eyebrow/headline.
+- No changes to any other section.
+- No new dependencies; pure SVG + DOM + rAF.
