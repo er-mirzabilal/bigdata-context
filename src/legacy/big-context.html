@@ -1346,6 +1346,32 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   function setState(s){ stateEl.textContent = s; }
   function corePulse(){ core.classList.add('is-active'); setTimeout(()=>core.classList.remove('is-active'), 480); }
 
+  const TOKENS = ['METRICS','ENTITIES','POLICIES','TASKS'];
+  function spawnOrbitToken(wire, idx){
+    try{
+      const path = wire.path;
+      const len = path.getTotalLength();
+      if(!len) return;
+      const t = document.createElementNS(NS,'text');
+      t.setAttribute('class','orbit-token');
+      t.setAttribute('text-anchor','middle');
+      t.setAttribute('dominant-baseline','middle');
+      t.textContent = TOKENS[idx % TOKENS.length];
+      canvas.appendChild(t);
+      const t0 = performance.now();
+      const dur = 520;
+      function step(now){
+        const k = Math.min(1,(now-t0)/dur);
+        const ease = 1 - Math.pow(1-k, 2);
+        const pt = path.getPointAtLength(len*ease);
+        t.setAttribute('x', pt.x); t.setAttribute('y', pt.y - 8);
+        t.setAttribute('opacity', String(1 - k*0.9));
+        if(k<1) requestAnimationFrame(step); else t.remove();
+      }
+      requestAnimationFrame(step);
+    }catch(e){}
+  }
+
   let ops = [];
   function recordOp(){
     const t = performance.now();
@@ -1397,6 +1423,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 
     setState('SEND');
     activate(wire, 600);
+    spawnOrbitToken(wire, idx);
     await pulse(wire, 480, false, true);
 
     clearInterval(tick);
