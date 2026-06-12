@@ -438,6 +438,31 @@ svg.tl{width:100%;height:auto;display:block}
   .bc-nav{transition:none}
   .bc-tcard:active,.bc-cta-row:active{transform:none}
 }
+
+/* ===== Figure cycle: Context Core + agent-initiated request/response ===== */
+.cl-body{position:relative}
+.cl-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+.cl-canvas .wire{fill:none;stroke:rgba(var(--p-lav),.16);stroke-width:1;transition:stroke .25s}
+.cl-canvas .wire.req{stroke-dasharray:3 4}
+.cl-canvas .wire.is-active{stroke:rgba(var(--p-lav),.55);stroke-width:1.2}
+.cl-canvas .arrow{fill:var(--lavender);opacity:0;transition:opacity .25s}
+.cl-canvas .arrow.is-active{opacity:.75}
+.cl-canvas .dot{fill:var(--lavender-hot);filter:drop-shadow(0 0 4px rgba(var(--p-lav),.9))}
+.cl-col,.cl-core,.cl-silo,.cl-agent{position:relative;z-index:2}
+@media (min-width:881px){.cl-wires>svg{display:none}}
+.cl-core{overflow:visible}
+.cl-core-ring{position:absolute;inset:-4px;border-radius:26px;border:1px solid rgba(var(--p-lav),.55);opacity:0;pointer-events:none;transform:scale(.98);transition:opacity .35s,transform .55s ease-out;z-index:0}
+.cl-core.is-active .cl-core-ring{opacity:.95;transform:scale(1.05)}
+.cl-core-state{position:absolute;top:10px;right:12px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:rgba(var(--p-lav),.9);text-transform:uppercase;padding:3px 8px;border:1px solid rgba(var(--p-lav),.25);border-radius:999px;background:rgba(10,6,16,.45);min-width:54px;text-align:center;z-index:3}
+.cl-core-ops{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--muted-2);text-transform:uppercase;white-space:nowrap;z-index:3}
+.cl-agent.is-active{border-color:rgba(var(--p-lav),.6);background:rgba(50,22,76,.55);box-shadow:0 8px 24px -10px rgba(var(--p-lav),.6)}
+.cl-agent.is-active .ico{background:rgba(var(--p-lav),.3);color:var(--lavender-hot);border-color:rgba(var(--p-lav),.5)}
+.cl-agent-badge{position:absolute;top:50%;right:8px;transform:translateY(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--lavender);text-transform:uppercase;padding:2px 6px;background:rgba(10,6,16,.7);border:1px solid rgba(var(--p-lav),.35);border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s}
+.cl-agent.is-active .cl-agent-badge{opacity:1}
+.cl-silo li.cl-row-active{color:var(--lavender-hot);transition:color .2s}
+.cl-silo li.cl-row-active::before{background:var(--lavender-hot);box-shadow:0 0 8px rgba(var(--p-lav),.9)}
+@media (prefers-reduced-motion:reduce){.cl-canvas .dot,.cl-core-ring{display:none}.cl-agent.is-active{transition:none}}
+@media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}}
 </style>
 </head>
 <body>
@@ -1110,6 +1135,245 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   }
   mount();
   if(mq.addEventListener) mq.addEventListener('change',mount); else if(mq.addListener) mq.addListener(mount);
+})();
+</script>
+<script>
+/* ===== First figure: Context Core + agent-initiated request/response cycles ===== */
+(function(){
+  const body = document.querySelector('.st-cl .cl-body');
+  if(!body) return;
+  const silos = Array.from(body.querySelectorAll('.cl-silo'));
+  const agents = Array.from(body.querySelectorAll('.cl-agent'));
+  const core = body.querySelector('.cl-core');
+  if(!silos.length || !agents.length || !core) return;
+
+  const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const lowSpec = (navigator.hardwareConcurrency||4)<4 || (navigator.deviceMemory||8)<4;
+  const isMobile = ()=>matchMedia('(max-width:880px)').matches;
+
+  // Augment core
+  core.insertAdjacentHTML('beforeend',
+    '<div class="cl-core-ring" aria-hidden="true"></div>'+
+    '<div class="cl-core-state" aria-hidden="true">&middot; &middot; &middot;</div>'+
+    '<div class="cl-core-ops" aria-hidden="true">0.0 ops/s</div>');
+  const stateEl = core.querySelector('.cl-core-state');
+  const opsEl = core.querySelector('.cl-core-ops');
+
+  // Augment agents with index + latency badge
+  agents.forEach((a,i)=>{
+    a.dataset.clAgent = String(i);
+    const b = document.createElement('span');
+    b.className = 'cl-agent-badge';
+    b.setAttribute('aria-hidden','true');
+    b.textContent = '000ms';
+    a.appendChild(b);
+  });
+
+  // Build canvas
+  const NS = 'http://www.w3.org/2000/svg';
+  const canvas = document.createElementNS(NS,'svg');
+  canvas.setAttribute('class','cl-canvas');
+  canvas.setAttribute('aria-hidden','true');
+  body.appendChild(canvas);
+
+  const leftWires = [];  // silo <-> core
+  const rightWires = []; // core <-> agent  (one per agent, indexed)
+  let coreL = {x:0,y:0}, coreR = {x:0,y:0};
+
+  function buildWires(){
+    canvas.innerHTML = '';
+    leftWires.length = 0; rightWires.length = 0;
+    silos.forEach(silo=>{
+      for(let i=0;i<3;i++){
+        const p = document.createElementNS(NS,'path'); p.setAttribute('class','wire');
+        const a = document.createElementNS(NS,'circle'); a.setAttribute('class','arrow'); a.setAttribute('r','2.2');
+        canvas.appendChild(p); canvas.appendChild(a);
+        leftWires.push({path:p, arrow:a, silo, frac:(i+1)/4});
+      }
+    });
+    agents.forEach(agent=>{
+      const p = document.createElementNS(NS,'path'); p.setAttribute('class','wire req');
+      const a = document.createElementNS(NS,'circle'); a.setAttribute('class','arrow'); a.setAttribute('r','2.2');
+      canvas.appendChild(p); canvas.appendChild(a);
+      rightWires.push({path:p, arrow:a, agent});
+    });
+  }
+
+  function layout(){
+    if(isMobile()) return;
+    const br = body.getBoundingClientRect();
+    if(br.width<10 || br.height<10) return;
+    canvas.setAttribute('viewBox', '0 0 '+br.width+' '+br.height);
+    canvas.setAttribute('width', br.width);
+    canvas.setAttribute('height', br.height);
+    const cr = core.getBoundingClientRect();
+    coreL = {x: cr.left-br.left, y: cr.top-br.top + cr.height/2};
+    coreR = {x: cr.right-br.left, y: cr.top-br.top + cr.height/2};
+    leftWires.forEach(w=>{
+      const sr = w.silo.getBoundingClientRect();
+      const x = sr.right-br.left, y = sr.top-br.top + sr.height*w.frac;
+      const mx = (x + coreL.x)/2;
+      w.path.setAttribute('d','M'+x+','+y+' C'+mx+','+y+' '+mx+','+coreL.y+' '+coreL.x+','+coreL.y);
+      w.arrow.setAttribute('cx', coreL.x-4); w.arrow.setAttribute('cy', coreL.y);
+    });
+    rightWires.forEach(w=>{
+      const ar = w.agent.getBoundingClientRect();
+      const x = ar.left-br.left, y = ar.top-br.top + ar.height/2;
+      const mx = (x + coreR.x)/2;
+      w.path.setAttribute('d','M'+coreR.x+','+coreR.y+' C'+mx+','+coreR.y+' '+mx+','+y+' '+x+','+y);
+      w.arrow.setAttribute('cx', x-4); w.arrow.setAttribute('cy', y);
+    });
+  }
+
+  buildWires();
+  layout();
+  if('ResizeObserver' in window) new ResizeObserver(layout).observe(body);
+  window.addEventListener('resize', layout);
+
+  function pulse(wire, dur, reverse, big){
+    return new Promise(res=>{
+      const path = wire.path;
+      let len; try{ len = path.getTotalLength(); }catch(e){ res(); return; }
+      if(!len){ res(); return; }
+      const dot = document.createElementNS(NS,'circle');
+      dot.setAttribute('class','dot'); dot.setAttribute('r', big?3.2:2.4);
+      canvas.appendChild(dot);
+      const t0 = performance.now();
+      function step(now){
+        const t = Math.min(1,(now-t0)/dur);
+        const tt = reverse ? 1-t : t;
+        const pt = path.getPointAtLength(len*tt);
+        dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+        if(t<1) requestAnimationFrame(step);
+        else { dot.remove(); res(); }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  function activate(w, ms){
+    w.path.classList.add('is-active'); w.arrow.classList.add('is-active');
+    setTimeout(()=>{ w.path.classList.remove('is-active'); w.arrow.classList.remove('is-active'); }, ms);
+  }
+  function setState(s){ stateEl.textContent = s; }
+  function corePulse(){ core.classList.add('is-active'); setTimeout(()=>core.classList.remove('is-active'), 480); }
+
+  let ops = [];
+  function recordOp(){
+    const t = performance.now();
+    ops.push(t); ops = ops.filter(x=>t-x<5000);
+    opsEl.textContent = (ops.length/5).toFixed(1)+' ops/s';
+  }
+
+  let inFlight = 0;
+  const cooldown = new WeakSet();
+
+  async function runCycle(agent){
+    if(inFlight>=2 || agent.classList.contains('is-active')) return;
+    if(isMobile()) return;
+    inFlight++;
+    const idx = +agent.dataset.clAgent;
+    const wire = rightWires[idx];
+    agent.classList.add('is-active');
+    const badge = agent.querySelector('.cl-agent-badge');
+    const t0 = performance.now();
+    const final = 180 + Math.floor(Math.random()*160);
+    const tick = setInterval(()=>{
+      const el = Math.min(final, performance.now()-t0);
+      badge.textContent = String(Math.floor(el)).padStart(3,'0')+'ms';
+    }, 33);
+
+    setState('ASK');
+    activate(wire, 600);
+    await pulse(wire, 420, true, false);
+    setState('JOIN'); corePulse();
+
+    // Pick silos: at least one from each card, total 3-5
+    const byCard = new Map();
+    leftWires.forEach((w,i)=>{
+      const k = silos.indexOf(w.silo);
+      if(!byCard.has(k)) byCard.set(k,[]);
+      byCard.get(k).push(i);
+    });
+    const chosen = new Set();
+    byCard.forEach(arr=>chosen.add(arr[Math.floor(Math.random()*arr.length)]));
+    const target = 3 + Math.floor(Math.random()*3);
+    while(chosen.size<target && chosen.size<leftWires.length){
+      chosen.add(Math.floor(Math.random()*leftWires.length));
+    }
+    const pick = Array.from(chosen).map(i=>leftWires[i]);
+
+    pick.forEach(w=>activate(w, 1700));
+    const lit = [];
+    pick.forEach(w=>{
+      const lis = w.silo.querySelectorAll('li');
+      if(lis.length){
+        const li = lis[Math.floor(Math.random()*lis.length)];
+        li.classList.add('cl-row-active'); lit.push(li);
+      }
+    });
+    // Gather: core -> silos (parallel)
+    await Promise.all(pick.map(w=>pulse(w, 700, true, false)));
+
+    setState('MERGE');
+    // Return: silos -> core, slight stagger
+    await Promise.all(pick.map((w,i)=>new Promise(r=>setTimeout(()=>pulse(w, 700, false, false).then(r), i*45))));
+    corePulse();
+    lit.forEach(li=>li.classList.remove('cl-row-active'));
+
+    setState('SEND');
+    activate(wire, 600);
+    await pulse(wire, 480, false, true);
+
+    clearInterval(tick);
+    badge.textContent = String(final).padStart(3,'0')+'ms';
+    recordOp();
+    setTimeout(()=>{
+      agent.classList.remove('is-active');
+      badge.textContent = '000ms';
+      if(inFlight<=1) setState('\u00b7 \u00b7 \u00b7');
+    }, 520);
+    inFlight--;
+  }
+
+  // Scheduler
+  let queue = [];
+  function refill(){ queue = agents.slice().sort(()=>Math.random()-0.5); }
+  let running = false;
+  let timer = null;
+  function tick(){
+    if(!running) return;
+    const delay = 1700 + Math.random()*900;
+    timer = setTimeout(()=>{
+      if(!queue.length) refill();
+      const a = queue.shift();
+      if(a) runCycle(a);
+      tick();
+    }, delay);
+  }
+  function start(){ if(running) return; running = true; tick(); }
+  function stop(){ running = false; if(timer){ clearTimeout(timer); timer=null; } }
+
+  agents.forEach(a=>{
+    a.addEventListener('mouseenter', ()=>{
+      if(cooldown.has(a) || a.classList.contains('is-active') || isMobile()) return;
+      cooldown.add(a); setTimeout(()=>cooldown.delete(a), 2500);
+      runCycle(a);
+    });
+  });
+
+  if(reduce || lowSpec){
+    // Static frame: leave wires + arrows visible, no cycles.
+    return;
+  }
+
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting) start(); else stop(); });
+    },{threshold:0.15}).observe(body);
+  } else {
+    start();
+  }
 })();
 </script>
 </body>
