@@ -1,62 +1,50 @@
-# Mobile UI/UX Improvement Pass — Home Page
+## Hero "Context Sphere" — Canvas 3D Animation
 
-A section-by-section polish pass applied only within the mobile breakpoint (≤880px / ≤640px where noted). Desktop stays pixel-identical.
+Replace the current static bloom/particles in the hero with a lightweight 3D rotating sphere of glowing nodes ("silos") connected by lavender wires that pulse — echoing the wires/pulses motif used elsewhere in `big-context.html`. Pure Canvas 2D with a hand-rolled 3D projection. No three.js, no new dependencies.
 
-## 1. Hero
-- Tighten vertical rhythm: reduce the dead space between the CTA group and the "Scroll" cue.
-- Stack CTAs with clear hierarchy — primary button full-width, secondary links smaller beneath it.
-- Lower the particle constellation opacity behind text (or shift it) so the headline stays crisp.
+### Visual concept
+- ~80–120 nodes distributed on a sphere via a Fibonacci lattice (even coverage, no clumping).
+- Connect each node to its 2–3 nearest neighbors → a wireframe globe of "context" links.
+- Slow auto-rotation around the Y axis (~one revolution / 40s) with a small X tilt.
+- Subtle parallax: cursor position nudges rotation (±6°); scroll position pushes the sphere down/back so it feels anchored to the hero.
+- Depth cues: nodes/wires further from the camera fade in opacity + shrink in size (true z-sorting), giving a real 3D feel without WebGL.
+- Pulses: every ~1.2s a single lavender pulse travels along a random visible edge — same vocabulary as the figure pulses.
+- A soft bloom (existing `.bc-bloom`) stays behind the sphere as the light source.
 
-## 2. Thesis / 01
-- Promote the closing line ("We build the context layer…") from footnote-style to a visually distinct pull-quote block (left accent border, larger type).
-- Trim/split long paragraphs to shorter mobile line counts with slightly increased line-height.
+### Theme alignment
+- Uses the existing palette: `--lavender` for wires/pulses, white-ish nodes, dark bg.
+- Reinforces the metaphor of "connecting silos into one context layer" — the sphere literally *is* the big context.
+- Sleek/modern: thin 1px wires, small node dots, generous negative space, slow motion.
 
-## 3. First Figure (silo chips)
-- Reduce silo pill chip font-size and gaps on mobile so the chip cloud reads as compact tags, not a wall.
-- Cap chips per card if needed with a "+N more" style overflow chip.
+### Where it lives
+- Replaces `#bc-particles` canvas inside the hero in `src/legacy/big-context.html`. The bloom stays.
+- Sphere sits centered behind the headline (`left:50%`, slightly lower than the eyebrow), sized ~min(620px, 70vw).
 
-## 4. Ecosystem / 02
-- Add edge fade masks (CSS mask gradients) on the logo marquee so logos don't clip abruptly.
-- Normalize logo sizing/brightness so none render dim or tiny.
-- Add a short eyebrow + one-line intro above the logos for context.
+### Technical details
+- Single `<canvas id="bc-sphere">` absolutely positioned in the hero, `pointer-events:none`.
+- One `requestAnimationFrame` loop; DPR-aware (caps at 2).
+- 3D math: rotate points with Y+X rotation matrices, project with simple perspective (`x' = x*f/(f-z)`).
+- Edge list precomputed once (kNN). Pulses are just an animated `t∈[0,1]` along a chosen edge.
+- Resize observer keeps it crisp on orientation change.
+- **Performance guards (lightweight budget):**
+  - Mobile (≤760px): node count drops to ~60, pulses every 2s, no cursor parallax.
+  - `prefers-reduced-motion`: render one static frame, no rotation, no pulses.
+  - `navigator.hardwareConcurrency < 4` or `navigator.deviceMemory < 4`: same as reduced motion (static frame).
+  - Pauses via `IntersectionObserver` when hero scrolls out of view.
+- Estimated added weight: ~4–5 KB of inline JS, zero deps.
 
-## 5. Pragmatics / 03
-- Enlarge "SEE OPS RESOURCES →" into a proper tappable link/button (≥44px touch target).
-- Break the three dense paragraphs into 2 shorter ones + a key-point list.
+### CSS adjustments
+- `#bc-sphere { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:.85; mix-blend-mode:screen; }`
+- Keep `#bc-particles` removed or repurposed; bloom unchanged.
+- Mobile: `opacity:.55` so headline stays crisp (matches the earlier mobile pass).
 
-## 6. What We Do / 04
-- Shrink the orbit visual to ~40% of viewport height on mobile and add small labels to the orbit nodes.
-- Give tier cards visible touch affordance: chevron, pressed/active state, full-card tap area.
+### Verification
+- Desktop 1280–1920: sphere rotates smoothly behind headline, pulses visible, cursor parallax subtle.
+- Mobile 390: sphere is smaller, dimmer, static-ish; no horizontal scroll; headline still primary.
+- Reduced motion: single static frame, no animation.
+- Confirm 60fps in DevTools perf panel; rest of page (wires, figure, marquee) untouched.
 
-## 7. Our Advantage / 05
-- Replace stacked plain-text stats (500+ / 40+ / 98%+) with compact stat cards in a 3-up row (or 1×3 stack with tight height).
-- Add a count-up animation on scroll-into-view, disabled under `prefers-reduced-motion`.
-
-## 8. Legacy vs BCOS + 12 Failure Modes
-- Collapse the 12 failure-mode cards: show the first 4, with a "Show all 12" expander button (animated reveal).
-- Improve Legacy/BCOS toggle affordance: clearer active state, larger tap targets, subtle press feedback.
-
-## 9. Resources / 06
-- Make the entire resource card the tap target (stretched link) with an active/pressed state.
-
-## 10. Final CTA + Footer
-- Fix layout shift from the word-flip headline by reserving width (fixed min-width on the flipping span sized to the longest word).
-
-## Global
-- Add `scroll-margin-top` to all anchor target sections so the sticky nav doesn't cover headings.
-- Collapse/shrink the sticky nav on scroll-down, reveal on scroll-up (mobile only).
-
-## Technical details
-- All changes live in `src/legacy/big-context.html` (CSS inside the existing `@media (max-width:880px)` block plus small markup tweaks; the expander, count-up, and nav-collapse use small vanilla JS appended to the existing script blocks).
-- All new animations respect `prefers-reduced-motion`, consistent with the accessibility pass already done on the first figure.
-- No desktop rules touched; every override is scoped inside mobile media queries.
-
-## Verification
-- Preview at 390px: walk every section top-to-bottom, confirm no horizontal overflow, tap targets ≥44px, expander and count-up work.
-- Preview at 1280–1920px: confirm desktop is unchanged.
-- Toggle reduced motion: count-up, expander animation, and word-flip all degrade to static.
-
-## Suggested order (if done in phases)
-1. Sections 8 + 7 (biggest vertical-space wins)
-2. Sections 4 + 6 (visual clarity)
-3. Sections 1, 2, 3, 5, 9, 10 + global nav/anchors (polish)
+### Out of scope
+- No three.js / WebGL.
+- No changes to the figure section, wire bundles, or any other section.
+- No new dependencies.
