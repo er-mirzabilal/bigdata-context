@@ -1,50 +1,54 @@
-## Hero "Context Sphere" — Canvas 3D Animation
+## Hero "Silos → Context Column" — Atmospheric 3D Convergence
 
-Replace the current static bloom/particles in the hero with a lightweight 3D rotating sphere of glowing nodes ("silos") connected by lavender wires that pulse — echoing the wires/pulses motif used elsewhere in `big-context.html`. Pure Canvas 2D with a hand-rolled 3D projection. No three.js, no new dependencies.
+Replace the current rotating sphere in the hero with a looping 3D animation that dramatizes Big Context's core promise — fragmented data silos converging into a single luminous "context" column — but rendered atmospherically, not as a literal infographic. Pure Canvas 2D with a hand-rolled 3D projection. No new dependencies.
 
-### Visual concept
-- ~80–120 nodes distributed on a sphere via a Fibonacci lattice (even coverage, no clumping).
-- Connect each node to its 2–3 nearest neighbors → a wireframe globe of "context" links.
-- Slow auto-rotation around the Y axis (~one revolution / 40s) with a small X tilt.
-- Subtle parallax: cursor position nudges rotation (±6°); scroll position pushes the sphere down/back so it feels anchored to the hero.
-- Depth cues: nodes/wires further from the camera fade in opacity + shrink in size (true z-sorting), giving a real 3D feel without WebGL.
-- Pulses: every ~1.2s a single lavender pulse travels along a random visible edge — same vocabulary as the figure pulses.
-- A soft bloom (existing `.bc-bloom`) stays behind the sphere as the light source.
+### Visual concept (one ~14s loop)
+1. **Scatter (0–3s)** — ~28 translucent "silo" shards (small upright 3D rectangles, each a thin stack of horizontal lines suggesting tabular data) appear scattered across a wide 3D volume behind the headline, drifting slowly with subtle individual rotation. Each shard glows faintly in lavender at its edges.
+2. **Drift inward (3–8s)** — shards begin a slow, eased migration toward the vertical center axis. As they get closer they shed faint particle trails (lavender pulses) that streak along their path.
+3. **Converge (8–11s)** — shards collapse into a tall vertical column of light at center: a soft lavender-to-white gradient beam ~30% viewport-height tall, with a bright core and feathered edges. Trails compress into the beam.
+4. **Hold + breathe (11–13s)** — the column gently pulses (breath), occasional vertical light streaks travel up the beam (echoing the wires/pulses motif used elsewhere in the page).
+5. **Dissolve (13–14s)** — column softly disperses back into scattered shards; loop seamlessly.
+
+Atmospheric, not literal: shards are abstract geometric forms, no labels, no arrows. Reads as "scattered → unified light" mood.
 
 ### Theme alignment
-- Uses the existing palette: `--lavender` for wires/pulses, white-ish nodes, dark bg.
-- Reinforces the metaphor of "connecting silos into one context layer" — the sphere literally *is* the big context.
-- Sleek/modern: thin 1px wires, small node dots, generous negative space, slow motion.
+- Reuses the existing palette: `--lavender`, `--bloom-1/2`, paper-white core. Bloom stays as the ambient light source behind the beam.
+- The vertical light column visually rhymes with the wire/pulse vocabulary used throughout `big-context.html` (bundles, pulses, neural canvas).
+- Subliminally communicates BCOS's value prop without being a diagram.
 
 ### Where it lives
-- Replaces `#bc-particles` canvas inside the hero in `src/legacy/big-context.html`. The bloom stays.
-- Sphere sits centered behind the headline (`left:50%`, slightly lower than the eyebrow), sized ~min(620px, 70vw).
+- Same `<canvas id="bc-sphere">` element in the hero (rename internally to keep CSS hooks). Bloom unchanged. Headline/eyebrow/CTA layer on top untouched.
+- Sized to fill the hero, but visual mass concentrated in the central ~40% width so the headline still dominates.
 
 ### Technical details
-- Single `<canvas id="bc-sphere">` absolutely positioned in the hero, `pointer-events:none`.
-- One `requestAnimationFrame` loop; DPR-aware (caps at 2).
-- 3D math: rotate points with Y+X rotation matrices, project with simple perspective (`x' = x*f/(f-z)`).
-- Edge list precomputed once (kNN). Pulses are just an animated `t∈[0,1]` along a chosen edge.
-- Resize observer keeps it crisp on orientation change.
-- **Performance guards (lightweight budget):**
-  - Mobile (≤760px): node count drops to ~60, pulses every 2s, no cursor parallax.
-  - `prefers-reduced-motion`: render one static frame, no rotation, no pulses.
-  - `navigator.hardwareConcurrency < 4` or `navigator.deviceMemory < 4`: same as reduced motion (static frame).
-  - Pauses via `IntersectionObserver` when hero scrolls out of view.
-- Estimated added weight: ~4–5 KB of inline JS, zero deps.
+- Single canvas, one rAF loop, DPR-capped at 2.
+- Each shard: position (x,y,z), velocity, rotation, target lane on the column. Drawn as 4–6 stacked horizontal strokes inside a projected quad → reads as "data slab" without being literal.
+- 3D: simple perspective projection (`s = F/(F-z)`), z-sort shards back-to-front each frame for correct overlap.
+- Column: vertical gradient + additive radial glow + 2–3 traveling pulse highlights (sin-wave along height).
+- Trails: short particle arrays per shard, faded over ~0.6s.
+- Loop driver: single normalized `t∈[0,1]` over 14s, with named phase functions (scatter / converge / hold / dissolve).
+- Subtle cursor parallax (±5° tilt of the whole scene) on desktop only.
+- **Performance & a11y guards:**
+  - Mobile (≤760px): shard count drops to ~16, no cursor parallax, opacity .5.
+  - `prefers-reduced-motion`: render a single static "held" frame (column + faint surrounding shards), no motion, no pulses.
+  - `navigator.hardwareConcurrency < 4` or `deviceMemory < 4`: same static frame.
+  - `IntersectionObserver` pauses the loop when hero scrolls out of view.
+- Estimated weight: ~5–6 KB inline JS, zero deps.
 
 ### CSS adjustments
-- `#bc-sphere { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:.85; mix-blend-mode:screen; }`
-- Keep `#bc-particles` removed or repurposed; bloom unchanged.
-- Mobile: `opacity:.55` so headline stays crisp (matches the earlier mobile pass).
+- Keep `#bc-sphere` styles (position, blend, opacity). No new selectors needed.
+- Bloom kept; possibly nudge `--bloom` opacity slightly during the "converge" phase via the canvas itself (no CSS change required).
+
+### Files touched
+- `src/legacy/big-context.html` only — replace the existing sphere IIFE (the one added last turn) with the new convergence renderer. CSS and markup stay as-is.
 
 ### Verification
-- Desktop 1280–1920: sphere rotates smoothly behind headline, pulses visible, cursor parallax subtle.
-- Mobile 390: sphere is smaller, dimmer, static-ish; no horizontal scroll; headline still primary.
-- Reduced motion: single static frame, no animation.
-- Confirm 60fps in DevTools perf panel; rest of page (wires, figure, marquee) untouched.
+- Desktop 1280–1920: loop runs smoothly at 60fps; column is centered, headline remains the focal point.
+- Mobile 390 / 768: fewer shards, dimmer, no parallax; no horizontal overflow.
+- Reduced motion: static held frame, no animation.
+- Confirm no regressions in the figure section, wire bundles, marquee, or any other section.
 
 ### Out of scope
-- No three.js / WebGL.
-- No changes to the figure section, wire bundles, or any other section.
-- No new dependencies.
+- No three.js / WebGL, no new dependencies.
+- No changes to any other section.
+- No copy/headline changes.
