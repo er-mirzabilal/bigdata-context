@@ -1166,10 +1166,10 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 (function(){
   const body = document.querySelector('.st-cl .cl-body');
   if(!body) return;
-  const silos = Array.from(body.querySelectorAll('.cl-silo'));
+  const siloTiles = Array.from(body.querySelectorAll('.cl-silo-tile'));
   const agents = Array.from(body.querySelectorAll('.cl-agent'));
   const core = body.querySelector('.cl-core');
-  if(!silos.length || !agents.length || !core) return;
+  if(!siloTiles.length || !agents.length || !core) return;
 
   const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
   const lowSpec = (navigator.hardwareConcurrency||4)<4 || (navigator.deviceMemory||8)<4;
@@ -1207,13 +1207,11 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   function buildWires(){
     canvas.innerHTML = '';
     leftWires.length = 0; rightWires.length = 0;
-    silos.forEach(silo=>{
-      for(let i=0;i<3;i++){
-        const p = document.createElementNS(NS,'path'); p.setAttribute('class','wire');
-        const a = document.createElementNS(NS,'circle'); a.setAttribute('class','arrow'); a.setAttribute('r','2.2');
-        canvas.appendChild(p); canvas.appendChild(a);
-        leftWires.push({path:p, arrow:a, silo, frac:(i+1)/4});
-      }
+    siloTiles.forEach(tile=>{
+      const p = document.createElementNS(NS,'path'); p.setAttribute('class','wire');
+      const a = document.createElementNS(NS,'circle'); a.setAttribute('class','arrow'); a.setAttribute('r','2.2');
+      canvas.appendChild(p); canvas.appendChild(a);
+      leftWires.push({path:p, arrow:a, tile});
     });
     agents.forEach(agent=>{
       const p = document.createElementNS(NS,'path'); p.setAttribute('class','wire req');
@@ -1234,8 +1232,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     coreL = {x: cr.left-br.left, y: cr.top-br.top + cr.height/2};
     coreR = {x: cr.right-br.left, y: cr.top-br.top + cr.height/2};
     leftWires.forEach(w=>{
-      const sr = w.silo.getBoundingClientRect();
-      const x = sr.right-br.left, y = sr.top-br.top + sr.height*w.frac;
+      const sr = w.tile.getBoundingClientRect();
+      const x = sr.right-br.left, y = sr.top-br.top + sr.height/2;
       const mx = (x + coreL.x)/2;
       w.path.setAttribute('d','M'+x+','+y+' C'+mx+','+y+' '+mx+','+coreL.y+' '+coreL.x+','+coreL.y);
       w.arrow.setAttribute('cx', coreL.x-4); w.arrow.setAttribute('cy', coreL.y);
@@ -1312,15 +1310,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     await pulse(wire, 420, true, false);
     setState('JOIN'); corePulse();
 
-    // Pick silos: at least one from each card, total 3-5
-    const byCard = new Map();
-    leftWires.forEach((w,i)=>{
-      const k = silos.indexOf(w.silo);
-      if(!byCard.has(k)) byCard.set(k,[]);
-      byCard.get(k).push(i);
-    });
+    // Pick 3-5 random silo tiles
     const chosen = new Set();
-    byCard.forEach(arr=>chosen.add(arr[Math.floor(Math.random()*arr.length)]));
     const target = 3 + Math.floor(Math.random()*3);
     while(chosen.size<target && chosen.size<leftWires.length){
       chosen.add(Math.floor(Math.random()*leftWires.length));
@@ -1328,14 +1319,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     const pick = Array.from(chosen).map(i=>leftWires[i]);
 
     pick.forEach(w=>activate(w, 1700));
-    const lit = [];
-    pick.forEach(w=>{
-      const lis = w.silo.querySelectorAll('li');
-      if(lis.length){
-        const li = lis[Math.floor(Math.random()*lis.length)];
-        li.classList.add('cl-row-active'); lit.push(li);
-      }
-    });
+    pick.forEach(w=>w.tile.classList.add('cl-row-active'));
     // Gather: core -> silos (parallel)
     await Promise.all(pick.map(w=>pulse(w, 700, true, false)));
 
@@ -1343,7 +1327,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     // Return: silos -> core, slight stagger
     await Promise.all(pick.map((w,i)=>new Promise(r=>setTimeout(()=>pulse(w, 700, false, false).then(r), i*45))));
     corePulse();
-    lit.forEach(li=>li.classList.remove('cl-row-active'));
+    pick.forEach(w=>w.tile.classList.remove('cl-row-active'));
 
     setState('SEND');
     activate(wire, 600);
