@@ -839,8 +839,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     if(Math.random()<0.34){ seed(Math.random()<0.55); return; }
     const p=nodes[(Math.random()*nodes.length)|0];
     const rad=Math.max(8,Math.min(maxR,p.baseRad+(Math.random()-0.5)*46)); const ang=p.ang+(Math.random()-0.5)*0.5; nodes.push(mk(rad,ang)); }
-  function init(){cx0=w*0.6;cy0=h*0.44;maxR=Math.min(w,h)*0.46;target=Math.min(Math.floor(w*h/13000),115);
-    nodes=[];const seeds=Math.min(12,target);for(let i=0;i<seeds;i++)seed(i%2===0);spawnAcc=0;lastTs=0;}
+  function init(){cx0=w*0.6;cy0=h*0.44;maxR=Math.min(w,h)*0.46;target=Math.min(Math.floor(w*h/7200),170);
+    nodes=[];const seeds=Math.min(22,target);for(let i=0;i<seeds;i++)seed(i%2===0);spawnAcc=0;lastTs=0;}
   function frame(now){now=now||0;const dt=lastTs?Math.min(0.05,(now-lastTs)/1000):0;lastTs=now;
     if(nodes.length<target){spawnAcc+=dt;while(spawnAcc>=SPAWN&&nodes.length<target){spawnAcc-=SPAWN;grow();}}
     for(const p of nodes){p.a+=(1-p.a)*Math.min(1,dt*1.6);p.ang+=p.spd*0.016;const rad=p.baseRad+Math.sin(now*0.0006+p.ph)*6;
