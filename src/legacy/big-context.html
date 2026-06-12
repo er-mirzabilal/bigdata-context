@@ -674,7 +674,7 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   const isMobile=()=>w<=760;
 
   function size(){dpr=Math.min(devicePixelRatio||1,2);w=c.clientWidth;h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    cx=w*0.5; cy=h*0.5; R=Math.min(w*0.42,h*0.55,360); F=R*2.6;}
+    cx=w*0.5; cy=h*0.5; R=Math.min(w*0.30,h*0.40,260); F=R*2.6;}
 
   function build(){
     const N=isMobile()?60:108;
