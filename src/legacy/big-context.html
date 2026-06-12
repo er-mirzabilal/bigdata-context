@@ -668,138 +668,211 @@ addEventListener('scroll',()=>{const n=document.querySelector('.bc-nav');if(n)n.
   const ctx=c.getContext('2d');
   const LAV=gcs('--p-lav')||'199,157,240', NODE=gcs('--p-node')||'217,179,255';
   let w,h,dpr,raf,visible=true,lastTs=0,t0=performance.now();
-  let nodes=[],edges=[],pulses=[],pulseAcc=0;
-  let rotY=0,rotX=-0.28,targetRX=-0.28,targetRY=0,parallaxRX=0,parallaxRY=0;
-  let cx=0,cy=0,R=0,F=900;
+  let shards=[],trails=[],streaks=[];
+  let cx=0,cy=0,F=900;
+  let tilt=0,targetTilt=0; // cursor parallax (rad)
   const isMobile=()=>w<=760;
+  const LOOP=14; // seconds
 
   function size(){dpr=Math.min(devicePixelRatio||1,2);w=c.clientWidth;h=c.clientHeight;c.width=w*dpr;c.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    cx=w*0.5; cy=h*0.5; R=Math.min(w*0.42,h*0.55,360); F=R*2.6;}
+    cx=w*0.5; cy=h*0.5; F=Math.max(700,Math.min(w,h)*1.4);}
 
   function build(){
-    const N=isMobile()?60:108;
-    nodes=[];
-    // Fibonacci sphere
-    const phi=Math.PI*(3-Math.sqrt(5));
+    const N=isMobile()?16:28;
+    shards=[]; trails=[]; streaks=[];
+    const spreadX=Math.min(w*0.55,720), spreadY=Math.min(h*0.42,360), spreadZ=420;
     for(let i=0;i<N;i++){
-      const y=1-(i/(N-1))*2; const r=Math.sqrt(1-y*y); const th=phi*i;
-      nodes.push({x:Math.cos(th)*r,y:y,z:Math.sin(th)*r, ph:Math.random()*6.28});
+      const ang=(i/N)*Math.PI*2 + Math.random()*0.4;
+      const rad=0.55+Math.random()*0.45;
+      shards.push({
+        // scatter rest pose (origin position when "scattered")
+        sx:Math.cos(ang)*spreadX*rad*(0.6+Math.random()*0.6),
+        sy:(Math.random()-0.5)*spreadY*1.8,
+        sz:(Math.random()-0.4)*spreadZ,
+        // target position on the column
+        ty:(Math.random()-0.5)*Math.min(h*0.32,260),
+        tx:(Math.random()-0.5)*8,
+        tz:(Math.random()-0.5)*10,
+        // visual
+        wd:14+Math.random()*22, ht:36+Math.random()*54,
+        rows:4+((Math.random()*3)|0),
+        rot:Math.random()*0.6-0.3, rotSpd:(Math.random()-0.5)*0.25,
+        ph:Math.random()*6.28,
+        // current
+        x:0,y:0,z:0,r:0
+      });
     }
-    // edges: kNN (k=3)
-    edges=[]; const seen=new Set();
-    const K=3;
-    for(let i=0;i<N;i++){
-      const d=[];
-      for(let j=0;j<N;j++) if(j!==i){
-        const a=nodes[i],b=nodes[j];
-        const dx=a.x-b.x,dy=a.y-b.y,dz=a.z-b.z;
-        d.push({j,dist:dx*dx+dy*dy+dz*dz});
-      }
-      d.sort((p,q)=>p.dist-q.dist);
-      for(let k=0;k<K;k++){
-        const j=d[k].j; const key=i<j?i+'-'+j:j+'-'+i;
-        if(!seen.has(key)){seen.add(key);edges.push([i,j]);}
-      }
-    }
-    pulses=[]; pulseAcc=0;
   }
 
-  function project(p, sx, sy, cosY, sinY, cosX, sinX){
-    // rotate Y then X
-    let x=p.x*cosY + p.z*sinY;
-    let z=-p.x*sinY + p.z*cosY;
-    let y=p.y*cosX - z*sinX;
-    z=p.y*sinX + z*cosX;
-    const s=F/(F-z*R);
-    return {x:cx+x*R*s, y:cy+y*R*s, z:z, s:s};
+  // ease
+  const easeInOut=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+  const easeOut=t=>1-Math.pow(1-t,3);
+
+  function projectXY(x,y,z){
+    // rotate scene around Y by tilt
+    const ct=Math.cos(tilt), st=Math.sin(tilt);
+    const rx=x*ct + z*st;
+    const rz=-x*st + z*ct;
+    const s=F/(F-rz);
+    return {x:cx+rx*s, y:cy+y*s, s:s, z:rz};
   }
 
-  function frame(now){
-    now=now||performance.now();
+  function drawShard(sh,alpha){
+    const p=projectXY(sh.x,sh.y,sh.z);
+    const cs=Math.cos(sh.rot), sn=Math.sin(sh.rot);
+    const W=sh.wd*p.s*0.5, H=sh.ht*p.s*0.5;
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    // pseudo-3d tilt: use cs for x-scale so it rotates around Y
+    ctx.transform(cs,sn*0.18,0,1,0,0);
+    // outline
+    ctx.strokeStyle='rgba('+LAV+','+(0.55*alpha)+')';
+    ctx.lineWidth=1*p.s;
+    ctx.strokeRect(-W,-H,W*2,H*2);
+    // inner data rows
+    ctx.strokeStyle='rgba('+NODE+','+(0.38*alpha)+')';
+    ctx.lineWidth=0.6*p.s;
+    for(let i=1;i<sh.rows;i++){
+      const y=-H+(2*H)*(i/sh.rows);
+      ctx.beginPath(); ctx.moveTo(-W*0.86,y); ctx.lineTo(W*0.86,y); ctx.stroke();
+    }
+    // edge glow
+    ctx.shadowColor='rgba('+LAV+','+(0.6*alpha)+')'; ctx.shadowBlur=10*alpha;
+    ctx.strokeStyle='rgba('+LAV+','+(0.25*alpha)+')'; ctx.lineWidth=1.6*p.s;
+    ctx.strokeRect(-W,-H,W*2,H*2);
+    ctx.shadowBlur=0;
+    ctx.restore();
+    return p;
+  }
+
+  function drawColumn(intensity){
+    if(intensity<=0.001) return;
+    const colH=Math.min(h*0.62,520);
+    const colTop=cy-colH/2;
+    const baseW=Math.min(80,w*0.08);
+    // outer feather
+    const g1=ctx.createLinearGradient(0,colTop,0,colTop+colH);
+    g1.addColorStop(0,'rgba('+LAV+',0)');
+    g1.addColorStop(0.18,'rgba('+LAV+','+(0.18*intensity)+')');
+    g1.addColorStop(0.5,'rgba('+LAV+','+(0.32*intensity)+')');
+    g1.addColorStop(0.82,'rgba('+LAV+','+(0.18*intensity)+')');
+    g1.addColorStop(1,'rgba('+LAV+',0)');
+    ctx.fillStyle=g1;
+    ctx.fillRect(cx-baseW*2.4,colTop,baseW*4.8,colH);
+    // inner bright core
+    const g2=ctx.createLinearGradient(0,colTop,0,colTop+colH);
+    g2.addColorStop(0,'rgba(255,255,255,0)');
+    g2.addColorStop(0.5,'rgba(255,255,255,'+(0.55*intensity)+')');
+    g2.addColorStop(1,'rgba(255,255,255,0)');
+    const g3=ctx.createLinearGradient(cx-baseW*0.6,0,cx+baseW*0.6,0);
+    // horizontal feather using composite
+    ctx.fillStyle=g2;
+    ctx.fillRect(cx-baseW*0.4,colTop,baseW*0.8,colH);
+    // ultra-bright thin axis line
+    ctx.strokeStyle='rgba(255,255,255,'+(0.85*intensity)+')';
+    ctx.lineWidth=1.2;
+    ctx.shadowColor='rgba('+LAV+','+(0.9*intensity)+')'; ctx.shadowBlur=18*intensity;
+    ctx.beginPath(); ctx.moveTo(cx,colTop+8); ctx.lineTo(cx,colTop+colH-8); ctx.stroke();
+    ctx.shadowBlur=0;
+    // traveling streaks
+    const now=performance.now()*0.001;
+    for(let i=0;i<3;i++){
+      const t=((now*0.45 + i*0.33) % 1);
+      const y=colTop+8 + (colH-16)*t;
+      const a=Math.sin(t*Math.PI)*intensity;
+      ctx.fillStyle='rgba(255,255,255,'+(0.9*a)+')';
+      ctx.shadowColor='rgba('+LAV+','+(0.9*a)+')'; ctx.shadowBlur=14*a;
+      ctx.beginPath(); ctx.ellipse(cx,y,3.4,1.6,0,0,6.283); ctx.fill();
+    }
+    ctx.shadowBlur=0;
+  }
+
+  // Phases over t∈[0,1] (14s):
+  //  scatter:  0.00-0.22  shards visible, dispersed, idle drift
+  //  converge: 0.22-0.58  shards interpolate to column targets
+  //  hold:     0.58-0.88  column bright, shards faded into beam
+  //  dissolve: 0.88-1.00  column dims, shards return to scatter
+  function phaseFactors(t){
+    let scatterPos=0, columnIntensity=0, shardAlpha=1;
+    if(t<0.22){ scatterPos=0; shardAlpha=1; columnIntensity=0; }
+    else if(t<0.58){
+      const u=(t-0.22)/0.36; const e=easeInOut(u);
+      scatterPos=e; // 0=scatter, 1=column
+      columnIntensity=Math.max(0,(e-0.55)/0.45);
+      shardAlpha=1-0.55*e;
+    } else if(t<0.88){
+      scatterPos=1; columnIntensity=1; shardAlpha=0.45;
+      // breath
+      const u=(t-0.58)/0.30;
+      columnIntensity=0.85+0.15*Math.sin(u*Math.PI*2);
+    } else {
+      const u=(t-0.88)/0.12; const e=easeOut(u);
+      scatterPos=1-e; columnIntensity=Math.max(0,1-e*1.3); shardAlpha=0.45+0.55*e;
+    }
+    return {scatterPos,columnIntensity,shardAlpha};
+  }
+
+  function renderFrame(now){
     const dt=lastTs?Math.min(0.05,(now-lastTs)/1000):0; lastTs=now;
-    if(!visible){raf=requestAnimationFrame(frame); return;}
+    const elapsed=((now-t0)*0.001)%LOOP;
+    const t=elapsed/LOOP;
+    const ph=phaseFactors(t);
 
-    if(!reduce){
-      rotY += dt*0.16; // slow rotate (~ 40s/rev)
-      // ease parallax toward target
-      parallaxRX += (targetRX-0.28-parallaxRX)*Math.min(1,dt*3);
-      parallaxRY += (targetRY-parallaxRY)*Math.min(1,dt*3);
-    }
-    const rx=rotX+parallaxRX, ry=rotY+parallaxRY;
-    const cosY=Math.cos(ry), sinY=Math.sin(ry), cosX=Math.cos(rx), sinX=Math.sin(rx);
-
-    // project all
-    const pr=new Array(nodes.length);
-    for(let i=0;i<nodes.length;i++) pr[i]=project(nodes[i],cx,cy,cosY,sinY,cosX,sinX);
+    if(!reduce){ tilt += (targetTilt-tilt)*Math.min(1,dt*3); }
 
     ctx.clearRect(0,0,w,h);
 
-    // sort edges back-to-front by midpoint z
-    const eOrder=edges.map((e,i)=>({i,z:(pr[e[0]].z+pr[e[1]].z)*0.5}));
-    eOrder.sort((a,b)=>a.z-b.z);
-
-    ctx.lineCap='round';
-    for(const o of eOrder){
-      const e=edges[o.i]; const a=pr[e[0]], b=pr[e[1]];
-      const depth=(o.z+1)*0.5; // 0 back, 1 front
-      const alpha=0.06+depth*0.32;
-      ctx.strokeStyle='rgba('+LAV+','+alpha.toFixed(3)+')';
-      ctx.lineWidth=0.5+depth*0.7;
-      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+    // Update + collect shards w/ projected z for sorting
+    const drawn=[];
+    for(const sh of shards){
+      // interpolate scatter->column
+      const p=ph.scatterPos;
+      // gentle idle drift on scatter pose
+      const drift=reduce?0:Math.sin(now*0.0006+sh.ph)*4;
+      const xS=sh.sx, yS=sh.sy+drift, zS=sh.sz;
+      const xC=sh.tx, yC=sh.ty, zC=sh.tz;
+      sh.x=xS+(xC-xS)*p;
+      sh.y=yS+(yC-yS)*p;
+      sh.z=zS+(zC-zS)*p;
+      if(!reduce) sh.rot += sh.rotSpd*dt*(1-p*0.85);
+      drawn.push(sh);
     }
+    drawn.sort((a,b)=>a.z-b.z);
 
-    // pulses
-    if(!reduce){
-      pulseAcc+=dt;
-      const interval=isMobile()?2.0:1.2;
-      if(pulseAcc>interval && edges.length){
-        pulseAcc=0;
-        // pick a frontward edge
-        let tries=0,ei=0;
-        do{ ei=(Math.random()*edges.length)|0; tries++; }
-        while(tries<6 && (pr[edges[ei][0]].z+pr[edges[ei][1]].z)<0);
-        pulses.push({e:ei,t:0,life:1.6});
-      }
-      for(let i=pulses.length-1;i>=0;i--){
-        const p=pulses[i]; p.t+=dt/p.life;
-        if(p.t>=1){pulses.splice(i,1);continue;}
-        const e=edges[p.e], a=pr[e[0]], b=pr[e[1]];
-        const x=a.x+(b.x-a.x)*p.t, y=a.y+(b.y-a.y)*p.t;
-        const fade=Math.sin(p.t*Math.PI);
-        ctx.shadowColor='rgba('+LAV+','+(0.9*fade)+')'; ctx.shadowBlur=12*fade;
-        ctx.fillStyle='rgba('+LAV+','+(0.95*fade)+')';
-        ctx.beginPath(); ctx.arc(x,y,2.2,0,6.283); ctx.fill();
-        ctx.shadowBlur=0;
-      }
-    }
+    // back-half shards (behind column)
+    for(const sh of drawn) if(sh.z<0) drawShard(sh,ph.shardAlpha);
 
-    // nodes (sort)
-    const nOrder=pr.map((p,i)=>({i,z:p.z})).sort((a,b)=>a.z-b.z);
-    for(const o of nOrder){
-      const p=pr[o.i]; const depth=(p.z+1)*0.5;
-      const r=(0.9+depth*1.8)*p.s;
-      const a=0.35+depth*0.6;
-      ctx.shadowColor='rgba('+NODE+','+(0.6*depth)+')'; ctx.shadowBlur=6*depth;
-      ctx.fillStyle='rgba('+NODE+','+a.toFixed(3)+')';
-      ctx.beginPath(); ctx.arc(p.x,p.y,r,0,6.283); ctx.fill();
-    }
-    ctx.shadowBlur=0;
+    // column
+    drawColumn(ph.columnIntensity);
 
-    raf=requestAnimationFrame(frame);
+    // front-half shards
+    for(const sh of drawn) if(sh.z>=0) drawShard(sh,ph.shardAlpha);
+
+    if(!reduce) raf=requestAnimationFrame(loop);
   }
 
-  function start(){size();build();cancelAnimationFrame(raf);
-    if(reduce||lowEnd){lastTs=0;visible=true;frame(performance.now());cancelAnimationFrame(raf);return;}
-    lastTs=0; raf=requestAnimationFrame(frame);
+  function loop(now){
+    now=now||performance.now();
+    if(!visible){ lastTs=0; raf=requestAnimationFrame(loop); return; }
+    renderFrame(now);
+  }
+
+  function start(){size();build();cancelAnimationFrame(raf);t0=performance.now();lastTs=0;
+    if(reduce||lowEnd){
+      // static "held" frame at t=0.72
+      const fakeNow=t0; const elapsed=0.72*LOOP*1000;
+      lastTs=fakeNow; renderFrame(fakeNow+elapsed);
+      return;
+    }
+    raf=requestAnimationFrame(loop);
   }
 
   if(!reduce && !lowEnd){
     addEventListener('mousemove',e=>{
       const r=c.getBoundingClientRect();
-      if(e.clientY<r.top||e.clientY>r.bottom){targetRX=-0.28;targetRY=0;return;}
+      if(e.clientY<r.top||e.clientY>r.bottom){targetTilt=0;return;}
       const nx=((e.clientX-r.left)/r.width-0.5)*2;
-      const ny=((e.clientY-r.top)/r.height-0.5)*2;
-      targetRY=nx*0.18; targetRX=-0.28-ny*0.12;
+      targetTilt=nx*0.09; // ~5deg
     });
   }
   if('IntersectionObserver' in window){
