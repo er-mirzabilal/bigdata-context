@@ -524,21 +524,21 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-core::before,.cl-core::after{display:none}
   .cl-core-tag,.cl-core-title,.cl-core-tagline,.cl-core-state,.cl-core-ops,.cl-core-ring{display:none!important}
   .cl-core-chip{background:none;border:none;box-shadow:none;padding:0}
-  .cl-core-glyph{position:relative;margin:0;z-index:3}
-  .cl-core-hex{position:absolute;width:118px;height:118px;display:flex;align-items:center;justify-content:center;z-index:2;animation:cl-breath 3.4s ease-in-out infinite}
+  .cl-core-glyph{position:relative;margin:0;z-index:3;display:flex}
+  .cl-core-hex{position:absolute;top:50%;left:50%;width:118px;height:118px;margin:-59px 0 0 -59px;display:flex;align-items:center;justify-content:center;z-index:2;animation:cl-breath 3.4s ease-in-out infinite}
   .cl-core-hex svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
   .cl-hex-frame{stroke:rgba(var(--p-lav),.5);stroke-width:1;fill:rgba(var(--p-lav),.04)}
   .cl-hex-pulse{stroke:rgba(var(--p-lav),.9);stroke-width:1;fill:none;opacity:0;transform-origin:50% 50%;transform-box:fill-box}
   .cl-core.is-active .cl-hex-pulse{animation:cl-hexpulse .65s ease-out}
   .cl-core.is-active .cl-hex-frame{stroke:rgba(var(--p-lav),.95)}
-  .cl-core-orbit{position:absolute;width:240px;height:240px;overflow:visible;pointer-events:none;z-index:1}
+  .cl-core-orbit{position:absolute;top:50%;left:50%;width:240px;height:240px;margin:-120px 0 0 -120px;overflow:visible;pointer-events:none;z-index:1}
   .cl-orbit-out,.cl-orbit-in{transform-box:view-box;transform-origin:center}
   .cl-orbit-out{animation:cl-rot 40s linear infinite}
   .cl-orbit-in{animation:cl-rot-rev 60s linear infinite}
   .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.55);letter-spacing:.42em;text-transform:uppercase;font-size:9px;transition:fill .35s}
   .cl-orbit-in .cl-orbit-text{fill:rgba(var(--p-lav),.32);font-size:7.5px;letter-spacing:.32em}
   .cl-core.is-active .cl-orbit-out .cl-orbit-text{fill:rgba(var(--p-lav),.95)}
-  .cl-pulse-dot{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:rgba(var(--p-lav),.3);transition:background .2s,box-shadow .3s;z-index:4}
+  .cl-pulse-dot{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:rgba(var(--p-lav),.3);transition:background .2s,box-shadow .3s;z-index:4}
   .cl-core.is-active .cl-pulse-dot{background:var(--lavender-hot);box-shadow:0 0 10px rgba(var(--p-lav),.95)}
   .cl-canvas .orbit-token{font-family:var(--mono);font-size:9px;fill:var(--lavender-hot);letter-spacing:.2em;text-transform:uppercase;filter:drop-shadow(0 0 4px rgba(var(--p-lav),.9))}
   /* Mid-rail headers slot in via JS */
