@@ -443,9 +443,11 @@ svg.tl{width:100%;height:auto;display:block}
 
 /* ===== Figure cycle: Context Core + agent-initiated request/response ===== */
 /* Silo logo grid */
-.cl-silo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.cl-silo-tile{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:rgba(20,12,30,.55);border:1px solid var(--hair);border-radius:12px;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s}
-.cl-silo-tile .cl-brand{display:block;width:54%;height:54%;background:var(--lavender);-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat;opacity:.55;transition:opacity .25s,transform .25s,background .25s}
+.cl-silo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cl-col.cl-silos{align-self:center}
+.cl-silo-tile{aspect-ratio:1.1/1;display:flex;align-items:center;justify-content:center;background:rgba(20,12,30,.55);border:1px solid var(--hair);border-radius:12px;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s}
+.cl-silo-tile .cl-brand{display:block;width:50%;height:50%;background:var(--lavender);-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat;opacity:.55;transition:opacity .25s,transform .25s,background .25s}
+.cl-silo-grid > .cl-cluster-caption{grid-column:1 / -1;font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--lavender);text-transform:uppercase;opacity:.7;margin:2px 0 0;line-height:1;text-align:left}
 .cl-silo-tile:hover{border-color:rgba(var(--p-lav),.4);background:rgba(40,18,58,.5)}
 .cl-silo-tile:hover .cl-brand{opacity:.95;background:var(--lavender-hot)}
 .cl-silo-tile.cl-row-active{border-color:rgba(var(--p-lav),.7);background:rgba(60,26,90,.6);box-shadow:0 0 24px -6px rgba(var(--p-lav),.6)}
@@ -507,11 +509,11 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-col.cl-silos,.cl-col.cl-agents{justify-content:center}
   .cl-silos .cl-head,.cl-agents .cl-head,.cl-core-col .cl-head{display:none}
   .cl-rail-header{font-family:var(--mono);font-size:9px;letter-spacing:.32em;color:var(--lavender);text-transform:uppercase;text-align:center;margin:0 0 14px;opacity:.7}
-  .cl-cluster-caption{font-family:var(--mono);font-size:8.5px;letter-spacing:.28em;color:var(--lavender);text-transform:uppercase;text-align:center;opacity:.85;margin:14px 0 10px;width:100%;position:relative;z-index:2;padding:3px 6px;background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.28);border-radius:6px;align-self:center;display:inline-block;width:auto;min-width:60px}
+  .cl-cluster-caption{font-family:var(--mono);font-size:8px;letter-spacing:.24em;color:var(--lavender);text-transform:uppercase;text-align:center;opacity:.8;margin:4px 0 2px;width:auto;min-width:54px;position:relative;z-index:2;padding:2px 5px;background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.24);border-radius:5px;align-self:center;display:inline-block}
   .cl-cluster-caption:first-child{margin-top:0}
-  .cl-silo-grid{display:flex;flex-direction:column;gap:10px;align-items:center;position:relative;padding:8px 0}
+  .cl-silo-grid{display:flex;flex-direction:column;gap:5px;align-items:center;position:relative;padding:4px 0}
   .cl-silo-grid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(var(--p-lav),.18) 15%,rgba(var(--p-lav),.18) 85%,transparent);transform:translateX(-50%);z-index:0}
-  .cl-silo-tile{width:36px;height:36px;aspect-ratio:auto;border-radius:50%;flex:0 0 36px;position:relative;z-index:1;background:rgba(20,12,30,.85)}
+  .cl-silo-tile{width:28px;height:28px;aspect-ratio:auto;border-radius:50%;flex:0 0 28px;position:relative;z-index:1;background:rgba(20,12,30,.85)}
   .cl-silo-tile .cl-brand{width:56%;height:56%}
   .cl-silo-label{position:absolute;right:calc(100% + 12px);top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--lavender);text-transform:uppercase;background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.3);padding:3px 8px;border-radius:6px;opacity:0;pointer-events:none;white-space:nowrap;transition:opacity .18s;z-index:6}
   .cl-silo-tile:hover .cl-silo-label,.cl-silo-tile.cl-row-active .cl-silo-label{opacity:1}
