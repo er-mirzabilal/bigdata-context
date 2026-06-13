@@ -1,52 +1,19 @@
+## Goal
+Reduce the vertical height of the left "Siloed Data" column in the Silos → Core → Agents figure so the figure feels balanced and the page doesn't have to scroll as much past it.
 
-# Trim source clusters & improve cluster separation
+## Why it's tall today
+The left column renders 14 tiles in a 3-column grid plus 4 cluster captions ("Systems / Knowledge / Semantics / Latent"), so it grows to ~6 rows and ends up taller than the center orbit and the right agents column. Nothing has `overflow:auto`, so the extra height pushes the whole section taller.
 
-The left rail's Sources column currently packs **23 tiles** (Systems 8, Knowledge 4, Semantics 6, Latent 5) into a 3-column grid — that's ~8 rows, which overflows the canvas and forces vertical scroll. Cluster captions are also just thin labels between rows, so the four groups visually blur together.
-
-Scope: presentational edits to `src/legacy/big-context.html` only.
-
-## 1. Reduce tile count (23 → 14)
-
-Keep the most recognizable/representative item per category, drop the redundant or niche ones.
-
-- **Systems (8 → 4):** keep **Snowflake, Databricks, Salesforce, SAP**.
-  Drop: BigQuery (redundant with Snowflake/Databricks for "warehouse"), AWS (too generic — it's infra, not a data source), Oracle (covered by SAP for legacy ERP), HubSpot (Salesforce already represents CRM).
-- **Knowledge (4 → 3):** keep **Slack, Notion, Confluence**.
-  Drop: Sheets (overlaps Notion as a doc/table surface; Slack+Notion+Confluence already tell the "wiki + chat" story).
-- **Semantics (6 → 4):** keep **dbt, Cube, Unity Catalog, Atlan**.
-  Drop: AtScale (less recognizable), Semantic Views (abstract — already implied by Cube/Unity).
-- **Latent (5 → 3):** keep **People, Tribal knowledge, Decisions**.
-  Drop: Inferred concepts, Conventions (both overlap heavily with Tribal knowledge and clutter the dashed-tile row).
-
-Result: 4 + 3 + 4 + 3 = **14 tiles**. In the 3-col grid that's ~5 rows instead of 8 — fits the figure height without scroll, and each cluster row stays visually balanced (a single row of 3, or 3+1 for the 4-tile groups).
-
-## 2. Stronger cluster separation (pick one direction — recommend A)
-
-Currently clusters are only separated by a small all-caps caption between rows. Options to make the four groups read as distinct chambers:
-
-**A. Boxed cluster cards (recommended).** Wrap each cluster's tiles in a subtle bordered container (`rgba(20,12,30,.35)` bg, 1px hairline border, 14px radius, 10px inner padding). Caption sits at the top-left of the box as an eyebrow label, not floating between rows. Each cluster becomes a clearly defined "shelf" — reads instantly, and the existing tile styling stays intact inside.
-
-**B. Left rail with vertical accent.** Keep the flat grid but add a 2px lavender vertical accent bar on the far left of each cluster group, with the caption rotated 90° alongside it. More editorial / blueprint feel, less boxy.
-
-**C. Alternating background bands.** Give every other cluster a faint horizontal band (`rgba(var(--p-lav),.04)` full-width behind that group's tiles). Lightest touch — separation without new borders — but weaker than A.
-
-A is the safest fit with the current dark, card-heavy aesthetic and matches how Agents are grouped on the right rail. Going with A unless you say otherwise.
-
-## 3. Caption restyle (paired with option A)
-
-- Move `.cl-cluster-caption` from a between-rows line to the top edge of each new cluster box.
-- Slightly tighter letter-spacing, add a 1px lavender underline tick (12px wide) under the caption so each chamber gets a small flag.
-- Keep mobile behavior (`display:none` under 880px) unchanged — the existing mobile rail handles separation differently and works.
-
-## Technical notes
-
-- Edit only `src/legacy/big-context.html` (the cluster `<div class="cl-silo-grid">` block around line 615 and the `.cl-silo-grid` / `.cl-cluster-caption` CSS around lines 444 and 508).
-- Introduce a new wrapper class, e.g. `.cl-cluster { ... }`, and group each cluster's tiles inside it. The outer `.cl-silo-grid` becomes a vertical flex of 4 clusters; each cluster internally uses the existing 3-col grid.
-- Update the wire-bundle origin points if any of the dropped tiles were used as endpoints (Snowflake/Databricks/Slack/Notion are kept, so most pulses are unaffected — verify only).
-- No JS changes; hover/active states keep working because tile markup is unchanged.
+## Changes (all in `src/legacy/big-context.html`, desktop only — mobile already collapses differently)
+1. Denser grid: change `.cl-silo-grid` from `repeat(3,1fr)` to `repeat(4,1fr)` and reduce `gap` from `8px` to `6px`. With 4 columns the 14 tiles fit in ~4 rows instead of 6.
+2. Smaller tiles: drop the `aspect-ratio:1/1` to `aspect-ratio:1.1/1` (slightly shorter) and shrink the brand mask from `54%` to `50%`. Keeps icons legible but trims ~20% of column height.
+3. Inline the cluster captions: change `.cl-cluster-caption` to span the full row at `height:14px` with smaller `font-size:9px` and tighter `margin:2px 0` so the four labels don't each consume a full row of grid space.
+4. Cap the column with `align-self:center` on `.cl-col.cl-silos` and add `max-height:min(520px, 56vh)` on `.cl-silo-grid` (no scrollbar — content fits after steps 1–3; the cap is just insurance so a future addition can't blow the figure up again).
 
 ## Out of scope
+- No content removal (all 14 source tiles stay).
+- No changes to the center orbit or the right agents column.
+- No changes to mobile (≤640px) — that layout already uses a single vertical rail.
 
-- No changes to the core orbit rings, the Agents rail, or any copy outside the figure.
-- No new icons — only dropping existing tiles.
-- No responsive/mobile rework.
+## Verification
+Reload `/#pragmatics`, confirm the silos column height is close to the orbit + headline height of the center column, no scrollbar appears, and all tiles + cluster labels are still visible.
