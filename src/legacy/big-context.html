@@ -443,9 +443,11 @@ svg.tl{width:100%;height:auto;display:block}
 
 /* ===== Figure cycle: Context Core + agent-initiated request/response ===== */
 /* Silo logo grid */
-.cl-silo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.cl-silo-tile{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:rgba(20,12,30,.55);border:1px solid var(--hair);border-radius:12px;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s}
-.cl-silo-tile .cl-brand{display:block;width:54%;height:54%;background:var(--lavender);-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat;opacity:.55;transition:opacity .25s,transform .25s,background .25s}
+.cl-silo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-height:min(520px,56vh)}
+.cl-col.cl-silos{align-self:center}
+.cl-silo-tile{aspect-ratio:1.1/1;display:flex;align-items:center;justify-content:center;background:rgba(20,12,30,.55);border:1px solid var(--hair);border-radius:12px;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s}
+.cl-silo-tile .cl-brand{display:block;width:50%;height:50%;background:var(--lavender);-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat;opacity:.55;transition:opacity .25s,transform .25s,background .25s}
+.cl-silo-grid > .cl-cluster-caption{grid-column:1 / -1;font-family:var(--mono);font-size:9px;letter-spacing:.24em;color:var(--lavender);text-transform:uppercase;opacity:.7;margin:2px 0 0;line-height:1;text-align:left}
 .cl-silo-tile:hover{border-color:rgba(var(--p-lav),.4);background:rgba(40,18,58,.5)}
 .cl-silo-tile:hover .cl-brand{opacity:.95;background:var(--lavender-hot)}
 .cl-silo-tile.cl-row-active{border-color:rgba(var(--p-lav),.7);background:rgba(60,26,90,.6);box-shadow:0 0 24px -6px rgba(var(--p-lav),.6)}
