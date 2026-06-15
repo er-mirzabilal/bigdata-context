@@ -268,24 +268,33 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible,[tabindex]:fo
 @media (max-width:880px){
 .st-cl{padding:48px 24px}
 .cl-body{grid-template-columns:1fr;gap:0;max-width:560px;margin:0 auto}
-.cl-wires{position:relative;min-height:auto;height:74px}
+.cl-wires{position:relative;min-height:auto;height:56px}
 .cl-wires svg{display:none}
-.cl-wires .cl-mwire{display:block;width:100%;height:100%}
-.cl-head{margin-bottom:12px}
-.cl-silos .cl-head,.cl-agents .cl-head{text-align:left}
-.cl-core-col .cl-head{text-align:right}
+.cl-wires .cl-mwire{display:none}
+.cl-wires::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);background:linear-gradient(180deg,transparent,rgba(var(--p-lav),.55),transparent)}
+.cl-wires::after{content:"";position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;background:var(--lavender-hot);box-shadow:0 0 10px rgba(var(--p-lav),.9);transform:translate(-50%,-50%);animation:cl-mflow 2.4s ease-in-out infinite}
+@keyframes cl-mflow{0%{transform:translate(-50%,-220%);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(-50%,220%);opacity:0}}
+.cl-col{margin-top:4px}
+.cl-head{margin-bottom:10px;text-align:center}
+.cl-silos .cl-head,.cl-agents .cl-head,.cl-core-col .cl-head{text-align:center}
 .cl-core-col .cl-head-t{font-style:italic}
-.cl-silos .cl-silo{margin-right:26px}
-.cl-core{margin-left:26px}
-.cl-agents{padding-right:26px}
+.cl-silos .cl-silo{margin-right:0}
+.cl-core{position:relative;margin-left:0;padding:22px 18px 24px;box-shadow:0 0 0 1px rgba(var(--p-lav),.08),0 0 60px -10px rgba(var(--p-lav),.55),0 34px 90px -32px rgba(var(--p-lav),.5)}
+.cl-core-orbit{display:none}
+.cl-core-hex{position:absolute;left:50%;top:22px;transform:translateX(-50%);display:block;width:128px;height:128px;z-index:0;pointer-events:none}
+.cl-core-hex svg{width:100%;height:100%;display:block}
+.cl-core-glyph{position:relative;z-index:1;margin:8px 0 10px;min-height:128px;display:flex;align-items:center;justify-content:center}
+.cl-core-chip{padding:12px 14px}
+.cl-core-tagline{position:relative;z-index:1;font-size:14px;margin-top:6px}
+.cl-silo-label{display:none}
+.cl-agents{padding-right:0}
 .cl-silos{gap:10px}
 .cl-silo{padding:14px 14px 13px}
 .cl-silo ul{flex-direction:row;flex-wrap:wrap;gap:7px}
 .cl-silo li{font-size:11.5px;gap:0;padding:5px 11px;border:1px solid rgba(var(--p-lav),.16);border-radius:999px;background:rgba(var(--p-lav),.06)}
 .cl-silo li::before{display:none}
 .cl-silo .cl-more{display:inline-flex;margin-top:9px;padding:4px 11px;border:1px dashed rgba(var(--p-lav),.25);border-radius:999px;padding-left:11px}
-.cl-core{padding:24px 20px 22px}
-.cl-agents{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cl-agents{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .cl-agents .cl-head{grid-column:1/-1}.cl-agents .cl-more{grid-column:1/-1}
 .cl-agent{padding:9px 11px;font-size:12.5px;gap:9px}
 .cl-agent .ico{width:22px;height:22px}
@@ -507,9 +516,9 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-agent-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--lavender);text-transform:uppercase;padding:2px 6px;background:rgba(10,6,16,.85);border:1px solid rgba(var(--p-lav),.4);border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap}
 .cl-agent.is-active .cl-agent-badge{opacity:1}
 @media (prefers-reduced-motion:reduce){.cl-canvas .dot,.cl-core-ring{display:none}.cl-agent.is-active{transition:none}}
-@media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}.cl-silo-grid{grid-template-columns:repeat(4,1fr)}.cl-agents{grid-template-columns:repeat(5,1fr)}}
+@media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}.cl-silo-grid{grid-template-columns:repeat(4,1fr)}.cl-agents{grid-template-columns:repeat(4,1fr)}}
 @media (max-width:880px){.cl-cluster-caption,.cl-rail-header{display:none}}
-@media (max-width:520px){.cl-silo-grid{grid-template-columns:repeat(4,1fr);gap:6px}.cl-agents{grid-template-columns:repeat(4,1fr);gap:8px}.cl-agent{padding:8px 4px;min-height:56px}.cl-agent-label{font-size:8.5px}}
+@media (max-width:520px){.cl-silo-grid{grid-template-columns:repeat(4,1fr);gap:5px}.cl-silo-tile{border-radius:10px}.cl-agents{grid-template-columns:repeat(4,1fr);gap:7px}.cl-agent{padding:8px 4px;min-height:56px}.cl-agent-label{font-size:8.5px}}
 
 /* ===== Vertical-rail redesign (3 rails + orbiting core) ===== */
 @media (min-width:881px){
