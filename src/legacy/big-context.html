@@ -425,11 +425,7 @@ svg.tl{width:100%;height:auto;display:block}
   .bc-stat .num{font-size:2.6rem}
   .bc-stat .lbl{font-size:.92rem;margin-top:6px}
 
-  /* 8. 12 Failure modes — collapsed by default w/ expander */
-  .grid{position:relative}
-  .grid:not(.bc-expanded) .pcard:nth-child(n+5){display:none}
-  .bc-expand-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;width:100%;min-height:44px;padding:12px 18px;border-radius:999px;background:transparent;border:1px solid rgba(var(--p-lav),.4);color:var(--lavender);font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
-  .bc-expand-btn:hover,.bc-expand-btn:focus-visible{background:rgba(var(--p-lav),.08);color:var(--lavender-hot)}
+  /* 8. 12 Failure modes — toggle handled outside this block (see 820px rule) */
   /* Toggle: better touch & pressed state */
   .bc-tcard{min-height:44px}
   .bc-tcard:active{transform:scale(.985)}
