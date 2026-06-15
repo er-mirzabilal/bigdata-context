@@ -268,11 +268,9 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible,[tabindex]:fo
 @media (max-width:880px){
 .st-cl{padding:48px 24px}
 .cl-body{grid-template-columns:1fr;gap:0;max-width:560px;margin:0 auto}
-.cl-wires{position:relative;min-height:auto;height:56px;display:flex;align-items:center;justify-content:center;-webkit-mask:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent);mask:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent)}
+.cl-wires{position:relative;min-height:auto;height:56px}
 .cl-wires svg{display:none}
-.cl-wires .cl-mwire{display:block;width:2px;height:100%}
-.cl-wires .cl-mwire g{display:none}
-.cl-wires .cl-mwire circle:not(.cl-pulse){display:none}
+.cl-wires .cl-mwire{display:none}
 .cl-wires::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;transform:translateX(-50%);background:linear-gradient(180deg,transparent,rgba(var(--p-lav),.55),transparent)}
 .cl-wires::after{content:"";position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;background:var(--lavender-hot);box-shadow:0 0 10px rgba(var(--p-lav),.9);transform:translate(-50%,-50%);animation:cl-mflow 2.4s ease-in-out infinite}
 @keyframes cl-mflow{0%{transform:translate(-50%,-220%);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translate(-50%,220%);opacity:0}}
@@ -281,11 +279,14 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible,[tabindex]:fo
 .cl-silos .cl-head,.cl-agents .cl-head,.cl-core-col .cl-head{text-align:center}
 .cl-core-col .cl-head-t{font-style:italic}
 .cl-silos .cl-silo{margin-right:0}
-.cl-core{margin-left:0;padding:22px 18px 24px;box-shadow:0 0 0 1px rgba(var(--p-lav),.08),0 0 60px -10px rgba(var(--p-lav),.55),0 34px 90px -32px rgba(var(--p-lav),.5)}
+.cl-core{position:relative;margin-left:0;padding:22px 18px 24px;box-shadow:0 0 0 1px rgba(var(--p-lav),.08),0 0 60px -10px rgba(var(--p-lav),.55),0 34px 90px -32px rgba(var(--p-lav),.5)}
 .cl-core-orbit{display:none}
-.cl-core-hex{width:96px;height:96px}
-.cl-core-glyph{margin-bottom:6px}
-.cl-core-tagline{font-size:13.5px;margin-top:14px}
+.cl-core-hex{position:absolute;left:50%;top:22px;transform:translateX(-50%);display:block;width:128px;height:128px;z-index:0;pointer-events:none}
+.cl-core-hex svg{width:100%;height:100%;display:block}
+.cl-core-glyph{position:relative;z-index:1;margin:8px 0 10px;min-height:128px;display:flex;align-items:center;justify-content:center}
+.cl-core-chip{padding:12px 14px}
+.cl-core-tagline{position:relative;z-index:1;font-size:14px;margin-top:6px}
+.cl-silo-label{display:none}
 .cl-agents{padding-right:0}
 .cl-silos{gap:10px}
 .cl-silo{padding:14px 14px 13px}
