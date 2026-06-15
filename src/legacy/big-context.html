@@ -481,7 +481,7 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-agent-badge{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--lavender);text-transform:uppercase;padding:2px 6px;background:rgba(10,6,16,.85);border:1px solid rgba(var(--p-lav),.4);border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s;white-space:nowrap}
 .cl-agent.is-active .cl-agent-badge{opacity:1}
 @media (prefers-reduced-motion:reduce){.cl-canvas .dot,.cl-core-ring{display:none}.cl-agent.is-active{transition:none}}
-@media (max-width:880px){.cl-canvas,.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}.cl-rail-header{display:none}}
+@media (max-width:880px){.cl-core-state,.cl-core-ops,.cl-core-ring,.cl-agent-badge{display:none}.cl-rail-header{display:none}}
 
 /* ===== Vertical-rail redesign (3 rails + orbiting core) ===== */
 @media (min-width:881px){
@@ -553,16 +553,21 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-body{grid-template-columns:1fr;gap:0;max-width:560px;margin:0 auto}
   .cl-col{margin-top:6px}
   .cl-head{margin-bottom:10px;text-align:center}
-  .cl-silos .cl-head,.cl-agents .cl-head,.cl-core-col .cl-head{text-align:center;display:block}
-  .cl-core-col .cl-head-t{font-style:italic}
+  .cl-silos .cl-head,.cl-agents .cl-head{text-align:center;display:block}
+  /* 1. Hide eyebrow numerals (01/02/03) on every layer */
+  .cl-eyebrow{display:none}
+  /* 2. Core: hide title + subtitle entirely on mobile (matches desktop visual) */
+  .cl-core-col .cl-head{display:none}
   .cl-silos{gap:10px}
   .cl-silos .cl-silo{margin-right:0}
   .cl-silo{background:none;border:none;padding:0}
   .cl-silo-label{display:none}
-  /* Wires: show horizontal mwire flow connectors like desktop */
-  .cl-wires{position:relative;min-height:auto;height:74px;width:100%;display:block}
+  /* Wires: drive entirely from .cl-canvas (same JS pipeline as desktop). Static mwire hidden. */
+  .cl-wires{position:relative;min-height:auto;height:56px;width:100%;display:block}
   .cl-wires>svg{display:none}
-  .cl-wires .cl-mwire{display:block;width:100%;height:100%}
+  .cl-wires .cl-mwire{display:none}
+  .cl-body{position:relative}
+  .cl-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible;display:block}
   /* Sources: 4 columns = 4 clusters, each item a round logo widget */
   .cl-silo-grid{display:grid;grid-template-columns:repeat(4,1fr);column-gap:8px;row-gap:8px;justify-items:center;align-items:start;padding:4px 0;position:relative}
   .cl-silo-grid::before{display:none}
@@ -570,6 +575,11 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-silo-tile{width:44px;height:44px;aspect-ratio:auto;border-radius:50%;flex:0 0 auto;background:rgba(20,12,30,.85);border:1px solid var(--hair);display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
   .cl-silo-tile .cl-brand{width:54%;height:54%;opacity:.9;background:var(--lavender)}
   .cl-silo-tile.cl-text .cl-glyph{font-size:9px}
+  /* Overlay label when wire flow hits a silo tile */
+  .cl-silo-tile.cl-row-active{border-color:rgba(var(--p-lav),.85);background:rgba(60,26,90,.7);box-shadow:0 0 18px -4px rgba(var(--p-lav),.8)}
+  .cl-silo-tile.cl-row-active .cl-brand{opacity:1;background:var(--lavender-hot)}
+  .cl-silo-tile .cl-silo-label{display:none;position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);font-family:var(--mono);font-size:8px;letter-spacing:.16em;color:var(--lavender);text-transform:uppercase;background:rgba(10,6,16,.95);border:1px solid rgba(var(--p-lav),.4);padding:2px 6px;border-radius:5px;white-space:nowrap;z-index:8;pointer-events:none}
+  .cl-silo-tile.cl-row-active .cl-silo-label{display:block}
   /* Column 1 — Systems */
   .cl-silo-grid > :nth-child(5){grid-column:1;grid-row:1}
   .cl-silo-grid > :nth-child(1){grid-column:1;grid-row:2}
@@ -606,15 +616,17 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-hex-pulse{stroke:rgba(var(--p-lav),.9);stroke-width:1;fill:none;opacity:0;transform-origin:50% 50%;transform-box:fill-box}
   .cl-core.is-active .cl-hex-pulse{animation:cl-hexpulse .65s ease-out}
   .cl-core-orbit{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:240px;height:240px;overflow:visible;pointer-events:none;z-index:1;inset:auto;margin:0}
-  .cl-core-orbit .cl-orbit-out,.cl-core-orbit .cl-orbit-in{transform-box:fill-box;transform-origin:50% 50%}
+  /* Rotate around SVG viewBox center, not the text bbox — keeps orbit aligned with the hex */
+  .cl-core-orbit .cl-orbit-out,.cl-core-orbit .cl-orbit-in{transform-box:view-box;transform-origin:50% 50%}
   .cl-core-orbit .cl-orbit-in{animation:cl-rot-rev 60s linear infinite}
   .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.55);letter-spacing:.34em;text-transform:uppercase;font-size:8px}
   .cl-core-orbit .cl-orbit-in .cl-orbit-text{fill:rgba(var(--p-lav),.32);font-size:7px;letter-spacing:.28em}
   .cl-pulse-dot{display:none}
-  /* Agents: 4-col grid of round icon-only chips */
+  /* Agents: 4-col grid of round icon-only chips, heading BELOW the grid */
   .cl-agents{padding-right:0;display:grid;grid-template-columns:repeat(4,1fr);column-gap:10px;row-gap:10px;justify-items:center;align-items:center;align-content:center;flex-direction:initial;gap:10px}
   .cl-agents::before{display:none}
-  .cl-agents .cl-head{grid-column:1/-1}
+  /* 9 agents fill rows 1-3 (4 cols); heading drops below into row 4 */
+  .cl-agents .cl-head{grid-column:1/-1;grid-row:4;margin:14px 0 0;text-align:center}
   .cl-agents .cl-more{display:none}
   .cl-agent{width:44px;height:44px;min-height:0;padding:0;border-radius:50%;flex:0 0 auto;flex-direction:row;justify-content:center;align-items:center;gap:0;background:rgba(20,12,30,.85);border:1px solid var(--hair);position:relative;animation:none}
   .cl-agent .ico{width:32px;height:32px;border-radius:50%;background:rgba(var(--p-lav),.12);border:1px solid rgba(var(--p-lav),.3);display:flex;align-items:center;justify-content:center}
@@ -1265,13 +1277,36 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   }
 
   function layout(){
-    if(isMobile()) return;
     const br = body.getBoundingClientRect();
     if(br.width<10 || br.height<10) return;
     canvas.setAttribute('viewBox', '0 0 '+br.width+' '+br.height);
     canvas.setAttribute('width', br.width);
     canvas.setAttribute('height', br.height);
     const cr = core.getBoundingClientRect();
+    if(isMobile()){
+      // Mobile = vertical stack: silos ABOVE core, agents BELOW core. Wires enter/exit top/bottom of core.
+      const cx = cr.left-br.left + cr.width/2;
+      const coreTop = {x: cx, y: cr.top-br.top};
+      const coreBot = {x: cx, y: cr.bottom-br.top};
+      coreL = coreTop; coreR = coreBot;
+      leftWires.forEach(w=>{
+        const sr = w.tile.getBoundingClientRect();
+        const x = sr.left-br.left + sr.width/2;
+        const y = sr.top-br.top + sr.height;
+        const my = (y + coreTop.y)/2;
+        w.path.setAttribute('d','M'+x+','+y+' C'+x+','+my+' '+coreTop.x+','+my+' '+coreTop.x+','+coreTop.y);
+        w.arrow.setAttribute('cx', coreTop.x); w.arrow.setAttribute('cy', coreTop.y-4);
+      });
+      rightWires.forEach(w=>{
+        const ar = w.agent.getBoundingClientRect();
+        const x = ar.left-br.left + ar.width/2;
+        const y = ar.top-br.top;
+        const my = (y + coreBot.y)/2;
+        w.path.setAttribute('d','M'+coreBot.x+','+coreBot.y+' C'+coreBot.x+','+my+' '+x+','+my+' '+x+','+y);
+        w.arrow.setAttribute('cx', x); w.arrow.setAttribute('cy', y-4);
+      });
+      return;
+    }
     coreL = {x: cr.left-br.left, y: cr.top-br.top + cr.height/2};
     coreR = {x: cr.right-br.left, y: cr.top-br.top + cr.height/2};
     leftWires.forEach(w=>{
@@ -1361,7 +1396,6 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 
   async function runCycle(agent){
     if(inFlight>=2 || agent.classList.contains('is-active')) return;
-    if(isMobile()) return;
     inFlight++;
     const idx = +agent.dataset.clAgent;
     const wire = rightWires[idx];
