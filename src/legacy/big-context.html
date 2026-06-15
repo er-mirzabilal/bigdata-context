@@ -306,7 +306,8 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible,[tabindex]:fo
 .cl-orbit-in .cl-orbit-text{fill:rgba(var(--p-lav),.32);font-size:6.5px;letter-spacing:.28em}
 .cl-orbit-out,.cl-orbit-in{transform-box:fill-box;transform-origin:50% 50%}
 .cl-orbit-in{display:block;animation:cl-rot-rev 60s linear infinite}
-.cl-core-tagline{display:block;font-family:var(--serif);font-style:italic;font-size:12px;color:var(--muted);text-align:center;margin:10px auto 0;max-width:24ch}
+.cl-core-tagline{display:block;position:absolute;left:50%;top:100%;transform:translate(-50%,8px);font-family:var(--serif);font-style:italic;font-size:12px;color:var(--muted);text-align:center;white-space:nowrap;margin:0}
+.cl-core-col{padding-bottom:28px}
 .cl-agents{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cl-agents .cl-head{grid-column:1/-1}.cl-agents .cl-more{grid-column:1/-1}
 .cl-agent{padding:10px 8px;font-size:12.5px;gap:9px;min-width:0}
