@@ -1270,13 +1270,36 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   }
 
   function layout(){
-    if(isMobile()) return;
     const br = body.getBoundingClientRect();
     if(br.width<10 || br.height<10) return;
     canvas.setAttribute('viewBox', '0 0 '+br.width+' '+br.height);
     canvas.setAttribute('width', br.width);
     canvas.setAttribute('height', br.height);
     const cr = core.getBoundingClientRect();
+    if(isMobile()){
+      // Mobile = vertical stack: silos ABOVE core, agents BELOW core. Wires enter/exit top/bottom of core.
+      const cx = cr.left-br.left + cr.width/2;
+      const coreTop = {x: cx, y: cr.top-br.top};
+      const coreBot = {x: cx, y: cr.bottom-br.top};
+      coreL = coreTop; coreR = coreBot;
+      leftWires.forEach(w=>{
+        const sr = w.tile.getBoundingClientRect();
+        const x = sr.left-br.left + sr.width/2;
+        const y = sr.top-br.top + sr.height;
+        const my = (y + coreTop.y)/2;
+        w.path.setAttribute('d','M'+x+','+y+' C'+x+','+my+' '+coreTop.x+','+my+' '+coreTop.x+','+coreTop.y);
+        w.arrow.setAttribute('cx', coreTop.x); w.arrow.setAttribute('cy', coreTop.y-4);
+      });
+      rightWires.forEach(w=>{
+        const ar = w.agent.getBoundingClientRect();
+        const x = ar.left-br.left + ar.width/2;
+        const y = ar.top-br.top;
+        const my = (y + coreBot.y)/2;
+        w.path.setAttribute('d','M'+coreBot.x+','+coreBot.y+' C'+coreBot.x+','+my+' '+x+','+my+' '+x+','+y);
+        w.arrow.setAttribute('cx', x); w.arrow.setAttribute('cy', y-4);
+      });
+      return;
+    }
     coreL = {x: cr.left-br.left, y: cr.top-br.top + cr.height/2};
     coreR = {x: cr.right-br.left, y: cr.top-br.top + cr.height/2};
     leftWires.forEach(w=>{
@@ -1366,7 +1389,6 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 
   async function runCycle(agent){
     if(inFlight>=2 || agent.classList.contains('is-active')) return;
-    if(isMobile()) return;
     inFlight++;
     const idx = +agent.dataset.clAgent;
     const wire = rightWires[idx];
