@@ -162,6 +162,21 @@ a{color:inherit;text-decoration:none}
 .bc-logo span{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em}
 .bc-logo img{max-width:100%;max-height:100%;object-fit:contain;filter:invert(1) brightness(1.6) contrast(.95);opacity:.78;transition:opacity .25s}
 .bc-logo:hover img{opacity:1}
+
+/* Ecosystem premium chrome */
+.bc-eco-head{text-align:center;max-width:720px;margin:0 auto}
+.bc-eco-head .bc-eyebrow{display:inline-flex;justify-content:center}
+.bc-eco-title{font-family:var(--serif);font-size:clamp(2.4rem,4.2vw,3.4rem);color:#fff;letter-spacing:-.01em;margin-top:18px;line-height:1.1}
+.bc-eco-rule{width:160px;height:1px;margin:18px auto 0;background:linear-gradient(90deg,transparent,rgba(var(--p-lav),.9),transparent);box-shadow:0 0 18px rgba(var(--p-lav),.45);border-radius:2px}
+.bc-eco-sub{margin:22px auto 0;max-width:56ch;color:var(--muted);font-size:.95rem;line-height:1.55;font-family:var(--serif);font-style:italic}
+.bc-eco-stage{position:relative;margin-top:48px}
+.bc-eco-glow{position:absolute;left:50%;top:50%;width:min(880px,90%);height:280px;transform:translate(-50%,-50%);pointer-events:none;z-index:0;background:radial-gradient(ellipse at center,rgba(var(--p-lav),.18),transparent 65%);filter:blur(60px)}
+.bc-eco-stage .bc-marquee{position:relative;z-index:1;margin:0}
+.bc-eco-stage .bc-logo{background:transparent;border:0;padding:10px 18px}
+.bc-eco-stage .bc-logo:hover{background:transparent;border:0}
+.bc-eco-stage .bc-logo img{filter:grayscale(1) brightness(1.6) contrast(.95);opacity:.55;transition:opacity .35s,filter .35s,transform .35s}
+.bc-eco-stage .bc-logo:hover img{opacity:1;filter:invert(1) brightness(1.6) contrast(.95);transform:scale(1.06)}
+.bc-eco-foot{margin:40px auto 0;max-width:760px;padding-top:20px;text-align:center;border-top:1px solid rgba(255,255,255,.06);font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted-2)}
 @keyframes bcScroll{to{transform:translateX(calc(-50% - 6px))}}
 .bc-eco-cta{display:flex;justify-content:center}
 .bc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:24px}
@@ -396,11 +411,9 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-silo ul{gap:5px}
   .cl-silo li{font-size:11px;padding:3px 8px}
 
-  /* 4. Ecosystem — narrower logo cards, stronger edge fade, intro */
-  .bc-marquee{-webkit-mask:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
-  .bc-logo{width:138px;padding:14px}
-  .bc-logo img{opacity:.92}
-  .bc-eco-intro{font-family:var(--serif);font-size:1.05rem;color:var(--muted);line-height:1.45;margin-top:6px;max-width:32ch}
+   /* 4. Ecosystem — narrower logo cards, stronger edge fade */
+   .bc-marquee{-webkit-mask:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+   .bc-logo{width:128px;padding:12px}
 
   /* 5. Pragmatics — bigger tap target on OPS link */
   .bc-prag-link{font-size:13px;padding:12px 16px;border:1px solid rgba(var(--p-lav),.4);border-radius:999px;min-height:44px;background:rgba(var(--p-lav),.06)}
@@ -628,18 +641,26 @@ svg.tl{width:100%;height:auto;display:block}
 
 <div class="bc-divider"></div>
 
-<section class="bc-section" id="ecosystem" style="padding:80px 0 36px">
+<section class="bc-section" id="ecosystem" style="padding:96px 0 48px">
   <div class="bc-wrap">
-    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Ecosystem&nbsp;&nbsp;/&nbsp;&nbsp;02</div>
-    <p class="bc-eco-intro bc-reveal">Trusted by teams turning enterprise data into context for AI.</p>
-    <div class="bc-marquee bc-reveal">
+    <div class="bc-eco-head bc-reveal">
+      <div class="bc-eyebrow"><span class="bar"></span>Ecosystem&nbsp;&nbsp;/&nbsp;&nbsp;02</div>
+      <h2 class="bc-eco-title">Multi-Ecosystem Coverage</h2>
+      <div class="bc-eco-rule"></div>
+      <p class="bc-eco-sub">Trusted by teams turning enterprise data into context for AI.</p>
+    </div>
+    <div class="bc-eco-stage bc-reveal">
+      <div class="bc-eco-glow"></div>
+      <div class="bc-marquee">
       <div class="bc-mq-track">
         <div class="bc-logo"><img src="/logos/herschel.png" alt="Herschel"></div><div class="bc-logo"><img src="/logos/puma-golf.png" alt="PUMA Golf"></div><div class="bc-logo"><img src="/logos/otherwise.png" alt="Otherwise"></div><div class="bc-logo"><img src="/logos/my-trove.webp" alt="My Trove Box"></div><div class="bc-logo"><img src="/logos/palm-tree-crew.png" alt="Palm Tree Crew"></div><div class="bc-logo"><img src="/logos/cotopaxi.png" alt="Cotopaxi"></div><div class="bc-logo"><img src="/logos/and-marketing.png" alt="& Marketing"></div><div class="bc-logo"><img src="/logos/hotmex-express.png" alt="HotMex Express"></div><div class="bc-logo"><img src="/logos/hangar-54.png" alt="Hangar 54 Pizza"></div><div class="bc-logo"><img src="/logos/palm-tree-club.png" alt="Palm Tree Club"></div><div class="bc-logo"><img src="/logos/la-touraine.png" alt="La Touraine"></div><div class="bc-logo"><img src="/logos/stacker-u.png" alt="Stacker U"></div><div class="bc-logo"><img src="/logos/brunt.png" alt="BRUNT"></div><div class="bc-logo"><img src="/logos/suitehop.png" alt="SuiteHop"></div><div class="bc-logo"><img src="/logos/franklin-templeton.png" alt="Franklin Templeton"></div><div class="bc-logo"><img src="/logos/fearless.png" alt="Fearless"></div><div class="bc-logo"><img src="/logos/worldseekers.png" alt="Worldseekers"></div><div class="bc-logo"><img src="/logos/champs-chicken.png" alt="Champs Chicken"></div><div class="bc-logo"><img src="/logos/wingman-pizza.png" alt="Wingman Pizza"></div><div class="bc-logo"><img src="/logos/gravity.png" alt="Gravity"></div><div class="bc-logo"><img src="/logos/blutaco.png" alt="bluTACO"></div><div class="bc-logo"><img src="/logos/coopers.png" alt="Coopers"></div><div class="bc-logo"><img src="/logos/magic-mind.png" alt="Magic Mind"></div><div class="bc-logo"><img src="/logos/herschel.png" alt="Herschel"></div><div class="bc-logo"><img src="/logos/puma-golf.png" alt="PUMA Golf"></div><div class="bc-logo"><img src="/logos/otherwise.png" alt="Otherwise"></div><div class="bc-logo"><img src="/logos/my-trove.webp" alt="My Trove Box"></div><div class="bc-logo"><img src="/logos/palm-tree-crew.png" alt="Palm Tree Crew"></div><div class="bc-logo"><img src="/logos/cotopaxi.png" alt="Cotopaxi"></div><div class="bc-logo"><img src="/logos/and-marketing.png" alt="& Marketing"></div><div class="bc-logo"><img src="/logos/hotmex-express.png" alt="HotMex Express"></div><div class="bc-logo"><img src="/logos/hangar-54.png" alt="Hangar 54 Pizza"></div><div class="bc-logo"><img src="/logos/palm-tree-club.png" alt="Palm Tree Club"></div><div class="bc-logo"><img src="/logos/la-touraine.png" alt="La Touraine"></div><div class="bc-logo"><img src="/logos/stacker-u.png" alt="Stacker U"></div><div class="bc-logo"><img src="/logos/brunt.png" alt="BRUNT"></div><div class="bc-logo"><img src="/logos/suitehop.png" alt="SuiteHop"></div><div class="bc-logo"><img src="/logos/franklin-templeton.png" alt="Franklin Templeton"></div><div class="bc-logo"><img src="/logos/fearless.png" alt="Fearless"></div><div class="bc-logo"><img src="/logos/worldseekers.png" alt="Worldseekers"></div><div class="bc-logo"><img src="/logos/champs-chicken.png" alt="Champs Chicken"></div><div class="bc-logo"><img src="/logos/wingman-pizza.png" alt="Wingman Pizza"></div><div class="bc-logo"><img src="/logos/gravity.png" alt="Gravity"></div><div class="bc-logo"><img src="/logos/blutaco.png" alt="bluTACO"></div><div class="bc-logo"><img src="/logos/coopers.png" alt="Coopers"></div><div class="bc-logo"><img src="/logos/magic-mind.png" alt="Magic Mind"></div>
       </div>
       <div class="bc-mq-track rev">
         <div class="bc-logo"><img src="/logos/magic-mind.png" alt="Magic Mind"></div><div class="bc-logo"><img src="/logos/coopers.png" alt="Coopers"></div><div class="bc-logo"><img src="/logos/blutaco.png" alt="bluTACO"></div><div class="bc-logo"><img src="/logos/gravity.png" alt="Gravity"></div><div class="bc-logo"><img src="/logos/wingman-pizza.png" alt="Wingman Pizza"></div><div class="bc-logo"><img src="/logos/champs-chicken.png" alt="Champs Chicken"></div><div class="bc-logo"><img src="/logos/worldseekers.png" alt="Worldseekers"></div><div class="bc-logo"><img src="/logos/fearless.png" alt="Fearless"></div><div class="bc-logo"><img src="/logos/franklin-templeton.png" alt="Franklin Templeton"></div><div class="bc-logo"><img src="/logos/suitehop.png" alt="SuiteHop"></div><div class="bc-logo"><img src="/logos/brunt.png" alt="BRUNT"></div><div class="bc-logo"><img src="/logos/stacker-u.png" alt="Stacker U"></div><div class="bc-logo"><img src="/logos/la-touraine.png" alt="La Touraine"></div><div class="bc-logo"><img src="/logos/palm-tree-club.png" alt="Palm Tree Club"></div><div class="bc-logo"><img src="/logos/hangar-54.png" alt="Hangar 54 Pizza"></div><div class="bc-logo"><img src="/logos/hotmex-express.png" alt="HotMex Express"></div><div class="bc-logo"><img src="/logos/and-marketing.png" alt="& Marketing"></div><div class="bc-logo"><img src="/logos/cotopaxi.png" alt="Cotopaxi"></div><div class="bc-logo"><img src="/logos/palm-tree-crew.png" alt="Palm Tree Crew"></div><div class="bc-logo"><img src="/logos/my-trove.webp" alt="My Trove Box"></div><div class="bc-logo"><img src="/logos/otherwise.png" alt="Otherwise"></div><div class="bc-logo"><img src="/logos/puma-golf.png" alt="PUMA Golf"></div><div class="bc-logo"><img src="/logos/herschel.png" alt="Herschel"></div><div class="bc-logo"><img src="/logos/magic-mind.png" alt="Magic Mind"></div><div class="bc-logo"><img src="/logos/coopers.png" alt="Coopers"></div><div class="bc-logo"><img src="/logos/blutaco.png" alt="bluTACO"></div><div class="bc-logo"><img src="/logos/gravity.png" alt="Gravity"></div><div class="bc-logo"><img src="/logos/wingman-pizza.png" alt="Wingman Pizza"></div><div class="bc-logo"><img src="/logos/champs-chicken.png" alt="Champs Chicken"></div><div class="bc-logo"><img src="/logos/worldseekers.png" alt="Worldseekers"></div><div class="bc-logo"><img src="/logos/fearless.png" alt="Fearless"></div><div class="bc-logo"><img src="/logos/franklin-templeton.png" alt="Franklin Templeton"></div><div class="bc-logo"><img src="/logos/suitehop.png" alt="SuiteHop"></div><div class="bc-logo"><img src="/logos/brunt.png" alt="BRUNT"></div><div class="bc-logo"><img src="/logos/stacker-u.png" alt="Stacker U"></div><div class="bc-logo"><img src="/logos/la-touraine.png" alt="La Touraine"></div><div class="bc-logo"><img src="/logos/palm-tree-club.png" alt="Palm Tree Club"></div><div class="bc-logo"><img src="/logos/hangar-54.png" alt="Hangar 54 Pizza"></div><div class="bc-logo"><img src="/logos/hotmex-express.png" alt="HotMex Express"></div><div class="bc-logo"><img src="/logos/and-marketing.png" alt="& Marketing"></div><div class="bc-logo"><img src="/logos/cotopaxi.png" alt="Cotopaxi"></div><div class="bc-logo"><img src="/logos/palm-tree-crew.png" alt="Palm Tree Crew"></div><div class="bc-logo"><img src="/logos/my-trove.webp" alt="My Trove Box"></div><div class="bc-logo"><img src="/logos/otherwise.png" alt="Otherwise"></div><div class="bc-logo"><img src="/logos/puma-golf.png" alt="PUMA Golf"></div><div class="bc-logo"><img src="/logos/herschel.png" alt="Herschel"></div>
       </div>
+      </div>
     </div>
+    <div class="bc-eco-foot">+ more partners and connectors</div>
   </div>
 </section>
 
