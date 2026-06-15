@@ -616,8 +616,9 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-hex-pulse{stroke:rgba(var(--p-lav),.9);stroke-width:1;fill:none;opacity:0;transform-origin:50% 50%;transform-box:fill-box}
   .cl-core.is-active .cl-hex-pulse{animation:cl-hexpulse .65s ease-out}
   .cl-core-orbit{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:240px;height:240px;overflow:visible;pointer-events:none;z-index:1;inset:auto;margin:0}
-  /* Rotate around the SVG viewBox center, not the text bbox — keeps orbit aligned with the hex */
-  .cl-core-orbit .cl-orbit-out,.cl-core-orbit .cl-orbit-in{transform-box:view-box;transform-origin:50% 50%}
+  /* Rotate around the SVG viewBox center (0,0 in user units), not the text bbox — keeps orbit aligned with the hex */
+  .cl-core-orbit .cl-orbit-out,.cl-core-orbit .cl-orbit-in{transform-box:view-box;transform-origin:0 0;transform:translate(120px,120px)}
+  .cl-core-orbit .cl-orbit-in{transform-origin:0 0}
   .cl-core-orbit .cl-orbit-in{animation:cl-rot-rev 60s linear infinite}
   .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.55);letter-spacing:.34em;text-transform:uppercase;font-size:8px}
   .cl-core-orbit .cl-orbit-in .cl-orbit-text{fill:rgba(var(--p-lav),.32);font-size:7px;letter-spacing:.28em}
