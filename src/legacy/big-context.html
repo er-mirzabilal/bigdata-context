@@ -268,30 +268,57 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible,[tabindex]:fo
 @media (max-width:880px){
 .st-cl{padding:48px 24px}
 .cl-body{grid-template-columns:1fr;gap:0;max-width:560px;margin:0 auto}
-.cl-wires{position:relative;min-height:auto;height:74px}
+.cl-wires{position:relative;min-height:auto;height:48px;margin:4px 0}
 .cl-wires svg{display:none}
 .cl-wires .cl-mwire{display:block;width:100%;height:100%}
 .cl-head{margin-bottom:12px}
 .cl-silos .cl-head,.cl-agents .cl-head{text-align:left}
-.cl-core-col .cl-head{text-align:right}
+.cl-core-col .cl-head{text-align:left}
 .cl-core-col .cl-head-t{font-style:italic}
-.cl-silos .cl-silo{margin-right:26px}
-.cl-core{margin-left:26px}
-.cl-agents{padding-right:26px}
+.cl-col{min-width:0}
 .cl-silos{gap:10px}
 .cl-silo{padding:14px 14px 13px}
 .cl-silo ul{flex-direction:row;flex-wrap:wrap;gap:7px}
 .cl-silo li{font-size:11.5px;gap:0;padding:5px 11px;border:1px solid rgba(var(--p-lav),.16);border-radius:999px;background:rgba(var(--p-lav),.06)}
 .cl-silo li::before{display:none}
 .cl-silo .cl-more{display:inline-flex;margin-top:9px;padding:4px 11px;border:1px dashed rgba(var(--p-lav),.25);border-radius:999px;padding-left:11px}
-.cl-core{padding:24px 20px 22px}
+/* Source tiles — contain overflow, stack icon over label */
+.cl-silo-grid{gap:6px}
+.cl-silo-tile{min-width:0;padding:8px 4px;aspect-ratio:1/1;flex-direction:column;gap:4px}
+.cl-silo-tile .cl-brand{width:40%;height:40%}
+.cl-silo-tile .cl-silo-label{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-family:var(--mono);font-size:9px;line-height:1.15;letter-spacing:.04em;text-align:center;color:var(--muted);text-transform:none;opacity:.85;max-width:100%;word-break:break-word}
+.cl-silo-tile.cl-text .cl-glyph{font-size:11px}
+/* Compact orbit + hex core (~200px) */
+.cl-core-col{display:flex;flex-direction:column;align-items:center}
+.cl-core-col .cl-head{align-self:flex-start;width:100%}
+.cl-core{width:200px;height:200px;padding:0;background:none;border:none;box-shadow:none;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:visible;margin:8px auto 0}
+.cl-core::before,.cl-core::after{display:none}
+.cl-core-tag,.cl-core-title{display:none}
+.cl-core-orbit{position:absolute;inset:0;width:200px;height:200px;display:block;pointer-events:none;overflow:visible}
+.cl-core-hex{position:absolute;inset:0;margin:auto;width:98px;height:98px;display:flex;align-items:center;justify-content:center;z-index:2}
+.cl-core-hex svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.cl-hex-frame{stroke:rgba(var(--p-lav),.5);stroke-width:1;fill:rgba(var(--p-lav),.04)}
+.cl-hex-pulse{stroke:rgba(var(--p-lav),.9);stroke-width:1;fill:none;opacity:0}
+.cl-core-glyph{position:relative;z-index:3;margin:0;display:flex;justify-content:center}
+.cl-core-chip{padding:0;background:none;border:none;box-shadow:none}
+.cl-core-chip img{width:52px!important;height:52px!important}
+.cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.55);letter-spacing:.32em;text-transform:uppercase;font-size:8px}
+.cl-orbit-in .cl-orbit-text{fill:rgba(var(--p-lav),.32);font-size:6.5px;letter-spacing:.28em}
+.cl-orbit-out,.cl-orbit-in{transform-box:fill-box;transform-origin:50% 50%}
+.cl-orbit-in{display:block;animation:cl-rot-rev 60s linear infinite}
+.cl-core-tagline{display:block;font-family:var(--serif);font-style:italic;font-size:12px;color:var(--muted);text-align:center;margin:10px auto 0;max-width:24ch}
 .cl-agents{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cl-agents .cl-head{grid-column:1/-1}.cl-agents .cl-more{grid-column:1/-1}
-.cl-agent{padding:9px 11px;font-size:12.5px;gap:9px}
+.cl-agent{padding:10px 8px;font-size:12.5px;gap:9px;min-width:0}
+.cl-agent-label{font-size:10px;letter-spacing:.1em}
 .cl-agent .ico{width:22px;height:22px}
 .cl-agents .cl-agent.span2{grid-column:1/-1;justify-content:center}
 }
-@media (max-width:520px){.st-cl{padding:40px 18px}}
+@media (max-width:520px){
+.st-cl{padding:36px 14px}
+.cl-silo-grid{gap:5px}
+.cl-silo-tile .cl-silo-label{font-size:8.5px}
+}
 .st-prob{padding:48px 56px 40px;background:radial-gradient(130% 120% at 50% 0%, var(--void-2) 0%, var(--void) 58%, var(--void-3) 100%)}
 .wrap{max-width:1000px;margin:0 auto;position:relative;z-index:2}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.34em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:18px}
