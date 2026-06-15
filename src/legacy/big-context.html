@@ -1116,7 +1116,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 /* Mobile-only: collapse 12 failure-mode cards behind "Show all" expander */
 (function(){
   const grid=document.getElementById('grid'); if(!grid) return;
-  const mq=matchMedia('(max-width:760px)');
+  const mq=matchMedia('(max-width:820px)');
   let btn=null;
   function mount(){
     if(!mq.matches){ if(btn){btn.remove();btn=null;} grid.classList.remove('bc-expanded'); return; }
