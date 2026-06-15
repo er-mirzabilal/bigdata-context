@@ -180,7 +180,7 @@ a{color:inherit;text-decoration:none}
 .bc-stat-cta{display:inline-block;margin-top:16px;font-family:var(--sans);font-size:.92rem;color:var(--muted-2);transition:color .2s}
 .bc-stat-cta span{color:var(--lavender);font-weight:500}
 .bc-stat-cta:hover span{color:var(--lavender-hot)}
-@media(max-width:760px){.bc-stats{grid-template-columns:1fr;gap:36px}}
+@media(max-width:760px){.bc-stats{display:flex;grid-template-columns:none;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-left:-20px;margin-right:-20px;padding:4px 20px 12px}.bc-stats::-webkit-scrollbar{display:none}.bc-stats .bc-stat{flex:0 0 78%;min-width:240px;scroll-snap-align:start}}
 @media(prefers-reduced-motion:reduce){.bc-mq-track{animation:none}}
 .bc-foot{border-top:.5px solid var(--line);padding:54px 0 42px}
 .bc-foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:46px}
@@ -324,8 +324,7 @@ svg.atom{width:100%;height:100%;display:block;overflow:visible}
 .tier-cta:hover{gap:12px}
 .ledger{margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--muted-2);letter-spacing:.04em;line-height:1.7;border-top:1px solid var(--ring-dim);padding-top:14px}
 .ledger b{color:var(--lavender);font-weight:500}
-@media (max-width:900px){.st-atom{padding:40px 22px}.layout{grid-template-columns:1fr;gap:14px;margin-top:14px}.atom-wrap{max-width:380px}.legend{margin-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.tier-name{font-size:19px;white-space:normal}.tier-desc{font-size:13px;margin-top:6px}.hint{display:none}.headline{white-space:normal;font-size:clamp(26px,7vw,38px)}}
-@media (max-width:560px){.legend{grid-template-columns:1fr}}
+@media (max-width:900px){.st-atom{padding:40px 22px}.layout{grid-template-columns:1fr;gap:14px;margin-top:14px}.atom-wrap{max-width:380px}.legend{margin-top:6px;display:grid;grid-template-columns:1fr;gap:10px}.tier-name{font-size:19px;white-space:normal}.tier-desc{font-size:13px;margin-top:6px}.hint{display:none}.headline{white-space:normal;font-size:clamp(26px,7vw,38px)}}
 .tl-shell{margin:0;position:relative;border:1px solid rgba(var(--p-lav),.10);border-radius:16px;background:linear-gradient(180deg,rgba(124,58,142,.05),rgba(124,58,142,0));padding:8px;overflow:hidden}
 .tl-cap{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;margin:0 4px 14px;transition:opacity .45s}
 .tl-cap-text{max-width:54ch}
@@ -374,7 +373,7 @@ svg.tl{width:100%;height:auto;display:block}
 .payoff{margin-top:26px;font-family:var(--serif);font-size:clamp(18px,2.3vw,26px);color:#6f6288;transition:color .6s ease}
 .payoff b{font-weight:500;color:#8a7ca0;transition:color .6s ease}
 .on-payoff .payoff{color:var(--paper)} .on-payoff .payoff b{color:var(--lavender)}
-@media (max-width:820px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
 @media (max-width:520px){.st-prob{padding:48px 20px}.st-lin{padding:48px 20px}.grid{grid-template-columns:1fr}}
 .bc-closeout{position:relative;overflow:hidden}
 .bc-neural{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
@@ -397,6 +396,8 @@ svg.tl{width:100%;height:auto;display:block}
   #bc-particles{opacity:.45}
   .bc-hero-cta .bc-btn:not(.bc-btn-ghost){order:-1}
   .bc-hero-cta .bc-btn-ghost{font-size:11.5px}
+  .bc-hero-cta{flex-direction:column;align-items:stretch;gap:10px}
+  .bc-hero-cta .bc-btn{width:100%;justify-content:center}
 
   /* 2. Thesis — promote closer to pull-quote */
   .bc-thesis .bc-punch{font-size:1.05rem;line-height:1.45;margin-bottom:28px}
@@ -420,8 +421,7 @@ svg.tl{width:100%;height:auto;display:block}
   .tier::after{content:"›";position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--lavender);font-size:22px;line-height:1;opacity:.55}
   .tier:active{background:rgba(109,47,145,.18)}
 
-  /* 7. Our Advantage — compact stat cards */
-  .bc-stats{gap:14px}
+  /* 7. Our Advantage — single-row horizontal scroll cards */
   .bc-stat{background:rgba(20,12,30,.5);border:1px solid var(--line);border-radius:14px;padding:18px 18px}
   .bc-stat .num{font-size:2.6rem}
   .bc-stat .lbl{font-size:.92rem;margin-top:6px}
