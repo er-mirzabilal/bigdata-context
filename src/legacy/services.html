@@ -381,6 +381,22 @@ html{overflow-x:hidden}
 .sv-bio{display:none}
 .sv-bio li{font-family:var(--sans);font-size:13px;color:var(--muted);padding:3px 0 3px 15px;position:relative}
 .sv-bio li::before{content:"";position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:var(--lavender)}
+.sv-partner{cursor:default;transition:border-color .25s,transform .25s,box-shadow .25s}
+.sv-partner:hover{border-color:rgba(var(--p-lav),.45);transform:translateY(-3px);box-shadow:0 18px 50px -22px rgba(var(--p-lav),.35),inset 0 1px 0 rgba(255,255,255,.08)}
+.sv-partner .sv-bio{display:block;width:100%;max-height:0;overflow:hidden;opacity:0;margin:0;padding:0;list-style:none;transition:max-height .45s ease,opacity .35s ease,margin-top .35s ease}
+.sv-partner:hover .sv-bio,.sv-partner:focus-within .sv-bio{max-height:200px;opacity:1;margin-top:16px}
+@media(hover:none){.sv-partner .sv-bio{max-height:200px;opacity:1;margin-top:14px}}
+
+/* Get Started section */
+.sv-cta-sec{padding:clamp(96px,12vh,150px) 0}
+.sv-cta-card{position:relative;background:linear-gradient(160deg,rgba(109,47,145,.22),rgba(20,12,30,.6));border:1px solid rgba(var(--p-lav),.32);border-radius:22px;padding:clamp(40px,6vw,72px);overflow:hidden}
+.sv-cta-card::before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 30% 30%,rgba(var(--p-lav),.18),transparent 55%);pointer-events:none}
+.sv-cta-card>*{position:relative}
+.sv-cta-h{font-family:var(--serif);font-weight:500;font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1.05;letter-spacing:-.02em;color:var(--paper);max-width:22ch}
+.sv-cta-h em{font-style:italic;color:var(--emph)}
+.sv-cta-sub{font-family:var(--sans);font-size:1.05rem;color:var(--muted);line-height:1.6;margin-top:18px;max-width:52ch}
+.sv-cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px;align-items:center}
+.sv-cta-meta{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);margin-left:6px}
 @media (max-width:720px){.sv-partners{gap:12px}.sv-partner{padding:20px 15px}.sv-ava{width:52px;height:52px;font-size:18px;margin-bottom:11px}.sv-partner .nm{font-size:16px}.sv-partner .role{font-size:9px}.sv-bio li{font-size:11px;padding:2px 0 2px 13px}}
 @media (max-width:720px){.sv-buckets{gap:13px}.sv-bucket{padding:22px 18px 16px}.sv-bucket h3{font-size:clamp(1.3rem,4.4vw,1.7rem)}.sv-bucket li{font-size:13.5px;padding:13px 0;gap:9px}}
 @media (max-width:430px){.sv-buckets{grid-template-columns:1fr}}
@@ -484,6 +500,23 @@ html{overflow-x:hidden}
   </div>
 </section>
 
+<div class="bc-divider"></div>
+
+<section class="bc-section sv-cta-sec" id="get-started">
+  <div class="bc-wrap">
+    <div class="sv-cta-card">
+      <div class="bc-eyebrow"><span class="bar"></span>Get Started&nbsp;&nbsp;/&nbsp;&nbsp;04</div>
+      <h2 class="sv-cta-h">Ready to make your data work <em>at AI-scale?</em></h2>
+      <p class="sv-cta-sub">Tell us about your data estate and the outcome you&rsquo;re after. We&rsquo;ll scope an engagement and respond within two business days.</p>
+      <div class="sv-cta-row">
+        <a class="bc-btn" href="mailto:hello@bigcontext.co?subject=Engagement%20inquiry">Talk to us <span>&rarr;</span></a>
+        <a class="bc-btn bc-btn-ghost" href="/">Back to overview</a>
+        <span class="sv-cta-meta">hello@bigcontext.co</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="bc-foot">
   <div class="bc-wrap">
     <div class="bc-foot-top">
@@ -492,9 +525,9 @@ html{overflow-x:hidden}
         <p>Make enterprise data work at AI-scale.</p>
       </div>
       <div class="bc-foot-nav">
-        <div class="bc-foot-col"><h4>Product</h4><a href="big-context-aubergine.html#">BCOS Platform</a><a href="big-context-aubergine.html#">The Transformation Firm</a><a href="big-context-aubergine.html#">Open Pragmatics Standard</a></div>
-        <div class="bc-foot-col"><h4>Resources</h4><a href="big-context-aubergine.html#">Whitepaper</a><a href="big-context-aubergine.html#">AI Readiness Test</a><a href="big-context-aubergine.html#">Ecosystem</a></div>
-        <div class="bc-foot-col"><h4>Company</h4><a href="big-context-aubergine.html#">About</a><a href="big-context-aubergine.html#">Contact</a><a href="big-context-aubergine.html#">Careers</a></div>
+        <div class="bc-foot-col"><h4>Product</h4><a href="/">BCOS Platform</a><a href="/services">The Transformation Firm</a><a href="/">Open Pragmatics Standard</a></div>
+        <div class="bc-foot-col"><h4>Resources</h4><a href="/">Whitepaper</a><a href="/">AI Readiness Test</a><a href="/">Ecosystem</a></div>
+        <div class="bc-foot-col"><h4>Company</h4><a href="#sv-firm">About</a><a href="#get-started">Contact</a><a href="mailto:careers@bigcontext.co">Careers</a></div>
       </div>
     </div>
     <div class="bc-foot-bar">
