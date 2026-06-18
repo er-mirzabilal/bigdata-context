@@ -386,9 +386,10 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-silo ul{gap:5px}
   .cl-silo li{font-size:11px;padding:3px 8px}
 
-   /* 4. Ecosystem — narrower logo cards, stronger edge fade */
+   /* 4. Ecosystem — narrower logo cards, stronger edge fade, normalize logo size */
    .bc-marquee{-webkit-mask:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
-   .bc-logo{width:128px;padding:12px}
+   .bc-logo{width:112px;padding:10px}
+   .bc-logo img{max-width:72%;max-height:48%}
 
   /* 5. Pragmatics — bigger tap target on OPS link */
   .bc-prag-link{font-size:13px;padding:12px 16px;border:1px solid rgba(var(--p-lav),.4);border-radius:999px;min-height:44px;background:rgba(var(--p-lav),.06)}
@@ -416,8 +417,8 @@ svg.tl{width:100%;height:auto;display:block}
   .bc-cta-row{min-height:44px;-webkit-tap-highlight-color:transparent}
   .bc-cta-row:active{background:rgba(109,47,145,.18);transform:scale(.99)}
 
-  /* 10. Closeout flip — fix layout shift */
-  .bc-flip{display:inline-block;min-width:6.5ch;text-align:left}
+  /* 10. Closeout flip — keep caret hugging the word (no extra trailing space) */
+  .bc-flip{display:inline-block;min-width:0;text-align:left;white-space:nowrap}
 }
 @media (max-width:760px) and (prefers-reduced-motion:reduce){
   .bc-nav{transition:none}
