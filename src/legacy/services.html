@@ -73,21 +73,6 @@ a{color:inherit;text-decoration:none}
   .bc-nav-links .bc-btn{padding:8px 14px;font-size:11px;white-space:nowrap;flex-shrink:0}
 }
 
-/* Mobile hamburger menu */
-.bc-burger{display:none;width:38px;height:38px;border-radius:50%;border:1px solid rgba(var(--p-lav),.25);background:rgba(20,12,30,.55);color:var(--lavender);cursor:pointer;align-items:center;justify-content:center;flex:0 0 auto;padding:0}
-.bc-burger span{display:block;width:16px;height:1.5px;background:currentColor;position:relative}
-.bc-burger span::before,.bc-burger span::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:currentColor;transition:transform .25s}
-.bc-burger span::before{top:-5px}.bc-burger span::after{top:5px}
-.bc-burger[aria-expanded="true"] span{background:transparent}
-.bc-burger[aria-expanded="true"] span::before{transform:translateY(5px) rotate(45deg)}
-.bc-burger[aria-expanded="true"] span::after{transform:translateY(-5px) rotate(-45deg)}
-.bc-mobile-menu{position:fixed;top:64px;left:10px;right:10px;z-index:99;background:rgba(10,6,16,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(199,157,240,.18);border-radius:18px;padding:18px 8px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility .25s;box-shadow:0 18px 60px rgba(0,0,0,.6)}
-.bc-mobile-menu.open{opacity:1;visibility:visible;transform:none}
-.bc-mobile-menu a{display:block;padding:14px 18px;font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--paper);border-radius:10px;transition:background .2s,color .2s}
-.bc-mobile-menu a:hover,.bc-mobile-menu a:focus-visible{background:rgba(var(--p-lav),.1);color:var(--lavender)}
-@media(max-width:860px){.bc-burger{display:inline-flex}}
-@media(min-width:861px){.bc-mobile-menu{display:none!important}}
-
 .bc-hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:80px;overflow:hidden;background:radial-gradient(120% 90% at 62% 42%, var(--void-2) 0%, var(--void) 58%, var(--void-3) 100%)}
 #bc-particles{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .bc-bloom{position:absolute;z-index:0;left:60%;top:44%;width:60vw;height:60vw;max-width:880px;max-height:880px;transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;border-radius:50%;background:radial-gradient(circle, var(--bloom-1), var(--bloom-2) 34%, transparent 64%);filter:blur(10px);animation:bcBloom 2.2s cubic-bezier(.16,1,.3,1) forwards .2s, bcBreathe 7s ease-in-out infinite 2.4s}
@@ -347,7 +332,7 @@ svg.tl{width:100%;height:auto;display:block}
 
 /* ===== services page ===== */
 html{overflow-x:hidden}
-.sv-hero{position:relative;min-height:clamp(520px,68vh,760px);display:flex;align-items:center;padding:90px 0}
+.sv-hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:90px 0}
 .sv-top{position:relative}
 .sv-top .bc-wrap{position:relative;z-index:2}
 .sv-orb{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
@@ -433,8 +418,7 @@ html{overflow-x:hidden}
 
 /* Mobile UX overrides */
 @media (max-width:640px){
-  .bc-section{padding:64px 0}
-  .sv-hero{min-height:auto;padding:96px 0 48px}
+  .sv-hero{min-height:100vh;padding:96px 0 80px}
   .sv-cta-sec{padding:56px 0}
   .sv-lead{font-size:1.05rem;margin-top:22px}
   .sv-buckets{grid-template-columns:1fr;gap:14px}
@@ -467,17 +451,9 @@ html{overflow-x:hidden}
       <a href="#sv-firm">Firm</a>
       <a href="#get-started" class="bc-btn">Get Started</a>
     </div>
-    <button class="bc-burger" id="bcBurger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="bcMobileMenu"><span></span></button>
     <div class="bc-nav-prog" aria-hidden="true"><i id="bcNavProg"></i></div>
   </div>
 </nav>
-<div class="bc-mobile-menu" id="bcMobileMenu" role="menu">
-  <a href="#sv-approach" role="menuitem">Approach</a>
-  <a href="#sv-services" role="menuitem">Services</a>
-  <a href="#sv-firm" role="menuitem">Firm</a>
-  <a href="#get-started" role="menuitem">Get Started</a>
-  <a href="/" role="menuitem">Home</a>
-</div>
 
 <div class="sv-top">
 <canvas id="sv-orb" class="sv-orb"></canvas>
@@ -486,6 +462,7 @@ html{overflow-x:hidden}
     <div class="sv-kicker">The Transformation Firm</div>
     <h1 class="sv-h1">AI-native <em>data operations.</em></h1>
   </div>
+  <a class="bc-cue" href="#sv-approach" aria-label="Scroll to approach"><span class="l"></span><span class="t">Scroll</span></a>
 </section>
 
 <div class="bc-divider"></div>
@@ -646,21 +623,6 @@ html{overflow-x:hidden}
   size(); window.addEventListener('resize',size); requestAnimationFrame(frame);
 })();
 /* Navbar scroll behavior: compact pill + progress hairline */
-(function(){
-  const burger=document.getElementById('bcBurger');
-  const menu=document.getElementById('bcMobileMenu');
-  if(burger&&menu){
-    const close=()=>{burger.setAttribute('aria-expanded','false');menu.classList.remove('open');};
-    burger.addEventListener('click',()=>{
-      const open=burger.getAttribute('aria-expanded')==='true';
-      burger.setAttribute('aria-expanded',String(!open));
-      menu.classList.toggle('open',!open);
-    });
-    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
-    document.addEventListener('click',e=>{if(!menu.contains(e.target)&&!burger.contains(e.target))close();});
-    window.addEventListener('resize',()=>{if(innerWidth>860)close();});
-  }
-})();
 (function(){
   const nav=document.getElementById('bcNav');
   const prog=document.getElementById('bcNavProg');
