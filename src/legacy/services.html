@@ -624,21 +624,6 @@ html{overflow-x:hidden}
 })();
 /* Navbar scroll behavior: compact pill + progress hairline */
 (function(){
-  const burger=document.getElementById('bcBurger');
-  const menu=document.getElementById('bcMobileMenu');
-  if(burger&&menu){
-    const close=()=>{burger.setAttribute('aria-expanded','false');menu.classList.remove('open');};
-    burger.addEventListener('click',()=>{
-      const open=burger.getAttribute('aria-expanded')==='true';
-      burger.setAttribute('aria-expanded',String(!open));
-      menu.classList.toggle('open',!open);
-    });
-    menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
-    document.addEventListener('click',e=>{if(!menu.contains(e.target)&&!burger.contains(e.target))close();});
-    window.addEventListener('resize',()=>{if(innerWidth>860)close();});
-  }
-})();
-(function(){
   const nav=document.getElementById('bcNav');
   const prog=document.getElementById('bcNavProg');
   if(!nav) return;
