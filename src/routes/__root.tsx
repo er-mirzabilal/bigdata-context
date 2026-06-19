@@ -7,10 +7,9 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -37,9 +36,6 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -77,18 +73,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Web Page Reborn converts HTML web pages into React components, preserving original design and content." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Web Page Reborn converts HTML web pages into React components, preserving original design and content." },
+      { title: "Big Context & Company" },
+      { name: "description", content: "Make enterprise data work at AI-scale." },
+      { name: "author", content: "Big Context & Company" },
+      { property: "og:title", content: "Big Context & Company" },
+      { property: "og:description", content: "Make enterprise data work at AI-scale." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Web Page Reborn converts HTML web pages into React components, preserving original design and content." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0097f63c-8a99-49e9-a999-7df0bfcd6bdd/id-preview-c69d7126--8c05e7a5-e985-4b04-b07b-1ded994cd6fd.lovable.app-1780829956241.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0097f63c-8a99-49e9-a999-7df0bfcd6bdd/id-preview-c69d7126--8c05e7a5-e985-4b04-b07b-1ded994cd6fd.lovable.app-1780829956241.png" },
+      { name: "twitter:title", content: "Big Context & Company" },
+      { name: "twitter:description", content: "Make enterprise data work at AI-scale." },
     ],
     links: [
       {
