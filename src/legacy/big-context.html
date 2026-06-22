@@ -253,6 +253,7 @@ a:focus-visible,button:focus-visible,[role="button"]:focus-visible,[tabindex]:fo
 .cl-core::after{content:"";position:absolute;top:0;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,rgba(var(--p-lav),.55),transparent)}
 .cl-core-chip{display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:14px;background:rgba(var(--p-lav),.13);border:1px solid rgba(var(--p-lav),.3);box-shadow:0 0 28px -8px rgba(var(--p-lav),.55)}
 .cl-core-glyph{display:flex;justify-content:center;margin-bottom:12px}
+.cl-core-caption{display:none}
 .cl-core-tag{font-family:var(--mono);font-size:10px;letter-spacing:.26em;color:var(--lavender);text-transform:uppercase;margin-bottom:9px}
 .cl-core-title{font-family:var(--serif);font-size:clamp(1.4rem,2.3vw,2rem);font-weight:500;line-height:1.04;letter-spacing:-.02em;font-style:italic;color:var(--lavender-hot);margin-bottom:20px}
 .cl-feats{list-style:none;margin:0;padding:0;display:inline-flex;flex-direction:column;gap:11px;text-align:left}
@@ -565,7 +566,6 @@ svg.tl{width:100%;height:auto;display:block}
 @keyframes cl-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 @keyframes clLogoPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(199,157,240,.45))}50%{filter:drop-shadow(0 0 22px rgba(199,157,240,.9)) drop-shadow(0 0 8px rgba(240,224,255,.55))}}
 @keyframes clLogoActive{0%{filter:drop-shadow(0 0 8px rgba(199,157,240,.45))}100%{filter:drop-shadow(0 0 36px rgba(199,157,240,1)) drop-shadow(0 0 18px rgba(240,224,255,.9))}}
-.cl-core-caption{display:none}
 @media (prefers-reduced-motion:reduce){.cl-core-hex,.cl-orbit-out,.cl-orbit-in,.cl-agent{animation:none!important}}
 /* ===== Thesis figure — mobile (≤880px) ===== */
 @media (max-width:880px){
