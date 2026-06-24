@@ -637,8 +637,8 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-hex-pulse{stroke:rgba(var(--p-lav),.9);stroke-width:1;fill:none;opacity:0;transform-origin:50% 50%;transform-box:fill-box}
   .cl-core.is-active .cl-hex-pulse{animation:cl-hexpulse .65s ease-out}
   .cl-core-orbit{display:block;position:absolute;inset:0;margin:auto;width:240px;height:240px;overflow:visible;pointer-events:none;z-index:1}
-  /* Lock orbit text as a static ring centered on the logo — no rotation on mobile */
-  .cl-core-orbit .cl-orbit-out,.cl-core-orbit .cl-orbit-in{transform:none!important;animation:none!important}
+  .cl-orbit-out{transform-box:fill-box;transform-origin:50% 50%;animation:cl-rot 90s linear infinite}
+  .cl-orbit-in{transform-box:fill-box;transform-origin:50% 50%;animation:cl-rot-rev 60s linear infinite}
   .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.55);letter-spacing:.34em;text-transform:uppercase;font-size:8px}
   .cl-core-orbit .cl-orbit-in .cl-orbit-text{fill:rgba(var(--p-lav),.55);font-size:8px;letter-spacing:.34em}
   .cl-pulse-dot{display:none}
