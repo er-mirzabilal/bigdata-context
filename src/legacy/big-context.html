@@ -123,6 +123,9 @@ a{color:inherit;text-decoration:none}
 .bc-closer{font-family:var(--serif);font-size:clamp(1.2rem,1.8vw,1.5rem);color:var(--paper);font-weight:400;line-height:1.4;border-left:1px solid var(--lavender);padding-left:24px}
 .bc-closer em{font-style:italic;color:var(--emph)}
 @media(max-width:760px){.bc-thesis-grid{grid-template-columns:1fr;gap:34px}.bc-thesis .bc-h2{white-space:normal;font-size:clamp(2rem,7vw,2.6rem)}}
+.bc-prag-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.bc-prag-cards{display:flex;flex-direction:column;gap:12px}
+@media(max-width:760px){.bc-prag-grid{grid-template-columns:1fr;gap:32px}}
 .bc-prag-intro{font-family:var(--serif);font-size:clamp(1.6rem,2.9vw,2.3rem);color:var(--paper);font-weight:400;line-height:1.28;max-width:38ch;margin:0 0 56px}
 .bc-prag-link{display:inline-flex;align-items:center;gap:7px;margin-top:26px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--lavender);transition:gap .25s}
 .bc-prag-link:hover{gap:11px}
@@ -759,10 +762,25 @@ svg.tl{width:100%;height:auto;display:block}
   <div class="bc-wrap">
     <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Pragmatics&nbsp;&nbsp;/&nbsp;&nbsp;03</div>
     <h2 class="bc-h2 bc-reveal">The semantic layer is dead.<br><em>Long live the semantic layer.</em></h2>
-    <p class="bc-body bc-reveal" style="margin-top:30px">The semantic layer is 35 years old, conceived for a pre-AI world. It&rsquo;s a partial view of what your data means, built for static work.</p>
-    <p class="bc-prag-intro bc-reveal">AI requires a new paradigm. We call it <em>the pragmatic layer</em> &mdash; a living, 360&deg; view of what your data <em>means in context.</em></p>
-    <p class="bc-body bc-reveal" style="margin-top:0">We wrote the <em>Open Pragmatics Standard</em> (OPS) to define it openly &mdash; playbooks, reference architecture, and community tools to build a pragmatic context layer in house.</p>
-    <a href="#building-blocks" class="bc-prag-link bc-reveal">See OPS resources &rarr;</a>
+    <div class="bc-prag-grid" style="margin-top:30px">
+      <div>
+        <p class="bc-body bc-reveal">The semantic layer is 35 years old, conceived for a pre-AI world. It&rsquo;s a partial view of what your data means, built for static work.</p>
+        <p class="bc-body bc-reveal">We wrote the <em>Open Pragmatics Standard</em> (OPS) to define it openly &mdash; playbooks, reference architecture, and community tools to build a pragmatic context layer in house.</p>
+        <a href="#building-blocks" class="bc-prag-link bc-reveal">See OPS resources &rarr;</a>
+      </div>
+      <div class="bc-prag-cards bc-reveal">
+        <div class="bc-card">
+          <div class="ct">Semantic Layer &middot; 1990s</div>
+          <p class="cs">Static, <em>partial</em> view</p>
+          <p class="cd">Hand-built ontologies, always stale. Limited to schema and basic metadata &mdash; blind to behavior, intent, and runtime context.</p>
+        </div>
+        <div class="bc-card feat">
+          <div class="ct">Pragmatic Layer &middot; Now</div>
+          <p class="cs">Living, <em>360&deg; view</em></p>
+          <p class="cd">Continuously reconciled context &mdash; schema, semantics, tribal knowledge, behavior, and runtime signals unified in one layer.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
