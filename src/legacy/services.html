@@ -348,7 +348,7 @@ html{overflow-x:hidden}
 .sv-lockup .x{font-family:var(--serif);font-style:italic;font-size:clamp(2.2rem,4.6vw,3.4rem);line-height:1;color:var(--lavender);filter:drop-shadow(0 0 16px rgba(var(--p-lav),.55))}
 .sv-lead{font-family:var(--sans);font-size:clamp(1.2rem,1.95vw,1.6rem);line-height:1.45;color:var(--paper);max-width:46ch;margin-top:30px;font-weight:400}
 .sv-lead em{font-style:italic;color:var(--emph)}
-.sv-buckets{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:38px}
+.sv-buckets{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;margin-top:38px}
 .sv-bucket{background:rgba(16,10,26,.85);border:1px solid var(--line);border-radius:18px;padding:30px 30px 22px;transition:border-color .25s}
 .sv-bucket:hover{border-color:rgba(var(--p-lav),.32)}
 .sv-bucket h3{font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2.05rem);font-weight:500;letter-spacing:-.02em;color:var(--lavender-hot)}
@@ -405,7 +405,7 @@ html{overflow-x:hidden}
 .sv-msg:focus{outline:none;border-color:rgba(var(--p-lav),.42)}
 @media (max-width:720px){.sv-partners{gap:12px}.sv-partner{padding:20px 15px}.sv-ava{width:52px;height:52px;font-size:18px;margin-bottom:11px}.sv-partner .nm{font-size:16px}.sv-partner .role{font-size:9px}.sv-bio li{font-size:11px;padding:2px 0 2px 13px}}
 @media (max-width:640px){.sv-msg{max-width:100%}}
-@media (max-width:720px){.sv-buckets{gap:13px}.sv-bucket{padding:22px 18px 16px}.sv-bucket h3{font-size:clamp(1.3rem,4.4vw,1.7rem)}.sv-bucket li{font-size:13.5px;padding:13px 0;gap:9px}}
+@media (max-width:720px){.sv-buckets{gap:13px;grid-template-columns:1fr 1fr}.sv-bucket{padding:22px 18px 16px}.sv-bucket h3{font-size:clamp(1.3rem,4.4vw,1.7rem)}.sv-bucket li{font-size:13.5px;padding:13px 0;gap:9px}}
 @media (max-width:430px){.sv-buckets{grid-template-columns:1fr}}
 .sv-swap{position:relative;transition:height .55s cubic-bezier(.5,.05,.18,1)}
 .sv-pane{position:absolute;top:0;left:0;width:100%;opacity:0;visibility:hidden;transform:translateX(56px);transition:opacity .4s ease,transform .55s cubic-bezier(.5,.05,.18,1)}
@@ -466,7 +466,9 @@ html{overflow-x:hidden}
 <canvas id="sv-orb" class="sv-orb"></canvas>
 <section class="bc-section sv-hero">
   <div class="bc-wrap">
-    <h1 class="sv-h1">AI-accelerated<br><em>data operations.</em></h1>
+    <div class="sv-kicker">Big Context&trade; &amp; Company</div>
+    <h1 class="sv-h1">The only AI firm<br>for data.</h1>
+    <p class="sv-lead" style="margin-top:18px">Legacy data work, accelerated by AI.</p>
   </div>
   <a class="bc-cue" href="#sv-approach" aria-label="Scroll to approach"><span class="l"></span><span class="t">Scroll</span></a>
 </section>
@@ -477,7 +479,7 @@ html{overflow-x:hidden}
   <div class="bc-wrap">
     <div class="bc-eyebrow"><span class="bar"></span>Our approach&nbsp;&nbsp;/&nbsp;&nbsp;01</div>
     <h2 class="bc-h2">Done for you. <em>By the Job.</em></h2>
-    <p class="sv-lead">AI sets the pace. Data experts &amp; context&nbsp;engineers&nbsp;review. All&nbsp;powered&nbsp;by&nbsp;our&nbsp;proprietary&nbsp;Big&nbsp;Context&trade;&nbsp;OS.<br>Every engagement delivers both an <em>elite outcome</em> and reusable <em>data context</em>.</p>
+    <p class="sv-lead">AI sets the pace. Elite data experts &amp; context engineers review. All powered by our proprietary Big Context&trade; OS.</p>
   </div>
 </section>
 </div>
@@ -486,16 +488,17 @@ html{overflow-x:hidden}
 
 <section class="bc-section" id="sv-services">
   <div class="bc-wrap">
-    <div class="bc-eyebrow"><span class="bar"></span>Transformation Services&nbsp;&nbsp;/&nbsp;&nbsp;02</div>
-    <h2 class="bc-h2">Whether it&rsquo;s building new data capabilities or clearing work across your data estate, <em>we&rsquo;ve got you covered.</em></h2>
+    <div class="bc-eyebrow"><span class="bar"></span>Data Transformation Services&nbsp;&nbsp;/&nbsp;&nbsp;02</div>
+    <h2 class="bc-h2">Your AI-powered data <em>A.R.M.</em></h2>
+    <p class="bc-body" style="max-width:52ch;margin-top:14px;margin-bottom:0">Whether building new data capabilities or clearing work across your data estate, we&rsquo;ve got you covered.</p>
     <div class="sv-buckets">
       <div class="sv-bucket">
-        <h3>Modernization</h3>
-        <div class="sub">Accelerate forward</div>
+        <h3>Augmentation</h3>
+        <div class="sub">Embed the Experts</div>
         <ul>
-          <li>AI-Ready Foundations</li>
-          <li>Downstream Activation</li>
-          <li>Intelligence Layer Builds</li>
+          <li>Context-Experts-in-the-Loop</li>
+          <li>Drop-in Analysts &amp; Engineers</li>
+          <li>Data Management Office (DMO)</li>
         </ul>
       </div>
       <div class="sv-bucket">
@@ -507,8 +510,16 @@ html{overflow-x:hidden}
           <li>Metrics &amp; Models Harmonization</li>
         </ul>
       </div>
+      <div class="sv-bucket">
+        <h3>Modernization</h3>
+        <div class="sub">Accelerate forward</div>
+        <ul>
+          <li>AI-Ready Foundations</li>
+          <li>Downstream Activation</li>
+          <li>Intelligence Layer Builds</li>
+        </ul>
+      </div>
     </div>
-    <div class="sv-more">&mdash;&ensp;and more&ensp;&mdash;</div>
   </div>
 </section>
 
@@ -537,7 +548,7 @@ html{overflow-x:hidden}
   <div class="sv-cta-banner">
     <div class="bc-wrap">
       <div class="bc-eyebrow"><span class="bar"></span>Partner With Us&nbsp;&nbsp;/&nbsp;&nbsp;04</div>
-      <h2 class="sv-cta-h">Our goal is to help you make the most of <em>your data estate.</em></h2>
+      <h2 class="sv-cta-h">Our mission is to bridge the gap between the potential of your data and the promise of AI.</h2>
       <div class="sv-cta-row">
         <a class="bc-btn" id="sv-cta-btn" href="/get-started">Get Started <span>&rarr;</span></a>
       </div>
