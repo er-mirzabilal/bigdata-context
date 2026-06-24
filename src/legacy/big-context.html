@@ -124,7 +124,8 @@ a{color:inherit;text-decoration:none}
 .bc-closer em{font-style:italic;color:var(--emph)}
 @media(max-width:760px){.bc-thesis-grid{grid-template-columns:1fr;gap:34px}.bc-thesis .bc-h2{white-space:normal;font-size:clamp(2rem,7vw,2.6rem)}}
 .bc-prag-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
-.bc-prag-cards{display:flex;flex-direction:column;gap:12px}
+.bc-prag-figs{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}.bc-pf{margin:0;text-align:center}.bc-pf svg{width:100%;height:auto;display:block;overflow:visible}.bc-pf-cap{display:flex;flex-direction:column;gap:4px;margin-top:10px}.bc-pf-tag{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--p-lav),.5)}.bc-pf-sub{font-family:var(--serif);font-style:italic;font-size:12px;color:rgba(var(--p-lav),.75);letter-spacing:0}
+.pf-a{stroke:rgba(var(--p-lav),.3);fill:none}.pf-ag{stroke:rgba(var(--p-lav),.13);fill:none}.pf-ns{fill:rgba(var(--p-lav),.35)}.pf-np{fill:rgba(var(--p-lav),.6)}.pf-ng{fill:rgba(var(--p-lav),.1);stroke:rgba(var(--p-lav),.14)}.pf-ls{fill:rgba(var(--p-lav),.65);font-family:var(--mono);font-size:7px;letter-spacing:.1em}.pf-lp{fill:rgba(var(--p-lav),.9);font-family:var(--mono);font-size:7px;letter-spacing:.1em}.pf-lg{fill:rgba(var(--p-lav),.22);font-family:var(--mono);font-size:7px;letter-spacing:.1em}.pf-cl{fill:rgba(var(--p-lav),.4);font-family:var(--mono);font-size:8px;letter-spacing:1.5px}.pf-rng{stroke:rgba(var(--p-lav),.48);fill:none}.pf-dot{fill:var(--lavender-hot)}.pf-bdr{stroke:rgba(var(--p-lav),.3);fill:none}
 @media(max-width:760px){.bc-prag-grid{grid-template-columns:1fr;gap:32px}}
 .bc-prag-intro{font-family:var(--serif);font-size:clamp(1.6rem,2.9vw,2.3rem);color:var(--paper);font-weight:400;line-height:1.28;max-width:38ch;margin:0 0 56px}
 .bc-prag-link{display:inline-flex;align-items:center;gap:7px;margin-top:26px;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--lavender);transition:gap .25s}
@@ -768,17 +769,88 @@ svg.tl{width:100%;height:auto;display:block}
         <p class="bc-body bc-reveal">We wrote the <em>Open Pragmatics Standard</em> (OPS) to define it openly &mdash; playbooks, reference architecture, and community tools to build a pragmatic context layer in house.</p>
         <a href="#building-blocks" class="bc-prag-link bc-reveal">See OPS resources &rarr;</a>
       </div>
-      <div class="bc-prag-cards bc-reveal">
-        <div class="bc-card">
-          <div class="ct">Semantic Layer &middot; 1990s</div>
-          <p class="cs">Static, <em>partial</em> view</p>
-          <p class="cd">Hand-built ontologies, always stale. Limited to schema and basic metadata &mdash; blind to behavior, intent, and runtime context.</p>
-        </div>
-        <div class="bc-card feat">
-          <div class="ct">Pragmatic Layer &middot; Now</div>
-          <p class="cs">Living, <em>360&deg; view</em></p>
-          <p class="cd">Continuously reconciled context &mdash; schema, semantics, tribal knowledge, behavior, and runtime signals unified in one layer.</p>
-        </div>
+      <div class="bc-prag-figs bc-reveal">
+
+        <!-- Figure 1: Semantic Layer — partial, static -->
+        <figure class="bc-pf">
+          <svg viewBox="-120 -105 240 215" aria-label="Semantic layer: partial, static coverage" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="pf-sem-bg" cx="45%" cy="38%" r="70%">
+                <stop offset="0%" stop-color="#3a2550" stop-opacity=".6"/><stop offset="100%" stop-color="#1a0f28" stop-opacity=".6"/>
+              </radialGradient>
+            </defs>
+            <!-- Solid arc 260°: from 200° to 100° clockwise -->
+            <path class="pf-a" d="M -70.5,-25.6 A 75,75 0 1,1 -13,73.9" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Dashed gap arc 100°: from 100° to 200° clockwise -->
+            <path class="pf-ag" d="M -13,73.9 A 75,75 0 0,1 -70.5,-25.6" stroke-width="1.2" stroke-dasharray="3 5" stroke-linecap="round"/>
+            <!-- Center -->
+            <circle r="26" fill="url(#pf-sem-bg)"/><circle class="pf-bdr" r="26" stroke-width=".8"/>
+            <text class="pf-cl" text-anchor="middle" y="4">SEM</text>
+            <!-- Nodes on solid arc -->
+            <circle class="pf-ns" cx="0" cy="-75" r="4.5"/>
+            <text class="pf-ls" x="0" y="-83" text-anchor="middle">SCHEMA</text>
+            <circle class="pf-ns" cx="70.5" cy="-25.7" r="4.5"/>
+            <text class="pf-ls" x="78" y="-23" text-anchor="start">METRICS</text>
+            <circle class="pf-ns" cx="57.5" cy="48.2" r="4.5"/>
+            <text class="pf-ls" x="65" y="51" text-anchor="start">ENTITIES</text>
+            <!-- Ghost nodes in gap (missing dimensions) -->
+            <circle class="pf-ng" cx="-57.5" cy="48.2" r="4" stroke-width=".8" stroke-dasharray="2 2"/>
+            <text class="pf-lg" x="-65" y="51" text-anchor="end">CONTEXT</text>
+            <circle class="pf-ng" cx="-73.8" cy="13.1" r="4" stroke-width=".8" stroke-dasharray="2 2"/>
+            <text class="pf-lg" x="-82" y="16" text-anchor="end">TRIBAL</text>
+          </svg>
+          <figcaption class="bc-pf-cap">
+            <span class="bc-pf-tag">Semantic Layer</span>
+            <span class="bc-pf-sub">Static &middot; Partial</span>
+          </figcaption>
+        </figure>
+
+        <!-- Figure 2: Pragmatic Layer — living, 360° -->
+        <figure class="bc-pf">
+          <svg viewBox="-120 -105 240 215" aria-label="Pragmatic layer: living 360-degree view" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="pf-core-g" cx="40%" cy="35%" r="70%">
+                <stop offset="0%" stop-color="var(--lavender-hot)"/><stop offset="55%" stop-color="var(--aubergine)"/><stop offset="100%" stop-color="var(--aubergine-deep)"/>
+              </radialGradient>
+              <radialGradient id="pf-halo-g" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#8a3fb0" stop-opacity=".4"/><stop offset="100%" stop-color="#8a3fb0" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="pf-glow-f" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <path id="pf-circ-p" d="M 75,0 A 75,75 0 1,1 -75,0 A 75,75 0 1,1 75,0"/>
+            </defs>
+            <!-- Halo glow -->
+            <circle r="60" fill="url(#pf-halo-g)"/>
+            <!-- Full orbit ring -->
+            <circle class="pf-rng" r="75" stroke-width="1.5" filter="url(#pf-glow-f)"/>
+            <!-- Animated pulse dots -->
+            <circle class="pf-dot" r="2.8" opacity=".9"><animateMotion dur="5s" begin="0s" repeatCount="indefinite"><mpath href="#pf-circ-p"/></animateMotion></circle>
+            <circle class="pf-dot" r="2.8" opacity=".6"><animateMotion dur="5s" begin="-2.5s" repeatCount="indefinite"><mpath href="#pf-circ-p"/></animateMotion></circle>
+            <!-- Center -->
+            <circle r="27" fill="url(#pf-core-g)"/><circle class="pf-bdr" r="27" stroke-width=".8"/>
+            <image href="/puller-ai-core.svg" x="-15" y="-15" width="30" height="30" opacity=".9"/>
+            <!-- 6 nodes at 60° intervals from top -->
+            <circle class="pf-np" cx="0" cy="-75" r="4.5" filter="url(#pf-glow-f)"/>
+            <text class="pf-lp" x="0" y="-83" text-anchor="middle">SCHEMA</text>
+            <circle class="pf-np" cx="65" cy="-37.5" r="4.5" filter="url(#pf-glow-f)"/>
+            <text class="pf-lp" x="73" y="-35" text-anchor="start">SEMANTIC</text>
+            <circle class="pf-np" cx="65" cy="37.5" r="4.5" filter="url(#pf-glow-f)"/>
+            <text class="pf-lp" x="73" y="40" text-anchor="start">BEHAVIOR</text>
+            <circle class="pf-np" cx="0" cy="75" r="4.5" filter="url(#pf-glow-f)"/>
+            <text class="pf-lp" x="0" y="89" text-anchor="middle">TRIBAL</text>
+            <circle class="pf-np" cx="-65" cy="37.5" r="4.5" filter="url(#pf-glow-f)"/>
+            <text class="pf-lp" x="-73" y="40" text-anchor="end">RUNTIME</text>
+            <circle class="pf-np" cx="-65" cy="-37.5" r="4.5" filter="url(#pf-glow-f)"/>
+            <text class="pf-lp" x="-73" y="-35" text-anchor="end">POLICIES</text>
+          </svg>
+          <figcaption class="bc-pf-cap">
+            <span class="bc-pf-tag">Pragmatic Layer</span>
+            <span class="bc-pf-sub">Living &middot; 360&deg;</span>
+          </figcaption>
+        </figure>
+
       </div>
     </div>
   </div>
