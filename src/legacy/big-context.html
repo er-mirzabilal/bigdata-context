@@ -801,7 +801,11 @@ svg.tl{width:100%;height:auto;display:block}
           <circle id="nucleus" r="42" fill="url(#nuc)"/>
           <circle id="spec" cx="-14" cy="-15" r="12" fill="#ffffff" opacity=".42" filter="url(#blurS)"/>
           <circle r="42" fill="none" stroke="var(--lavender-hot)" stroke-width="1" opacity=".25"/>
-          <text id="nucLabel" text-anchor="middle" y="5" font-family="var(--mono)" font-size="13" letter-spacing="2" fill="var(--void)" opacity="1" style="pointer-events:none">BCOS</text>
+          <g id="nucLabel" style="pointer-events:none">
+            <polyline points="-14,-15 -21,-15 -21,15 -14,15" fill="none" stroke="var(--void)" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" opacity=".85"/>
+            <text text-anchor="middle" y="7" font-family="var(--serif)" font-weight="600" font-size="19" letter-spacing="-.01em" fill="var(--void)" opacity=".95">BC</text>
+            <polyline points="14,-15 21,-15 21,15 14,15" fill="none" stroke="var(--void)" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" opacity=".85"/>
+          </g>
           <circle id="nucHit" r="56" fill="transparent" style="cursor:pointer"/>
         </g>
         <g id="svcLayer"></g>
