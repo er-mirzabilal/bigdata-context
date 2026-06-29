@@ -315,6 +315,8 @@ svg.atom{width:100%;height:100%;display:block;overflow:visible}
 .tier-name{font-family:var(--serif);font-size:23px;font-weight:500;letter-spacing:-.015em;white-space:nowrap}
 .tier-desc{color:var(--muted);font-size:14.5px;line-height:1.55;margin-top:8px}
 .tier-cta{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--lavender);transition:gap .25s}
+.tier:hover{border-left-color:rgba(var(--p-lav),.4);background:rgba(var(--p-lav),.04)}
+.tier.active{border-left-color:var(--lavender);background:rgba(var(--p-lav),.08);box-shadow:0 0 0 1px rgba(var(--p-lav),.12)}
 .ledger{margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--muted-2);letter-spacing:.04em;line-height:1.7;border-top:1px solid var(--ring-dim);padding-top:14px}
 .ledger b{color:var(--lavender);font-weight:500}
 @media (max-width:900px){.st-atom{padding:40px 0}.st-atom .bc-h2{white-space:normal}.layout{grid-template-columns:1fr;gap:14px;margin-top:14px;padding:0 22px}.atom-wrap{max-width:380px}.legend{margin-top:6px;display:grid;grid-template-columns:1fr;gap:10px}.tier-name{font-size:19px;white-space:nowrap}.tier-desc{font-size:13px;margin-top:6px}.hint{display:none}.headline{white-space:normal;font-size:clamp(26px,7vw,38px)}}
@@ -1002,8 +1004,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     ringLines.forEach(l=>{l.setAttribute('stroke',osSel?'url(#ringGradBright)':'url(#ringGrad)');l.style.strokeWidth=osSel?'2.8':'1.4';});
     pulsesOn=(a===null||a==='svc');pulseLayer.style.opacity=pulsesOn?'1':'0';
     legend.querySelectorAll('.tier').forEach(b=>b.classList.toggle('active',a!==null&&b.dataset.tier===a));
-    const txt={bcos:'The core: <b>BCOS</b>, the pragmatic layer for Big Data',svc:'The orbit: <b>Context Transformation</b>, accelerated by AI',_:'BCOS at the core &nbsp;·&nbsp; <b>AI-native data services in orbit</b>'};
-    document.getElementById('ledger-text').innerHTML=txt[a===null?'_':a];}
+    const lt=document.getElementById('ledger-text');
+    if(lt){const txt={bcos:'The core: <b>BCOS</b>, the pragmatic layer for Big Data',svc:'The orbit: <b>Context Transformation</b>, accelerated by AI',_:'BCOS at the core &nbsp;·&nbsp; <b>AI-native data services in orbit</b>'};lt.innerHTML=txt[a===null?'_':a];}}
   function bindHover(el,t){el.addEventListener('mouseenter',()=>setActive(t));el.addEventListener('mouseleave',()=>setActive(pinned));el.addEventListener('click',e=>{e.stopPropagation();pinned=(pinned===t)?null:t;setActive(pinned);});}
   legend.querySelectorAll('.tier').forEach(btn=>{const t=btn.dataset.tier;btn.addEventListener('mouseenter',()=>setActive(t));btn.addEventListener('mouseleave',()=>setActive(pinned));btn.addEventListener('focus',()=>setActive(t));btn.addEventListener('blur',()=>setActive(pinned));btn.addEventListener('click',()=>{pinned=(pinned===t)?null:t;setActive(pinned);});});
   bindHover(document.getElementById('nucHit'),'bcos');
