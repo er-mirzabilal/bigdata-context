@@ -878,11 +878,10 @@ if(accWrap) barIO.observe(accWrap);
   if(!row) return;
   var panels=row.querySelectorAll('.hac-panel');
   panels.forEach(function(panel){
-    panel.addEventListener('click',function(){
+    panel.addEventListener('mouseenter',function(){
       if(panel.classList.contains('active')) return;
       panels.forEach(function(p){p.classList.remove('active');});
       panel.classList.add('active');
-      // trigger layer stagger for panel 2 if not already done
       if(panel.dataset.hac==='1'){
         panel.querySelectorAll('.pd-layer').forEach(function(l){l.classList.add('in');});
       }
