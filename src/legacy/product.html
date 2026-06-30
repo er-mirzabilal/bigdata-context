@@ -328,34 +328,26 @@ a{color:inherit;text-decoration:none}
 .pd-acc-bar-fill.animate{transform:scaleX(1)}
 
 /* ── Hero Figure ─────────────────────────────────────────────────── */
-.pd-figure{position:relative;width:100%;max-width:var(--maxw);margin:0 auto 0;border-radius:20px;overflow:hidden;background:linear-gradient(160deg,#070411 0%,#0e0920 100%);border:1px solid rgba(199,157,240,.1);transition:background .9s cubic-bezier(.16,1,.3,1),border-color .9s;cursor:pointer;user-select:none}
-.pd-figure.lit{background:linear-gradient(160deg,#f5f0e8 0%,#ede8df 100%);border-color:rgba(0,0,0,.07)}
+.pd-figure{position:relative;width:100%;max-width:var(--maxw);margin:0 auto 0;border-radius:20px;overflow:hidden;background:linear-gradient(160deg,#070411 0%,#0e0920 100%);border:1px solid rgba(199,157,240,.1);transition:background .7s cubic-bezier(.16,1,.3,1),border-color .7s;cursor:pointer;user-select:none}
+.pd-figure.lit{background:linear-gradient(160deg,#0b0720 0%,#0f0c28 100%);border-color:rgba(199,157,240,.28)}
 .pdf-bg-svg{display:block;width:100%;height:auto}
-/* labels */
+/* label chips */
 .pdf-label-layer{position:absolute;inset:0;pointer-events:none}
-.pdf-label{position:absolute;transform:translate(-50%,-50%);font-family:var(--mono);font-size:clamp(8px,1.05vw,11px);letter-spacing:.07em;color:rgba(199,157,240,.62);white-space:nowrap;transition:color .7s,left 1s cubic-bezier(.16,1,.3,1),top 1s cubic-bezier(.16,1,.3,1)}
-.pd-figure.lit .pdf-label{color:rgba(75,50,15,.5)}
-/* SVG element transitions */
-.pdf-x-g{transform-box:fill-box;transform-origin:center;transition:opacity .3s,transform .35s}
-.pd-figure.lit .pdf-x-g{opacity:0;transform:scale(.3) rotate(45deg)}
-.pdf-bracket-g{transform-box:fill-box;transform-origin:center;opacity:0;transform:scale(1.25);transition:opacity .45s .25s,transform .45s .25s}
+.pdf-label{position:absolute;transform:translate(-50%,-50%);font-family:var(--mono);font-size:clamp(9px,1.1vw,11px);letter-spacing:.07em;color:rgba(199,157,240,.65);white-space:nowrap;background:rgba(14,7,28,.75);border:1px solid rgba(199,157,240,.18);border-radius:999px;padding:4px 11px;backdrop-filter:blur(4px);transition:color .6s,background .6s,border-color .6s,box-shadow .6s}
+.pd-figure.lit .pdf-label{color:rgba(220,190,255,.95);background:rgba(109,47,145,.22);border-color:rgba(199,157,240,.4);box-shadow:0 0 14px rgba(199,157,240,.1)}
+/* SVG transitions */
+.pdf-x-g{transform-box:fill-box;transform-origin:center;transition:opacity .28s,transform .32s}
+.pd-figure.lit .pdf-x-g{opacity:0;transform:scale(.25) rotate(45deg)}
+.pdf-bracket-g{transform-box:fill-box;transform-origin:center;opacity:0;transform:scale(1.2);transition:opacity .45s .22s,transform .45s .22s}
 .pd-figure.lit .pdf-bracket-g{opacity:1;transform:scale(1)}
-.pdf-line-blocked{transition:opacity .4s}
-.pd-figure.lit .pdf-line-blocked{opacity:0}
-.pdf-line-active{opacity:0;transition:opacity .6s .3s}
-.pd-figure.lit .pdf-line-active{opacity:1}
-.pdf-bulb-off-g{transition:opacity .5s}
-.pd-figure.lit .pdf-bulb-off-g{opacity:0}
-.pdf-bulb-on-g{opacity:0;transition:opacity .95s .45s}
-.pd-figure.lit .pdf-bulb-on-g{opacity:1}
-.pdf-star{transition:opacity .6s}
-.pd-figure.lit .pdf-star{opacity:0}
-.pdf-center-ring{transition:stroke .8s}
-.pd-figure.lit .pdf-center-ring{stroke:rgba(120,90,30,.3)}
+.pdf-bloom{opacity:0;transition:opacity .9s .3s}
+.pd-figure.lit .pdf-bloom{opacity:1}
+.pdf-center-ring{transition:stroke .7s,fill .7s}
+.pd-figure.lit .pdf-center-ring{stroke:rgba(199,157,240,.32);fill:rgba(109,47,145,.18)}
 /* hint */
-.pdf-hint{position:absolute;bottom:12px;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(199,157,240,.22);transition:color .6s;pointer-events:none}
-.pd-figure.lit .pdf-hint{color:rgba(80,55,15,.25)}
-@media(max-width:640px){.pdf-label{font-size:7.5px;letter-spacing:.04em}}
+.pdf-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(199,157,240,.2);transition:color .5s;pointer-events:none}
+.pd-figure.lit .pdf-hint{color:rgba(199,157,240,.4)}
+@media(max-width:640px){.pdf-label{font-size:9px;padding:3px 9px}}
 </style>
 </head>
 <body>
@@ -392,74 +384,33 @@ a{color:inherit;text-decoration:none}
 <div style="width:100%;max-width:var(--maxw);margin:40px auto 60px;padding:0 28px;box-sizing:border-box">
 <div class="pd-figure" id="pdFigure">
 
-  <!-- SVG layer: background geometry -->
+  <!-- SVG layer -->
   <svg class="pdf-bg-svg" viewBox="0 0 960 380" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <filter id="pdfGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur stdDeviation="18" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <filter id="pdfSoftGlow" x="-80%" y="-80%" width="260%" height="260%">
-        <feGaussianBlur stdDeviation="28"/>
-      </filter>
+      <radialGradient id="pdfBloomGrad" cx="50%" cy="50%" r="45%">
+        <stop offset="0%" stop-color="rgba(199,157,240,.18)"/>
+        <stop offset="100%" stop-color="rgba(199,157,240,0)"/>
+      </radialGradient>
     </defs>
 
-    <!-- Star particles (dark state only) -->
-    <circle class="pdf-star" cx="350" cy="55"  r="1.2" fill="rgba(199,157,240,.35)"/>
-    <circle class="pdf-star" cx="620" cy="40"  r="1"   fill="rgba(199,157,240,.25)"/>
-    <circle class="pdf-star" cx="720" cy="90"  r="1.5" fill="rgba(199,157,240,.3)"/>
-    <circle class="pdf-star" cx="260" cy="310" r="1"   fill="rgba(199,157,240,.2)"/>
-    <circle class="pdf-star" cx="860" cy="300" r="1.3" fill="rgba(199,157,240,.3)"/>
-    <circle class="pdf-star" cx="180" cy="80"  r="1"   fill="rgba(199,157,240,.2)"/>
-    <circle class="pdf-star" cx="840" cy="60"  r="1.2" fill="rgba(199,157,240,.28)"/>
-    <circle class="pdf-star" cx="430" cy="340" r="1"   fill="rgba(199,157,240,.2)"/>
-    <circle class="pdf-star" cx="680" cy="330" r="1.3" fill="rgba(199,157,240,.25)"/>
+    <!-- Bloom (lit state) -->
+    <rect class="pdf-bloom" width="960" height="380" fill="url(#pdfBloomGrad)"/>
+    <circle class="pdf-bloom" cx="480" cy="190" r="200" fill="none" stroke="rgba(199,157,240,.04)" stroke-width="1.5"/>
+    <circle class="pdf-bloom" cx="480" cy="190" r="155" fill="none" stroke="rgba(199,157,240,.07)" stroke-width="1"/>
+    <circle class="pdf-bloom" cx="480" cy="190" r="108" fill="none" stroke="rgba(199,157,240,.11)" stroke-width="1"/>
 
-    <!-- ── Drums (left) ─────────────────────────── -->
-    <g class="pdf-drums-g">
-      <!-- back-left drum -->
-      <g transform="translate(108,178)">
-        <rect x="-22" y="-42" width="44" height="82" rx="3" fill="#1c1c28" stroke="#272738" stroke-width="1"/>
-        <ellipse cx="0" cy="-42" rx="22" ry="7"  fill="#252538" stroke="#30304a" stroke-width="1"/>
-        <ellipse cx="0" cy="40"  rx="22" ry="7"  fill="#13131e" stroke="#202030" stroke-width="1"/>
-      </g>
-      <!-- back-right drum -->
-      <g transform="translate(152,178)">
-        <rect x="-22" y="-42" width="44" height="82" rx="3" fill="#1c1c28" stroke="#272738" stroke-width="1"/>
-        <ellipse cx="0" cy="-42" rx="22" ry="7"  fill="#252538" stroke="#30304a" stroke-width="1"/>
-        <ellipse cx="0" cy="40"  rx="22" ry="7"  fill="#13131e" stroke="#202030" stroke-width="1"/>
-      </g>
-      <!-- front drum (foreground, larger) -->
-      <g transform="translate(130,220)">
-        <rect x="-28" y="-52" width="56" height="100" rx="4" fill="#20202e" stroke="#2c2c3e" stroke-width="1.2"/>
-        <ellipse cx="0" cy="-52" rx="28" ry="9"  fill="#2c2c42" stroke="#383852" stroke-width="1.2"/>
-        <ellipse cx="0" cy="48"  rx="28" ry="9"  fill="#161620" stroke="#222232" stroke-width="1.2"/>
-      </g>
+    <!-- Center -->
+    <circle cx="480" cy="190" r="56" fill="rgba(10,5,20,.9)" stroke="rgba(199,157,240,.18)" stroke-width="1.2" class="pdf-center-ring"/>
+
+    <!-- X (blocked) -->
+    <g class="pdf-x-g" transform="translate(480,190)">
+      <line x1="-20" y1="-20" x2="20" y2="20" stroke="#FF3B30" stroke-width="6" stroke-linecap="round"/>
+      <line x1="20"  y1="-20" x2="-20" y2="20" stroke="#FF3B30" stroke-width="6" stroke-linecap="round"/>
     </g>
 
-    <!-- ── Flow lines ───────────────────────────── -->
-    <!-- Blocked (dashed, lavender muted) -->
-    <line x1="195" y1="205" x2="430" y2="205" class="pdf-line-blocked" stroke="rgba(199,157,240,.2)" stroke-width="1.5" stroke-dasharray="7 5"/>
-    <line x1="530" y1="205" x2="755" y2="205" class="pdf-line-blocked" stroke="rgba(199,157,240,.2)" stroke-width="1.5" stroke-dasharray="7 5"/>
-    <!-- Active (solid, animated) -->
-    <line x1="195" y1="205" x2="755" y2="205" class="pdf-line-active" stroke="rgba(199,157,240,.55)" stroke-width="2"/>
-    <!-- Flow pulse on active line -->
-    <line x1="195" y1="205" x2="755" y2="205" class="pdf-line-active" stroke="rgba(199,157,240,.9)" stroke-width="2" stroke-dasharray="40 520" stroke-linecap="round">
-      <animate attributeName="stroke-dashoffset" from="560" to="-560" dur="2.2s" repeatCount="indefinite"/>
-    </line>
-
-    <!-- ── Center circle ───────────────────────── -->
-    <circle cx="480" cy="205" r="48" fill="rgba(12,6,22,.85)" stroke="rgba(199,157,240,.18)" stroke-width="1.2" class="pdf-center-ring"/>
-
-    <!-- X icon (blocked state) -->
-    <g class="pdf-x-g" transform="translate(480,205)">
-      <line x1="-17" y1="-17" x2="17" y2="17" stroke="#FF3B30" stroke-width="5.5" stroke-linecap="round"/>
-      <line x1="17"  y1="-17" x2="-17" y2="17" stroke="#FF3B30" stroke-width="5.5" stroke-linecap="round"/>
-    </g>
-
-    <!-- Bracket [—] (active state, from identity file) -->
-    <g class="pdf-bracket-g" transform="translate(480,205)">
-      <g transform="scale(0.28) translate(-600,-400)">
+    <!-- Bracket [—] (active) — scaled to fill center -->
+    <g class="pdf-bracket-g" transform="translate(480,190)">
+      <g transform="scale(0.42) translate(-600,-400)">
         <g fill="none" stroke="#C89DF0" stroke-width="18">
           <path d="M520 300 H476 V500 H520"/>
           <path d="M680 300 H724 V500 H680"/>
@@ -467,45 +418,20 @@ a{color:inherit;text-decoration:none}
         <rect x="556" y="391" width="88" height="18" fill="#C89DF0"/>
       </g>
     </g>
-
-    <!-- ── Lightbulb (right) ────────────────────── -->
-    <!-- OFF state -->
-    <g class="pdf-bulb-off-g" transform="translate(800,195)">
-      <circle cx="0" cy="-16" r="40" fill="#181826" stroke="#24243a" stroke-width="1.2"/>
-      <rect x="-14" y="24" width="28" height="8"  rx="2.5" fill="#1e1e2c" stroke="#28283a" stroke-width="1"/>
-      <rect x="-11" y="32" width="22" height="6"  rx="2"   fill="#1a1a28" stroke="#242438" stroke-width="1"/>
-      <rect x="-8"  y="38" width="16" height="6"  rx="2"   fill="#161622" stroke="#202030" stroke-width="1"/>
-      <path d="M-7,12 Q-3,-4 0,12 Q3,-4 7,12" fill="none" stroke="#2a2a40" stroke-width="1.5"/>
-    </g>
-    <!-- ON state (glow) -->
-    <g class="pdf-bulb-on-g" transform="translate(800,195)">
-      <!-- soft outer bloom -->
-      <circle cx="0" cy="-16" r="90" fill="rgba(255,220,60,.06)" filter="url(#pdfSoftGlow)"/>
-      <circle cx="0" cy="-16" r="65" fill="rgba(255,225,70,.09)"/>
-      <!-- glass -->
-      <circle cx="0" cy="-16" r="40" fill="rgba(255,235,100,.2)" stroke="rgba(255,215,70,.5)" stroke-width="1.5"/>
-      <circle cx="0" cy="-16" r="26" fill="rgba(255,240,130,.28)"/>
-      <!-- filament -->
-      <path d="M-7,12 Q-3,-4 0,12 Q3,-4 7,12" fill="none" stroke="rgba(255,240,80,.95)" stroke-width="2.2"/>
-      <!-- base -->
-      <rect x="-14" y="24" width="28" height="8"  rx="2.5" fill="#3c3010" stroke="rgba(255,215,70,.35)" stroke-width="1"/>
-      <rect x="-11" y="32" width="22" height="6"  rx="2"   fill="#322808" stroke="rgba(255,215,70,.2)"  stroke-width="1"/>
-      <rect x="-8"  y="38" width="16" height="6"  rx="2"   fill="#281e06" stroke="rgba(255,215,70,.15)" stroke-width="1"/>
-    </g>
   </svg>
 
-  <!-- Label overlay (10 context items) -->
+  <!-- Label chips -->
   <div class="pdf-label-layer" id="pdfLabelLayer">
-    <div class="pdf-label" data-i="0"  data-sx="22%" data-sy="26%">SQL Queries</div>
-    <div class="pdf-label" data-i="1"  data-sx="57%" data-sy="13%">Tribal Knowledge</div>
-    <div class="pdf-label" data-i="2"  data-sx="37%" data-sy="20%">SOPs &amp; Docs</div>
-    <div class="pdf-label" data-i="3"  data-sx="17%" data-sy="46%">Dictionaries</div>
-    <div class="pdf-label" data-i="4"  data-sx="62%" data-sy="33%">Data Models</div>
-    <div class="pdf-label" data-i="5"  data-sx="65%" data-sy="60%">Schema History</div>
-    <div class="pdf-label" data-i="6"  data-sx="54%" data-sy="74%">BI Metadata</div>
-    <div class="pdf-label" data-i="7"  data-sx="28%" data-sy="70%">Business Logic</div>
-    <div class="pdf-label" data-i="8"  data-sx="70%" data-sy="22%">Emails &amp; Chats</div>
-    <div class="pdf-label" data-i="9"  data-sx="33%" data-sy="80%">Comments &amp; Annotations</div>
+    <div class="pdf-label" data-i="0"  data-sx="20%" data-sy="22%">SQL Queries</div>
+    <div class="pdf-label" data-i="1"  data-sx="63%" data-sy="14%">Tribal Knowledge</div>
+    <div class="pdf-label" data-i="2"  data-sx="36%" data-sy="13%">SOPs &amp; Docs</div>
+    <div class="pdf-label" data-i="3"  data-sx="12%" data-sy="50%">Dictionaries</div>
+    <div class="pdf-label" data-i="4"  data-sx="72%" data-sy="38%">Data Models</div>
+    <div class="pdf-label" data-i="5"  data-sx="70%" data-sy="68%">Schema History</div>
+    <div class="pdf-label" data-i="6"  data-sx="52%" data-sy="80%">BI Metadata</div>
+    <div class="pdf-label" data-i="7"  data-sx="22%" data-sy="74%">Business Logic</div>
+    <div class="pdf-label" data-i="8"  data-sx="78%" data-sy="22%">Emails &amp; Chats</div>
+    <div class="pdf-label" data-i="9"  data-sx="30%" data-sy="86%">Comments &amp; Annotations</div>
   </div>
 
   <div class="pdf-hint">click to toggle</div>
