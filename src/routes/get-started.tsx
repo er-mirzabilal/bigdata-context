@@ -23,8 +23,8 @@ export const Route = createFileRoute("/get-started")({
 const INTERESTS = [
   { value: "whitepaper", label: "Whitepaper" },
   { value: "demo", label: "Demo" },
-  { value: "discovery", label: "Discovery" },
-  { value: "evaluation", label: "Evaluation" },
+  { value: "expert-services", label: "Expert Services" },
+  { value: "evaluation-tool", label: "Evaluation Tool" },
   { value: "beta", label: "Open Core Beta Invite" },
 ];
 
@@ -173,9 +173,9 @@ const css = `
     background: rgba(30,16,44,.7);
   }
 
-  /* Radio group */
-  .gs-radio-group { display: flex; flex-direction: column; gap: 10px; }
-  .gs-radio-option {
+  /* Checkbox group */
+  .gs-checkbox-group { display: flex; flex-direction: column; gap: 10px; }
+  .gs-checkbox-option {
     display: flex;
     align-items: center;
     gap: 14px;
@@ -187,37 +187,38 @@ const css = `
     transition: border-color .2s, background .2s;
     user-select: none;
   }
-  .gs-radio-option:hover {
+  .gs-checkbox-option:hover {
     border-color: rgba(199,157,240,.3);
     background: rgba(109,47,145,.08);
   }
-  .gs-radio-option.selected {
+  .gs-checkbox-option.selected {
     border-color: rgba(199,157,240,.5);
     background: rgba(109,47,145,.14);
   }
-  .gs-radio-dot {
+  .gs-checkbox-box {
     width: 18px;
     height: 18px;
-    border-radius: 50%;
+    border-radius: 4px;
     border: 1.5px solid var(--muted);
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: border-color .2s;
+    transition: border-color .2s, background .2s;
   }
-  .gs-radio-option.selected .gs-radio-dot { border-color: var(--lavender); }
-  .gs-radio-dot-inner {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--lavender);
+  .gs-checkbox-option.selected .gs-checkbox-box {
+    border-color: var(--lavender);
+    background: rgba(199,157,240,.15);
+  }
+  .gs-checkbox-tick {
+    width: 10px;
+    height: 10px;
     opacity: 0;
     transform: scale(0);
     transition: opacity .15s, transform .15s;
   }
-  .gs-radio-option.selected .gs-radio-dot-inner { opacity: 1; transform: scale(1); }
-  .gs-radio-label { font-size: 14.5px; color: var(--paper); }
+  .gs-checkbox-option.selected .gs-checkbox-tick { opacity: 1; transform: scale(1); }
+  .gs-checkbox-label { font-size: 14.5px; color: var(--paper); }
 
   /* Submit */
   .gs-submit {
@@ -289,12 +290,18 @@ const css = `
 function GetStarted() {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
-  const [interest, setInterest] = useState("");
+  const [interests, setInterests] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
+
+  function toggleInterest(value: string) {
+    setInterests(prev =>
+      prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
+    );
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log({ firstName, email, interest });
+    console.log({ firstName, email, interests });
     setSubmitted(true);
   }
 
@@ -360,17 +367,19 @@ function GetStarted() {
 
                 <div className="gs-field">
                   <label className="gs-label">I'm interested in</label>
-                  <div className="gs-radio-group">
+                  <div className="gs-checkbox-group">
                     {INTERESTS.map(opt => (
                       <div
                         key={opt.value}
-                        className={`gs-radio-option${interest === opt.value ? " selected" : ""}`}
-                        onClick={() => setInterest(opt.value)}
+                        className={`gs-checkbox-option${interests.includes(opt.value) ? " selected" : ""}`}
+                        onClick={() => toggleInterest(opt.value)}
                       >
-                        <div className="gs-radio-dot">
-                          <div className="gs-radio-dot-inner" />
+                        <div className="gs-checkbox-box">
+                          <svg className="gs-checkbox-tick" viewBox="0 0 10 10" fill="none">
+                            <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="var(--lavender)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
                         </div>
-                        <span className="gs-radio-label">{opt.label}</span>
+                        <span className="gs-checkbox-label">{opt.label}</span>
                       </div>
                     ))}
                   </div>
@@ -379,9 +388,9 @@ function GetStarted() {
                 <button
                   type="submit"
                   className="gs-submit"
-                  disabled={!firstName || !email || !interest}
+                  disabled={!firstName || !email || interests.length === 0}
                 >
-                  Let's talk →
+                  Submit
                 </button>
               </form>
             </>
