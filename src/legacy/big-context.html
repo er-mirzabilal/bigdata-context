@@ -440,10 +440,6 @@ svg.tl{width:100%;height:auto;display:block}
 @media (max-width:760px){
   /* Global: sticky-nav offset for anchor jumps */
   section[id],header[id]{scroll-margin-top:64px}
-  /* Auto-collapse nav on scroll-down */
-  .bc-nav{transition:transform .28s ease, background .28s ease}
-  .bc-nav.bc-nav--hide{transform:translateY(-100%)}
-
   /* 1. Hero — tighten gap to scroll cue, lift particle contrast */
   .bc-hero{padding-bottom:84px}
   #bc-particles{opacity:.45}
@@ -495,7 +491,6 @@ svg.tl{width:100%;height:auto;display:block}
   .bc-flip{display:inline-block;min-width:0;text-align:left;white-space:nowrap}
 }
 @media (max-width:760px) and (prefers-reduced-motion:reduce){
-  .bc-nav{transition:none}
   .bc-tcard:active,.bc-cta-row:active{transform:none}
 }
 
@@ -1514,23 +1509,6 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 })();
 </script>
 <script>
-/* Mobile-only: hide nav on scroll-down, show on scroll-up */
-(function(){
-  if(!matchMedia('(max-width:760px)').matches) return;
-  const nav=document.querySelector('.bc-nav'); if(!nav) return;
-  const banner=document.getElementById('bcBanner');
-  const bannerActive=()=>banner&&!banner.classList.contains('bc-banner--hidden');
-  let lastY=scrollY, ticking=false;
-  addEventListener('scroll',()=>{
-    if(ticking) return; ticking=true;
-    requestAnimationFrame(()=>{
-      const y=scrollY, dy=y-lastY;
-      if(y>120 && dy>4 && !bannerActive()) nav.classList.add('bc-nav--hide');
-      else if(dy<-4 || y<80) nav.classList.remove('bc-nav--hide');
-      lastY=y; ticking=false;
-    });
-  },{passive:true});
-})();
 /* Mobile-only: collapse 12 failure-mode cards behind "Show all" expander */
 (function(){
   const grid=document.getElementById('grid'); if(!grid) return;
