@@ -714,8 +714,8 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-orbit-out{transform-box:fill-box;transform-origin:50% 50%;animation:cl-rot 90s linear infinite}
   .cl-orbit-mid{transform-box:fill-box;transform-origin:50% 50%;animation:cl-rot-rev 68s linear infinite}
   .cl-orbit-in{transform-box:fill-box;transform-origin:50% 50%;animation:cl-rot 50s linear infinite}
-  .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.5);letter-spacing:.3em;text-transform:uppercase;font-size:10px}
-  .cl-core-orbit .cl-orbit-in .cl-orbit-text,.cl-core-orbit .cl-orbit-mid .cl-orbit-text{fill:rgba(var(--p-lav),.5);font-size:10px;letter-spacing:.3em}
+  .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.5);letter-spacing:.3em;text-transform:uppercase;font-size:11px}
+  .cl-core-orbit .cl-orbit-in .cl-orbit-text,.cl-core-orbit .cl-orbit-mid .cl-orbit-text{fill:rgba(var(--p-lav),.5);font-size:11px;letter-spacing:.3em}
   .cl-pulse-dot{display:none}
   /* Agents: 4-col grid of round icon-only chips, heading BELOW the grid */
   .cl-agents{padding-right:0;display:grid;grid-template-columns:repeat(4,1fr);column-gap:10px;row-gap:10px;justify-items:center;align-items:center;align-content:center;flex-direction:initial;gap:10px}
@@ -732,27 +732,26 @@ svg.tl{width:100%;height:auto;display:block}
   /* --- Mobile: portrait-vertical figure layout --- */
   .cl-body{grid-template-columns:1fr;min-height:0;max-width:100%;margin:0}
   .cl-col{margin-top:0}
-  .cl-wires{height:100px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
+  .cl-wires{height:120px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
   .cl-wires>svg:not(.cl-mwire){display:none}
   .cl-wires .cl-mwire{display:block;position:absolute;top:0;left:0;width:100%;height:100%}
   .cl-col.cl-silos{display:flex;flex-direction:column;align-items:center;padding:2px 0 0;overflow:visible;align-self:auto;gap:0}
   .cl-silo-grid{display:flex;flex-direction:row;justify-content:space-around;align-items:center;width:100%;overflow:visible;row-gap:0;column-gap:0;padding:0;flex:none}
   .cl-col.cl-agents{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-around;align-items:center;align-content:flex-start;padding:0 0 2px;overflow:visible;align-self:auto;gap:0}
   .cl-sq-row,.cl-ag-row{position:relative;width:62px;height:62px;flex-shrink:0;overflow:visible}
-  .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{position:absolute;left:9px!important;top:9px!important;width:44px!important;height:44px!important;border-radius:50%;background:rgba(20,12,30,.72);border:1px solid rgba(var(--p-lav),.22);display:flex;align-items:center;justify-content:center;transition:opacity .48s ease;will-change:opacity}
+  .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{position:absolute;border-radius:50%;background:rgba(20,12,30,.72);border:1px solid rgba(var(--p-lav),.22);display:flex;align-items:center;justify-content:center;will-change:transform,opacity;transition:left .48s cubic-bezier(.4,0,.2,1),width .48s ease,height .48s ease,opacity .48s ease}
   .cl-sq-row .cl-silo-tile .cl-brand,.cl-ag-row .cl-silo-tile .cl-brand{display:block;width:44%;height:44%;background:var(--lavender);opacity:.65;-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat}
-  .cl-sq-row .cl-silo-tile:not(:first-child),.cl-ag-row .cl-silo-tile:not(:first-child){opacity:0!important;pointer-events:none}
-  .cl-core{width:112px!important;height:112px!important;margin:0 auto}
-  .cl-core-orbit{width:112px!important;height:112px!important}
-  .cl-core-chip img{width:46px!important;height:46px!important}
+  .cl-core{width:148px!important;height:148px!important;margin:0 auto}
+  .cl-core-orbit{width:148px!important;height:148px!important}
+  .cl-core-chip img{width:60px!important;height:60px!important}
   .cl-core-chip svg{width:34px;height:28px}
-  .cl-core-hex{width:66px!important;height:66px!important}
+  .cl-core-hex{width:86px!important;height:86px!important}
   .cl-core-col{display:flex;align-items:center;justify-content:center;padding:4px 0;align-self:auto}
   .cl-core-caption{display:none}
   .cl-head{display:none}
   .cl-silos .cl-head,.cl-agents .cl-head{display:none}
-  .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:9px;letter-spacing:.18em;line-height:1.4;opacity:.72;margin:0 0 12px;padding:0}
-  .cl-agents .cl-rail-header{display:block;order:99;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:9px;letter-spacing:.18em;line-height:1.4;opacity:.72;margin:12px 0 0;padding:0}
+  .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:11px;letter-spacing:.14em;line-height:1.4;opacity:.85;margin:0 0 16px;padding:0}
+  .cl-agents .cl-rail-header{display:block;order:99;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:11px;letter-spacing:.14em;line-height:1.4;opacity:.85;margin:16px 0 0;padding:0}
   @keyframes mwire-dash{to{stroke-dashoffset:-40}}
   .cl-mwire path{stroke-dasharray:4 7;stroke-dashoffset:0;animation:mwire-dash 2s linear infinite}
 }
@@ -769,14 +768,13 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent{width:38px;height:38px}
   .cl-agent .ico{width:28px;height:28px}
   .cl-agents{column-gap:8px;row-gap:8px;gap:8px}
-  .cl-wires{height:84px}
-  .cl-core{width:96px!important;height:96px!important}
-  .cl-core-hex{width:56px!important;height:56px!important}
-  .cl-core-orbit{width:96px!important;height:96px!important}
-  .cl-core-chip img{width:38px!important;height:38px!important}
+  .cl-wires{height:96px}
+  .cl-core{width:120px!important;height:120px!important}
+  .cl-core-hex{width:72px!important;height:72px!important}
+  .cl-core-orbit{width:120px!important;height:120px!important}
+  .cl-core-chip img{width:48px!important;height:48px!important}
   .cl-col.cl-agents{gap:0}
   .cl-sq-row,.cl-ag-row{width:52px;height:52px}
-  .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{left:6px!important;top:6px!important;width:40px!important;height:40px!important}
 }
 
 /* ===== Theme toggle button ===== */
@@ -1028,7 +1026,7 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
       <div class="cl-col cl-silos bc-reveal"><div class="cl-rail-header" aria-hidden="true">Siloed Systems of Record</div><div class="cl-head"><div class="cl-eyebrow">01</div><h3 class="cl-head-t old">Siloed Data</h3><div class="cl-head-s">Locked in tools</div></div><div class="cl-silo-grid" id="clSiloGrid"></div></div>
       <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 30 C22 30 58 120 58 170" stroke-opacity=".3"/><path d="M0 90 C22 90 58 142 58 170" stroke-opacity=".38"/><path d="M0 150 C22 150 58 162 58 170" stroke-opacity=".46"/><path d="M0 210 C22 210 58 192 58 170" stroke-opacity=".38"/><path d="M0 270 C22 270 58 210 58 170" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M50 0 C50 32 195 42 195 74" stroke-opacity=".38"/><path d="M118 0 C118 34 195 44 195 74" stroke-opacity=".26"/><path d="M195 0 C210 20 180 54 195 74" stroke-opacity=".14"/><path d="M272 0 C272 34 195 44 195 74" stroke-opacity=".26"/><path d="M340 0 C340 32 195 42 195 74" stroke-opacity=".38"/></g></svg></div>
       <div class="cl-col cl-core-col bc-reveal"><div class="cl-head"><div class="cl-eyebrow">02</div><h3 class="cl-head-t mid">Virtualized Data Context Layer</h3><div class="cl-head-s">Independent &middot; Open</div></div><div class="cl-core-caption" aria-hidden="true"><div class="cl-core-caption-top">Virtualized Data Context Layer</div><div class="cl-core-caption-name">Big Context OS</div></div><div class="cl-core"><svg class="cl-core-orbit" viewBox="-130 -130 260 260" aria-hidden="true" focusable="false"><defs><path id="cl-orb-outer" d="M 120,0 A 120,120 0 1,1 -120,0 A 120,120 0 1,1 120,0"/><path id="cl-orb-mid" d="M 104,0 A 104,104 0 1,1 -104,0 A 104,104 0 1,1 104,0"/><path id="cl-orb-inner" d="M 88,0 A 88,88 0 1,1 -88,0 A 88,88 0 1,1 88,0"/></defs><g class="cl-orbit-out"><text class="cl-orbit-text"><textPath href="#cl-orb-outer" startOffset="0" textLength="754" lengthAdjust="spacing">SCHEMA &middot; SEMANTICS &middot; METRICS &middot; METADATA &middot; ENTITIES &middot; POLICIES &middot; </textPath></text></g><g class="cl-orbit-mid"><text class="cl-orbit-text"><textPath href="#cl-orb-mid" startOffset="0" textLength="653" lengthAdjust="spacing">JOIN HINTS &middot; DEFINITIONS &middot; BUSINESS RULES &middot; DECISION TRACES &middot; </textPath></text></g><g class="cl-orbit-in"><text class="cl-orbit-text"><textPath href="#cl-orb-inner" startOffset="0" textLength="553" lengthAdjust="spacing">TRIBAL KNOWLEDGE &middot; PRAGMATICS &middot; NUANCES &middot; RUNTIME CONTEXT &middot; </textPath></text></g></svg><div class="cl-core-glyph"><span class="cl-core-chip"><img src="/bc-mark.svg" alt="Big Context" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:contain"/></span></div><div class="cl-core-tagline">Big Context OS</div><span class="cl-pulse-dot" aria-hidden="true"></span></div></div>
-      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 170 C0 120 36 30 58 30" stroke-opacity=".3"/><path d="M0 170 C0 142 36 90 58 90" stroke-opacity=".38"/><path d="M0 170 C0 162 36 150 58 150" stroke-opacity=".46"/><path d="M0 170 C0 192 36 210 58 210" stroke-opacity=".38"/><path d="M0 170 C0 210 36 270 58 270" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M195 0 C195 32 50 42 50 74" stroke-opacity=".38"/><path d="M195 0 C195 34 118 44 118 74" stroke-opacity=".26"/><path d="M195 0 C210 20 180 54 195 74" stroke-opacity=".14"/><path d="M195 0 C195 34 272 44 272 74" stroke-opacity=".26"/><path d="M195 0 C195 32 340 42 340 74" stroke-opacity=".38"/></g><circle class="cl-pulse" r="2.4"><animateMotion dur="2.8s" begin="-1s" repeatCount="indefinite" path="M195 0 C195 32 50 42 50 74" keyPoints="0;1" keyTimes="0;1" calcMode="linear"/></circle></svg></div>
+      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 170 C0 120 36 30 58 30" stroke-opacity=".3"/><path d="M0 170 C0 142 36 90 58 90" stroke-opacity=".38"/><path d="M0 170 C0 162 36 150 58 150" stroke-opacity=".46"/><path d="M0 170 C0 192 36 210 58 210" stroke-opacity=".38"/><path d="M0 170 C0 210 36 270 58 270" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M195 0 C195 32 50 42 50 74" stroke-opacity=".38"/><path d="M195 0 C195 34 118 44 118 74" stroke-opacity=".26"/><path d="M195 0 C210 20 180 54 195 74" stroke-opacity=".14"/><path d="M195 0 C195 34 272 44 272 74" stroke-opacity=".26"/><path d="M195 0 C195 32 340 42 340 74" stroke-opacity=".38"/></g></svg></div>
       <div class="cl-col cl-agents bc-reveal" id="clAgentGrid"><div class="cl-rail-header" aria-hidden="true">Your data agents</div><div class="cl-head"><div class="cl-eyebrow">03</div><h3 class="cl-head-t new">AI Agents</h3><div class="cl-head-s">Across your enterprise</div></div></div>
     </div>
   </div>
@@ -1874,10 +1872,11 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     {n:'Teradata',i:'teradata'},{n:'Looker',i:'looker'},
     {n:'Notion',i:'notion'},{n:'Slack',i:'slack'},{n:'Cube',u:_cube},
   ];
-  /* Slot defs per row: left offset, size, opacity — index 0=front(right), 2=back(left) */
+  /* Slot defs per row: left offset (l), top offset (t), size (s), opacity (o), z-index (z) */
+  var _isMob=(window.innerWidth<=880);
   var S=[
-    {l:66,s:40,o:1.00,z:2},
-    {l:10,s:34,o:0.36,z:1},
+    _isMob?{l:9,t:9,s:44,o:1.00,z:2}:{l:66,t:null,s:40,o:1.00,z:2},
+    _isMob?{l:15,t:14,s:34,o:0.28,z:1}:{l:10,t:null,s:34,o:0.36,z:1}
   ];
   var ROW_H=44;
   var grid=document.getElementById('clSiloGrid');
@@ -1901,7 +1900,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     if(!anim)el.style.transition='none';
     var h=slot.s;
     el.style.left=slot.l+'px';
-    el.style.top=Math.round((ROW_H-h)/2)+'px';
+    el.style.top=(slot.t!=null?slot.t:Math.round((ROW_H-h)/2))+'px';
     el.style.width=slot.s+'px';
     el.style.height=h+'px';
     el.style.opacity=String(slot.o);
@@ -2029,7 +2028,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       var nel=makeTile(pick());
       nel.style.transition='none';
       nel.style.left='-20px';
-      nel.style.top=Math.round((ROW_H-S[1].s)/2)+'px';
+      nel.style.top=(S[1].t!=null?S[1].t:Math.round((ROW_H-S[1].s)/2))+'px';
       nel.style.width=S[1].s+'px';
       nel.style.height=S[1].s+'px';
       nel.style.opacity='0';
@@ -2093,18 +2092,19 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     {x0:0,y0:170,cx1:0,cy1:192,cx2:36,cy2:210,x1:58,y1:210},
     {x0:0,y0:170,cx1:0,cy1:210,cx2:36,cy2:270,x1:58,y1:270}
   ];
-  /* agent slot 0=active (near wire, large), slot 1=fading (rightward, small) */
-  var SA=[{l:2,s:40,o:1.0,z:2},{l:50,s:34,o:0.36,z:1}];
+  /* agent slot 0=active (near wire, large), slot 1=fading (offset, small) */
+  var _isMA=(window.innerWidth<=880);
+  var SA=[_isMA?{l:9,t:9,s:44,o:1.0,z:2}:{l:2,t:2,s:40,o:1.0,z:2},_isMA?{l:15,t:14,s:34,o:0.28,z:1}:{l:50,t:null,s:34,o:0.36,z:1}];
   var agRows=[];
   for(var r=0;r<5;r++){
     var row=document.createElement('div');
     row.className='cl-ag-row';
     grid.appendChild(row);
     var ta=makeTile(pick());
-    ta.style.cssText='position:absolute;transition:none;left:2px;top:2px;width:40px;height:40px;opacity:1;z-index:2';
+    var _s0=SA[0];ta.style.cssText='position:absolute;transition:none;left:'+_s0.l+'px;top:'+(_s0.t!=null?_s0.t:Math.round((ROW_H-_s0.s)/2))+'px;width:'+_s0.s+'px;height:'+_s0.s+'px;opacity:'+_s0.o+';z-index:'+_s0.z;
     row.appendChild(ta);
     var tf=makeTile(pick());
-    tf.style.cssText='position:absolute;transition:none;left:50px;top:'+Math.round((ROW_H-34)/2)+'px;width:34px;height:34px;opacity:.36;z-index:1';
+    var _s1=SA[1];tf.style.cssText='position:absolute;transition:none;left:'+_s1.l+'px;top:'+(_s1.t!=null?_s1.t:Math.round((ROW_H-_s1.s)/2))+'px;width:'+_s1.s+'px;height:'+_s1.s+'px;opacity:'+_s1.o+';z-index:'+_s1.z;
     row.appendChild(tf);
     agRows.push({row:row,active:ta,fading:tf});
   }
@@ -2144,7 +2144,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         mc.style.left=(bx-sz/2)+'px';mc.style.top=(by-sz/2)+'px';
         mc.style.opacity=t<0.12?String(t/0.12):t>0.88?String(1-(t-0.88)/0.12):'1';
         if(t<1){requestAnimationFrame(mfrA);}
-        else{mc.remove();rd.active.style.transition='opacity 0.25s ease';rd.active.style.opacity='0';setTimeout(function(){var ic=rd.active.querySelector('.cl-brand');if(ic)ic.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');rd.active.style.transition='opacity 0.3s ease';rd.active.style.opacity='1';},280);}}
+        else{mc.remove();var _sm0=SA[0],_sm1=SA[1],_tm0=(_sm0.t!=null?_sm0.t:Math.round((ROW_H-_sm0.s)/2)),_tm1=(_sm1.t!=null?_sm1.t:Math.round((ROW_H-_sm1.s)/2));var _ofx=rd.fading,_oax=rd.active;_ofx.style.transition='opacity 0.2s ease';_ofx.style.opacity='0';var _rx=_ofx;setTimeout(function(){if(rd.row.contains(_rx))rd.row.removeChild(_rx);},250);_oax.style.transition='left .38s ease,top .38s ease,width .38s ease,height .38s ease,opacity .38s ease';_oax.style.left=_sm1.l+'px';_oax.style.top=_tm1+'px';_oax.style.width=_sm1.s+'px';_oax.style.height=_sm1.s+'px';_oax.style.opacity=String(_sm1.o);rd.fading=_oax;var _nm=makeTile(newTool);_nm.style.cssText='position:absolute;transition:none;left:'+_sm0.l+'px;top:'+_tm0+'px;width:'+_sm0.s+'px;height:'+_sm0.s+'px;opacity:0;z-index:'+_sm0.z;rd.row.appendChild(_nm);rd.active=_nm;requestAnimationFrame(function(){requestAnimationFrame(function(){_nm.style.transition='opacity 0.3s ease';_nm.style.opacity='1';});});}}
       ;
       requestAnimationFrame(mfrA);
       return;
