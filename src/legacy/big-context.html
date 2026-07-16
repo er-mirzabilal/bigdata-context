@@ -1518,12 +1518,14 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 (function(){
   if(!matchMedia('(max-width:760px)').matches) return;
   const nav=document.querySelector('.bc-nav'); if(!nav) return;
+  const banner=document.getElementById('bcBanner');
+  const bannerActive=()=>banner&&!banner.classList.contains('bc-banner--hidden');
   let lastY=scrollY, ticking=false;
   addEventListener('scroll',()=>{
     if(ticking) return; ticking=true;
     requestAnimationFrame(()=>{
       const y=scrollY, dy=y-lastY;
-      if(y>120 && dy>4) nav.classList.add('bc-nav--hide');
+      if(y>120 && dy>4 && !bannerActive()) nav.classList.add('bc-nav--hide');
       else if(dy<-4 || y<80) nav.classList.remove('bc-nav--hide');
       lastY=y; ticking=false;
     });
