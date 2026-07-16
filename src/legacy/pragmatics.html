@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Open Pragmatics Standard — Big Context &amp; Company</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0a0610;--void-2:#160c22;--void-3:#060309;
+  --aubergine:#6d2f91;--aubergine-deep:#3c1556;
+  --lavender:#c79df0;--lavender-hot:#f0e0ff;--node:#d9b3ff;
+  --paper:#efe9f2;--muted:#9a8aa8;--muted-2:#6f6280;--dim:#6f6280;
+  --line:rgba(199,157,240,.14);--hair:rgba(199,157,240,.10);
+  --emph:#c79df0;
+  --bloom-1:rgba(199,157,240,.22);--bloom-2:rgba(109,47,145,.10);
+  --p-lav:199,157,240;--p-node:217,179,255;
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Hanken Grotesk",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --maxw:1160px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--paper);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+::selection{background:var(--lavender);color:var(--void)}
+a{color:inherit;text-decoration:none}
+
+/* Frost field */
+#ops-field{position:fixed;inset:0;z-index:0;pointer-events:none}
+.ops-orb{
+  position:absolute;left:0;top:0;border-radius:50%;
+  background:radial-gradient(circle at 40% 34%,var(--hi) 0%,var(--mid) 36%,var(--lo) 70%,transparent 98%);
+  filter:blur(calc(var(--rr) * 0.09 + 6px));
+  opacity:.5;will-change:transform;
+}
+#ops-glass{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  backdrop-filter:blur(32px) saturate(1.15);
+  -webkit-backdrop-filter:blur(32px) saturate(1.15);
+  background:rgba(10,6,16,.22);
+}
+@supports not (backdrop-filter:blur(1px)){
+  #ops-glass{background:transparent}
+  .ops-orb{filter:blur(calc(var(--rr) * 0.22 + 14px))}
+}
+
+/* Content layer */
+main,footer,.bc-nav{position:relative;z-index:2}
+
+/* Wrap */
+.bc-wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(22px,3.6vw,64px)}
+.bc-divider{height:.5px;background:var(--hair);max-width:var(--maxw);margin:0 auto;position:relative;z-index:2}
+
+/* Nav */
+.bc-nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:1160px;z-index:100;transition:top .4s cubic-bezier(.2,.7,.2,1),max-width .4s cubic-bezier(.2,.7,.2,1)}
+.bc-nav::before{content:"";position:absolute;inset:-1px;border-radius:999px;background:linear-gradient(90deg,transparent 10%,rgba(199,157,240,.18) 50%,transparent 90%);opacity:0;transition:opacity .5s ease;pointer-events:none;filter:blur(6px)}
+.bc-nav-in{position:relative;margin:0;padding:12px 14px 12px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;background:rgba(10,6,16,.62);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(199,157,240,.12);border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04);transition:padding .35s cubic-bezier(.2,.7,.2,1),background .35s ease,border-color .35s ease,box-shadow .35s ease}
+.bc-nav.bc-nav--scrolled{top:10px;max-width:1060px}
+.bc-nav.bc-nav--scrolled::before{opacity:1}
+.bc-nav.bc-nav--scrolled .bc-nav-in{padding:8px 12px 8px 18px;background:rgba(10,6,16,.82);border-color:rgba(199,157,240,.22);box-shadow:0 14px 44px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05)}
+.bc-nav-prog{position:absolute;left:14%;right:14%;bottom:-1px;height:1px;pointer-events:none;overflow:hidden;border-radius:1px}
+.bc-nav-prog>i{display:block;height:100%;width:var(--p,0%);background:linear-gradient(90deg,rgba(199,157,240,0),rgba(199,157,240,.9),rgba(240,224,255,1));box-shadow:0 0 8px rgba(199,157,240,.7);transition:width .12s linear}
+.bc-wordmark{font-family:var(--serif);font-size:17px;font-weight:500;letter-spacing:-.02em;display:flex;align-items:center;gap:6px;color:var(--paper)}
+.bc-wordmark .d{width:8px;height:8px;border-radius:50%;background:var(--lavender);box-shadow:0 0 10px rgba(var(--p-lav),.6)}
+.bc-wordmark sup{font-size:8px;font-family:var(--mono);color:var(--muted);top:-.9em;margin-left:-5px}
+.bc-wm-suf{color:rgba(239,233,242,.7);font-style:italic;font-weight:400;margin-left:-8px;transition:opacity .3s,transform .3s}
+.bc-nav.bc-nav--scrolled .bc-wm-suf{opacity:.45;transform:translateX(-2px)}
+.bc-nav-links{display:flex;gap:28px;align-items:center}
+.bc-nav-links a:not(.bc-btn){font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(239,233,242,.55);transition:color .25s}
+.bc-nav-links a:not(.bc-btn):hover{color:var(--lavender)}
+.bc-nav-links a.ops-active{color:var(--lavender)}
+.bc-btn{font-family:var(--mono);font-size:12px;letter-spacing:.06em;padding:10px 18px;border-radius:999px;background:var(--lavender);color:var(--void);font-weight:500;display:inline-flex;align-items:center;gap:7px;border:1px solid transparent;cursor:pointer;transition:all .22s}
+.bc-btn:hover{background:var(--lavender-hot);transform:translateY(-1px);box-shadow:0 8px 26px rgba(var(--p-lav),.28)}
+@media(max-width:860px){.bc-nav-links a:not(.bc-btn){display:none}}
+@media(max-width:640px){.bc-nav{top:10px;width:calc(100% - 20px)}.bc-nav-in{padding:8px 10px 8px 16px}.bc-wordmark{font-size:15px}.bc-nav-links{gap:10px}.bc-nav-links .bc-btn{padding:8px 14px;font-size:11px}}
+
+/* Eyebrow */
+.bc-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:14px;margin-bottom:32px}
+.bc-eyebrow .bar{width:34px;height:2px;background:var(--lavender);box-shadow:0 0 10px rgba(var(--p-lav),.5)}
+
+/* Reveal */
+.bc-reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.bc-reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.bc-reveal{opacity:1;transform:none;transition:none}}
+
+/* ── HERO ─────────────────────────────────────────────────────────────────── */
+.ops-hero{min-height:100vh;display:flex;align-items:center;padding:110px 0 10vh;position:relative}
+.ops-intro{
+  font-family:var(--mono);font-size:13px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:24px;
+  opacity:0;animation:opsFade .9s cubic-bezier(.16,1,.3,1) forwards .1s
+}
+.ops-name{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(2.8rem,7vw,6.5rem);line-height:1.0;letter-spacing:-.03em;
+  color:var(--paper);max-width:16ch;
+  opacity:0;animation:opsUp .9s cubic-bezier(.16,1,.3,1) forwards .18s
+}
+.ops-name em{font-style:italic;color:var(--emph)}
+.ops-sub{
+  margin-top:28px;max-width:50ch;font-size:clamp(1rem,1.4vw,1.18rem);
+  color:var(--muted);line-height:1.65;
+  opacity:0;animation:opsFade .9s ease forwards .42s
+}
+.ops-hero-cta{
+  display:flex;gap:14px;flex-wrap:wrap;margin-top:38px;
+  opacity:0;animation:opsFade .9s ease forwards .58s
+}
+.bc-btn-ghost{background:rgba(var(--p-lav),.07);color:var(--paper);border:1px solid rgba(var(--p-lav),.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.bc-btn-ghost:hover{border-color:var(--lavender);background:rgba(var(--p-lav),.15);color:var(--lavender-hot)}
+.ops-cue{
+  position:absolute;left:50%;bottom:34px;transform:translateX(-50%);z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;animation:opsFade 1s ease forwards 1.1s
+}
+.ops-cue-line{width:1px;height:46px;background:linear-gradient(var(--lavender),transparent);position:relative;overflow:hidden}
+.ops-cue-line::after{content:"";position:absolute;top:-50%;left:0;width:1px;height:50%;background:var(--lavender);animation:opsRun 1.8s ease-in-out infinite}
+.ops-cue-t{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2)}
+@keyframes opsUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes opsFade{from{opacity:0}to{opacity:1}}
+@keyframes opsRun{0%{top:-50%}100%{top:100%}}
+@media(prefers-reduced-motion:reduce){.ops-intro,.ops-name,.ops-sub,.ops-hero-cta,.ops-cue{animation:none;opacity:1;transform:none}}
+
+/* ── SECTIONS ─────────────────────────────────────────────────────────────── */
+.ops-section{padding:clamp(90px,12vh,148px) 0}
+.ops-h2{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4.2vw,3.4rem);line-height:1.04;letter-spacing:-.02em;margin-bottom:22px}
+.ops-h2 em{font-style:italic;color:var(--emph)}
+.ops-body{font-size:1.0625rem;color:var(--muted);line-height:1.7;max-width:60ch}
+.ops-body+.ops-body{margin-top:14px}
+
+/* White paper link */
+.ops-wp-link{
+  display:inline-flex;align-items:center;gap:7px;margin-top:26px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--lavender);transition:gap .25s
+}
+.ops-wp-link:hover{gap:12px}
+
+/* ── TOGGLE CARDS ─────────────────────────────────────────────────────────── */
+.ops-toggle{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:52px}
+.ops-tcard{
+  text-align:left;background:rgba(20,12,30,.5);border:1px solid var(--line);
+  border-radius:16px;padding:34px 30px;cursor:pointer;color:inherit;font-family:inherit;
+  transition:all .3s;opacity:.55;position:relative;overflow:hidden
+}
+.ops-tcard:hover{border-color:rgba(var(--p-lav),.45);transform:translateY(-3px);box-shadow:0 16px 40px -18px rgba(0,0,0,.7)}
+.ops-tcard[aria-pressed="true"]{opacity:1}
+.ops-tcard-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.ops-tcard-title{font-family:var(--serif);font-size:clamp(1.6rem,2.8vw,2.3rem);font-weight:400;letter-spacing:-.02em;line-height:1.05;margin-bottom:12px;color:var(--paper)}
+.ops-tcard-desc{font-size:.96rem;color:var(--muted);line-height:1.55}
+.ops-tcard-desc em{font-style:italic;color:rgba(var(--p-lav),.7)}
+#opsSem[aria-pressed="true"]{border-color:rgba(var(--p-lav),.38)}
+#opsNew{background:linear-gradient(160deg,rgba(109,47,145,.2),rgba(20,12,30,.5))}
+#opsNew[aria-pressed="true"]{background:linear-gradient(160deg,rgba(109,47,145,.28),rgba(109,47,145,.06));border-color:var(--lavender)}
+#opsNew[aria-pressed="true"] .ops-tcard-title{color:var(--lavender-hot)}
+#opsNew .ops-tcard-tag{color:var(--lavender)}
+@media(max-width:600px){.ops-toggle{grid-template-columns:1fr}.ops-tcard{padding:22px 20px}}
+
+/* ── SWAP PANEL ───────────────────────────────────────────────────────────── */
+.ops-swap{margin-top:16px;border:1px solid var(--line);border-radius:14px;background:rgba(10,6,16,.38);padding:38px 36px;overflow:hidden;transition:height .4s cubic-bezier(.5,.05,.18,1)}
+.ops-pane{display:none}
+.ops-pane.is-active{display:block}
+.ops-pane-label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.ops-problem-list,.ops-sol-list{list-style:none;display:grid;gap:14px}
+.ops-problem-list li,.ops-sol-list li{display:flex;align-items:flex-start;gap:14px;font-size:1rem;color:var(--muted);line-height:1.55}
+.ops-problem-list li::before{content:"↗";font-family:var(--mono);font-size:.85em;color:rgba(var(--p-lav),.45);flex-shrink:0;margin-top:3px}
+.ops-sol-list li::before{content:"✦";font-family:var(--mono);font-size:.7em;color:var(--lavender);flex-shrink:0;margin-top:5px}
+@media(max-width:640px){.ops-swap{padding:26px 22px}}
+
+/* ── RESOURCES ────────────────────────────────────────────────────────────── */
+.ops-bullets{margin-top:32px;list-style:none;display:grid;gap:16px}
+.ops-bullets li{display:flex;align-items:flex-start;gap:16px;color:var(--muted);font-size:1rem;line-height:1.6}
+.ops-bullets li::before{content:"";width:1px;height:20px;background:var(--lavender);flex-shrink:0;margin-top:4px;opacity:.7}
+.ops-bullets strong{color:var(--paper);font-weight:500}
+.ops-open-note{
+  margin-top:34px;font-family:var(--serif);font-style:italic;
+  font-size:clamp(1.05rem,1.5vw,1.25rem);color:rgba(var(--p-lav),.75);
+  max-width:58ch;line-height:1.5;padding-left:20px;
+  border-left:1.5px solid rgba(var(--p-lav),.35)
+}
+
+/* Resource boxes */
+.ops-res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:48px}
+.ops-res-card{
+  background:rgba(20,12,30,.5);border:1px solid var(--line);border-radius:14px;
+  padding:28px 24px 30px;display:flex;flex-direction:column;gap:12px;
+  transition:all .25s
+}
+.ops-res-card:hover{border-color:rgba(var(--p-lav),.34);background:rgba(109,47,145,.1);transform:translateY(-2px)}
+.ops-res-tag{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.ops-res-title{font-family:var(--serif);font-size:clamp(1.2rem,1.8vw,1.5rem);font-weight:400;line-height:1.18;color:var(--paper)}
+.ops-res-body{font-size:.93rem;color:var(--muted);line-height:1.55;flex:1}
+.ops-res-link{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--lavender);display:flex;align-items:center;gap:7px;transition:gap .25s;margin-top:auto}
+.ops-res-card:hover .ops-res-link{gap:11px}
+@media(max-width:760px){.ops-res-grid{grid-template-columns:1fr}}
+
+/* ── FIELD NOTES ──────────────────────────────────────────────────────────── */
+.ops-carousel-outer{position:relative;margin-top:48px;overflow:hidden}
+.ops-carousel-outer::after{
+  content:"";position:absolute;right:0;top:0;bottom:0;width:80px;
+  background:linear-gradient(to left,rgba(10,6,16,.7),transparent);
+  pointer-events:none;z-index:2
+}
+.ops-carousel{
+  display:flex;gap:16px;overflow-x:auto;padding-bottom:16px;
+  -webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;
+  scrollbar-width:none
+}
+.ops-carousel::-webkit-scrollbar{display:none}
+.ops-note{
+  flex:0 0 clamp(280px,38vw,380px);scroll-snap-align:start;
+  background:rgba(20,12,30,.52);border:1px solid var(--line);border-radius:16px;
+  padding:30px 28px 32px;display:flex;flex-direction:column;gap:16px;
+  transition:border-color .25s,background .25s
+}
+.ops-note:hover{border-color:rgba(var(--p-lav),.32);background:rgba(20,12,30,.72)}
+.ops-note-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--lavender)}
+.ops-note-title{font-family:var(--serif);font-size:clamp(1.1rem,2vw,1.35rem);font-weight:400;line-height:1.25;color:var(--paper);flex:1}
+.ops-note-meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted-2)}
+.ops-note-ar{font-size:1.3rem;color:var(--lavender);align-self:flex-end;transition:transform .25s}
+.ops-note:hover .ops-note-ar{transform:translateX(4px)}
+.ops-note--blank{background:rgba(10,6,16,.28);border-style:dashed;opacity:.45;pointer-events:none}
+.ops-note--blank .ops-note-kicker{color:var(--muted-2)}
+.ops-note--blank .ops-note-title{color:var(--muted);font-style:italic}
+
+/* ── JOIN THE ECOSYSTEM ───────────────────────────────────────────────────── */
+.ops-eco-inner{
+  background:linear-gradient(160deg,rgba(109,47,145,.2),rgba(20,12,30,.5));
+  border:1px solid rgba(var(--p-lav),.3);border-radius:20px;
+  padding:clamp(48px,7vw,90px) clamp(32px,6vw,80px);
+  display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center;
+  position:relative;overflow:hidden
+}
+.ops-eco-inner::before{content:"";position:absolute;top:-60%;right:-10%;width:60%;padding-bottom:60%;border-radius:50%;background:radial-gradient(circle,rgba(var(--p-lav),.12),transparent 70%);pointer-events:none}
+.ops-eco-text{position:relative}
+.ops-eco-body{font-size:1.05rem;color:var(--muted);line-height:1.7;margin-top:18px;max-width:48ch}
+.ops-eco-actions{position:relative;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.ops-eco-form{display:flex;flex-direction:column;gap:10px;width:100%}
+.ops-eco-input{
+  width:100%;background:rgba(10,6,16,.5);border:1px solid rgba(var(--p-lav),.22);
+  border-radius:10px;padding:13px 16px;font-family:var(--sans);font-size:.95rem;
+  color:var(--paper);transition:border-color .25s;outline:none
+}
+.ops-eco-input::placeholder{color:var(--muted-2);opacity:.7}
+.ops-eco-input:focus{border-color:rgba(var(--p-lav),.5)}
+.ops-eco-submit{align-self:flex-start}
+.ops-eco-note{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
+@media(max-width:760px){.ops-eco-inner{grid-template-columns:1fr;gap:36px}.ops-eco-actions{width:100%}}
+
+/* ── FOOTER ───────────────────────────────────────────────────────────────── */
+.bc-foot{border-top:.5px solid var(--line);padding:54px 0 42px}
+.bc-foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:46px}
+.bc-foot-brand{max-width:36ch}
+.bc-foot-brand .m{font-family:var(--serif);font-size:20px;font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.bc-foot-brand .m .d{width:8px;height:8px;border-radius:50%;background:var(--lavender)}
+.bc-foot-brand .m sup{font-size:8px;font-family:var(--mono);color:var(--muted);top:-.78em;margin-left:-2px}
+.bc-foot-brand p{font-family:var(--serif);font-size:1.05rem;color:var(--muted);line-height:1.5;font-style:italic}
+.bc-foot-nav{display:flex;gap:48px;flex-wrap:wrap}
+.bc-foot-col h4{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);margin-bottom:16px;font-weight:500}
+.bc-foot-col a{display:block;font-size:.95rem;color:var(--muted);margin-bottom:11px;transition:color .2s}
+.bc-foot-col a:hover{color:var(--paper)}
+.bc-foot-bar{display:flex;justify-content:space-between;align-items:center;padding-top:26px;border-top:.5px solid var(--hair);font-family:var(--mono);font-size:11px;color:var(--muted-2);letter-spacing:.04em;flex-wrap:wrap;gap:12px}
+.bc-foot-bar .d{color:var(--lavender)}
+
+/* Light mode */
+html[data-theme="light"]{
+  --void:#f8f5ff;--void-2:#ede6fa;--void-3:#ffffff;
+  --paper:#18082a;--muted:#6b5880;--muted-2:#8a7a9e;
+  --lavender:#7030b0;--lavender-hot:#4a0a90;
+  --line:rgba(112,48,176,.16);--hair:rgba(112,48,176,.12);
+  --emph:#7030b0;
+  --p-lav:112,48,176;
+}
+html[data-theme="light"] #ops-glass{background:rgba(248,245,255,.18)}
+html[data-theme="light"] .bc-nav-in{background:rgba(248,245,255,.92);border-color:rgba(112,48,176,.15);box-shadow:0 8px 32px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.8)}
+html[data-theme="light"] .bc-nav.bc-nav--scrolled .bc-nav-in{background:rgba(248,245,255,.97);border-color:rgba(112,48,176,.22)}
+html[data-theme="light"] .bc-nav-links a:not(.bc-btn){color:rgba(24,8,42,.6)}
+html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender)}
+</style>
+<script>try{var _t=localStorage.getItem('bc-theme');if(_t==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
+</head>
+<body>
+
+<div id="ops-field" aria-hidden="true"></div>
+<div id="ops-glass" aria-hidden="true"></div>
+
+<!-- Nav -->
+<nav class="bc-nav" id="bcNav">
+  <div class="bc-nav-in">
+    <a href="/" class="bc-wordmark">
+      <svg style="height:30px;width:auto;flex:0 0 auto;filter:drop-shadow(0 0 8px rgba(199,157,240,.7))" viewBox="0 0 160 120" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="20" width="10" height="80" fill="var(--lavender)"/><rect x="30" y="20" width="28" height="6" fill="var(--lavender)"/><rect x="30" y="94" width="28" height="6" fill="var(--lavender)"/><rect x="66" y="55" width="28" height="10" fill="var(--paper)"/><rect x="120" y="20" width="10" height="80" fill="var(--lavender)"/><rect x="102" y="20" width="28" height="6" fill="var(--lavender)"/><rect x="102" y="94" width="28" height="6" fill="var(--lavender)"/></svg>
+      Big Context<sup>&trade;</sup><span class="bc-wm-suf">&nbsp;&amp; Company</span>
+    </a>
+    <div class="bc-nav-links">
+      <a href="/">Platform</a>
+      <a href="/services">Practice</a>
+      <a href="/pragmatics" class="ops-active">Open Standard</a>
+      <a href="/get-started" class="bc-btn">Request Invite &rarr;</a>
+    </div>
+    <div class="bc-nav-prog" aria-hidden="true"><i id="bcNavProg"></i></div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="ops-hero">
+    <div class="bc-wrap">
+      <div class="ops-intro">Introducing</div>
+      <h1 class="ops-name">The Open Pragmatics Standard</h1>
+      <p class="ops-sub">A shared vocabulary and infrastructure layer for enterprise data context — the kind of meaning that makes AI systems actually trustworthy and reliable at scale.</p>
+      <div class="ops-hero-cta">
+        <a href="#what-is-ops" class="bc-btn bc-btn-ghost">Learn more &darr;</a>
+        <a href="#ecosystem" class="bc-btn">Request an invite &rarr;</a>
+      </div>
+    </div>
+    <a class="ops-cue" href="#what-is-ops" aria-label="Scroll down">
+      <span class="ops-cue-line"></span>
+      <span class="ops-cue-t">Scroll</span>
+    </a>
+  </section>
+
+  <div class="bc-divider"></div>
+
+  <!-- WHAT IS OPS -->
+  <section class="ops-section" id="what-is-ops">
+    <div class="bc-wrap bc-reveal">
+      <div class="bc-eyebrow"><span class="bar"></span>What is OPS</div>
+      <h2 class="ops-h2">Why your data still <em>can&rsquo;t carry</em> AI.</h2>
+      <p class="ops-body">Most enterprises have data. Very few have data that AI can reliably reason from. The gap isn&rsquo;t schema coverage or tooling &mdash; it&rsquo;s pragmatic context: the judgement, constraints, and institutional knowledge that live in people&rsquo;s heads, never in a schema. The Open Pragmatics Standard is the infrastructure to close that gap, permanently and in the open.</p>
+      <a href="#resources" class="ops-wp-link">Read the whitepaper: Pragmatics &amp; Enterprise AI &rarr;</a>
+
+      <div class="ops-toggle" role="group" aria-label="Compare approaches">
+        <button class="ops-tcard" id="opsSem" aria-pressed="false">
+          <div class="ops-tcard-tag">The failure mode</div>
+          <div class="ops-tcard-title">Semantic Context</div>
+          <div class="ops-tcard-desc">How you attempted to define your data &mdash; <em>a hand-crafted partial snapshot of meaning intended to be used globally across its domain.</em></div>
+        </button>
+        <button class="ops-tcard" id="opsNew" aria-pressed="true">
+          <div class="ops-tcard-tag">The standard</div>
+          <div class="ops-tcard-title">Pragmatics OS</div>
+          <div class="ops-tcard-desc">A self-maintaining system of record and reliability engine that mirrors the contextual judgement of your best data experts &mdash; <em>in actual use.</em></div>
+        </button>
+      </div>
+
+      <div class="ops-swap" id="opsSwap">
+        <div class="ops-pane" id="opsPaneSem">
+          <div class="ops-pane-label">Why semantic context breaks down at AI-scale</div>
+          <ul class="ops-problem-list">
+            <li>Context defined for humans gets misread by AI systems trained to generalise across all domains, not just yours.</li>
+            <li>Hand-crafted definitions rot as your business evolves &mdash; no agent updates them when the meaning shifts.</li>
+            <li>Coverage gaps compound: undocumented fields, tribal-knowledge edge cases, and contradictions between systems.</li>
+            <li>Global schemas assume a single truth that doesn&rsquo;t exist across the silos, teams, and timelines of real enterprises.</li>
+          </ul>
+        </div>
+        <div class="ops-pane is-active" id="opsPaneNew">
+          <div class="ops-pane-label">How Pragmatics OS closes the gap</div>
+          <ul class="ops-sol-list">
+            <li>A living system of record that tracks what data means <em>in use</em> &mdash; not in theory.</li>
+            <li>Mirrors the institutional judgement of your best data experts, captured and made reproducible.</li>
+            <li>Open vocabulary ensures your context layer works with any AI system, any vendor, any stack.</li>
+            <li>Built to be maintained &mdash; benchmarks and tests surface drift before it becomes an AI reliability failure.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bc-divider"></div>
+
+  <!-- RESOURCES -->
+  <section class="ops-section" id="resources">
+    <div class="bc-wrap bc-reveal">
+      <div class="bc-eyebrow"><span class="bar"></span>Resources</div>
+      <h2 class="ops-h2">Everything you need to <em>build in the open.</em></h2>
+      <p class="ops-body">The Open Pragmatics Standard is designed to help all data practitioners build a performant data context layer that works with AI. It&rsquo;s a toolkit that includes:</p>
+
+      <ul class="ops-bullets">
+        <li><div><strong>The standard</strong> &mdash; an open, vendor-neutral vocabulary for enterprise context: metrics, entities, policies, decisions, and the tribal knowledge that never made it into a schema.</div></li>
+        <li><div><strong>Evaluation tools</strong> &mdash; open benchmarks and tests to measure how legible your data actually is to AI, and whether a change made it better.</div></li>
+        <li><div><strong>Reference architectures</strong> &mdash; proven blueprints for standing up a pragmatic context layer on the stack you already run.</div></li>
+        <li><div><strong>Playbooks</strong> &mdash; the patterns, step by step, for the work: migrations, metric harmonisation, keeping context current.</div></li>
+        <li><div><strong>Community</strong> &mdash; of like-minded contributors working on the mission.</div></li>
+      </ul>
+
+      <p class="ops-open-note">Published in the open, so your agents are never locked to anyone&rsquo;s implementation &mdash; including ours.</p>
+
+      <div class="ops-res-grid">
+        <div class="ops-res-card">
+          <div class="ops-res-tag">01 &nbsp;/&nbsp; White Paper</div>
+          <div class="ops-res-title">Pragmatics &amp; Enterprise AI</div>
+          <div class="ops-res-body">The case for open pragmatic context &mdash; what it is, why semantic context fails at AI-scale, and how the standard closes the gap.</div>
+          <a href="#ecosystem" class="ops-res-link">Read the paper &rarr;</a>
+        </div>
+        <div class="ops-res-card">
+          <div class="ops-res-tag">02 &nbsp;/&nbsp; Evaluation</div>
+          <div class="ops-res-title">Context Legibility Benchmark</div>
+          <div class="ops-res-body">Open benchmarks and test suites to score how well your data context communicates to AI &mdash; and track it over time.</div>
+          <a href="#ecosystem" class="ops-res-link">Explore the tools &rarr;</a>
+        </div>
+        <div class="ops-res-card">
+          <div class="ops-res-tag">03 &nbsp;/&nbsp; Community</div>
+          <div class="ops-res-title">Join the Ecosystem</div>
+          <div class="ops-res-body">Co-authors, practitioners, and steering committee members from the world&rsquo;s most complex data environments, building together.</div>
+          <a href="#ecosystem" class="ops-res-link">Request an invite &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bc-divider"></div>
+
+  <!-- FIELD NOTES -->
+  <section class="ops-section" id="field-notes">
+    <div class="bc-wrap bc-reveal">
+      <div class="bc-eyebrow"><span class="bar"></span>Field Notes</div>
+      <h2 class="ops-h2">Practitioners <em>in the wild.</em></h2>
+      <p class="ops-body">How the world&rsquo;s leading data teams are building context layers that actually work with AI.</p>
+    </div>
+    <div class="bc-wrap bc-reveal" style="padding-right:0">
+      <div class="ops-carousel-outer">
+        <div class="ops-carousel">
+
+          <div class="ops-note">
+            <div class="ops-note-kicker">Playbook</div>
+            <div class="ops-note-title">How OpenAI structured internal data agents around a shared context layer</div>
+            <div class="ops-note-meta">Enterprise Context &nbsp;&middot;&nbsp; Data Agents</div>
+            <div class="ops-note-ar">&rarr;</div>
+          </div>
+
+          <div class="ops-note">
+            <div class="ops-note-kicker">Playbook</div>
+            <div class="ops-note-title">GitHub&rsquo;s data team built a pragmatic context layer for BI agents</div>
+            <div class="ops-note-meta">BI Agents &nbsp;&middot;&nbsp; Context Engineering</div>
+            <div class="ops-note-ar">&rarr;</div>
+          </div>
+
+          <div class="ops-note">
+            <div class="ops-note-kicker">Playbook</div>
+            <div class="ops-note-title">Anthropic&rsquo;s business context layer for internal analytics agents</div>
+            <div class="ops-note-meta">Analytics Agents &nbsp;&middot;&nbsp; Internal AI</div>
+            <div class="ops-note-ar">&rarr;</div>
+          </div>
+
+          <div class="ops-note ops-note--blank">
+            <div class="ops-note-kicker">Coming Soon</div>
+            <div class="ops-note-title">The next field note is in progress.</div>
+            <div class="ops-note-meta">Submit your story</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="bc-divider"></div>
+
+  <!-- JOIN THE ECOSYSTEM -->
+  <section class="ops-section" id="ecosystem">
+    <div class="bc-wrap bc-reveal">
+      <div class="bc-eyebrow"><span class="bar"></span>Join the Ecosystem</div>
+      <div class="ops-eco-inner">
+        <div class="ops-eco-text">
+          <h2 class="ops-h2" style="margin-bottom:0">Shape the <em>standard.</em></h2>
+          <p class="ops-eco-body">We&rsquo;re currently inviting a steering committee, co-authors, and our seed community of data practitioners from the world&rsquo;s most complex data environments. If this is you, please request an invite from a member or drop us a request here.</p>
+        </div>
+        <div class="ops-eco-actions">
+          <form class="ops-eco-form" onsubmit="return false">
+            <input class="ops-eco-input" type="email" placeholder="Your work email" aria-label="Work email">
+            <textarea class="ops-eco-input" rows="3" placeholder="Tell us about your data environment &mdash; size, complexity, what you&rsquo;re building with AI." aria-label="Message" style="resize:none"></textarea>
+            <button type="submit" class="bc-btn ops-eco-submit">Request an invite &rarr;</button>
+          </form>
+          <span class="ops-eco-note">We review every request. Expect a response within a few days.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bc-foot">
+  <div class="bc-wrap">
+    <div class="bc-foot-top">
+      <div class="bc-foot-brand">
+        <div class="m"><span class="d"></span>Big Context<sup>&trade;</sup></div>
+        <p>The open infrastructure for enterprise data context.</p>
+      </div>
+      <nav class="bc-foot-nav">
+        <div class="bc-foot-col">
+          <h4>Standard</h4>
+          <a href="#what-is-ops">What is OPS</a>
+          <a href="#resources">Resources</a>
+          <a href="#field-notes">Field Notes</a>
+        </div>
+        <div class="bc-foot-col">
+          <h4>Company</h4>
+          <a href="/">Platform</a>
+          <a href="/services">Practice</a>
+          <a href="/get-started">Get Started</a>
+        </div>
+        <div class="bc-foot-col">
+          <h4>Community</h4>
+          <a href="#ecosystem">Steering Committee</a>
+          <a href="#ecosystem">Co-authors</a>
+          <a href="#ecosystem">Request Invite</a>
+        </div>
+      </nav>
+    </div>
+    <div class="bc-foot-bar">
+      <span><span class="d">&bull;</span> Big Context &amp; Company &copy; 2026</span>
+      <span>Open Pragmatics Standard</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+/* ── Frost animation ── */
+var field=document.getElementById('ops-field');
+var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var TAU=Math.PI*2;
+var P={G:220,DRAG:0.48,SWAY:12,EG:0.28,EO:0.25,EW:0.38,MU:0.28,FILL:0.52,HEADROOM:0.08,CAP:32,SPAWN_MS:480};
+var TINTS=[
+  {hi:'rgba(240,224,255,.62)',mid:'rgba(217,179,255,.30)',lo:'rgba(199,157,240,.28)'},
+  {hi:'rgba(240,224,255,.50)',mid:'rgba(199,157,240,.28)',lo:'rgba(109,47,145,.32)'},
+  {hi:'rgba(226,240,255,.46)',mid:'rgba(161,91,255,.26)',lo:'rgba(0,221,255,.12)'},
+  {hi:'rgba(240,224,255,.48)',mid:'rgba(109,47,145,.36)',lo:'rgba(60,21,86,.48)'},
+  {hi:'rgba(217,179,255,.36)',mid:'rgba(60,21,86,.48)',lo:'rgba(22,12,34,.64)'},
+  {hi:'rgba(217,179,255,.24)',mid:'rgba(22,12,34,.52)',lo:'rgba(6,3,9,.72)'}
+];
+var bag=[];
+function nextTint(){if(!bag.length)bag=[0,1,2,3,4,5].sort(function(){return Math.random()-.5;});return TINTS[bag.pop()];}
+var VW=window.innerWidth,VH=window.innerHeight,rBase=0;
+function metrics(){VW=window.innerWidth;VH=window.innerHeight;rBase=VW*(VW<640?0.17:0.138);}
+metrics();
+var orbs=[];
+function fillNow(){var a=0;for(var i=0;i<orbs.length;i++)a+=Math.PI*orbs[i].r*orbs[i].r;return a/(VW*VH);}
+function smartX(r){
+  var bestX=r+Math.random()*Math.max(1,VW-2*r),bestSky=-Infinity;
+  for(var c=0;c<5;c++){var cx=r+Math.random()*Math.max(1,VW-2*r),sky=VH;for(var i=0;i<orbs.length;i++){var o=orbs[i];if(Math.abs(o.x-cx)<(o.r+r)*0.8)sky=Math.min(sky,o.y-o.r);}if(sky>bestSky){bestSky=sky;bestX=cx;}}
+  return bestX;
+}
+function spawn(px,py,budget){
+  if(orbs.length>=P.CAP)return;
+  var cap=(budget==null)?P.FILL+P.HEADROOM:budget;
+  var r=rBase*(0.5+Math.pow(Math.random(),1.6)*1.0);
+  r=Math.min(r,VW*0.2,VH*0.26);
+  var remaining=(cap-fillNow())*VW*VH;
+  if(Math.PI*r*r>remaining)r=Math.sqrt(Math.max(0,remaining)/Math.PI);
+  if(r<36)return;
+  var m=r*r;
+  var o={r:r,m:m,invM:1/m,invI:1/(0.4*m*r*r),
+    x:(px!=null)?Math.max(r,Math.min(VW-r,px)):smartX(r),
+    y:(py!=null)?py:(-r-Math.random()*VH*0.22),
+    vx:(Math.random()-.5)*30,vy:20+Math.random()*36,
+    om:(Math.random()-.5)*0.8,th:Math.random()*TAU,ph:Math.random()*TAU,
+    wv:0.5+Math.random()*0.8,g:false};
+  var t=nextTint();
+  var el=document.createElement('div');
+  el.className='ops-orb';
+  el.style.width=el.style.height=(2*r)+'px';
+  el.style.setProperty('--rr',r+'px');
+  el.style.setProperty('--hi',t.hi);
+  el.style.setProperty('--mid',t.mid);
+  el.style.setProperty('--lo',t.lo);
+  field.appendChild(el);
+  o.el=el;orbs.push(o);
+}
+function pair(a,b){
+  var dx=b.x-a.x,dy=b.y-a.y,rs=a.r+b.r,d2=dx*dx+dy*dy;
+  if(d2>=rs*rs)return;
+  if(d2===0){dx=0.01;dy=-0.01;d2=0.0002;}
+  var d=Math.sqrt(d2),nx=dx/d,ny=dy/d,tot=a.invM+b.invM;
+  var corr=Math.max(rs-d-0.5,0)/tot*0.8;
+  a.x-=nx*corr*a.invM;a.y-=ny*corr*a.invM;b.x+=nx*corr*b.invM;b.y+=ny*corr*b.invM;
+  var rvx=b.vx-a.vx,rvy=b.vy-a.vy,vn=rvx*nx+rvy*ny;
+  if(vn>=0)return;
+  var e=vn<-60?P.EO:0;
+  var jn=-(1+e)*vn/tot;
+  a.vx-=jn*nx*a.invM;a.vy-=jn*ny*a.invM;b.vx+=jn*nx*b.invM;b.vy+=jn*ny*b.invM;
+  var tx=-ny,ty=nx,vt=(b.vx-a.vx)*tx+(b.vy-a.vy)*ty-(a.om*a.r+b.om*b.r);
+  var jt=-vt/(tot*3.5),maxF=P.MU*Math.abs(jn);
+  if(jt>maxF)jt=maxF;if(jt<-maxF)jt=-maxF;
+  a.vx-=jt*tx*a.invM;a.vy-=jt*ty*a.invM;b.vx+=jt*tx*b.invM;b.vy+=jt*ty*b.invM;
+  a.om-=jt*a.r*a.invI;b.om-=jt*b.r*b.invI;
+}
+function bounds(o){
+  if(o.y+o.r>VH){o.y=VH-o.r;if(o.vy>0)o.vy=-o.vy*(o.vy>90?P.EG:0);o.g=true;}
+  if(o.x-o.r<0){o.x=o.r;if(o.vx<0){o.vx=-o.vx*P.EW;o.om*=0.9;}}
+  if(o.x+o.r>VW){o.x=VW-o.r;if(o.vx>0){o.vx=-o.vx*P.EW;o.om*=0.9;}}
+}
+function step(dt,t){
+  var i,j,o;
+  for(i=0;i<orbs.length;i++){o=orbs[i];if(!o.g)o.vx+=Math.sin(t*o.wv+o.ph)*P.SWAY*dt;o.vy+=P.G*dt;var drag=Math.exp(-P.DRAG*dt);o.vx*=drag;o.vy*=drag;o.x+=o.vx*dt;o.y+=o.vy*dt;o.th+=o.om*dt;o.g=false;}
+  for(var it=0;it<2;it++){for(i=0;i<orbs.length;i++)for(j=i+1;j<orbs.length;j++)pair(orbs[i],orbs[j]);for(i=0;i<orbs.length;i++)bounds(orbs[i]);}
+  for(i=0;i<orbs.length;i++){o=orbs[i];if(!o.g)continue;o.om+=(o.vx/o.r-o.om)*Math.min(1,9*dt);o.vx+=(o.om*o.r-o.vx)*Math.min(1,3*dt);var rr=Math.exp(-0.35*dt);o.vx*=rr;o.om*=rr;if(Math.abs(o.vx)<3&&Math.abs(o.om)<0.03){o.vx*=0.85;o.om*=0.85;}}
+}
+function render(){for(var i=0;i<orbs.length;i++){var o=orbs[i];o.el.style.transform='translate3d('+(o.x-o.r).toFixed(1)+'px,'+(o.y-o.r).toFixed(1)+'px,0)';}}
+var last=null,lastSpawn=-1e9,lastY=window.scrollY||window.pageYOffset||0,scrollOdo=0;
+function scrollStep(){return VH*0.24;}
+function targetFill(){var doc=document.documentElement;var span=Math.max(1,doc.scrollHeight-VH);var prog=Math.min(1,Math.max(0,(window.scrollY||window.pageYOffset||0)/span));return P.FILL*(0.18+0.82*Math.pow(prog,0.88));}
+function frame(ts){
+  requestAnimationFrame(frame);
+  if(last==null){last=ts;return;}
+  var dt=Math.min((ts-last)/1000,1/30);last=ts;
+  var y=window.scrollY||window.pageYOffset||0;scrollOdo+=Math.abs(y-lastY);lastY=y;if(scrollOdo>scrollStep()*1.3)scrollOdo=scrollStep()*1.3;
+  if(ts-lastSpawn>P.SPAWN_MS){if(fillNow()<targetFill()){spawn(null,null,P.FILL);lastSpawn=ts;}else if(scrollOdo>=scrollStep()){spawn(null,null,P.FILL);lastSpawn=ts;scrollOdo-=scrollStep();}}
+  var h=dt/2,t0=ts/1000;step(h,t0);step(h,t0+h);render();
+}
+window.addEventListener('resize',function(){metrics();for(var i=0;i<orbs.length;i++){var o=orbs[i];o.x=Math.max(o.r,Math.min(VW-o.r,o.x));o.y=Math.min(o.y,VH-o.r);}});
+if(reduced){
+  var guard=0,tt=0;while(fillNow()<P.FILL&&orbs.length<P.CAP&&guard++<32){spawn(null,-rBase*1.4,P.FILL);for(var s=0;s<160;s++){step(1/60,tt);tt+=1/60;}}
+  for(var s2=0;s2<300;s2++){step(1/60,tt);tt+=1/60;}render();
+}else{
+  document.addEventListener('click',function(e){if(e.target.closest('a,button,input,select,textarea,form'))return;spawn(e.clientX);lastSpawn=performance.now();});
+  document.addEventListener('visibilitychange',function(){last=null;});
+  requestAnimationFrame(frame);
+}
+
+/* ── Section reveals ── */
+var revs=document.querySelectorAll('.bc-reveal');
+if(reduced||!('IntersectionObserver' in window)){revs.forEach(function(el){el.classList.add('in');});}
+else{var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:0.1});revs.forEach(function(el){io.observe(el);});}
+
+/* ── Nav ── */
+var nav=document.getElementById('bcNav');
+var nprog=document.getElementById('bcNavProg');
+function updateNav(){
+  var y=window.scrollY||window.pageYOffset||0;
+  if(y>60)nav.classList.add('bc-nav--scrolled');else nav.classList.remove('bc-nav--scrolled');
+  if(nprog){var doc=document.documentElement;var span=Math.max(1,doc.scrollHeight-window.innerHeight);nprog.style.setProperty('--p',Math.min(100,y/span*100)+'%');}
+}
+window.addEventListener('scroll',updateNav,{passive:true});
+updateNav();
+
+/* ── Toggle ── */
+var btnSem=document.getElementById('opsSem');
+var btnNew=document.getElementById('opsNew');
+var paneSem=document.getElementById('opsPaneSem');
+var paneNew=document.getElementById('opsPaneNew');
+function activatePane(which){
+  if(which==='sem'){
+    btnSem.setAttribute('aria-pressed','true');btnNew.setAttribute('aria-pressed','false');
+    paneSem.classList.add('is-active');paneNew.classList.remove('is-active');
+  }else{
+    btnNew.setAttribute('aria-pressed','true');btnSem.setAttribute('aria-pressed','false');
+    paneNew.classList.add('is-active');paneSem.classList.remove('is-active');
+  }
+}
+btnSem.addEventListener('click',function(){activatePane('sem');});
+btnNew.addEventListener('click',function(){activatePane('ops');});
+})();
+</script>
+</body>
+</html>
