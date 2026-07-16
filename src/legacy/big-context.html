@@ -576,7 +576,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-silo-grid{display:flex;flex-direction:column;justify-content:space-around;align-items:flex-start;flex:1 1 0;overflow:visible}
   .cl-silo-grid::before{display:none}
   .cl-sq-row,.cl-ag-row{position:relative;width:110px;height:44px;flex-shrink:0;overflow:visible}
-  .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{position:absolute;border-radius:50%;background:rgba(20,12,30,.72);border:1px solid rgba(var(--p-lav),.22);display:flex;align-items:center;justify-content:center;will-change:transform,opacity;transition:left .48s cubic-bezier(.4,0,.2,1),width .48s ease,height .48s ease,opacity .48s ease}
+  .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{position:absolute;border-radius:50%;background:rgba(20,12,30,.72);border:1px solid rgba(var(--p-lav),.22);display:flex;align-items:center;justify-content:center;will-change:transform,opacity;transition:left .48s cubic-bezier(.4,0,.2,1),top .48s ease,width .48s ease,height .48s ease,opacity .48s ease}
   .cl-sq-row .cl-silo-tile .cl-brand,.cl-ag-row .cl-silo-tile .cl-brand{display:block;width:44%;height:44%;background:var(--lavender);opacity:.65;-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat}
   .cl-sq-row .cl-silo-tile.cl-sq-merge{animation:cl-sq-fly .85s cubic-bezier(.35,0,.85,1) forwards!important;transition:none!important}
   @keyframes cl-sq-fly{0%{transform:none;opacity:1}38%{transform:translateX(44px) scale(.42);opacity:.78}100%{transform:translateX(148px) scale(.04);opacity:0}}
@@ -732,7 +732,7 @@ svg.tl{width:100%;height:auto;display:block}
   /* --- Mobile: portrait-vertical figure layout --- */
   .cl-body{grid-template-columns:1fr;min-height:0;max-width:100%;margin:0}
   .cl-col{margin-top:0}
-  .cl-wires{height:150px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
+  .cl-wires{height:180px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
   .cl-wires>svg:not(.cl-mwire){display:none}
   .cl-wires .cl-mwire{display:block;position:absolute;top:0;left:0;width:100%;height:100%}
   .cl-col.cl-silos{display:flex;flex-direction:column;align-items:center;padding:2px 0 0;overflow:visible;align-self:auto;gap:0}
@@ -741,17 +741,17 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-sq-row,.cl-ag-row{position:relative;width:62px;height:62px;flex-shrink:0;overflow:visible}
   .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{position:absolute;border-radius:50%;background:rgba(20,12,30,.72);border:1px solid rgba(var(--p-lav),.22);display:flex;align-items:center;justify-content:center;will-change:transform,opacity;transition:left .48s cubic-bezier(.4,0,.2,1),width .48s ease,height .48s ease,opacity .48s ease}
   .cl-sq-row .cl-silo-tile .cl-brand,.cl-ag-row .cl-silo-tile .cl-brand{display:block;width:44%;height:44%;background:var(--lavender);opacity:.65;-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat}
-  .cl-core{width:148px!important;height:148px!important;margin:0 auto}
-  .cl-core-orbit{width:148px!important;height:148px!important}
-  .cl-core-chip img{width:60px!important;height:60px!important}
+  .cl-core{width:168px!important;height:168px!important;margin:0 auto}
+  .cl-core-orbit{width:168px!important;height:168px!important}
+  .cl-core-chip img{width:68px!important;height:68px!important}
   .cl-core-chip svg{width:34px;height:28px}
-  .cl-core-hex{width:86px!important;height:86px!important}
+  .cl-core-hex{width:98px!important;height:98px!important}
   .cl-core-col{display:flex;align-items:center;justify-content:center;padding:4px 0;align-self:auto}
   .cl-core-caption{display:none}
   .cl-head{display:none}
   .cl-silos .cl-head,.cl-agents .cl-head{display:none}
-  .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:11px;letter-spacing:.14em;line-height:1.4;opacity:.85;margin:0 0 16px;padding:0}
-  .cl-agents .cl-rail-header{display:block;order:99;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:11px;letter-spacing:.14em;line-height:1.4;opacity:.85;margin:16px 0 0;padding:0}
+  .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-family:var(--mono);color:var(--lavender);text-transform:uppercase;font-size:13px;letter-spacing:.14em;line-height:1.4;opacity:.9;margin:0 0 20px;padding:0}
+  .cl-agents .cl-rail-header{display:block;order:99;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-family:var(--mono);color:var(--lavender);text-transform:uppercase;font-size:13px;letter-spacing:.14em;line-height:1.4;opacity:.9;margin:20px 0 0;padding:0}
   @keyframes mwire-dash{to{stroke-dashoffset:-40}}
   .cl-mwire path{stroke-dasharray:4 7;stroke-dashoffset:0;animation:mwire-dash 2s linear infinite}
 }
@@ -768,11 +768,11 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent{width:38px;height:38px}
   .cl-agent .ico{width:28px;height:28px}
   .cl-agents{column-gap:8px;row-gap:8px;gap:8px}
-  .cl-wires{height:120px}
-  .cl-core{width:120px!important;height:120px!important}
-  .cl-core-hex{width:72px!important;height:72px!important}
-  .cl-core-orbit{width:120px!important;height:120px!important}
-  .cl-core-chip img{width:48px!important;height:48px!important}
+  .cl-wires{height:148px}
+  .cl-core{width:136px!important;height:136px!important}
+  .cl-core-hex{width:82px!important;height:82px!important}
+  .cl-core-orbit{width:136px!important;height:136px!important}
+  .cl-core-chip img{width:54px!important;height:54px!important}
   .cl-col.cl-agents{gap:0}
   .cl-sq-row,.cl-ag-row{width:52px;height:52px}
 }
@@ -1875,8 +1875,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   /* Slot defs per row: left offset (l), top offset (t), size (s), opacity (o), z-index (z) */
   var _isMob=(window.innerWidth<=880);
   var S=[
-    _isMob?{l:16,t:13,s:36,o:1.00,z:2}:{l:66,t:null,s:40,o:1.00,z:2},
-    _isMob?{l:1,t:18,s:26,o:0.32,z:1}:{l:10,t:null,s:34,o:0.36,z:1}
+    _isMob?{l:13,t:26,s:36,o:1.00,z:2}:{l:66,t:null,s:40,o:1.00,z:2},
+    _isMob?{l:18,t:2,s:26,o:0.32,z:1}:{l:10,t:null,s:34,o:0.36,z:1}
   ];
   var ROW_H=44;
   var grid=document.getElementById('clSiloGrid');
@@ -2027,8 +2027,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       rd.q.shift();
       var nel=makeTile(pick());
       nel.style.transition='none';
-      nel.style.left='-20px';
-      nel.style.top=(S[1].t!=null?S[1].t:Math.round((ROW_H-S[1].s)/2))+'px';
+      if(window.innerWidth<=880){nel.style.left=S[1].l+'px';nel.style.top='-26px';}
+      else{nel.style.left='-20px';nel.style.top=(S[1].t!=null?S[1].t:Math.round((ROW_H-S[1].s)/2))+'px';}
       nel.style.width=S[1].s+'px';
       nel.style.height=S[1].s+'px';
       nel.style.opacity='0';
@@ -2094,7 +2094,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   ];
   /* agent slot 0=active (near wire, large), slot 1=fading (offset, small) */
   var _isMA=(window.innerWidth<=880);
-  var SA=[_isMA?{l:2,t:13,s:36,o:1.0,z:2}:{l:2,t:2,s:40,o:1.0,z:2},_isMA?{l:26,t:18,s:26,o:0.32,z:1}:{l:50,t:null,s:34,o:0.36,z:1}];
+  var SA=[_isMA?{l:13,t:0,s:36,o:1.0,z:2}:{l:2,t:2,s:40,o:1.0,z:2},_isMA?{l:18,t:30,s:26,o:0.32,z:1}:{l:50,t:null,s:34,o:0.36,z:1}];
   var agRows=[];
   for(var r=0;r<5;r++){
     var row=document.createElement('div');
