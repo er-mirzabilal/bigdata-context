@@ -732,7 +732,7 @@ svg.tl{width:100%;height:auto;display:block}
   /* --- Mobile: portrait-vertical figure layout --- */
   .cl-body{grid-template-columns:1fr;min-height:0;max-width:100%;margin:0}
   .cl-col{margin-top:0}
-  .cl-wires{height:120px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
+  .cl-wires{height:150px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
   .cl-wires>svg:not(.cl-mwire){display:none}
   .cl-wires .cl-mwire{display:block;position:absolute;top:0;left:0;width:100%;height:100%}
   .cl-col.cl-silos{display:flex;flex-direction:column;align-items:center;padding:2px 0 0;overflow:visible;align-self:auto;gap:0}
@@ -768,7 +768,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent{width:38px;height:38px}
   .cl-agent .ico{width:28px;height:28px}
   .cl-agents{column-gap:8px;row-gap:8px;gap:8px}
-  .cl-wires{height:96px}
+  .cl-wires{height:120px}
   .cl-core{width:120px!important;height:120px!important}
   .cl-core-hex{width:72px!important;height:72px!important}
   .cl-core-orbit{width:120px!important;height:120px!important}
@@ -1875,8 +1875,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   /* Slot defs per row: left offset (l), top offset (t), size (s), opacity (o), z-index (z) */
   var _isMob=(window.innerWidth<=880);
   var S=[
-    _isMob?{l:9,t:9,s:44,o:1.00,z:2}:{l:66,t:null,s:40,o:1.00,z:2},
-    _isMob?{l:15,t:14,s:34,o:0.28,z:1}:{l:10,t:null,s:34,o:0.36,z:1}
+    _isMob?{l:16,t:13,s:36,o:1.00,z:2}:{l:66,t:null,s:40,o:1.00,z:2},
+    _isMob?{l:1,t:18,s:26,o:0.32,z:1}:{l:10,t:null,s:34,o:0.36,z:1}
   ];
   var ROW_H=44;
   var grid=document.getElementById('clSiloGrid');
@@ -2094,7 +2094,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   ];
   /* agent slot 0=active (near wire, large), slot 1=fading (offset, small) */
   var _isMA=(window.innerWidth<=880);
-  var SA=[_isMA?{l:9,t:9,s:44,o:1.0,z:2}:{l:2,t:2,s:40,o:1.0,z:2},_isMA?{l:15,t:14,s:34,o:0.28,z:1}:{l:50,t:null,s:34,o:0.36,z:1}];
+  var SA=[_isMA?{l:2,t:13,s:36,o:1.0,z:2}:{l:2,t:2,s:40,o:1.0,z:2},_isMA?{l:26,t:18,s:26,o:0.32,z:1}:{l:50,t:null,s:34,o:0.36,z:1}];
   var agRows=[];
   for(var r=0;r<5;r++){
     var row=document.createElement('div');
@@ -2139,7 +2139,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
           var ex2=agR2.left+agR2.width/2,ey2=agR2.top+agR2.height/2;
           var u2=1-t;bx=u2*u2*sx2+2*u2*t*(sx2+(ex2-sx2)*0.7)+t*t*ex2;by=u2*u2*sy2+2*u2*t*(sy2+(ey2-sy2)*0.3)+t*t*ey2;
         }
-        var sz=8+(44-8)*t;
+        var sz=4+(26-4)*t;
         mc.style.width=sz+'px';mc.style.height=sz+'px';
         mc.style.left=(bx-sz/2)+'px';mc.style.top=(by-sz/2)+'px';
         mc.style.opacity=t<0.12?String(t/0.12):t>0.88?String(1-(t-0.88)/0.12):'1';
