@@ -741,7 +741,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-sq-row,.cl-ag-row{position:relative;width:62px;height:62px;flex-shrink:0;overflow:visible}
   .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{position:absolute;left:9px!important;top:9px!important;width:44px!important;height:44px!important;border-radius:50%;background:rgba(20,12,30,.72);border:1px solid rgba(var(--p-lav),.22);display:flex;align-items:center;justify-content:center;transition:opacity .48s ease;will-change:opacity}
   .cl-sq-row .cl-silo-tile .cl-brand,.cl-ag-row .cl-silo-tile .cl-brand{display:block;width:44%;height:44%;background:var(--lavender);opacity:.65;-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat}
-  .cl-sq-row .cl-silo-tile:nth-child(2),.cl-ag-row .cl-silo-tile:nth-child(2){opacity:0!important;pointer-events:none}
+  .cl-sq-row .cl-silo-tile:not(:first-child),.cl-ag-row .cl-silo-tile:not(:first-child){opacity:0!important;pointer-events:none}
   .cl-core{width:112px!important;height:112px!important;margin:0 auto}
   .cl-core-orbit{width:112px!important;height:112px!important}
   .cl-core-chip img{width:46px!important;height:46px!important}
@@ -751,8 +751,10 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-core-caption{display:none}
   .cl-head{display:none}
   .cl-silos .cl-head,.cl-agents .cl-head{display:none}
-  .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:9px;letter-spacing:.18em;line-height:1.4;opacity:.72;margin:0 0 3px;padding:0}
-  .cl-agents .cl-rail-header{display:block;order:-1;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:9px;letter-spacing:.18em;line-height:1.4;opacity:.72;margin:0 0 3px;padding:0}
+  .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:9px;letter-spacing:.18em;line-height:1.4;opacity:.72;margin:0 0 12px;padding:0}
+  .cl-agents .cl-rail-header{display:block;order:99;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:9px;letter-spacing:.18em;line-height:1.4;opacity:.72;margin:12px 0 0;padding:0}
+  @keyframes mwire-dash{to{stroke-dashoffset:-40}}
+  .cl-mwire path{stroke-dasharray:4 7;stroke-dashoffset:0;animation:mwire-dash 2s linear infinite}
 }
 @media (max-width:520px){
   .st-cl{padding:40px 14px}
@@ -1931,14 +1933,12 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   ];
   function launchMergeTile(ri,tile){
     if(window.innerWidth<=880){
-      var tR=tile.getBoundingClientRect();
-      var cEl=document.querySelector('.cl-core');
-      if(!cEl)return;
-      var cR=cEl.getBoundingClientRect();
-      var sx=tR.left+tR.width/2,sy=tR.top+tR.height/2;
-      var ex=cR.left+cR.width/2,ey=cR.top+cR.height/2;
-      var cpx=sx+(ex-sx)*0.3,cpy=sy+(ey-sy)*0.3;
-      var msz=tR.width||44;
+      var wz1=document.querySelector('.cl-body>div:nth-child(2)');
+      var msvg1=wz1?wz1.querySelector('.cl-mwire'):null;
+      var wpaths1=msvg1?msvg1.querySelectorAll('path'):[];
+      var wp1=wpaths1[ri]||null;
+      var mlen1=wp1?wp1.getTotalLength():0;
+      var msz=tile.getBoundingClientRect().width||44;
       var mc=document.createElement('div');
       mc.style.cssText='position:fixed;border-radius:50%;background:rgba(20,12,30,.9);border:1px solid rgba(130,100,200,.36);display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:500;overflow:hidden';
       var mi=tile.querySelector('.cl-brand');
@@ -1947,9 +1947,19 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       var mDur=1600,mT0=performance.now();
       var mfr=function(now){
         var t=Math.min((now-mT0)/mDur,1);
-        var u=1-t;
-        var bx=u*u*sx+2*u*t*cpx+t*t*ex;
-        var by=u*u*sy+2*u*t*cpy+t*t*ey;
+        var bx,by;
+        if(wp1&&msvg1&&mlen1){
+          var raw1=wp1.getPointAtLength(mlen1*t);
+          var sp1=msvg1.createSVGPoint();sp1.x=raw1.x;sp1.y=raw1.y;
+          var scr1=sp1.matrixTransform(msvg1.getScreenCTM());
+          bx=scr1.x;by=scr1.y;
+        }else{
+          var tRf=tile.getBoundingClientRect();var cElf=document.querySelector('.cl-core');
+          var sxf=tRf.left+tRf.width/2,syf=tRf.top+tRf.height/2;
+          var exf=cElf?cElf.getBoundingClientRect().left+cElf.getBoundingClientRect().width/2:sxf;
+          var eyf=cElf?cElf.getBoundingClientRect().top+cElf.getBoundingClientRect().height/2:syf;
+          var uf=1-t;bx=uf*uf*sxf+2*uf*t*(sxf+(exf-sxf)*0.3)+t*t*exf;by=uf*uf*syf+2*uf*t*(syf+(eyf-syf)*0.3)+t*t*eyf;
+        }
         var sz=Math.max(msz*(1-t*0.94),1);
         mc.style.width=sz+'px';mc.style.height=sz+'px';
         mc.style.left=(bx-sz/2)+'px';mc.style.top=(by-sz/2)+'px';
@@ -2102,28 +2112,39 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     if(window.innerWidth<=880){
       var rd=agRows[ri];
       var newTool=pick();
+      var wz2=document.querySelector('.cl-body>div:nth-child(4)');
+      var msvg2=wz2?wz2.querySelector('.cl-mwire'):null;
+      var wpaths2=msvg2?msvg2.querySelectorAll('path'):[];
+      var wp2=wpaths2[ri]||null;
+      var mlen2=wp2?wp2.getTotalLength():0;
       var cEl=document.querySelector('.cl-core');
-      if(!cEl){var ic2=rd.active.querySelector('.cl-brand');if(ic2)ic2.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');return;}
-      var cR=cEl.getBoundingClientRect();
-      var agR=rd.active.getBoundingClientRect();
-      var sx=cR.left+cR.width/2,sy=cR.top+cR.height/2;
-      var ex=agR.left+agR.width/2,ey=agR.top+agR.height/2;
-      var cpx=sx+(ex-sx)*0.7,cpy=sy+(ey-sy)*0.3;
+      if(!cEl){var ic2=rd.active.querySelector('.cl-brand');if(ic2){rd.active.style.transition='opacity 0.25s ease';rd.active.style.opacity='0';setTimeout(function(){ic2.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');rd.active.style.transition='opacity 0.3s ease';rd.active.style.opacity='1';},280);}return;}
       var mc=document.createElement('div');
       mc.style.cssText='position:fixed;border-radius:50%;background:radial-gradient(circle,rgba(160,130,230,.55) 0%,rgba(100,70,190,.18) 55%,transparent 100%);border:1.5px solid rgba(160,130,230,.75);box-shadow:0 0 7px 2px rgba(130,100,200,.45);pointer-events:none;z-index:500;opacity:0';
       document.body.appendChild(mc);
       var mDur=1600,mT0=performance.now();
       var mfrA=function(now){
         var t=Math.min((now-mT0)/mDur,1);
-        var u=1-t;
-        var bx=u*u*sx+2*u*t*cpx+t*t*ex;
-        var by=u*u*sy+2*u*t*cpy+t*t*ey;
+        var bx,by;
+        if(wp2&&msvg2&&mlen2){
+          var raw2=wp2.getPointAtLength(mlen2*t);
+          var sp2=msvg2.createSVGPoint();sp2.x=raw2.x;sp2.y=raw2.y;
+          var scr2=sp2.matrixTransform(msvg2.getScreenCTM());
+          bx=scr2.x;by=scr2.y;
+        }else{
+          var cElb=document.querySelector('.cl-core');
+          var agR2=rd.active.getBoundingClientRect();
+          var sx2=cElb?cElb.getBoundingClientRect().left+cElb.getBoundingClientRect().width/2:agR2.left;
+          var sy2=cElb?cElb.getBoundingClientRect().top+cElb.getBoundingClientRect().height/2:agR2.top;
+          var ex2=agR2.left+agR2.width/2,ey2=agR2.top+agR2.height/2;
+          var u2=1-t;bx=u2*u2*sx2+2*u2*t*(sx2+(ex2-sx2)*0.7)+t*t*ex2;by=u2*u2*sy2+2*u2*t*(sy2+(ey2-sy2)*0.3)+t*t*ey2;
+        }
         var sz=8+(44-8)*t;
         mc.style.width=sz+'px';mc.style.height=sz+'px';
         mc.style.left=(bx-sz/2)+'px';mc.style.top=(by-sz/2)+'px';
         mc.style.opacity=t<0.12?String(t/0.12):t>0.88?String(1-(t-0.88)/0.12):'1';
         if(t<1){requestAnimationFrame(mfrA);}
-        else{mc.remove();var ic=rd.active.querySelector('.cl-brand');if(ic)ic.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');}}
+        else{mc.remove();rd.active.style.transition='opacity 0.25s ease';rd.active.style.opacity='0';setTimeout(function(){var ic=rd.active.querySelector('.cl-brand');if(ic)ic.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');rd.active.style.transition='opacity 0.3s ease';rd.active.style.opacity='1';},280);}}
       ;
       requestAnimationFrame(mfrA);
       return;
