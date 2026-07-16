@@ -1923,11 +1923,11 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     rows.forEach(function(rd){rd.q.forEach(function(el){el.style.transition='';});});
   });});
   var WIRE_PATHS=[
-    {x0:0,y0:30, cx:32,cy:100,x1:58,y1:170},
-    {x0:0,y0:90, cx:38,cy:130,x1:58,y1:170},
-    {x0:0,y0:150,cx:44,cy:162,x1:58,y1:170},
-    {x0:0,y0:210,cx:38,cy:192,x1:58,y1:170},
-    {x0:0,y0:270,cx:32,cy:222,x1:58,y1:170}
+    {x0:0,y0:30, cx1:22,cy1:30, cx2:58,cy2:120,x1:58,y1:170},
+    {x0:0,y0:90, cx1:22,cy1:90, cx2:58,cy2:142,x1:58,y1:170},
+    {x0:0,y0:150,cx1:22,cy1:150,cx2:58,cy2:162,x1:58,y1:170},
+    {x0:0,y0:210,cx1:22,cy1:210,cx2:58,cy2:192,x1:58,y1:170},
+    {x0:0,y0:270,cx1:22,cy1:270,cx2:58,cy2:210,x1:58,y1:170}
   ];
   function launchMergeTile(ri,tile){
     if(window.innerWidth<=880){
@@ -1980,10 +1980,10 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       var t=Math.min((now-t0)/dur,1);
       var sr=wireSvg.getBoundingClientRect();
       function toP(vx,vy){return{x:sr.left+(vx/58)*sr.width,y:sr.top+(vy/300)*sr.height};}
-      var p0=toP(p.x0,p.y0),pc=toP(p.cx,p.cy),p1=toP(p.x1,p.y1);
+      var p0=toP(p.x0,p.y0),pc1=toP(p.cx1,p.cy1),pc2=toP(p.cx2,p.cy2),p1=toP(p.x1,p.y1);
       var mt=1-t;
-      var bx=mt*mt*p0.x+2*mt*t*pc.x+t*t*p1.x;
-      var by=mt*mt*p0.y+2*mt*t*pc.y+t*t*p1.y;
+      var bx=mt*mt*mt*p0.x+3*mt*mt*t*pc1.x+3*mt*t*t*pc2.x+t*t*t*p1.x;
+      var by=mt*mt*mt*p0.y+3*mt*mt*t*pc1.y+3*mt*t*t*pc2.y+t*t*t*p1.y;
       var sz=Math.max(sz0*(1-t*0.94),1);
       clone.style.width=sz+'px';clone.style.height=sz+'px';
       clone.style.left=(bx-sz/2)+'px';clone.style.top=(by-sz/2)+'px';
@@ -2077,11 +2077,11 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   }
   /* right wire bezier paths: ring (x=0) → agent row (x=58) */
   var RWP=[
-    {x0:0,y0:170,cx:26,cy:100,x1:58,y1:30},
-    {x0:0,y0:170,cx:32,cy:130,x1:58,y1:90},
-    {x0:0,y0:170,cx:44,cy:162,x1:58,y1:150},
-    {x0:0,y0:170,cx:32,cy:192,x1:58,y1:210},
-    {x0:0,y0:170,cx:26,cy:222,x1:58,y1:270}
+    {x0:0,y0:170,cx1:0,cy1:120,cx2:36,cy2:30, x1:58,y1:30},
+    {x0:0,y0:170,cx1:0,cy1:142,cx2:36,cy2:90, x1:58,y1:90},
+    {x0:0,y0:170,cx1:0,cy1:162,cx2:36,cy2:150,x1:58,y1:150},
+    {x0:0,y0:170,cx1:0,cy1:192,cx2:36,cy2:210,x1:58,y1:210},
+    {x0:0,y0:170,cx1:0,cy1:210,cx2:36,cy2:270,x1:58,y1:270}
   ];
   /* agent slot 0=active (near wire, large), slot 1=fading (rightward, small) */
   var SA=[{l:2,s:40,o:1.0,z:2},{l:50,s:34,o:0.36,z:1}];
@@ -2140,10 +2140,10 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       var t=Math.min((now-t0)/dur,1);
       var sr=wireSvg.getBoundingClientRect();
       function toP(vx,vy){return{x:sr.left+(vx/58)*sr.width,y:sr.top+(vy/300)*sr.height};}
-      var p0=toP(p.x0,p.y0),pc=toP(p.cx,p.cy),p1=toP(p.x1,p.y1);
+      var p0=toP(p.x0,p.y0),pc1=toP(p.cx1,p.cy1),pc2=toP(p.cx2,p.cy2),p1=toP(p.x1,p.y1);
       var mt=1-t;
-      var bx=mt*mt*p0.x+2*mt*t*pc.x+t*t*p1.x;
-      var by=mt*mt*p0.y+2*mt*t*pc.y+t*t*p1.y;
+      var bx=mt*mt*mt*p0.x+3*mt*mt*t*pc1.x+3*mt*t*t*pc2.x+t*t*t*p1.x;
+      var by=mt*mt*mt*p0.y+3*mt*mt*t*pc1.y+3*mt*t*t*pc2.y+t*t*t*p1.y;
       var sz=8+(40-8)*t;
       clone.style.width=sz+'px';clone.style.height=sz+'px';
       clone.style.left=(bx-sz/2)+'px';clone.style.top=(by-sz/2)+'px';
