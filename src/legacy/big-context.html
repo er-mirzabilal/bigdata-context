@@ -729,6 +729,30 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent-label{display:none}
   .cl-agent-status{display:none}
   .cl-agent.span2{grid-column:auto}
+  /* --- Mobile: portrait-vertical figure layout --- */
+  .cl-body{grid-template-columns:1fr;min-height:0;max-width:100%;margin:0}
+  .cl-col{margin-top:0}
+  .cl-wires{height:100px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
+  .cl-wires>svg:not(.cl-mwire){display:none}
+  .cl-wires .cl-mwire{display:block;position:absolute;top:0;left:0;width:100%;height:100%}
+  .cl-col.cl-silos{display:flex;flex-direction:column;align-items:center;padding:2px 0 0;overflow:visible;align-self:auto;gap:0}
+  .cl-silo-grid{display:flex;flex-direction:row;justify-content:space-around;align-items:center;width:100%;overflow:visible;row-gap:0;column-gap:0;padding:0;flex:none}
+  .cl-col.cl-agents{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-around;align-items:center;align-content:flex-start;padding:0 0 2px;overflow:visible;align-self:auto;gap:0}
+  .cl-sq-row,.cl-ag-row{position:relative;width:62px;height:62px;flex-shrink:0;overflow:visible}
+  .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{position:absolute;left:9px!important;top:9px!important;width:44px!important;height:44px!important;border-radius:50%;background:rgba(20,12,30,.72);border:1px solid rgba(var(--p-lav),.22);display:flex;align-items:center;justify-content:center;transition:opacity .48s ease;will-change:opacity}
+  .cl-sq-row .cl-silo-tile .cl-brand,.cl-ag-row .cl-silo-tile .cl-brand{display:block;width:44%;height:44%;background:var(--lavender);opacity:.65;-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat}
+  .cl-sq-row .cl-silo-tile:nth-child(2),.cl-ag-row .cl-silo-tile:nth-child(2){opacity:0!important;pointer-events:none}
+  .cl-core{width:112px!important;height:112px!important;margin:0 auto}
+  .cl-core-orbit{width:112px!important;height:112px!important}
+  .cl-core-chip img{width:46px!important;height:46px!important}
+  .cl-core-chip svg{width:34px;height:28px}
+  .cl-core-hex{width:66px!important;height:66px!important}
+  .cl-core-col{display:flex;align-items:center;justify-content:center;padding:4px 0;align-self:auto}
+  .cl-core-caption{display:none}
+  .cl-head{display:none}
+  .cl-silos .cl-head,.cl-agents .cl-head{display:none}
+  .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:9px;letter-spacing:.18em;line-height:1.4;opacity:.72;margin:0 0 3px;padding:0}
+  .cl-agents .cl-rail-header{display:block;order:-1;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-size:9px;letter-spacing:.18em;line-height:1.4;opacity:.72;margin:0 0 3px;padding:0}
 }
 @media (max-width:520px){
   .st-cl{padding:40px 14px}
@@ -743,6 +767,14 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent{width:38px;height:38px}
   .cl-agent .ico{width:28px;height:28px}
   .cl-agents{column-gap:8px;row-gap:8px;gap:8px}
+  .cl-wires{height:84px}
+  .cl-core{width:96px!important;height:96px!important}
+  .cl-core-hex{width:56px!important;height:56px!important}
+  .cl-core-orbit{width:96px!important;height:96px!important}
+  .cl-core-chip img{width:38px!important;height:38px!important}
+  .cl-col.cl-agents{gap:0}
+  .cl-sq-row,.cl-ag-row{width:52px;height:52px}
+  .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{left:6px!important;top:6px!important;width:40px!important;height:40px!important}
 }
 
 /* ===== Theme toggle button ===== */
@@ -876,18 +908,18 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
     <h2 class="bc-h2 bc-reveal" style="max-width:28ch">The Semantic Layer is Dead.<br><em>Long live the semantic layer.</em></h2>
     <p class="bc-body bc-reveal" style="max-width:58ch;margin-top:18px">Your data stack was built for a world without AI. It makes sense that legacy frameworks, like semantic layers, catalogs, ontologies, &amp; knowledge graphs, are proven to be insufficient for AI-scale data work. Big Context is built on the back of the Pragmatic Layer and captures how your data is actually used in the real world.</p>
 
-    <div class="pd-prag-grid bc-reveal" style="display:none">
+    <div class="pd-prag-grid bc-reveal">
       <div class="pd-prag-card">
         <div class="pd-prag-label">Semantic Context</div>
-        <div class="pd-prag-h">How you <em>attempted</em> to define your data</div>
-        <p class="pd-prag-body">A hand-crafted partial snapshot of meaning intended to be used globally across its domain.</p>
+        <div class="pd-prag-h">How you define your data</div>
+        <p class="pd-prag-body">A hand-crafted vocabulary intended to be used across the org. Revenue means this. Customer means that.</p>
         <div class="pd-prag-rule"></div>
         <div class="pd-prag-caption">Limited to what&rsquo;s been recorded. Almost always stale.</div>
       </div>
       <div class="pd-prag-card feat">
         <div class="pd-prag-label"><span class="pd-prag-dot"></span>Pragmatic Context</div>
-        <div class="pd-prag-h">What your data means <em>in actual use</em></div>
-        <p class="pd-prag-body">A self-maintaining system of record and reliability engine that mirrors the contextual judgement of your best data experts.</p>
+        <div class="pd-prag-h">What your data means in actual use</div>
+        <p class="pd-prag-body">A self-maintaining record that mirrors the judgement of your best data expert. Who relies on what table for which decisions. What caveats and nuances exist.</p>
         <div class="pd-prag-rule"></div>
         <div class="pd-prag-caption">Dynamic, governed &mdash; ready for AI scale use.</div>
       </div>
@@ -992,9 +1024,9 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
     <h2 class="cl-sr" id="cl-figure-title">From siloed data, through the Pragmatic Context Layer, to AI agents</h2>
     <div class="cl-body">
       <div class="cl-col cl-silos bc-reveal"><div class="cl-rail-header" aria-hidden="true">Siloed Systems of Record</div><div class="cl-head"><div class="cl-eyebrow">01</div><h3 class="cl-head-t old">Siloed Data</h3><div class="cl-head-s">Locked in tools</div></div><div class="cl-silo-grid" id="clSiloGrid"></div></div>
-      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 30 Q32 100 58 170" stroke-opacity=".3"/><path d="M0 90 Q38 130 58 170" stroke-opacity=".38"/><path d="M0 150 Q44 162 58 170" stroke-opacity=".46"/><path d="M0 210 Q38 192 58 170" stroke-opacity=".38"/><path d="M0 270 Q32 222 58 170" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M70 0 C70 38 296 12 296 74" stroke-opacity=".38"/><path d="M110 0 C110 40 272 22 272 74" stroke-opacity=".22"/><path d="M150 0 C150 42 248 32 248 74" stroke-opacity=".12"/></g></svg></div>
+      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 30 Q32 100 58 170" stroke-opacity=".3"/><path d="M0 90 Q38 130 58 170" stroke-opacity=".38"/><path d="M0 150 Q44 162 58 170" stroke-opacity=".46"/><path d="M0 210 Q38 192 58 170" stroke-opacity=".38"/><path d="M0 270 Q32 222 58 170" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M50 0 C50 32 195 42 195 74" stroke-opacity=".38"/><path d="M118 0 C118 34 195 44 195 74" stroke-opacity=".26"/><path d="M195 0 L195 74" stroke-opacity=".14"/><path d="M272 0 C272 34 195 44 195 74" stroke-opacity=".26"/><path d="M340 0 C340 32 195 42 195 74" stroke-opacity=".38"/></g></svg></div>
       <div class="cl-col cl-core-col bc-reveal"><div class="cl-head"><div class="cl-eyebrow">02</div><h3 class="cl-head-t mid">Virtualized Data Context Layer</h3><div class="cl-head-s">Independent &middot; Open</div></div><div class="cl-core-caption" aria-hidden="true"><div class="cl-core-caption-top">Virtualized Data Context Layer</div><div class="cl-core-caption-name">Big Context OS</div></div><div class="cl-core"><svg class="cl-core-orbit" viewBox="-130 -130 260 260" aria-hidden="true" focusable="false"><defs><path id="cl-orb-outer" d="M 120,0 A 120,120 0 1,1 -120,0 A 120,120 0 1,1 120,0"/><path id="cl-orb-mid" d="M 104,0 A 104,104 0 1,1 -104,0 A 104,104 0 1,1 104,0"/><path id="cl-orb-inner" d="M 88,0 A 88,88 0 1,1 -88,0 A 88,88 0 1,1 88,0"/></defs><g class="cl-orbit-out"><text class="cl-orbit-text"><textPath href="#cl-orb-outer" startOffset="0" textLength="754" lengthAdjust="spacing">SCHEMA &middot; SEMANTICS &middot; METRICS &middot; METADATA &middot; ENTITIES &middot; POLICIES &middot; </textPath></text></g><g class="cl-orbit-mid"><text class="cl-orbit-text"><textPath href="#cl-orb-mid" startOffset="0" textLength="653" lengthAdjust="spacing">JOIN HINTS &middot; DEFINITIONS &middot; BUSINESS RULES &middot; DECISION TRACES &middot; </textPath></text></g><g class="cl-orbit-in"><text class="cl-orbit-text"><textPath href="#cl-orb-inner" startOffset="0" textLength="553" lengthAdjust="spacing">TRIBAL KNOWLEDGE &middot; PRAGMATICS &middot; NUANCES &middot; RUNTIME CONTEXT &middot; </textPath></text></g></svg><div class="cl-core-glyph"><span class="cl-core-chip"><img src="/bc-mark.svg" alt="Big Context" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:contain"/></span></div><div class="cl-core-tagline">Big Context OS</div><span class="cl-pulse-dot" aria-hidden="true"></span></div></div>
-      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 170 Q26 100 58 30" stroke-opacity=".3"/><path d="M0 170 Q32 130 58 90" stroke-opacity=".38"/><path d="M0 170 Q44 162 58 150" stroke-opacity=".46"/><path d="M0 170 Q32 192 58 210" stroke-opacity=".38"/><path d="M0 170 Q26 222 58 270" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M300 0 C300 44 78 22 78 74" stroke-opacity=".38"/><path d="M262 0 C262 40 110 26 110 74" stroke-opacity=".22"/><path d="M224 0 C224 36 142 30 142 74" stroke-opacity=".12"/></g><circle class="cl-pulse" r="2.4"><animateMotion dur="2.8s" begin="-1s" repeatCount="indefinite" path="M300 0 C300 44 78 22 78 71" keyPoints="1;0" keyTimes="0;1" calcMode="linear"/></circle></svg></div>
+      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 170 Q26 100 58 30" stroke-opacity=".3"/><path d="M0 170 Q32 130 58 90" stroke-opacity=".38"/><path d="M0 170 Q44 162 58 150" stroke-opacity=".46"/><path d="M0 170 Q32 192 58 210" stroke-opacity=".38"/><path d="M0 170 Q26 222 58 270" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M195 0 C195 32 50 42 50 74" stroke-opacity=".38"/><path d="M195 0 C195 34 118 44 118 74" stroke-opacity=".26"/><path d="M195 0 L195 74" stroke-opacity=".14"/><path d="M195 0 C195 34 272 44 272 74" stroke-opacity=".26"/><path d="M195 0 C195 32 340 42 340 74" stroke-opacity=".38"/></g><circle class="cl-pulse" r="2.4"><animateMotion dur="2.8s" begin="-1s" repeatCount="indefinite" path="M195 0 C195 32 50 42 50 74" keyPoints="0;1" keyTimes="0;1" calcMode="linear"/></circle></svg></div>
       <div class="cl-col cl-agents bc-reveal" id="clAgentGrid"><div class="cl-rail-header" aria-hidden="true">Your data agents</div><div class="cl-head"><div class="cl-eyebrow">03</div><h3 class="cl-head-t new">AI Agents</h3><div class="cl-head-s">Across your enterprise</div></div></div>
     </div>
   </div>
@@ -1847,7 +1879,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   ];
   var ROW_H=44;
   var grid=document.getElementById('clSiloGrid');
-  if(!grid||window.innerWidth<=880)return;
+  if(!grid)return;
   var pool=TOOLS.slice();
   function pick(){
     if(!pool.length)pool=TOOLS.slice();
@@ -1898,8 +1930,37 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     {x0:0,y0:270,cx:32,cy:222,x1:58,y1:170}
   ];
   function launchMergeTile(ri,tile){
+    if(window.innerWidth<=880){
+      var tR=tile.getBoundingClientRect();
+      var cEl=document.querySelector('.cl-core');
+      if(!cEl)return;
+      var cR=cEl.getBoundingClientRect();
+      var sx=tR.left+tR.width/2,sy=tR.top+tR.height/2;
+      var ex=cR.left+cR.width/2,ey=cR.top+cR.height/2;
+      var cpx=sx+(ex-sx)*0.3,cpy=sy+(ey-sy)*0.3;
+      var msz=tR.width||44;
+      var mc=document.createElement('div');
+      mc.style.cssText='position:fixed;border-radius:50%;background:rgba(20,12,30,.9);border:1px solid rgba(130,100,200,.36);display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:500;overflow:hidden';
+      var mi=tile.querySelector('.cl-brand');
+      if(mi){var mbv=mi.style.getPropertyValue('--brand');var mci=document.createElement('i');mci.style.cssText='display:block;width:44%;height:44%;background:var(--lavender);opacity:.72;-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat';mci.style.setProperty('--brand',mbv);mc.appendChild(mci);}
+      document.body.appendChild(mc);
+      var mDur=1600,mT0=performance.now();
+      var mfr=function(now){
+        var t=Math.min((now-mT0)/mDur,1);
+        var u=1-t;
+        var bx=u*u*sx+2*u*t*cpx+t*t*ex;
+        var by=u*u*sy+2*u*t*cpy+t*t*ey;
+        var sz=Math.max(msz*(1-t*0.94),1);
+        mc.style.width=sz+'px';mc.style.height=sz+'px';
+        mc.style.left=(bx-sz/2)+'px';mc.style.top=(by-sz/2)+'px';
+        mc.style.opacity=t<0.72?'1':String(1-(t-0.72)/0.28);
+        if(t<1)requestAnimationFrame(mfr);else{mc.remove();pulseCore();}
+      };
+      requestAnimationFrame(mfr);
+      return;
+    }
     var wireSvg=document.querySelector('.cl-body>div:nth-child(2) svg:not(.cl-mwire)');
-    if(!wireSvg)return;
+    if(!wireSvg||wireSvg.getBoundingClientRect().width===0)return;
     var p=WIRE_PATHS[ri];
     var tr=tile.getBoundingClientRect();
     var sz0=tr.width;
@@ -1998,7 +2059,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   ];
   var ROW_H=44,TILE=40;
   var grid=document.getElementById('clAgentGrid');
-  if(!grid||window.innerWidth<=880)return;
+  if(!grid)return;
   var pool=TOOLS.slice();
   function pick(){
     if(!pool.length)pool=TOOLS.slice();
@@ -2038,8 +2099,37 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     agRows.push({row:row,active:ta,fading:tf});
   }
   function launchAgentTile(ri){
+    if(window.innerWidth<=880){
+      var rd=agRows[ri];
+      var newTool=pick();
+      var cEl=document.querySelector('.cl-core');
+      if(!cEl){var ic2=rd.active.querySelector('.cl-brand');if(ic2)ic2.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');return;}
+      var cR=cEl.getBoundingClientRect();
+      var agR=rd.active.getBoundingClientRect();
+      var sx=cR.left+cR.width/2,sy=cR.top+cR.height/2;
+      var ex=agR.left+agR.width/2,ey=agR.top+agR.height/2;
+      var cpx=sx+(ex-sx)*0.7,cpy=sy+(ey-sy)*0.3;
+      var mc=document.createElement('div');
+      mc.style.cssText='position:fixed;border-radius:50%;background:radial-gradient(circle,rgba(160,130,230,.55) 0%,rgba(100,70,190,.18) 55%,transparent 100%);border:1.5px solid rgba(160,130,230,.75);box-shadow:0 0 7px 2px rgba(130,100,200,.45);pointer-events:none;z-index:500;opacity:0';
+      document.body.appendChild(mc);
+      var mDur=1600,mT0=performance.now();
+      var mfrA=function(now){
+        var t=Math.min((now-mT0)/mDur,1);
+        var u=1-t;
+        var bx=u*u*sx+2*u*t*cpx+t*t*ex;
+        var by=u*u*sy+2*u*t*cpy+t*t*ey;
+        var sz=8+(44-8)*t;
+        mc.style.width=sz+'px';mc.style.height=sz+'px';
+        mc.style.left=(bx-sz/2)+'px';mc.style.top=(by-sz/2)+'px';
+        mc.style.opacity=t<0.12?String(t/0.12):t>0.88?String(1-(t-0.88)/0.12):'1';
+        if(t<1){requestAnimationFrame(mfrA);}
+        else{mc.remove();var ic=rd.active.querySelector('.cl-brand');if(ic)ic.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');}}
+      ;
+      requestAnimationFrame(mfrA);
+      return;
+    }
     var wireSvg=document.querySelector('.cl-body>div:nth-child(4) svg:not(.cl-mwire)');
-    if(!wireSvg)return;
+    if(!wireSvg||wireSvg.getBoundingClientRect().width===0)return;
     var p=RWP[ri];
     var newTool=pick();
     var clone=document.createElement('div');
