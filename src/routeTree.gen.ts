@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProductRouteImport } from './routes/product'
+import { Route as PragmaticsRouteImport } from './routes/pragmatics'
 import { Route as GetStartedRouteImport } from './routes/get-started'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const ProductRoute = ProductRouteImport.update({
   id: '/product',
   path: '/product',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PragmaticsRoute = PragmaticsRouteImport.update({
+  id: '/pragmatics',
+  path: '/pragmatics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GetStartedRoute = GetStartedRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/get-started': typeof GetStartedRoute
+  '/pragmatics': typeof PragmaticsRoute
   '/product': typeof ProductRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/get-started': typeof GetStartedRoute
+  '/pragmatics': typeof PragmaticsRoute
   '/product': typeof ProductRoute
   '/services': typeof ServicesRoute
 }
@@ -51,20 +59,28 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/get-started': typeof GetStartedRoute
+  '/pragmatics': typeof PragmaticsRoute
   '/product': typeof ProductRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/get-started' | '/product' | '/services'
+  fullPaths: '/' | '/get-started' | '/pragmatics' | '/product' | '/services'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/get-started' | '/product' | '/services'
-  id: '__root__' | '/' | '/get-started' | '/product' | '/services'
+  to: '/' | '/get-started' | '/pragmatics' | '/product' | '/services'
+  id:
+    | '__root__'
+    | '/'
+    | '/get-started'
+    | '/pragmatics'
+    | '/product'
+    | '/services'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GetStartedRoute: typeof GetStartedRoute
+  PragmaticsRoute: typeof PragmaticsRoute
   ProductRoute: typeof ProductRoute
   ServicesRoute: typeof ServicesRoute
 }
@@ -83,6 +99,13 @@ declare module '@tanstack/react-router' {
       path: '/product'
       fullPath: '/product'
       preLoaderRoute: typeof ProductRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pragmatics': {
+      id: '/pragmatics'
+      path: '/pragmatics'
+      fullPath: '/pragmatics'
+      preLoaderRoute: typeof PragmaticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/get-started': {
@@ -105,6 +128,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GetStartedRoute: GetStartedRoute,
+  PragmaticsRoute: PragmaticsRoute,
   ProductRoute: ProductRoute,
   ServicesRoute: ServicesRoute,
 }
