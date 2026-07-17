@@ -238,6 +238,7 @@ a{color:inherit;text-decoration:none}
 .pd-os-item.open .pd-os-chev{transform:rotate(180deg)}
 .pd-os-body{height:0;overflow:hidden;transition:height .38s cubic-bezier(.16,1,.3,1)}
 .pd-os-inner{padding:4px 24px 28px 78px}
+.pd-os-lead{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--lavender-hot);line-height:1.4;margin-bottom:10px}
 .pd-os-inner p{font-family:var(--sans);font-size:14px;color:var(--muted);line-height:1.7;max-width:64ch}
 .pd-os-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .pd-os-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);border:1px solid rgba(199,157,240,.15);border-radius:999px;padding:4px 12px}
@@ -369,7 +370,7 @@ svg.atom{width:100%;height:100%;display:block;overflow:visible}
 .tier.active{border-left-color:var(--lavender);background:rgba(var(--p-lav),.08);box-shadow:0 0 0 1px rgba(var(--p-lav),.12)}
 .ledger{margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--muted-2);letter-spacing:.04em;line-height:1.7;border-top:1px solid var(--ring-dim);padding-top:14px}
 .ledger b{color:var(--lavender);font-weight:500}
-@media (max-width:900px){.st-atom{padding:40px 0}.st-atom .bc-h2{white-space:normal}.layout{grid-template-columns:1fr;gap:14px;margin-top:14px;padding:0 22px}.atom-wrap{max-width:380px}.legend{margin-top:6px;display:grid;grid-template-columns:1fr;gap:10px}.tier-name{font-size:19px;white-space:nowrap}.tier-desc{font-size:13px;margin-top:6px}.hint{display:none}.headline{white-space:normal;font-size:clamp(26px,7vw,38px)}}
+@media (max-width:900px){.st-atom{padding:40px 0}.st-atom .bc-h2{white-space:normal}.layout{grid-template-columns:1fr;gap:14px;margin-top:14px;padding:0 22px}.atom-wrap{max-width:380px}.legend{margin-top:6px;display:grid;grid-template-columns:1fr;gap:10px}.tier-name{font-size:19px;white-space:nowrap}.tier-desc{font-size:13px;margin-top:6px}.hint{display:none}.headline{white-space:normal;font-size:clamp(26px,7vw,38px)}.nlabel{font-size:15px}}
 .tl-shell{margin:0;position:relative;border:1px solid rgba(var(--p-lav),.10);border-radius:16px;background:linear-gradient(180deg,rgba(124,58,142,.05),rgba(124,58,142,0));padding:8px;overflow:hidden}
 .tl-cap{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;margin:0 4px 14px;transition:opacity .45s}
 .tl-cap-text{max-width:54ch}
@@ -464,6 +465,7 @@ svg.tl{width:100%;height:auto;display:block}
 
   /* 6. What we do — shrink orbit, full-bleed tier tap target */
   .atom-wrap{max-width:340px}
+  .nlabel{font-size:17px}
   .hint{display:block;font-size:9.5px;bottom:-4px}
   .tier{padding:16px 16px 18px;min-height:44px;position:relative}
   .tier::after{content:"›";position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--lavender);font-size:22px;line-height:1;opacity:.55}
@@ -874,7 +876,7 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
       <h1 class="bc-name"><span class="bc-ln-i bc-d1">Big Context<sup>&trade;</sup><span class="amp">&amp; Company</span></span></h1>
       <p class="bc-tag"><span class="bc-ln-i bc-d3">Make your data work at <em>AI-scale.</em></span></p>
       <div class="bc-hero-cta bc-fade">
-        <a href="#what" class="bc-btn bc-btn-ghost">What We Do</a>
+        <a href="#what" class="bc-btn bc-btn-ghost">Operating System</a>
         <a href="/get-started" class="bc-btn">Get Started &rarr;</a>
       </div>
     </div>
@@ -929,7 +931,7 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
 
 <section class="stage st-atom" id="what">
   <div class="bc-wrap">
-  <div class="bc-eyebrow bc-reveal"><span class="bar"></span>What we do&nbsp;&nbsp;/&nbsp;&nbsp;04</div>
+  <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Operating System&nbsp;&nbsp;/&nbsp;&nbsp;04</div>
   <h2 class="bc-h2 bc-reveal">Get your data <em>AI ready.</em></h2>
   </div>
   <div class="layout">
@@ -991,14 +993,14 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
       <div class="tier" data-tier="bcos" role="button" tabindex="0">
         <div class="tier-top"><span class="tier-idx">01</span>
           <span class="tier-name">Pragmatics OS</span></div>
-        <p class="tier-desc">The engine that makes data legible to AI. Always on, always reliable.</p>
-        <a class="tier-cta" href="/pragmatics" onclick="event.stopPropagation()">Explore the SOTA context platform &rarr;</a>
+        <p class="tier-desc">Our SOTA operating system is the engine that makes data legible to AI &mdash; finally. Built according to the Pragmatics Standard, optimized for expert-level reliability.</p>
+        <a class="tier-cta" href="#the-os" onclick="event.stopPropagation()">Explore our leading-edge technology &rarr;</a>
       </div>
       <div class="tier" data-tier="svc" role="button" tabindex="0">
         <div class="tier-top"><span class="tier-idx">02</span>
           <span class="tier-name">The Practice</span></div>
-        <p class="tier-desc">Elite data experts &amp; context engineers at your service. Accelerated data transformations.</p>
-        <a class="tier-cta" href="/services" onclick="event.stopPropagation()">Explore AI-native data services &rarr;</a>
+        <p class="tier-desc">Accelerated data transformations led by elite data experts &amp; forward-deployed context engineers and architects. At your services.</p>
+        <a class="tier-cta" href="/services" onclick="event.stopPropagation()">Explore our AI-native data services &rarr;</a>
       </div>
     </div>
   </div>
@@ -1033,12 +1035,13 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         <div class="pd-os-hd">
           <div class="pd-os-badge">01</div>
           <div class="pd-os-meta">
-            <div class="pd-os-title">Pragmatic Graphs &mdash; Situational awareness for every data query</div>
+            <div class="pd-os-title">Pragmatic Graphs</div>
           </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
+            <div class="pd-os-lead">Situational awareness for every data query</div>
             <p>A semantic layer is a static record of what data means. A pragmatic graph is a living record of how it&rsquo;s actually used in your business &mdash; it&rsquo;s situational awareness as a foundation. It&rsquo;s an AI-native representation of your company&rsquo;s live model of meaning.</p>
           </div>
         </div>
@@ -1049,12 +1052,13 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         <div class="pd-os-hd">
           <div class="pd-os-badge">02</div>
           <div class="pd-os-meta">
-            <div class="pd-os-title">Context Agents &mdash; An always-on data workforce</div>
+            <div class="pd-os-title">Context Agents</div>
           </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
+            <div class="pd-os-lead">An always-on data workforce</div>
             <p>Legacy records promised to stay current, but couldn&rsquo;t. Ad hoc queries were rarely reusable. Big Context agents watch how data is used, capture new caveats as they emerge, catch drift the moment a metric changes, and build your latent business context like a veteran on your team.</p>
           </div>
         </div>
@@ -1065,12 +1069,13 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         <div class="pd-os-hd">
           <div class="pd-os-badge">03</div>
           <div class="pd-os-meta">
-            <div class="pd-os-title">Headless Delivery &mdash; Workflow-native, for your convenience</div>
+            <div class="pd-os-title">Headless Delivery</div>
           </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
+            <div class="pd-os-lead">Workflow-native, for your convenience</div>
             <p>No new tools to adopt, nothing to migrate, completely yours to do as you wish. Context is delivered into the tools you already run through open protocols like MCP. The OS meets your stack where it is and disappears into it.</p>
           </div>
         </div>
@@ -1081,12 +1086,13 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         <div class="pd-os-hd">
           <div class="pd-os-badge">04</div>
           <div class="pd-os-meta">
-            <div class="pd-os-title">Reliability Harness &mdash; SME parity and validatability</div>
+            <div class="pd-os-title">Reliability Harness</div>
           </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
+            <div class="pd-os-lead">SME parity and validatability</div>
             <p>A wrong number that looks right is worse than no number &mdash; and 90% accurate, while a breakthrough in AI is catastrophic here. Before any answer or context leaves the OS, it&rsquo;s validated against evals, tests, and ground truth, traceable to its source, with low-confidence cases escalated to a human rather than guessed.</p>
           </div>
         </div>
@@ -1097,12 +1103,13 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         <div class="pd-os-hd">
           <div class="pd-os-badge">05</div>
           <div class="pd-os-meta">
-            <div class="pd-os-title">Control Plane &mdash; Expert-grade governance out of the box</div>
+            <div class="pd-os-title">Control Plane</div>
           </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
+            <div class="pd-os-lead">Expert-grade governance out of the box</div>
             <p>Governance to your enterprise&rsquo;s standards &mdash; access, policy, PII handling, full audit trail &mdash; so every answer is permissioned and traceable. All backstopped by Experts-in-the-Loop. Comprehensive intervention frameworks so that the system follows the rules and your (or our) best data people can intervene at scale. Expert judgment becomes a permanent asset instead of walking out the door.</p>
           </div>
         </div>
