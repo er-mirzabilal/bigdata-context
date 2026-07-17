@@ -588,6 +588,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent:hover .cl-agent-label,.cl-agent.is-active .cl-agent-label{opacity:1;color:var(--lavender-hot)}
   .cl-agent-status{position:absolute;right:-1px;bottom:-1px;width:8px;height:8px;border-radius:50%;background:rgba(var(--p-lav),.25);border:1.5px solid rgba(10,6,16,1);transition:background .25s,box-shadow .25s;z-index:2}
   .cl-agent.is-active .cl-agent-status{background:var(--lavender-hot);box-shadow:0 0 8px rgba(var(--p-lav),.95)}
+  .cl-ag-row .cl-agent-status{display:none}
   /* Floating drift on agent chips */
   .cl-agent{animation:cl-float 6s ease-in-out infinite}
   .cl-agent:nth-child(2n){animation-delay:-1.4s}
@@ -1641,19 +1642,45 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       w.path.setAttribute('d','M'+coreR.x+','+coreR.y+' C'+(coreR.x+dx*0.3)+','+coreR.y+' '+(coreR.x+dx*0.7)+','+(y+dy*0.25)+' '+x+','+y);
       w.arrow.setAttribute('cx', x-4); w.arrow.setAttribute('cy', y);
     });
+    // Sync static SVG wire paths to actual core & tile positions so lines converge exactly
+    if(leftWireSvg && staticLeftPaths.length && rightWireSvg && staticRightPaths.length){
+      const lsvg = leftWireSvg.getBoundingClientRect();
+      const rsvg = rightWireSvg.getBoundingClientRect();
+      if(lsvg.width>0 && lsvg.height>0 && rsvg.width>0 && rsvg.height>0){
+        const lCx = (cr.left  - lsvg.left) / lsvg.width  * 58;
+        const lCy = (cr.top + cr.height/2 - lsvg.top) / lsvg.height * 300;
+        const rCx = (cr.right - rsvg.left) / rsvg.width  * 58;
+        const rCy = (cr.top + cr.height/2 - rsvg.top) / rsvg.height * 300;
+        leftWires.forEach((w, i) => {
+          if(!staticLeftPaths[i]) return;
+          const sr = w.tile.getBoundingClientRect();
+          const sy = (sr.top + sr.height/2 - lsvg.top) / lsvg.height * 300;
+          const cx1 = lCx * 0.3, cy1 = sy - (lCy - sy) * 0.25, cx2 = lCx * 0.7;
+          staticLeftPaths[i].setAttribute('d','M0 '+sy.toFixed(1)+' C'+cx1.toFixed(1)+' '+cy1.toFixed(1)+' '+cx2.toFixed(1)+' '+lCy.toFixed(1)+' '+lCx.toFixed(1)+' '+lCy.toFixed(1));
+        });
+        staticRightPaths.forEach((path, i) => {
+          if(!rightWires[i]) return;
+          const ar = rightWires[i].agent.getBoundingClientRect();
+          const ey = (ar.top + ar.height/2 - rsvg.top) / rsvg.height * 300;
+          const cx1x = rCx + (58 - rCx) * 0.3, cx2x = rCx + (58 - rCx) * 0.7;
+          const cy2 = ey + (ey - rCy) * 0.25;
+          path.setAttribute('d','M'+rCx.toFixed(1)+' '+rCy.toFixed(1)+' C'+cx1x.toFixed(1)+' '+rCy.toFixed(1)+' '+cx2x.toFixed(1)+' '+cy2.toFixed(1)+' 58 '+ey.toFixed(1));
+        });
+      }
+    }
   }
 
-  buildWires();
-  layout();
-  if('ResizeObserver' in window) new ResizeObserver(layout).observe(body);
-  window.addEventListener('resize', layout);
-
-  // Static wire SVG references — dots animate inside these so they sit on the original lines
+  // Static wire SVG references — declared before layout() so dynamic path sync runs correctly
   const wireEls = Array.from(body.querySelectorAll('.cl-wires'));
   const leftWireSvg  = wireEls[0] ? wireEls[0].querySelector('svg:not(.cl-mwire)') : null;
   const rightWireSvg = wireEls[1] ? wireEls[1].querySelector('svg:not(.cl-mwire)') : null;
   const staticLeftPaths  = leftWireSvg  ? Array.from(leftWireSvg.querySelectorAll('path'))  : [];
   const staticRightPaths = rightWireSvg ? Array.from(rightWireSvg.querySelectorAll('path')) : [];
+
+  buildWires();
+  layout();
+  if('ResizeObserver' in window) new ResizeObserver(layout).observe(body);
+  window.addEventListener('resize', layout);
 
   function pulse(wire, dur, reverse, big){
     return new Promise(res=>{
@@ -1987,7 +2014,11 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     }
     var wireSvg=document.querySelector('.cl-body>div:nth-child(2) svg:not(.cl-mwire)');
     if(!wireSvg||wireSvg.getBoundingClientRect().width===0)return;
-    var p=WIRE_PATHS[ri];
+    var allLPaths=Array.from(wireSvg.querySelectorAll('path'));
+    var wp=allLPaths[ri]||null;
+    if(!wp)return;
+    var wpLen=wp.getTotalLength()||0;
+    if(!wpLen)return;
     var tr=tile.getBoundingClientRect();
     var sz0=tr.width;
     var clone=document.createElement('div');
@@ -2005,11 +2036,9 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     function frame(now){
       var t=Math.min((now-t0)/dur,1);
       var sr=wireSvg.getBoundingClientRect();
-      function toP(vx,vy){return{x:sr.left+(vx/58)*sr.width,y:sr.top+(vy/300)*sr.height};}
-      var p0=toP(p.x0,p.y0),pc1=toP(p.cx1,p.cy1),pc2=toP(p.cx2,p.cy2),p1=toP(p.x1,p.y1);
-      var mt=1-t;
-      var bx=mt*mt*mt*p0.x+3*mt*mt*t*pc1.x+3*mt*t*t*pc2.x+t*t*t*p1.x;
-      var by=mt*mt*mt*p0.y+3*mt*mt*t*pc1.y+3*mt*t*t*pc2.y+t*t*t*p1.y;
+      var raw=wp.getPointAtLength(wpLen*t);
+      var bx=sr.left+(raw.x/58)*sr.width;
+      var by=sr.top+(raw.y/300)*sr.height;
       var sz=Math.max(sz0*(1-t*0.94),1);
       clone.style.width=sz+'px';clone.style.height=sz+'px';
       clone.style.left=(bx-sz/2)+'px';clone.style.top=(by-sz/2)+'px';
@@ -2167,7 +2196,11 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     }
     var wireSvg=document.querySelector('.cl-body>div:nth-child(4) svg:not(.cl-mwire)');
     if(!wireSvg||wireSvg.getBoundingClientRect().width===0)return;
-    var p=RWP[ri];
+    var allRPaths=Array.from(wireSvg.querySelectorAll('path'));
+    var wp2=allRPaths[ri]||null;
+    if(!wp2)return;
+    var wpLen2=wp2.getTotalLength()||0;
+    if(!wpLen2)return;
     var newTool=pick();
     var clone=document.createElement('div');
     clone.style.cssText='position:fixed;border-radius:50%;background:radial-gradient(circle,rgba(160,130,230,.55) 0%,rgba(100,70,190,.18) 55%,transparent 100%);border:1.5px solid rgba(160,130,230,.75);box-shadow:0 0 7px 2px rgba(130,100,200,.45);pointer-events:none;z-index:500;opacity:0';
@@ -2176,11 +2209,9 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     function frame(now){
       var t=Math.min((now-t0)/dur,1);
       var sr=wireSvg.getBoundingClientRect();
-      function toP(vx,vy){return{x:sr.left+(vx/58)*sr.width,y:sr.top+(vy/300)*sr.height};}
-      var p0=toP(p.x0,p.y0),pc1=toP(p.cx1,p.cy1),pc2=toP(p.cx2,p.cy2),p1=toP(p.x1,p.y1);
-      var mt=1-t;
-      var bx=mt*mt*mt*p0.x+3*mt*mt*t*pc1.x+3*mt*t*t*pc2.x+t*t*t*p1.x;
-      var by=mt*mt*mt*p0.y+3*mt*mt*t*pc1.y+3*mt*t*t*pc2.y+t*t*t*p1.y;
+      var raw=wp2.getPointAtLength(wpLen2*t);
+      var bx=sr.left+(raw.x/58)*sr.width;
+      var by=sr.top+(raw.y/300)*sr.height;
       var sz=8+(40-8)*t;
       clone.style.width=sz+'px';clone.style.height=sz+'px';
       clone.style.left=(bx-sz/2)+'px';clone.style.top=(by-sz/2)+'px';
