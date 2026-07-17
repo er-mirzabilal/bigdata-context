@@ -1618,7 +1618,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         const x = sr.left-br.left + sr.width/2;
         const y = sr.top-br.top + sr.height;
         const dx = coreTop.x - x, dy = coreTop.y - y;
-        w.path.setAttribute('d','M'+x+','+y+' C'+(x-dx*0.25)+','+(y+dy*0.3)+' '+coreTop.x+','+(y+dy*0.7)+' '+coreTop.x+','+coreTop.y);
+        w.path.setAttribute('d','M'+x+','+y+' C'+x+','+(y+dy*0.3)+' '+coreTop.x+','+(y+dy*0.7)+' '+coreTop.x+','+coreTop.y);
         w.arrow.setAttribute('cx', coreTop.x); w.arrow.setAttribute('cy', coreTop.y-4);
       });
       rightWires.forEach(w=>{
@@ -1660,7 +1660,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
           if(!staticLeftPaths[i]) return;
           const sr = w.tile.getBoundingClientRect();
           const sy = (sr.top + sr.height/2 - lsvg.top) / lsvg.height * 300;
-          const cx1 = lCx * 0.3, cy1 = sy - (lCy - sy) * 0.25, cx2 = lCx * 0.7;
+          const cx1 = lCx * 0.3, cy1 = sy, cx2 = lCx * 0.7;
           staticLeftPaths[i].setAttribute('d','M0 '+sy.toFixed(1)+' C'+cx1.toFixed(1)+' '+cy1.toFixed(1)+' '+cx2.toFixed(1)+' '+lCy.toFixed(1)+' '+lCx.toFixed(1)+' '+lCy.toFixed(1));
         });
         staticRightPaths.forEach((path, i) => {
