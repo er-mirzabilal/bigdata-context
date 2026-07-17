@@ -62,14 +62,12 @@ main,footer,.bc-nav{position:relative;z-index:2}
 .bc-nav.bc-nav--scrolled::before{opacity:1}
 .bc-nav.bc-nav--scrolled .bc-nav-in{padding:8px 12px 8px 18px;background:rgba(10,6,16,.82);border-color:rgba(199,157,240,.22);box-shadow:0 14px 44px rgba(0,0,0,.6),0 0 0 1px rgba(199,157,240,.06),inset 0 1px 0 rgba(255,255,255,.05)}
 .bc-nav.bc-nav--scrolled .bc-nav-in::after{opacity:1}
-.bc-nav.bc-nav--scrolled .bc-wm-suf{opacity:.45;transform:translateX(-2px)}
+.bc-nav.bc-nav--scrolled .bc-wm-img{opacity:.8}
 .bc-nav-prog{position:absolute;left:14%;right:14%;bottom:-1px;height:1px;pointer-events:none;overflow:hidden;border-radius:1px}
 .bc-nav-prog>i{display:block;height:100%;width:var(--p,0%);background:linear-gradient(90deg,rgba(199,157,240,0),rgba(199,157,240,.9),rgba(240,224,255,1));box-shadow:0 0 8px rgba(199,157,240,.7);transition:width .12s linear}
-.bc-wordmark{font-family:var(--serif);font-size:17px;font-weight:500;letter-spacing:-.02em;display:flex;align-items:center;gap:4px;color:var(--paper)}
-.bc-wm-suf{transition:opacity .3s ease,transform .3s ease;color:rgba(239,233,242,.7);font-style:italic;font-weight:400;margin-left:4px}
-.bc-wordmark .d{width:8px;height:8px;border-radius:50%;background:var(--lavender);box-shadow:0 0 10px rgba(var(--p-lav),.6)}
-.bc-mark{height:24px;width:auto;flex:0 0 auto;filter:drop-shadow(0 0 8px rgba(var(--p-lav),.7))}
-.bc-wordmark sup{font-size:8px;font-family:var(--mono);color:var(--muted);top:-.9em;margin-left:-5px}
+.bc-wordmark{display:flex;align-items:center}
+.bc-wm-img{height:22px;width:auto}
+.bc-wm-img-ft{height:26px;width:auto}
 .bc-nav-links{display:flex;gap:34px;align-items:center}
 .bc-nav-links a:not(.bc-btn){font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(239,233,242,.55);transition:color .25s;position:relative}
 .bc-nav-links a:not(.bc-btn)::before,.bc-nav-links a:not(.bc-btn)::after{content:"";position:absolute;top:50%;transform:translateY(-50%);color:var(--lavender);font-family:var(--mono);font-size:11px;opacity:0;transition:opacity .25s,transform .25s}
@@ -87,8 +85,7 @@ main,footer,.bc-nav{position:relative;z-index:2}
 @media(max-width:640px){
   .bc-nav{top:10px}
   .bc-nav-in{padding:8px 10px 8px 16px}
-  .bc-wordmark{font-size:15px;white-space:nowrap;min-width:0;gap:4px}
-  .bc-wm-suf{margin-left:-4px}
+  .bc-wordmark{white-space:nowrap;min-width:0}
   .bc-nav-links{gap:10px}
   .bc-nav-links .bc-btn{padding:8px 14px;font-size:11px;white-space:nowrap;flex-shrink:0}
 }
@@ -278,10 +275,7 @@ html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender
 <!-- Nav -->
 <nav class="bc-nav" id="bcNav">
   <div class="bc-nav-in">
-    <a href="/" class="bc-wordmark">
-      <svg class="bc-mark" viewBox="0 0 160 120" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="20" width="10" height="80" fill="var(--lavender)"/><rect x="30" y="20" width="28" height="6" fill="var(--lavender)"/><rect x="30" y="94" width="28" height="6" fill="var(--lavender)"/><rect x="66" y="55" width="28" height="10" fill="var(--paper)"/><rect x="120" y="20" width="10" height="80" fill="var(--lavender)"/><rect x="102" y="20" width="28" height="6" fill="var(--lavender)"/><rect x="102" y="94" width="28" height="6" fill="var(--lavender)"/></svg>
-      Big Context<sup>&trade;</sup><span class="bc-wm-suf">&nbsp;&amp; Company</span>
-    </a>
+    <a href="/" class="bc-wordmark"><img src="/bc-wordmark.svg" alt="Big Context &amp; Company" class="bc-wm-img"></a>
     <div class="bc-nav-links">
       <a href="/">Platform</a>
       <a href="/services">Practice</a>
@@ -476,7 +470,7 @@ html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender
   <div class="bc-wrap">
     <div class="bc-foot-top">
       <div class="bc-foot-brand">
-        <div class="m"><span class="d"></span>Big Context<sup>&trade;</sup></div>
+        <div class="m"><img src="/bc-wordmark.svg" alt="Big Context &amp; Company" class="bc-wm-img-ft"></div>
         <p>The open infrastructure for enterprise data context.</p>
       </div>
       <nav class="bc-foot-nav">
