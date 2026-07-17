@@ -511,7 +511,7 @@ svg.tl{width:100%;height:auto;display:block}
 
 /* Directional flow: dashes drift core-ward on left wires, agent-ward on right wires */
 @keyframes cl-flow{to{stroke-dashoffset:-32}}
-.cl-wires .cl-flowline{stroke-dasharray:5 7;animation:cl-flow 1.8s linear infinite}
+.cl-wires .cl-flowline{stroke-dasharray:1.5 5;animation:cl-flow 1.8s linear infinite}
 @media (prefers-reduced-motion:reduce){.cl-wires .cl-flowline{animation:none}}
 
 /* Core simplification */
@@ -534,7 +534,7 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-body{position:relative}
 .cl-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
 .cl-canvas .wire{fill:none;stroke:rgba(var(--p-lav),.16);stroke-width:1;transition:stroke .25s}
-.cl-canvas .wire.req{stroke-dasharray:3 4}
+.cl-canvas .wire.req{stroke-dasharray:1.5 5}
 .cl-canvas .wire.is-active{stroke:rgba(var(--p-lav),.55);stroke-width:1.2}
 .cl-canvas .arrow{fill:var(--lavender);opacity:0;transition:opacity .25s}
 .cl-canvas .arrow.is-active{opacity:.75}
@@ -563,8 +563,8 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-rail-header{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--lavender);text-transform:uppercase;text-align:center;margin:0 0 14px;opacity:.85}
   .cl-cluster-caption{font-family:var(--mono);font-size:8px;letter-spacing:.24em;color:var(--lavender);text-transform:uppercase;text-align:center;opacity:.8;margin:4px 0 2px;width:auto;min-width:54px;position:relative;z-index:2;padding:2px 5px;background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.24);border-radius:5px;align-self:center;display:inline-block}
   .cl-cluster-caption:first-child{margin-top:0}
-  .cl-silos .cl-rail-header{display:block;position:absolute;top:-46px;left:0;text-align:left;width:130px;margin:0;font-size:12px;letter-spacing:.14em;line-height:1.55;opacity:.9}
-  .cl-agents .cl-rail-header{display:block;position:absolute;top:-46px;right:0;text-align:right;width:130px;margin:0;font-size:12px;letter-spacing:.14em;line-height:1.55;opacity:.9}
+  .cl-silos .cl-rail-header{display:block;position:absolute;top:-46px;left:50%;transform:translateX(-50%);text-align:center;width:max-content;margin:0;font-size:12px;letter-spacing:.14em;line-height:1.55;opacity:.9}
+  .cl-agents .cl-rail-header{display:block;position:absolute;top:-46px;left:50%;right:auto;transform:translateX(-50%);text-align:center;width:max-content;margin:0;font-size:12px;letter-spacing:.14em;line-height:1.55;opacity:.9}
   .cl-col.cl-silos{padding:0;gap:0;overflow:visible}
   .cl-col.cl-agents{overflow:visible}
   .cl-silo-grid{display:flex;flex-direction:column;justify-content:space-around;align-items:flex-start;flex:1 1 0;overflow:visible}
@@ -584,8 +584,8 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent.span2{grid-column:auto}
   .cl-agent .ico{width:32px;height:32px;border-radius:50%;background:rgba(var(--p-lav),.12)}
   .cl-agent .ico svg{width:16px;height:16px}
-  .cl-agent-label{position:absolute;right:calc(100% + 12px);left:auto;top:50%;transform:translateY(-50%);font-size:9px;background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.3);padding:3px 8px;border-radius:6px;opacity:0;pointer-events:none;color:var(--lavender);white-space:nowrap;z-index:6;letter-spacing:.14em}
-  .cl-agent:hover .cl-agent-label,.cl-agent.is-active .cl-agent-label{opacity:1}
+  .cl-agent-label{position:absolute;right:calc(100% + 12px);left:auto;top:50%;transform:translateY(-50%);font-size:9px;background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.3);padding:3px 8px;border-radius:6px;opacity:.45;pointer-events:none;color:var(--lavender);white-space:nowrap;z-index:6;letter-spacing:.14em}
+  .cl-agent:hover .cl-agent-label,.cl-agent.is-active .cl-agent-label{opacity:1;color:var(--lavender-hot)}
   .cl-agent-status{position:absolute;right:-1px;bottom:-1px;width:8px;height:8px;border-radius:50%;background:rgba(var(--p-lav),.25);border:1.5px solid rgba(10,6,16,1);transition:background .25s,box-shadow .25s;z-index:2}
   .cl-agent.is-active .cl-agent-status{background:var(--lavender-hot);box-shadow:0 0 8px rgba(var(--p-lav),.95)}
   /* Floating drift on agent chips */
@@ -622,8 +622,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-core.is-active .cl-orbit-out .cl-orbit-text{fill:rgba(var(--p-lav),.95)}
   .cl-orb-w{transition:fill .55s ease}
   .cl-orb-w.lit{fill:var(--lavender-hot)}
-  .cl-pulse-dot{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:rgba(var(--p-lav),.3);transition:background .2s,box-shadow .3s;z-index:4}
-  .cl-core.is-active .cl-pulse-dot{background:var(--lavender-hot);box-shadow:0 0 10px rgba(var(--p-lav),.95)}
+  .cl-pulse-dot{display:none}
   .cl-canvas .orbit-token{font-family:var(--mono);font-size:9px;fill:var(--lavender-hot);letter-spacing:.2em;text-transform:uppercase;filter:drop-shadow(0 0 4px rgba(var(--p-lav),.9))}
   /* Mid-rail headers slot in via JS */
 }
@@ -708,8 +707,8 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-orbit-out{transform-box:fill-box;transform-origin:50% 50%;animation:cl-rot 90s linear infinite}
   .cl-orbit-mid{transform-box:fill-box;transform-origin:50% 50%;animation:cl-rot-rev 68s linear infinite}
   .cl-orbit-in{transform-box:fill-box;transform-origin:50% 50%;animation:cl-rot 50s linear infinite}
-  .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.5);letter-spacing:.3em;text-transform:uppercase;font-size:11px}
-  .cl-core-orbit .cl-orbit-in .cl-orbit-text,.cl-core-orbit .cl-orbit-mid .cl-orbit-text{fill:rgba(var(--p-lav),.5);font-size:11px;letter-spacing:.3em}
+  .cl-orbit-text{font-family:var(--mono);fill:rgba(var(--p-lav),.88);letter-spacing:.3em;text-transform:uppercase;font-size:13px;filter:drop-shadow(0 0 5px rgba(var(--p-lav),.65))}
+  .cl-core-orbit .cl-orbit-in .cl-orbit-text,.cl-core-orbit .cl-orbit-mid .cl-orbit-text{fill:rgba(var(--p-lav),.6);font-size:12px;letter-spacing:.3em;filter:none}
   .cl-pulse-dot{display:none}
   /* Agents: 4-col grid of round icon-only chips, heading BELOW the grid */
   .cl-agents{padding-right:0;display:grid;grid-template-columns:repeat(4,1fr);column-gap:10px;row-gap:10px;justify-items:center;align-items:center;align-content:center;flex-direction:initial;gap:10px}
@@ -728,7 +727,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-col{margin-top:0}
   .cl-wires{height:180px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
   .cl-wires>svg:not(.cl-mwire){display:none}
-  .cl-wires .cl-mwire{display:block;position:absolute;top:0;left:0;width:100%;height:100%}
+  .cl-wires .cl-mwire{display:none}
   .cl-col.cl-silos{display:flex;flex-direction:column;align-items:center;padding:2px 0 0;overflow:visible;align-self:auto;gap:0}
   .cl-silo-grid{display:flex;flex-direction:row;justify-content:space-around;align-items:center;width:100%;overflow:visible;row-gap:0;column-gap:0;padding:0;flex:none}
   .cl-col.cl-agents{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-around;align-items:center;align-content:flex-start;padding:0 0 2px;overflow:visible;align-self:auto;gap:0}
@@ -1017,9 +1016,9 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
     <h2 class="cl-sr" id="cl-figure-title">From siloed data, through the Pragmatic Context Layer, to AI agents</h2>
     <div class="cl-body">
       <div class="cl-col cl-silos bc-reveal"><div class="cl-rail-header" aria-hidden="true">Siloed Systems of Record</div><div class="cl-head"><div class="cl-eyebrow">01</div><h3 class="cl-head-t old">Siloed Data</h3><div class="cl-head-s">Locked in tools</div></div><div class="cl-silo-grid" id="clSiloGrid"></div></div>
-      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 30 C22 30 58 120 58 170" stroke-opacity=".3"/><path d="M0 90 C22 90 58 142 58 170" stroke-opacity=".38"/><path d="M0 150 C22 150 58 162 58 170" stroke-opacity=".46"/><path d="M0 210 C22 210 58 192 58 170" stroke-opacity=".38"/><path d="M0 270 C22 270 58 210 58 170" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M39 0 C39 32 195 42 195 74" stroke-opacity=".38"/><path d="M117 0 C117 34 195 44 195 74" stroke-opacity=".26"/><path d="M195 0 C210 20 180 54 195 74" stroke-opacity=".14"/><path d="M273 0 C273 34 195 44 195 74" stroke-opacity=".26"/><path d="M351 0 C351 32 195 42 195 74" stroke-opacity=".38"/></g></svg></div>
-      <div class="cl-col cl-core-col bc-reveal"><div class="cl-head"><div class="cl-eyebrow">02</div><h3 class="cl-head-t mid">Virtualized Data Context Layer</h3><div class="cl-head-s">Independent &middot; Open</div></div><div class="cl-core-caption" aria-hidden="true"><div class="cl-core-caption-top">Virtualized Data Context Layer</div><div class="cl-core-caption-name">Big Context OS</div></div><div class="cl-core"><svg class="cl-core-orbit" viewBox="-130 -130 260 260" aria-hidden="true" focusable="false"><defs><path id="cl-orb-outer" d="M 120,0 A 120,120 0 1,1 -120,0 A 120,120 0 1,1 120,0"/><path id="cl-orb-mid" d="M 104,0 A 104,104 0 1,1 -104,0 A 104,104 0 1,1 104,0"/><path id="cl-orb-inner" d="M 88,0 A 88,88 0 1,1 -88,0 A 88,88 0 1,1 88,0"/></defs><g class="cl-orbit-out"><text class="cl-orbit-text"><textPath href="#cl-orb-outer" startOffset="0" textLength="754" lengthAdjust="spacing">SCHEMA &middot; SEMANTICS &middot; METRICS &middot; METADATA &middot; ENTITIES &middot; POLICIES &middot; </textPath></text></g><g class="cl-orbit-mid"><text class="cl-orbit-text"><textPath href="#cl-orb-mid" startOffset="0" textLength="653" lengthAdjust="spacing">JOIN HINTS &middot; DEFINITIONS &middot; BUSINESS RULES &middot; DECISION TRACES &middot; </textPath></text></g><g class="cl-orbit-in"><text class="cl-orbit-text"><textPath href="#cl-orb-inner" startOffset="0" textLength="553" lengthAdjust="spacing">TRIBAL KNOWLEDGE &middot; PRAGMATICS &middot; NUANCES &middot; RUNTIME CONTEXT &middot; </textPath></text></g></svg><div class="cl-core-glyph"><span class="cl-core-chip"><img src="/bc-mark.svg" alt="Big Context" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:contain"/></span></div><div class="cl-core-tagline">Big Context OS</div><span class="cl-pulse-dot" aria-hidden="true"></span></div></div>
-      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 170 C0 120 36 30 58 30" stroke-opacity=".3"/><path d="M0 170 C0 142 36 90 58 90" stroke-opacity=".38"/><path d="M0 170 C0 162 36 150 58 150" stroke-opacity=".46"/><path d="M0 170 C0 192 36 210 58 210" stroke-opacity=".38"/><path d="M0 170 C0 210 36 270 58 270" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M195 0 C195 32 39 42 39 74" stroke-opacity=".38"/><path d="M195 0 C195 34 117 44 117 74" stroke-opacity=".26"/><path d="M195 0 C210 20 180 54 195 74" stroke-opacity=".14"/><path d="M195 0 C195 34 273 44 273 74" stroke-opacity=".26"/><path d="M195 0 C195 32 351 42 351 74" stroke-opacity=".38"/></g></svg></div>
+      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 30 C46 30 58 170 58 170" stroke-opacity=".3"/><path d="M0 90 C46 90 58 170 58 170" stroke-opacity=".38"/><path d="M0 150 C42 150 58 170 58 170" stroke-opacity=".46"/><path d="M0 210 C46 210 58 170 58 170" stroke-opacity=".38"/><path d="M0 270 C46 270 58 170 58 170" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M39 0 C39 32 195 42 195 74" stroke-opacity=".38"/><path d="M117 0 C117 34 195 44 195 74" stroke-opacity=".26"/><path d="M195 0 C210 20 180 54 195 74" stroke-opacity=".14"/><path d="M273 0 C273 34 195 44 195 74" stroke-opacity=".26"/><path d="M351 0 C351 32 195 42 195 74" stroke-opacity=".38"/></g></svg></div>
+      <div class="cl-col cl-core-col bc-reveal"><div class="cl-head"><div class="cl-eyebrow">02</div><h3 class="cl-head-t mid">Virtualized Data Context Layer</h3><div class="cl-head-s">Independent &middot; Open</div></div><div class="cl-core-caption" aria-hidden="true"><div class="cl-core-caption-top">Virtualized Data Context Layer</div><div class="cl-core-caption-name">Pragmatics OS</div></div><div class="cl-core"><svg class="cl-core-orbit" viewBox="-130 -130 260 260" aria-hidden="true" focusable="false"><defs><path id="cl-orb-outer" d="M 120,0 A 120,120 0 1,1 -120,0 A 120,120 0 1,1 120,0"/><path id="cl-orb-mid" d="M 104,0 A 104,104 0 1,1 -104,0 A 104,104 0 1,1 104,0"/><path id="cl-orb-inner" d="M 88,0 A 88,88 0 1,1 -88,0 A 88,88 0 1,1 88,0"/></defs><g class="cl-orbit-out"><text class="cl-orbit-text"><textPath href="#cl-orb-outer" startOffset="0" textLength="754" lengthAdjust="spacing">SCHEMA &middot; SEMANTICS &middot; METRICS &middot; METADATA &middot; ENTITIES &middot; POLICIES &middot; </textPath></text></g><g class="cl-orbit-mid"><text class="cl-orbit-text"><textPath href="#cl-orb-mid" startOffset="0" textLength="653" lengthAdjust="spacing">JOIN HINTS &middot; DEFINITIONS &middot; BUSINESS RULES &middot; DECISION TRACES &middot; </textPath></text></g><g class="cl-orbit-in"><text class="cl-orbit-text"><textPath href="#cl-orb-inner" startOffset="0" textLength="553" lengthAdjust="spacing">TRIBAL KNOWLEDGE &middot; PRAGMATICS &middot; NUANCES &middot; RUNTIME CONTEXT &middot; </textPath></text></g></svg><div class="cl-core-glyph"><span class="cl-core-chip"><img src="/bc-mark.svg" alt="Big Context" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:contain"/></span></div><div class="cl-core-tagline">Pragmatics OS</div><span class="cl-pulse-dot" aria-hidden="true"></span></div></div>
+      <div class="cl-wires bc-reveal" aria-hidden="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 58 300" preserveAspectRatio="none"><g class="cl-flowline" fill="none" stroke="var(--lavender)" stroke-width="0.6"><path d="M0 170 C0 170 12 30 58 30" stroke-opacity=".3"/><path d="M0 170 C0 170 12 90 58 90" stroke-opacity=".38"/><path d="M0 170 C0 170 16 150 58 150" stroke-opacity=".46"/><path d="M0 170 C0 170 12 210 58 210" stroke-opacity=".38"/><path d="M0 170 C0 170 12 270 58 270" stroke-opacity=".3"/></g></svg><svg aria-hidden="true" focusable="false" class="cl-mwire" viewBox="0 0 390 74" preserveAspectRatio="none" fill="none"><g stroke="var(--lavender)" stroke-width="1"><path d="M195 0 C195 32 39 42 39 74" stroke-opacity=".38"/><path d="M195 0 C195 34 117 44 117 74" stroke-opacity=".26"/><path d="M195 0 C210 20 180 54 195 74" stroke-opacity=".14"/><path d="M195 0 C195 34 273 44 273 74" stroke-opacity=".26"/><path d="M195 0 C195 32 351 42 351 74" stroke-opacity=".38"/></g></svg></div>
       <div class="cl-col cl-agents bc-reveal" id="clAgentGrid"><div class="cl-rail-header" aria-hidden="true">Your data agents</div><div class="cl-head"><div class="cl-eyebrow">03</div><h3 class="cl-head-t new">AI Agents</h3><div class="cl-head-s">Across your enterprise</div></div></div>
     </div>
   </div>
@@ -1611,16 +1610,16 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         const sr = w.tile.getBoundingClientRect();
         const x = sr.left-br.left + sr.width/2;
         const y = sr.top-br.top + sr.height;
-        const my = (y + coreTop.y)/2;
-        w.path.setAttribute('d','M'+x+','+y+' C'+x+','+my+' '+coreTop.x+','+my+' '+coreTop.x+','+coreTop.y);
+        const dy = coreTop.y - y;
+        w.path.setAttribute('d','M'+x+','+y+' C'+x+','+(y+dy*0.8)+' '+coreTop.x+','+coreTop.y+' '+coreTop.x+','+coreTop.y);
         w.arrow.setAttribute('cx', coreTop.x); w.arrow.setAttribute('cy', coreTop.y-4);
       });
       rightWires.forEach(w=>{
         const ar = w.agent.getBoundingClientRect();
         const x = ar.left-br.left + ar.width/2;
         const y = ar.top-br.top;
-        const my = (y + coreBot.y)/2;
-        w.path.setAttribute('d','M'+coreBot.x+','+coreBot.y+' C'+coreBot.x+','+my+' '+x+','+my+' '+x+','+y);
+        const dy = y - coreBot.y;
+        w.path.setAttribute('d','M'+coreBot.x+','+coreBot.y+' C'+coreBot.x+','+coreBot.y+' '+x+','+(coreBot.y+dy*0.2)+' '+x+','+y);
         w.arrow.setAttribute('cx', x); w.arrow.setAttribute('cy', y-4);
       });
       return;
@@ -1630,15 +1629,15 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     leftWires.forEach(w=>{
       const sr = w.tile.getBoundingClientRect();
       const x = sr.right-br.left, y = sr.top-br.top + sr.height/2;
-      const mx = (x + coreL.x)/2;
-      w.path.setAttribute('d','M'+x+','+y+' C'+mx+','+y+' '+mx+','+coreL.y+' '+coreL.x+','+coreL.y);
+      const dx = coreL.x - x;
+      w.path.setAttribute('d','M'+x+','+y+' C'+(x+dx*0.8)+','+y+' '+coreL.x+','+coreL.y+' '+coreL.x+','+coreL.y);
       w.arrow.setAttribute('cx', coreL.x-4); w.arrow.setAttribute('cy', coreL.y);
     });
     rightWires.forEach(w=>{
       const ar = w.agent.getBoundingClientRect();
       const x = ar.left-br.left, y = ar.top-br.top + ar.height/2;
-      const mx = (x + coreR.x)/2;
-      w.path.setAttribute('d','M'+coreR.x+','+coreR.y+' C'+mx+','+coreR.y+' '+mx+','+y+' '+x+','+y);
+      const dx = x - coreR.x;
+      w.path.setAttribute('d','M'+coreR.x+','+coreR.y+' C'+coreR.x+','+coreR.y+' '+(coreR.x+dx*0.2)+','+y+' '+x+','+y);
       w.arrow.setAttribute('cx', x-4); w.arrow.setAttribute('cy', y);
     });
   }
@@ -1654,7 +1653,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       let len; try{ len = path.getTotalLength(); }catch(e){ res(); return; }
       if(!len){ res(); return; }
       const dot = document.createElementNS(NS,'circle');
-      dot.setAttribute('class','dot'); dot.setAttribute('r', big?3.2:2.4);
+      dot.setAttribute('class','dot'); dot.setAttribute('r', big?4.5:2.4);
       canvas.appendChild(dot);
       const t0 = performance.now();
       function step(now){
@@ -1689,13 +1688,13 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       t.textContent = TOKENS[idx % TOKENS.length];
       canvas.appendChild(t);
       const t0 = performance.now();
-      const dur = 520;
+      const dur = 700;
       function step(now){
         const k = Math.min(1,(now-t0)/dur);
         const ease = 1 - Math.pow(1-k, 2);
         const pt = path.getPointAtLength(len*ease);
         t.setAttribute('x', pt.x); t.setAttribute('y', pt.y - 8);
-        t.setAttribute('opacity', String(1 - k*0.9));
+        t.setAttribute('opacity', String(k < 0.55 ? 1 : 1 - (k-0.55)*2.2));
         if(k<1) requestAnimationFrame(step); else t.remove();
       }
       requestAnimationFrame(step);
