@@ -1970,7 +1970,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       let len; try{ len = staticPath.getTotalLength(); }catch(e){ res(); return; }
       if(!len){ res(); return; }
       const dot = document.createElementNS(NS,'circle');
-      dot.setAttribute('class','dot'); dot.setAttribute('r', big?4.5:2.4);
+      dot.setAttribute('class','dot'); dot.setAttribute('r', big?3.0:1.5);
       staticSvg.appendChild(dot);
       const t0 = performance.now();
       function step(now){
@@ -2056,23 +2056,21 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     const pickedIdx = Array.from(chosen);
     const pick = pickedIdx.map(i=>leftWires[i]);
 
-    // 4. Silos \u2192 core: highlight wire, fly tile, send dot
+    // 4. Silos \u2192 core: highlight wires + fly tiles (no dot)
     setState('PULL');
+    const tileStagger = (pickedIdx.length - 1) * 110;
     pick.forEach(w=>{
-      activate(w, 1000);
+      activate(w, 1900 + tileStagger);
       const t = w.tile.querySelector('.cl-silo-tile');
       if(t) t.classList.add('cl-row-active');
     });
-
-    // Fire tile-merge event for each chosen silo row, staggered
     pickedIdx.forEach((ri, i)=>{
       setTimeout(()=>{
         document.dispatchEvent(new CustomEvent('cl:merge-row',{detail:{ri}}));
       }, i*110);
     });
-
-    // Dots travel silo \u2192 core, staggered
-    await Promise.all(pick.map((w,i)=>new Promise(r=>setTimeout(()=>pulse(w, 620, false, false).then(r), i*90))));
+    // Wait for all tile animations to reach core (~1800ms tile-fly + stagger)
+    await sleep(1800 + tileStagger);
 
     // 5. Core processes
     setState('PROC');
@@ -2081,16 +2079,14 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       if(t) t.classList.remove('cl-row-active');
     });
     corePulse();
-    await sleep(260);
+    await sleep(300);
 
-    // 6. Core sends response \u2192 agent
+    // 6. Core \u2192 agent: wire highlight + processed tile fly (no dot)
     setState('SEND');
-    activate(wire, 560);
+    activate(wire, 1800);
     spawnOrbitToken(wire, idx);
-    await pulse(wire, 500, false, true);
-
-    // Trigger processed tile arrival at agent row
     document.dispatchEvent(new CustomEvent('cl:agent-response', {detail:{ri: idx}}));
+    await sleep(400);
 
     recordOp();
     setTimeout(()=>{
