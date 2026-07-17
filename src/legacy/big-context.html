@@ -243,6 +243,87 @@ a{color:inherit;text-decoration:none}
 .pd-os-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .pd-os-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);border:1px solid rgba(199,157,240,.15);border-radius:999px;padding:4px 12px}
 @media(max-width:640px){.pd-os-hd{gap:14px;padding:18px 16px}.pd-os-inner{padding:4px 16px 22px 16px}.pd-os-badge{width:28px;height:28px;font-size:9px}}
+
+/* OS icons — animated marks (ported from hood-icons-v5, recolored to brand purple) */
+.pdi-mark{display:block}
+.pdi-hair{stroke:rgba(239,233,242,.16);stroke-width:1;fill:none}
+.pdi-dotring{stroke-dasharray:1.6 7.4;stroke-linecap:round}
+.pdi-gauge{stroke:rgba(239,233,242,.34);stroke-width:1.35}
+.pdi-node{fill:var(--paper)}
+.pdi-accent{fill:var(--lavender)}
+.pdi-glow-a{fill:var(--lavender);opacity:.15}
+.pdi-glow-p{fill:var(--paper);opacity:.10}
+.pdi-star{fill:var(--paper);opacity:.26}
+.pdi-comet{stroke:var(--lavender-hot);stroke-width:1.6;stroke-linecap:round;fill:none;stroke-dasharray:16 100;stroke-dashoffset:16;filter:drop-shadow(0 0 3px rgba(199,157,240,.55))}
+.pdi-orbglow{filter:drop-shadow(0 0 5px rgba(199,157,240,.5))}
+.pdi-spinbox{transform-box:view-box;transform-origin:50% 50%}
+.pdi-pulsebox{transform-box:fill-box;transform-origin:50% 50%}
+@keyframes pdiSpin{to{transform:rotate(360deg)}}
+@keyframes pdiBreathe{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.14)}}
+@keyframes pdiThrob{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+@keyframes pdiFlash{0%,18%,100%{opacity:.45;transform:scale(1)}6%{opacity:1;transform:scale(1.55)}}
+@keyframes pdiComet30{0%{stroke-dashoffset:16}30%{stroke-dashoffset:-100}100%{stroke-dashoffset:-100}}
+@keyframes pdiDeliver{0%{stroke-dashoffset:16}20%{stroke-dashoffset:-100}100%{stroke-dashoffset:-100}}
+@keyframes pdiFlashd{0%,18%,32%,100%{opacity:.45;transform:scale(1)}21%{opacity:1;transform:scale(1.5)}}
+@keyframes pdiRippled{0%,18%{opacity:0;transform:scale(.3)}22%{opacity:.5;transform:scale(.7)}42%,100%{opacity:0;transform:scale(1.9)}}
+@keyframes pdiLockstep{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.32)}}
+@keyframes pdiSweepwink{0%,13%,100%{opacity:.4;transform:scale(1)}4%{opacity:1;transform:scale(1.45)}}
+.pdi-1 .pdi-edge{animation:pdiComet30 3.6s linear infinite}
+.pdi-1 .pdi-w1{animation-delay:.15s}
+.pdi-1 .pdi-w2{animation-delay:1.2s}
+.pdi-1 .pdi-leaf{opacity:.45;animation:pdiFlash 3.6s ease-out infinite}
+.pdi-1 .pdi-f1{animation-delay:1.2s}
+.pdi-1 .pdi-f2{animation-delay:2.25s}
+.pdi-1 .pdi-hub,.pdi-1 .pdi-hubglow{animation:pdiBreathe 3.6s ease-in-out infinite}
+.pdi-2 .pdi-wk{animation:pdiComet30 4.5s linear infinite}
+.pdi-2 .pdi-wk2{animation-delay:1.5s}
+.pdi-2 .pdi-wk3{animation-delay:3s}
+.pdi-2 .pdi-agent{opacity:.5;animation:pdiFlash 4.5s ease-out infinite}
+.pdi-2 .pdi-a0{animation-delay:.1s}
+.pdi-2 .pdi-a1{animation-delay:2.85s}
+.pdi-2 .pdi-a2{animation-delay:3.1s}
+.pdi-2 .pdi-orb{transform-box:fill-box;transform-origin:50% 50%;animation:pdiThrob 4.5s ease-in-out infinite}
+.pdi-3 .pdi-pay{animation:pdiDeliver 8s cubic-bezier(.45,.05,.55,.95) infinite}
+.pdi-3 .pdi-p2{animation-delay:2s}
+.pdi-3 .pdi-p3{animation-delay:4s}
+.pdi-3 .pdi-p4{animation-delay:6s}
+.pdi-3 .pdi-end{opacity:.45;animation:pdiFlashd 8s ease-out infinite}
+.pdi-3 .pdi-e2{animation-delay:2s}
+.pdi-3 .pdi-e3{animation-delay:4s}
+.pdi-3 .pdi-e4{animation-delay:6s}
+.pdi-3 .pdi-ripple{fill:none;stroke:var(--lavender);stroke-width:1;opacity:0;animation:pdiRippled 8s ease-out infinite}
+.pdi-3 .pdi-rp2{animation-delay:2s}
+.pdi-3 .pdi-rp3{animation-delay:4s}
+.pdi-3 .pdi-rp4{animation-delay:6s}
+.pdi-3 .pdi-source,.pdi-3 .pdi-sourceglow{animation:pdiBreathe 4s ease-in-out infinite}
+.pdi-4 .pdi-ringO{animation:pdiSpin 26s linear infinite}
+.pdi-4 .pdi-ringI{animation:pdiSpin 38s linear infinite reverse}
+.pdi-4 .pdi-anchor{opacity:.5;animation:pdiLockstep 2.8s ease-in-out infinite}
+.pdi-4 .pdi-core,.pdi-4 .pdi-coreglow{animation:pdiBreathe 2.8s ease-in-out infinite}
+.pdi-5 .pdi-sweep{animation:pdiSpin 6s linear infinite}
+.pdi-5 .pdi-n{opacity:.4;animation:pdiSweepwink 6s linear infinite}
+.pdi-5 .pdi-k1{animation-delay:1s}
+.pdi-5 .pdi-k2{animation-delay:2s}
+.pdi-5 .pdi-k3{animation-delay:3s}
+.pdi-5 .pdi-k4{animation-delay:4s}
+.pdi-5 .pdi-k5{animation-delay:5s}
+.pd-os-icon-sm{flex:none;align-self:center;width:34px;height:34px}
+.pd-os-icon-sm svg{display:block;width:100%;height:100%}
+.pd-os-inner-flex{display:flex;align-items:center;gap:32px}
+.pd-os-inner-flex p{flex:1;margin:0}
+.pd-os-icon-lg{flex:none}
+.pd-os-icon-lg svg{display:block;width:120px;height:120px}
+@media(max-width:640px){
+  .pd-os-icon-sm{display:none}
+  .pd-os-inner-flex{flex-direction:column;align-items:flex-start;gap:18px}
+  .pd-os-icon-lg{align-self:center}
+  .pd-os-icon-lg svg{width:96px;height:96px}
+}
+.pd-os-accordion:has(.pd-os-item.open) .pd-os-item:not(.open) .pdi-mark,
+.pd-os-accordion:has(.pd-os-item.open) .pd-os-item:not(.open) .pdi-mark *{
+  animation-play-state:paused!important;
+}
+@media(prefers-reduced-motion:reduce){.pdi-mark,.pdi-mark *{animation:none!important}}
 .bc-foot{border-top:.5px solid var(--line);padding:54px 0 42px}
 .bc-foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:46px}
 .bc-foot-brand{max-width:36ch}
@@ -1036,12 +1117,71 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
           <div class="pd-os-meta">
             <div class="pd-os-title">Pragmatic Graphs</div>
           </div>
+          <div class="pd-os-icon-sm">
+            <svg class="pdi-mark pdi-1" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path class="pdi-hair" d="M64,60 L38,30"/>
+              <path class="pdi-hair" d="M38,30 L18,78"/>
+              <path class="pdi-hair" d="M38,30 L14,18"/>
+              <path class="pdi-hair" d="M64,60 L98,26"/>
+              <path class="pdi-hair" d="M98,26 L110,52"/>
+              <path class="pdi-hair" d="M64,60 L92,90"/>
+              <path class="pdi-hair" d="M92,90 L64,106"/>
+              <path class="pdi-comet pdi-edge pdi-w1" pathLength="100" d="M64,60 L38,30"/>
+              <path class="pdi-comet pdi-edge pdi-w1" pathLength="100" d="M64,60 L98,26"/>
+              <path class="pdi-comet pdi-edge pdi-w1" pathLength="100" d="M64,60 L92,90"/>
+              <path class="pdi-comet pdi-edge pdi-w2" pathLength="100" d="M38,30 L18,78"/>
+              <path class="pdi-comet pdi-edge pdi-w2" pathLength="100" d="M38,30 L14,18"/>
+              <path class="pdi-comet pdi-edge pdi-w2" pathLength="100" d="M98,26 L110,52"/>
+              <path class="pdi-comet pdi-edge pdi-w2" pathLength="100" d="M92,90 L64,106"/>
+              <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f1" cx="38" cy="30" r="4"/>
+              <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f1" cx="98" cy="26" r="4"/>
+              <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f1" cx="92" cy="90" r="4"/>
+              <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f2" cx="18" cy="78" r="3.6"/>
+              <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f2" cx="14" cy="18" r="3.6"/>
+              <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f2" cx="110" cy="52" r="3.6"/>
+              <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f2" cx="64" cy="106" r="3.6"/>
+              <circle class="pdi-glow-a pdi-pulsebox pdi-hubglow" cx="64" cy="60" r="12"/>
+              <circle class="pdi-accent pdi-pulsebox pdi-hub" cx="64" cy="60" r="5.5"/>
+            </svg>
+          </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
             <div class="pd-os-lead">Situational awareness for every data query</div>
-            <p>A semantic layer is a static record of what data means. A pragmatic graph is a living record of how it&rsquo;s actually used in your business &mdash; it&rsquo;s situational awareness as a foundation. It&rsquo;s an AI-native representation of your company&rsquo;s live model of meaning.</p>
+            <div class="pd-os-inner-flex">
+              <p>A semantic layer is a static record of what data means. A pragmatic graph is a living record of how it&rsquo;s actually used in your business &mdash; it&rsquo;s situational awareness as a foundation. It&rsquo;s an AI-native representation of your company&rsquo;s live model of meaning.</p>
+              <div class="pd-os-icon-lg">
+                <svg class="pdi-mark pdi-1" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <circle class="pdi-star" cx="78" cy="12" r="1.3"/>
+                  <circle class="pdi-star" cx="14" cy="40" r="1.3"/>
+                  <circle class="pdi-star" cx="44" cy="102" r="1.3"/>
+                  <path class="pdi-hair" d="M64,60 L38,30"/>
+                  <path class="pdi-hair" d="M38,30 L18,78"/>
+                  <path class="pdi-hair" d="M38,30 L14,18"/>
+                  <path class="pdi-hair" d="M64,60 L98,26"/>
+                  <path class="pdi-hair" d="M98,26 L110,52"/>
+                  <path class="pdi-hair" d="M64,60 L92,90"/>
+                  <path class="pdi-hair" d="M92,90 L64,106"/>
+                  <path class="pdi-comet pdi-edge pdi-w1" pathLength="100" d="M64,60 L38,30"/>
+                  <path class="pdi-comet pdi-edge pdi-w1" pathLength="100" d="M64,60 L98,26"/>
+                  <path class="pdi-comet pdi-edge pdi-w1" pathLength="100" d="M64,60 L92,90"/>
+                  <path class="pdi-comet pdi-edge pdi-w2" pathLength="100" d="M38,30 L18,78"/>
+                  <path class="pdi-comet pdi-edge pdi-w2" pathLength="100" d="M38,30 L14,18"/>
+                  <path class="pdi-comet pdi-edge pdi-w2" pathLength="100" d="M98,26 L110,52"/>
+                  <path class="pdi-comet pdi-edge pdi-w2" pathLength="100" d="M92,90 L64,106"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f1" cx="38" cy="30" r="3"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f1" cx="98" cy="26" r="3"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f1" cx="92" cy="90" r="3"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f2" cx="18" cy="78" r="2.6"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f2" cx="14" cy="18" r="2.6"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f2" cx="110" cy="52" r="2.6"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-leaf pdi-f2" cx="64" cy="106" r="2.6"/>
+                  <circle class="pdi-glow-a pdi-pulsebox pdi-hubglow" cx="64" cy="60" r="11"/>
+                  <circle class="pdi-accent pdi-pulsebox pdi-hub pdi-orbglow" cx="64" cy="60" r="4.5"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1053,12 +1193,53 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
           <div class="pd-os-meta">
             <div class="pd-os-title">Context Agents</div>
           </div>
+          <div class="pd-os-icon-sm">
+            <svg class="pdi-mark pdi-2" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path class="pdi-hair" d="M60,26 L91.2,80 L28.8,80 Z"/>
+              <path class="pdi-hair" d="M60,26 L60,49"/>
+              <path class="pdi-hair" d="M71.3,68.5 L91.2,80"/>
+              <path class="pdi-hair" d="M28.8,80 L48.7,68.5"/>
+              <path class="pdi-comet pdi-wk" pathLength="100" d="M60,26 L60,49"/>
+              <path class="pdi-comet pdi-wk pdi-wk2" pathLength="100" d="M71.3,68.5 L91.2,80"/>
+              <path class="pdi-comet pdi-wk pdi-wk3" pathLength="100" d="M28.8,80 L48.7,68.5"/>
+              <g class="pdi-orb">
+                <circle class="pdi-glow-a" cx="60" cy="62" r="19"/>
+                <circle class="pdi-accent" cx="60" cy="62" r="8"/>
+              </g>
+              <circle class="pdi-node pdi-pulsebox pdi-agent pdi-a0" cx="60" cy="26" r="5"/>
+              <circle class="pdi-node pdi-pulsebox pdi-agent pdi-a1" cx="91.2" cy="80" r="5"/>
+              <circle class="pdi-node pdi-pulsebox pdi-agent pdi-a2" cx="28.8" cy="80" r="5"/>
+            </svg>
+          </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
             <div class="pd-os-lead">An always-on data workforce</div>
-            <p>Legacy records promised to stay current, but couldn&rsquo;t. Ad hoc queries were rarely reusable. Big Context agents watch how data is used, capture new caveats as they emerge, catch drift the moment a metric changes, and build your latent business context like a veteran on your team.</p>
+            <div class="pd-os-inner-flex">
+              <p>Legacy records promised to stay current, but couldn&rsquo;t. Ad hoc queries were rarely reusable. Big Context agents watch how data is used, capture new caveats as they emerge, catch drift the moment a metric changes, and build your latent business context like a veteran on your team.</p>
+              <div class="pd-os-icon-lg">
+                <svg class="pdi-mark pdi-2" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path class="pdi-hair" d="M60,26 L91.2,80 L28.8,80 Z"/>
+                  <path class="pdi-hair" d="M60,26 L60,49"/>
+                  <path class="pdi-hair" d="M71.3,68.5 L91.2,80"/>
+                  <path class="pdi-hair" d="M28.8,80 L48.7,68.5"/>
+                  <path class="pdi-comet pdi-wk" pathLength="100" d="M60,26 L60,49"/>
+                  <path class="pdi-comet pdi-wk pdi-wk2" pathLength="100" d="M71.3,68.5 L91.2,80"/>
+                  <path class="pdi-comet pdi-wk pdi-wk3" pathLength="100" d="M28.8,80 L48.7,68.5"/>
+                  <g class="pdi-orb pdi-orbglow">
+                    <circle class="pdi-glow-a" cx="60" cy="62" r="18"/>
+                    <circle class="pdi-accent" cx="60" cy="62" r="8.5"/>
+                  </g>
+                  <circle class="pdi-glow-p pdi-pulsebox" cx="60" cy="26" r="8"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-agent pdi-a0" cx="60" cy="26" r="4.2"/>
+                  <circle class="pdi-glow-p pdi-pulsebox" cx="91.2" cy="80" r="8"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-agent pdi-a1" cx="91.2" cy="80" r="4.2"/>
+                  <circle class="pdi-glow-p pdi-pulsebox" cx="28.8" cy="80" r="8"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-agent pdi-a2" cx="28.8" cy="80" r="4.2"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1070,12 +1251,60 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
           <div class="pd-os-meta">
             <div class="pd-os-title">Headless Delivery</div>
           </div>
+          <div class="pd-os-icon-sm">
+            <svg class="pdi-mark pdi-3" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path class="pdi-hair" d="M16,62.5 L40,62.5"/>
+              <path class="pdi-hair" d="M40,62.5 Q66,28 102,22"/>
+              <path class="pdi-hair" d="M40,62.5 Q70,52 102,49"/>
+              <path class="pdi-hair" d="M40,62.5 Q70,73 102,76"/>
+              <path class="pdi-hair" d="M40,62.5 Q66,97 102,103"/>
+              <path class="pdi-comet pdi-pay" pathLength="100" d="M16,62.5 L40,62.5 Q66,28 102,22"/>
+              <path class="pdi-comet pdi-pay pdi-p2" pathLength="100" d="M16,62.5 L40,62.5 Q70,52 102,49"/>
+              <path class="pdi-comet pdi-pay pdi-p3" pathLength="100" d="M16,62.5 L40,62.5 Q70,73 102,76"/>
+              <path class="pdi-comet pdi-pay pdi-p4" pathLength="100" d="M16,62.5 L40,62.5 Q66,97 102,103"/>
+              <circle class="pdi-glow-a pdi-pulsebox pdi-sourceglow" cx="16" cy="62.5" r="14"/>
+              <circle class="pdi-accent pdi-pulsebox pdi-source" cx="16" cy="62.5" r="7"/>
+              <circle class="pdi-node pdi-pulsebox pdi-end" cx="102" cy="22" r="4.2"/>
+              <circle class="pdi-node pdi-pulsebox pdi-end pdi-e2" cx="102" cy="49" r="4.2"/>
+              <circle class="pdi-node pdi-pulsebox pdi-end pdi-e3" cx="102" cy="76" r="4.2"/>
+              <circle class="pdi-node pdi-pulsebox pdi-end pdi-e4" cx="102" cy="103" r="4.2"/>
+              <circle class="pdi-ripple pdi-pulsebox" cx="102" cy="22" r="8"/>
+              <circle class="pdi-ripple pdi-pulsebox pdi-rp2" cx="102" cy="49" r="8"/>
+              <circle class="pdi-ripple pdi-pulsebox pdi-rp3" cx="102" cy="76" r="8"/>
+              <circle class="pdi-ripple pdi-pulsebox pdi-rp4" cx="102" cy="103" r="8"/>
+            </svg>
+          </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
             <div class="pd-os-lead">Workflow-native, for your convenience</div>
-            <p>No new tools to adopt, nothing to migrate, completely yours to do as you wish. Context is delivered into the tools you already run through open protocols like MCP. The OS meets your stack where it is and disappears into it.</p>
+            <div class="pd-os-inner-flex">
+              <p>No new tools to adopt, nothing to migrate, completely yours to do as you wish. Context is delivered into the tools you already run through open protocols like MCP. The OS meets your stack where it is and disappears into it.</p>
+              <div class="pd-os-icon-lg">
+                <svg class="pdi-mark pdi-3" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path class="pdi-hair" d="M16,62.5 L40,62.5"/>
+                  <path class="pdi-hair" d="M40,62.5 Q66,28 102,22"/>
+                  <path class="pdi-hair" d="M40,62.5 Q70,52 102,49"/>
+                  <path class="pdi-hair" d="M40,62.5 Q70,73 102,76"/>
+                  <path class="pdi-hair" d="M40,62.5 Q66,97 102,103"/>
+                  <path class="pdi-comet pdi-pay" pathLength="100" d="M16,62.5 L40,62.5 Q66,28 102,22"/>
+                  <path class="pdi-comet pdi-pay pdi-p2" pathLength="100" d="M16,62.5 L40,62.5 Q70,52 102,49"/>
+                  <path class="pdi-comet pdi-pay pdi-p3" pathLength="100" d="M16,62.5 L40,62.5 Q70,73 102,76"/>
+                  <path class="pdi-comet pdi-pay pdi-p4" pathLength="100" d="M16,62.5 L40,62.5 Q66,97 102,103"/>
+                  <circle class="pdi-glow-a pdi-pulsebox pdi-sourceglow" cx="16" cy="62.5" r="13"/>
+                  <circle class="pdi-accent pdi-pulsebox pdi-source pdi-orbglow" cx="16" cy="62.5" r="6"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-end" cx="102" cy="22" r="3.4"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-end pdi-e2" cx="102" cy="49" r="3.4"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-end pdi-e3" cx="102" cy="76" r="3.4"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-end pdi-e4" cx="102" cy="103" r="3.4"/>
+                  <circle class="pdi-ripple pdi-pulsebox" cx="102" cy="22" r="8"/>
+                  <circle class="pdi-ripple pdi-pulsebox pdi-rp2" cx="102" cy="49" r="8"/>
+                  <circle class="pdi-ripple pdi-pulsebox pdi-rp3" cx="102" cy="76" r="8"/>
+                  <circle class="pdi-ripple pdi-pulsebox pdi-rp4" cx="102" cy="103" r="8"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1087,12 +1316,42 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
           <div class="pd-os-meta">
             <div class="pd-os-title">Reliability Harness</div>
           </div>
+          <div class="pd-os-icon-sm">
+            <svg class="pdi-mark pdi-4" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g class="pdi-ringO pdi-spinbox"><circle class="pdi-hair pdi-dotring pdi-gauge" cx="60" cy="60" r="42"/></g>
+              <g class="pdi-ringI pdi-spinbox"><circle class="pdi-hair pdi-dotring pdi-gauge" cx="60" cy="60" r="27"/></g>
+              <circle class="pdi-accent pdi-pulsebox pdi-anchor" cx="60" cy="18" r="3.6"/>
+              <circle class="pdi-accent pdi-pulsebox pdi-anchor" cx="102" cy="60" r="3.6"/>
+              <circle class="pdi-accent pdi-pulsebox pdi-anchor" cx="60" cy="102" r="3.6"/>
+              <circle class="pdi-accent pdi-pulsebox pdi-anchor" cx="18" cy="60" r="3.6"/>
+              <circle class="pdi-glow-p pdi-pulsebox pdi-coreglow" cx="60" cy="60" r="16"/>
+              <circle class="pdi-node pdi-pulsebox pdi-core" cx="60" cy="60" r="8.5"/>
+            </svg>
+          </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
             <div class="pd-os-lead">SME parity and validatability</div>
-            <p>A wrong number that looks right is worse than no number &mdash; and 90% accurate, while a breakthrough in AI is catastrophic here. Before any answer or context leaves the OS, it&rsquo;s validated against evals, tests, and ground truth, traceable to its source, with low-confidence cases escalated to a human rather than guessed.</p>
+            <div class="pd-os-inner-flex">
+              <p>A wrong number that looks right is worse than no number &mdash; and 90% accurate, while a breakthrough in AI is catastrophic here. Before any answer or context leaves the OS, it&rsquo;s validated against evals, tests, and ground truth, traceable to its source, with low-confidence cases escalated to a human rather than guessed.</p>
+              <div class="pd-os-icon-lg">
+                <svg class="pdi-mark pdi-4" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <g class="pdi-ringO pdi-spinbox"><circle class="pdi-hair pdi-dotring pdi-gauge" cx="60" cy="60" r="42"/></g>
+                  <g class="pdi-ringI pdi-spinbox"><circle class="pdi-hair pdi-dotring pdi-gauge" cx="60" cy="60" r="27"/></g>
+                  <path class="pdi-hair" d="M60,18 L60,28"/>
+                  <path class="pdi-hair" d="M102,60 L92,60"/>
+                  <path class="pdi-hair" d="M60,102 L60,92"/>
+                  <path class="pdi-hair" d="M18,60 L28,60"/>
+                  <circle class="pdi-accent pdi-pulsebox pdi-anchor" cx="60" cy="18" r="2.6"/>
+                  <circle class="pdi-accent pdi-pulsebox pdi-anchor" cx="102" cy="60" r="2.6"/>
+                  <circle class="pdi-accent pdi-pulsebox pdi-anchor" cx="60" cy="102" r="2.6"/>
+                  <circle class="pdi-accent pdi-pulsebox pdi-anchor" cx="18" cy="60" r="2.6"/>
+                  <circle class="pdi-glow-p pdi-pulsebox pdi-coreglow" cx="60" cy="60" r="15"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-core" cx="60" cy="60" r="7.5"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1104,12 +1363,59 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
           <div class="pd-os-meta">
             <div class="pd-os-title">Control Plane</div>
           </div>
+          <div class="pd-os-icon-sm">
+            <svg class="pdi-mark pdi-5" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path class="pdi-hair" d="M60,20 L94.64,40 L94.64,80 L60,100 L25.36,80 L25.36,40 Z"/>
+              <path class="pdi-hair" d="M60,60 L60,20"/>
+              <path class="pdi-hair" d="M60,60 L94.64,40"/>
+              <path class="pdi-hair" d="M60,60 L94.64,80"/>
+              <path class="pdi-hair" d="M60,60 L60,100"/>
+              <path class="pdi-hair" d="M60,60 L25.36,80"/>
+              <path class="pdi-hair" d="M60,60 L25.36,40"/>
+              <g class="pdi-sweep pdi-spinbox">
+                <path d="M60,60 L60,20 A40,40 0 0 0 40,25.36 Z" fill="rgba(199,157,240,.14)"/>
+                <path d="M60,60 L60,20" stroke="rgba(240,224,255,.6)" stroke-width="1.6" stroke-linecap="round"/>
+              </g>
+              <circle class="pdi-node pdi-pulsebox pdi-n" cx="60" cy="20" r="4"/>
+              <circle class="pdi-node pdi-pulsebox pdi-n pdi-k1" cx="94.64" cy="40" r="4"/>
+              <circle class="pdi-node pdi-pulsebox pdi-n pdi-k2" cx="94.64" cy="80" r="4"/>
+              <circle class="pdi-node pdi-pulsebox pdi-n pdi-k3" cx="60" cy="100" r="4"/>
+              <circle class="pdi-node pdi-pulsebox pdi-n pdi-k4" cx="25.36" cy="80" r="4"/>
+              <circle class="pdi-node pdi-pulsebox pdi-n pdi-k5" cx="25.36" cy="40" r="4"/>
+              <circle class="pdi-accent" cx="60" cy="60" r="5.5"/>
+            </svg>
+          </div>
           <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
             <div class="pd-os-lead">Expert-grade governance out of the box</div>
-            <p>Governance to your enterprise&rsquo;s standards &mdash; access, policy, PII handling, full audit trail &mdash; so every answer is permissioned and traceable. All backstopped by Experts-in-the-Loop. Comprehensive intervention frameworks so that the system follows the rules and your (or our) best data people can intervene at scale. Expert judgment becomes a permanent asset instead of walking out the door.</p>
+            <div class="pd-os-inner-flex">
+              <p>Governance to your enterprise&rsquo;s standards &mdash; access, policy, PII handling, full audit trail &mdash; so every answer is permissioned and traceable. All backstopped by Experts-in-the-Loop. Comprehensive intervention frameworks so that the system follows the rules and your (or our) best data people can intervene at scale. Expert judgment becomes a permanent asset instead of walking out the door.</p>
+              <div class="pd-os-icon-lg">
+                <svg class="pdi-mark pdi-5" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path class="pdi-hair" d="M60,20 L94.64,40 L94.64,80 L60,100 L25.36,80 L25.36,40 Z"/>
+                  <path class="pdi-hair" d="M60,60 L60,20"/>
+                  <path class="pdi-hair" d="M60,60 L94.64,40"/>
+                  <path class="pdi-hair" d="M60,60 L94.64,80"/>
+                  <path class="pdi-hair" d="M60,60 L60,100"/>
+                  <path class="pdi-hair" d="M60,60 L25.36,80"/>
+                  <path class="pdi-hair" d="M60,60 L25.36,40"/>
+                  <g class="pdi-sweep pdi-spinbox">
+                    <path d="M60,60 L60,20 A40,40 0 0 0 40,25.36 Z" fill="rgba(199,157,240,.12)"/>
+                    <path d="M60,60 L60,20" stroke="rgba(240,224,255,.6)" stroke-width="1.2" stroke-linecap="round"/>
+                  </g>
+                  <circle class="pdi-node pdi-pulsebox pdi-n" cx="60" cy="20" r="3"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-n pdi-k1" cx="94.64" cy="40" r="3"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-n pdi-k2" cx="94.64" cy="80" r="3"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-n pdi-k3" cx="60" cy="100" r="3"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-n pdi-k4" cx="25.36" cy="80" r="3"/>
+                  <circle class="pdi-node pdi-pulsebox pdi-n pdi-k5" cx="25.36" cy="40" r="3"/>
+                  <circle class="pdi-glow-a pdi-pulsebox" cx="60" cy="60" r="10"/>
+                  <circle class="pdi-accent pdi-orbglow" cx="60" cy="60" r="4.5"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
