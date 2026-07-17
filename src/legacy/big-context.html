@@ -1911,10 +1911,13 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     canvas.setAttribute('height', br.height);
     const cr = core.getBoundingClientRect();
     if(isMobile()){
-      // Mobile = vertical stack: silos ABOVE core, agents BELOW core. Wires enter/exit top/bottom of core.
+      // Mobile = vertical stack: silos ABOVE core, agents BELOW core.
       const cx = cr.left-br.left + cr.width/2;
-      const coreTop = {x: cx, y: cr.top-br.top};
-      const coreBot = {x: cx, y: cr.bottom-br.top};
+      const cy = cr.top-br.top + cr.height/2;
+      // End wires at the outer orbit ring boundary (radius 120 in -130→130 viewBox = 260 units wide)
+      const orbitRad = (120/260) * cr.height;
+      const coreTop = {x: cx, y: cy - orbitRad};
+      const coreBot = {x: cx, y: cy + orbitRad};
       coreL = coreTop; coreR = coreBot;
       leftWires.forEach(w=>{
         const sr = w.tile.getBoundingClientRect();
@@ -1997,15 +2000,19 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         const cp = wire.path;
         let mlen; try{ mlen = cp.getTotalLength(); }catch(e){ res(); return; }
         if(!mlen){ res(); return; }
-        const dot = document.createElementNS(NS,'circle');
-        dot.setAttribute('class','dot'); dot.setAttribute('r', big?3.0:1.5);
-        canvas.appendChild(dot);
+        // Use a fixed div at high z-index so it renders above all column/core elements
+        const dot = document.createElement('div');
+        const sz = big ? 7 : 5;
+        dot.style.cssText='position:fixed;border-radius:50%;width:'+sz+'px;height:'+sz+'px;background:var(--lavender-hot);box-shadow:0 0 6px 2px rgba(var(--p-lav),.85);pointer-events:none;z-index:600;transform:translate(-50%,-50%)';
+        document.body.appendChild(dot);
         const t0 = performance.now();
         function stepM(now){
           const t = Math.min(1,(now-t0)/dur);
           const tt = reverse ? 1-t : t;
           const pt = cp.getPointAtLength(mlen*tt);
-          dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+          const bRfD = body.getBoundingClientRect();
+          dot.style.left=(bRfD.left+pt.x)+'px';
+          dot.style.top=(bRfD.top+pt.y)+'px';
           if(t<1) requestAnimationFrame(stepM);
           else { dot.remove(); res(); }
         }
