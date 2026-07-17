@@ -592,8 +592,7 @@ svg.tl{width:100%;height:auto;display:block}
 
 /* Directional flow: dashes drift core-ward on left wires, agent-ward on right wires */
 @keyframes cl-flow{to{stroke-dashoffset:-32}}
-.cl-wires .cl-flowline{stroke-dasharray:1.5 5;animation:cl-flow 1.8s linear infinite}
-@media (prefers-reduced-motion:reduce){.cl-wires .cl-flowline{animation:none}}
+.cl-wires .cl-flowline{stroke-dasharray:1.5 5}
 
 /* Core simplification */
 .cl-core-chip svg{width:72px;height:60px}
@@ -614,8 +613,7 @@ svg.tl{width:100%;height:auto;display:block}
 /* Cycle canvas + state overlays */
 .cl-body{position:relative}
 .cl-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
-.cl-canvas .wire{fill:none;stroke:rgba(var(--p-lav),.16);stroke-width:1;transition:stroke .25s}
-.cl-canvas .wire.req{stroke-dasharray:1.5 5}
+.cl-canvas .wire{fill:none;stroke:rgba(var(--p-lav),.16);stroke-width:1;stroke-dasharray:1.5 5;transition:stroke .25s}
 .cl-canvas .wire.is-active{stroke:rgba(var(--p-lav),.55);stroke-width:1.2}
 .cl-canvas .arrow{fill:var(--lavender);opacity:0;transition:opacity .25s}
 .cl-canvas .arrow.is-active{opacity:.75}
@@ -1843,10 +1841,12 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 <script>
 /* ===== First figure: Context Core + agent-initiated request/response cycles ===== */
 (function(){
+  // Defer so that the second <script> block's IIFEs run first and populate the grid rows
+  setTimeout(function init(){
   const body = document.querySelector('.st-cl .cl-body');
   if(!body) return;
-  const siloTiles = Array.from(body.querySelectorAll('.cl-silo-tile'));
-  const agents = Array.from(body.querySelectorAll('.cl-agent'));
+  const siloTiles = Array.from(body.querySelectorAll('.cl-sq-row'));
+  const agents = Array.from(body.querySelectorAll('.cl-ag-row'));
   const core = body.querySelector('.cl-core');
   if(!siloTiles.length || !agents.length || !core) return;
 
@@ -2014,48 +2014,74 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     opsEl.textContent = (ops.length/5).toFixed(1)+' ops/s';
   }
 
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
   let inFlight = 0;
   const cooldown = new WeakSet();
 
   async function runCycle(agent){
-    if(inFlight>=2 || agent.classList.contains('is-active')) return;
+    if(inFlight>=1 || agent.classList.contains('is-active')) return;
     inFlight++;
     const idx = +agent.dataset.clAgent;
     const wire = rightWires[idx];
     agent.classList.add('is-active');
 
-    setState('ASK');
-    activate(wire, 600);
-    await pulse(wire, 420, true, false);
-    setState('JOIN'); corePulse();
+    // 1. Agent sends request \u2192 core
+    setState('REQ');
+    activate(wire, 480);
+    await pulse(wire, 400, true, false);
 
-    // Pick 3-5 random silo tiles
+    // 2. Core receives
+    setState('RCV');
+    corePulse();
+    await sleep(140);
+
+    // 3. Pick 2-5 random silos
     const chosen = new Set();
-    const target = 3 + Math.floor(Math.random()*3);
+    const target = 2 + Math.floor(Math.random()*4);
     while(chosen.size<target && chosen.size<leftWires.length){
       chosen.add(Math.floor(Math.random()*leftWires.length));
     }
-    const pick = Array.from(chosen).map(i=>leftWires[i]);
+    const pickedIdx = Array.from(chosen);
+    const pick = pickedIdx.map(i=>leftWires[i]);
 
-    pick.forEach(w=>activate(w, 900));
-    pick.forEach(w=>w.tile.classList.add('cl-row-active'));
+    // 4. Silos \u2192 core: highlight wire, fly tile, send dot
+    setState('PULL');
+    pick.forEach(w=>{
+      activate(w, 1000);
+      const t = w.tile.querySelector('.cl-silo-tile');
+      if(t) t.classList.add('cl-row-active');
+    });
 
-    setState('MERGE');
-    // Return: silos -> core, slight stagger
-    await Promise.all(pick.map((w,i)=>new Promise(r=>setTimeout(()=>pulse(w, 700, false, false).then(r), i*45))));
+    // Fire tile-merge event for each chosen silo row, staggered
+    pickedIdx.forEach((ri, i)=>{
+      setTimeout(()=>{
+        document.dispatchEvent(new CustomEvent('cl:merge-row',{detail:{ri}}));
+      }, i*110);
+    });
+
+    // Dots travel silo \u2192 core, staggered
+    await Promise.all(pick.map((w,i)=>new Promise(r=>setTimeout(()=>pulse(w, 620, false, false).then(r), i*90))));
+
+    // 5. Core processes
+    setState('PROC');
+    pick.forEach(w=>{
+      const t = w.tile.querySelector('.cl-silo-tile');
+      if(t) t.classList.remove('cl-row-active');
+    });
     corePulse();
-    pick.forEach(w=>w.tile.classList.remove('cl-row-active'));
+    await sleep(260);
 
+    // 6. Core sends response \u2192 agent
     setState('SEND');
-    activate(wire, 600);
+    activate(wire, 560);
     spawnOrbitToken(wire, idx);
-    await pulse(wire, 480, false, true);
+    await pulse(wire, 500, false, true);
 
     recordOp();
     setTimeout(()=>{
       agent.classList.remove('is-active');
       if(inFlight<=1) setState('\u00b7 \u00b7 \u00b7');
-    }, 520);
+    }, 480);
     inFlight--;
   }
 
@@ -2097,6 +2123,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   } else {
     start();
   }
+  }, 0); // end setTimeout — runs after all IIFEs have built their rows
 })();
 </script>
 <script>
@@ -2327,6 +2354,12 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       });});
     },1800);
   }
+  // Triggered by canvas IIFE runCycle() when core picks this silo row
+  document.addEventListener('cl:merge-row',function(e){
+    var ri=e.detail&&e.detail.ri;
+    if(typeof ri==='number' && ri>=0 && ri<rows.length) cycleRow(ri);
+  });
+
   var INTERVAL=8500;
   var STAGGER=1200;
   rows.forEach(function(rd,ri){
