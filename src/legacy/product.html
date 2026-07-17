@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BCOS Platform — Big Context &amp; Company</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -22,31 +23,32 @@
   --serif:'Fraunces',Georgia,serif;
   --sans:'Hanken Grotesk',system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
+  --banner-h:44px;
 }
+@media(max-width:640px){:root{--banner-h:76px}}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--void);color:var(--paper);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+body{background:var(--void);color:var(--paper);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;padding-top:var(--banner-h,0px)}
 a{color:inherit;text-decoration:none}
 .bc-wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
 .bc-divider{height:.5px;background:var(--hair);max-width:var(--maxw);margin:0 auto}
 
 /* Nav */
-.bc-nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:1160px;z-index:100;transition:top .4s cubic-bezier(.2,.7,.2,1),width .4s cubic-bezier(.2,.7,.2,1),max-width .4s cubic-bezier(.2,.7,.2,1)}
+.bc-nav{position:fixed;top:calc(var(--banner-h,0px) + 18px);left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:1160px;z-index:100;transition:top .4s cubic-bezier(.2,.7,.2,1),width .4s cubic-bezier(.2,.7,.2,1),max-width .4s cubic-bezier(.2,.7,.2,1)}
 .bc-nav::before{content:"";position:absolute;inset:-1px;border-radius:999px;background:linear-gradient(90deg,transparent 10%,rgba(199,157,240,.18) 50%,transparent 90%);opacity:0;transition:opacity .5s ease;pointer-events:none;filter:blur(6px)}
 .bc-nav-in{position:relative;margin:0;padding:12px 14px 12px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;background:rgba(10,6,16,.62);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(199,157,240,.12);border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.04);transition:padding .35s cubic-bezier(.2,.7,.2,1),background .35s ease,border-color .35s ease,box-shadow .35s ease}
 .bc-nav-in::after{content:"";position:absolute;left:14%;right:14%;bottom:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(199,157,240,.35),transparent);opacity:0;transition:opacity .35s ease}
-.bc-nav.bc-nav--scrolled{top:10px;max-width:1060px}
+.bc-nav.bc-nav--scrolled{top:calc(var(--banner-h,0px) + 10px);max-width:1060px}
 .bc-nav.bc-nav--scrolled::before{opacity:1}
 .bc-nav.bc-nav--scrolled .bc-nav-in{padding:8px 12px 8px 18px;background:rgba(10,6,16,.82);border-color:rgba(199,157,240,.22);box-shadow:0 14px 44px rgba(0,0,0,.6),0 0 0 1px rgba(199,157,240,.06),inset 0 1px 0 rgba(255,255,255,.05)}
 .bc-nav.bc-nav--scrolled .bc-nav-in::after{opacity:1}
-.bc-nav.bc-nav--scrolled .bc-wm-suf{opacity:.45;transform:translateX(-2px)}
+.bc-nav.bc-nav--scrolled .bc-wm-img{opacity:.8}
 .bc-nav-prog{position:absolute;left:14%;right:14%;bottom:-1px;height:1px;pointer-events:none;overflow:hidden;border-radius:1px}
 .bc-nav-prog>i{display:block;height:100%;width:var(--p,0%);background:linear-gradient(90deg,rgba(199,157,240,0),rgba(199,157,240,.9),rgba(240,224,255,1));box-shadow:0 0 8px rgba(199,157,240,.7);transition:width .12s linear}
-.bc-wordmark{font-family:var(--serif);font-size:17px;font-weight:500;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;color:var(--paper)}
-.bc-wm-suf{transition:opacity .3s ease,transform .3s ease;color:rgba(239,233,242,.7);font-style:italic;font-weight:400;margin-left:-8px}
-.bc-mark{width:22px;height:22px;flex:0 0 auto;filter:drop-shadow(0 0 8px rgba(var(--p-lav),.7));animation:bcMarkPulse 4.2s ease-in-out infinite}
-@keyframes bcMarkPulse{0%,100%{filter:drop-shadow(0 0 6px rgba(199,157,240,.55))}50%{filter:drop-shadow(0 0 14px rgba(199,157,240,.95))}}
-.bc-wordmark sup{font-size:8px;font-family:var(--mono);color:var(--muted);top:-.9em;margin-left:-5px}
+.bc-wordmark{display:flex;align-items:center}
+
+.bc-wm-img{height:22px;width:auto}
+.bc-wm-img-ft{height:26px;width:auto}
 .bc-nav-links{display:flex;gap:34px;align-items:center}
 .bc-nav-links a:not(.bc-btn){font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(239,233,242,.55);transition:color .25s;position:relative}
 .bc-nav-links a:not(.bc-btn)::before,.bc-nav-links a:not(.bc-btn)::after{content:"";position:absolute;top:50%;transform:translateY(-50%);color:var(--lavender);font-family:var(--mono);font-size:11px;opacity:0;transition:opacity .25s,transform .25s}
@@ -62,9 +64,9 @@ a{color:inherit;text-decoration:none}
 .bc-btn-ghost:hover{border-color:var(--lavender);background:rgba(var(--p-lav),.15);color:var(--lavender-hot)}
 @media(max-width:860px){.bc-nav-links a:not(.bc-btn){display:none}}
 @media(max-width:640px){
-  .bc-nav{top:10px;width:calc(100% - 20px)}
+  .bc-nav{top:10px;width:calc(100% - 20px);transition:top .4s cubic-bezier(.2,.7,.2,1)}
   .bc-nav-in{padding:8px 10px 8px 16px}
-  .bc-wordmark{font-size:15px;white-space:nowrap;min-width:0;gap:6px}
+  .bc-wordmark{white-space:nowrap;min-width:0}
   .bc-nav-links{gap:10px}
   .bc-nav-links .bc-btn{padding:8px 14px;font-size:11px;white-space:nowrap;flex-shrink:0}
 }
@@ -79,12 +81,24 @@ a{color:inherit;text-decoration:none}
 .bc-body em{color:var(--emph);font-style:italic}
 
 /* Reveal animations */
+/* Announcement banner */
+.bc-banner{background:rgba(var(--p-lav),.1);border-bottom:1px solid rgba(var(--p-lav),.18);padding:10px 20px;text-align:center;position:fixed;top:0;left:0;right:0;z-index:400}
+.bc-banner.bc-banner--hidden{display:none}
+.bc-banner-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:14px}
+.bc-banner-msg{font-family:var(--sans);font-size:12.5px;color:var(--muted);line-height:1.45;flex:1;text-align:center}
+.bc-banner-msg a{color:var(--lavender);text-decoration:underline;text-underline-offset:3px;transition:color .2s}
+.bc-banner-msg a:hover{color:var(--lavender-hot)}
+.bc-banner-close{background:none;border:none;cursor:pointer;color:var(--muted-2);font-size:18px;line-height:1;padding:2px 4px;flex-shrink:0;transition:color .2s}
+.bc-banner-close:hover{color:var(--paper)}
+html[data-theme="light"] .bc-banner{background:rgba(var(--p-lav),.07);border-bottom-color:rgba(var(--p-lav),.15)}
 .bc-reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
 .bc-reveal.in{opacity:1;transform:none}
 
 /* Closeout */
-.bc-closeout{text-align:center;background:radial-gradient(ellipse at center,var(--void-2) 0%,var(--void) 70%)}
+.bc-closeout{text-align:center;background:radial-gradient(ellipse at center,var(--void-2) 0%,var(--void) 70%);position:relative;overflow:hidden}
 .bc-closeout .bc-h2{max-width:none}
+.pd-neural{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.bc-closeout .bc-wrap{position:relative;z-index:2}
 
 /* Footer */
 .bc-foot{padding:64px 0 40px;border-top:.5px solid var(--hair)}
@@ -110,6 +124,18 @@ a{color:inherit;text-decoration:none}
 .pd-hero-text p{font-family:var(--sans);font-size:1.05rem;color:var(--muted);line-height:1.7;max-width:52ch;margin-bottom:36px}
 .pd-cta-row{display:flex;gap:14px;flex-wrap:wrap}
 @media(max-width:860px){.pd-hero-inner{grid-template-columns:1fr;gap:48px}}
+/* Services-style hero typography */
+.sv-kicker{font-family:var(--mono);font-size:12px;letter-spacing:.34em;text-transform:uppercase;color:var(--lavender);margin-bottom:20px}
+.bc-name{font-family:var(--serif);font-weight:400;font-size:clamp(2.5rem,6.2vw,7.5rem);line-height:.98;letter-spacing:-.03em;color:var(--paper)}
+.bc-name sup{font-size:.14em;font-family:var(--mono);font-weight:400;color:var(--muted);vertical-align:baseline;position:relative;top:-3.2em;letter-spacing:0;margin-left:-.15em}
+@media(max-width:600px){.bc-name{font-size:clamp(2.4rem,10vw,3.6rem);line-height:1.02}}
+.bc-tag{margin-top:24px;font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,2.9vw,2.6rem);line-height:1.2;letter-spacing:-.01em;color:var(--paper);max-width:28ch}
+.bc-tag em{font-style:italic;color:var(--emph)}
+.bc-hero-cta{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap}
+.bc-ln-i{display:inline-block;opacity:0;transform:translateY(26px);animation:bcUp .9s cubic-bezier(.16,1,.3,1) forwards}
+.bc-d1{animation-delay:.08s}.bc-d2{animation-delay:.2s}.bc-d3{animation-delay:.42s}
+@keyframes bcUp{to{opacity:1;transform:none}}
+.bc-fade{opacity:0;animation:bcUp .9s ease forwards .6s}
 
 /* Flow figure (hero) */
 .pd-flow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:0;width:100%;max-width:520px}
@@ -152,7 +178,41 @@ a{color:inherit;text-decoration:none}
 .pd-tag.live{background:rgba(126,220,162,.1);color:#7edca2;border:1px solid rgba(126,220,162,.2)}
 @media(max-width:680px){.pd-gap-grid{grid-template-columns:1fr;gap:16px}}
 
-/* 3. How It Works */
+/* 3. Pragmatics */
+.pd-prag-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+.pd-prag-card{background:rgba(18,11,28,.8);border:1px solid rgba(199,157,240,.10);border-radius:14px;padding:28px 28px 24px;display:flex;flex-direction:column}
+.pd-prag-card.feat{background:linear-gradient(145deg,rgba(30,20,8,.9),rgba(22,14,4,.95));border-color:rgba(245,158,11,.22);box-shadow:0 0 32px rgba(245,158,11,.04),inset 0 0 40px rgba(245,158,11,.03)}
+.pd-prag-label{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.pd-prag-dot{width:7px;height:7px;border-radius:50%;background:#F59E0B;box-shadow:0 0 8px rgba(245,158,11,.6);flex-shrink:0}
+.pd-prag-h{font-family:var(--sans);font-weight:700;font-size:18px;color:var(--paper);margin-bottom:14px;line-height:1.3}
+.pd-prag-body{font-family:var(--sans);font-size:14px;color:var(--muted);line-height:1.68;flex:1}
+.pd-prag-rule{height:.5px;background:rgba(199,157,240,.12);margin:20px 0}
+.pd-prag-caption{font-family:var(--sans);font-size:13px;color:var(--muted-2);font-style:italic}
+@media(max-width:640px){.pd-prag-grid{grid-template-columns:1fr}}
+
+/* 4. Operating System Accordion */
+.pd-os-accordion{border:1px solid rgba(199,157,240,.12);border-radius:16px;overflow:hidden;margin-top:48px;background:rgba(14,8,22,.6)}
+.pd-os-item{border-bottom:.5px solid rgba(199,157,240,.08)}
+.pd-os-item:last-child{border-bottom:none}
+.pd-os-hd{display:flex;align-items:flex-start;gap:20px;padding:22px 24px;cursor:pointer;user-select:none;transition:background .2s}
+.pd-os-hd:hover{background:rgba(199,157,240,.03)}
+.pd-os-badge{width:34px;height:34px;border-radius:50%;border:1px solid rgba(199,157,240,.18);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--muted);flex-shrink:0;margin-top:2px;transition:border-color .25s,color .25s}
+.pd-os-item.open .pd-os-badge{border-color:rgba(245,158,11,.5);color:#F59E0B}
+.pd-os-meta{flex:1;min-width:0}
+.pd-os-title{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--paper);line-height:1.2;transition:color .2s}
+.pd-os-item.open .pd-os-title{color:var(--paper)}
+.pd-os-sub{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted);margin-top:6px;text-transform:uppercase}
+.pd-os-chev{color:var(--muted);flex-shrink:0;margin-top:6px;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.pd-os-chev svg{display:block}
+.pd-os-item.open .pd-os-chev{transform:rotate(180deg)}
+.pd-os-body{height:0;overflow:hidden;transition:height .38s cubic-bezier(.16,1,.3,1)}
+.pd-os-inner{padding:4px 24px 28px 78px}
+.pd-os-inner p{font-family:var(--sans);font-size:14px;color:var(--muted);line-height:1.7;max-width:64ch}
+.pd-os-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pd-os-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);border:1px solid rgba(199,157,240,.15);border-radius:999px;padding:4px 12px}
+@media(max-width:640px){.pd-os-hd{gap:14px;padding:18px 16px}.pd-os-inner{padding:4px 16px 22px 16px}.pd-os-badge{width:28px;height:28px;font-size:9px}}
+
+/* 5. How It Works */
 .pd-step{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:56px 0}
 .pd-step+.pd-step{border-top:.5px solid var(--hair)}
 .pd-step.rev{direction:rtl}
@@ -199,6 +259,39 @@ a{color:inherit;text-decoration:none}
 .arrow-back{stroke:rgba(126,220,162,.5);stroke-width:1.2;fill:none;stroke-dasharray:4 3;animation:arrowOut 1.8s linear infinite reverse}
 @keyframes arrowOut{from{stroke-dashoffset:28}to{stroke-dashoffset:0}}
 .pd-q-result{margin-top:16px;font-family:var(--mono);font-size:9px;color:rgba(126,220,162,.7);letter-spacing:.1em;padding:6px 12px;background:rgba(126,220,162,.06);border:1px solid rgba(126,220,162,.15);border-radius:6px;text-align:center}
+
+/* How It Works — Horizontal Accordion */
+.hac-row{display:flex;gap:10px;min-height:400px;margin-top:48px}
+.hac-panel{flex:.55;overflow:hidden;border-radius:14px;border:1px solid rgba(199,157,240,.1);background:rgba(14,8,22,.5);cursor:pointer;transition:flex .52s cubic-bezier(.16,1,.3,1),border-color .3s,background .3s;position:relative}
+.hac-panel.active{flex:3.5;cursor:default;border-color:rgba(199,157,240,.2);background:rgba(16,10,26,.7)}
+.hac-panel:not(.active):hover{border-color:rgba(199,157,240,.2);background:rgba(18,11,28,.65)}
+.hac-tab{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .18s;pointer-events:none}
+.hac-panel.active .hac-tab{opacity:0}
+.hac-tab-num{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:rgba(199,157,240,.45);position:absolute;top:20px}
+.hac-tab-title{font-family:var(--serif);font-size:14px;color:rgba(255,255,255,.7);writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap}
+.hac-content{position:absolute;inset:0;display:flex;align-items:stretch;opacity:0;transition:opacity .3s .14s;pointer-events:none}
+.hac-panel:not(.active) .hac-content{transition:opacity .12s 0s}
+.hac-panel.active .hac-content{opacity:1;pointer-events:auto}
+.hac-ctext{padding:20px 16px 32px 32px;width:44%;flex-shrink:0;display:flex;flex-direction:column;justify-content:flex-start}
+.hac-cnum{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:rgba(199,157,240,.45);margin-bottom:16px}
+.hac-ctitle{font-family:var(--serif);font-size:clamp(1.25rem,1.9vw,1.7rem);font-weight:400;color:var(--paper);margin-bottom:14px;line-height:1.15}
+.hac-cbody{font-family:var(--sans);font-size:13.5px;color:var(--muted);line-height:1.7}
+.hac-cvisual{flex:1;display:flex;align-items:center;justify-content:center;padding:24px 20px 24px 4px;overflow:hidden;min-width:0}
+.hac-cvisual .pd-spoke-wrap{max-width:240px;width:100%}
+.hac-cvisual .pd-stack{width:100%;max-width:100%}
+.hac-cvisual .pd-query-wrap{max-width:100%;width:100%}
+@media(max-width:760px){
+  .hac-row{flex-direction:column;min-height:auto;gap:6px}
+  .hac-panel{flex:none !important;border-radius:10px}
+  .hac-panel:not(.active){height:56px;min-height:0}
+  .hac-panel.active{height:auto;min-height:0;overflow:visible}
+  .hac-tab{position:relative;inset:auto;flex-direction:row;height:56px;padding:0 18px;gap:12px;justify-content:flex-start}
+  .hac-tab-title{writing-mode:horizontal-tb;transform:none}
+  .hac-panel.active .hac-tab{display:none}
+  .hac-content{position:relative;inset:auto;flex-direction:column;opacity:1;pointer-events:auto;height:auto}
+  .hac-ctext{width:100%;padding:20px 18px 12px}
+  .hac-cvisual{padding:0 18px 24px}
+}
 
 /* 4. OPS — Node graph */
 .pd-ops-intro{font-family:var(--serif);font-size:clamp(1.4rem,2.5vw,1.9rem);color:var(--paper);font-weight:400;line-height:1.3;max-width:38ch;margin-bottom:12px}
@@ -248,21 +341,162 @@ a{color:inherit;text-decoration:none}
 .pd-acc-bar-fill.without{background:rgba(200,120,120,.5);width:34%}
 .pd-acc-bar-fill.with{background:linear-gradient(90deg,rgba(199,157,240,.7),rgba(199,157,240,1));width:98%}
 .pd-acc-bar-fill.animate{transform:scaleX(1)}
+
+/* ── Hero Figure ─────────────────────────────────────────────────── */
+.pd-figure{position:relative;width:100%;max-width:var(--maxw);margin:0 auto;border-radius:20px;overflow:hidden;background:linear-gradient(160deg,#070411 0%,#0e0920 100%);border:1px solid rgba(199,157,240,.1);transition:border-color .7s,box-shadow .7s;cursor:pointer;user-select:none}
+.pd-figure.lit{border-color:rgba(199,157,240,.28);box-shadow:0 0 48px rgba(199,157,240,.07),inset 0 0 80px rgba(199,157,240,.03)}
+.pdf-bg-svg{display:block;width:100%;height:auto}
+/* chips */
+.pdf-label-layer{position:absolute;inset:0;pointer-events:none}
+.pdf-chip{position:absolute;font-family:var(--mono);font-size:clamp(9px,1vw,11px);letter-spacing:.07em;color:rgba(199,157,240,.85);background:rgba(22,10,38,.8);border:1px solid rgba(199,157,240,.28);border-radius:999px;padding:4px 10px;white-space:nowrap;pointer-events:none;transform:translate(-50%,-50%);transition:color .6s,border-color .6s,background .6s,box-shadow .3s}
+.pdf-chip.pulse{box-shadow:0 0 0 2px rgba(199,157,240,.75),0 0 18px rgba(199,157,240,.5);color:#e0ccff;border-color:rgba(199,157,240,.65)}
+.pd-figure.lit .pdf-chip{animation:none!important}
+/* chip float keyframes */
+@keyframes cf1{0%,100%{transform:translate(-50%,-50%) translate(0,0)}50%{transform:translate(-50%,-50%) translate(5px,-7px)}}
+@keyframes cf2{0%,100%{transform:translate(-50%,-50%) translate(0,0)}33%{transform:translate(-50%,-50%) translate(-6px,5px)}66%{transform:translate(-50%,-50%) translate(4px,-3px)}}
+@keyframes cf3{0%,100%{transform:translate(-50%,-50%) translate(0,0)}60%{transform:translate(-50%,-50%) translate(7px,4px)}}
+@keyframes cf4{0%,100%{transform:translate(-50%,-50%) translate(0,0)}50%{transform:translate(-50%,-50%) translate(-5px,-7px)}}
+@keyframes cf5{0%,100%{transform:translate(-50%,-50%) translate(0,0)}40%{transform:translate(-50%,-50%) translate(6px,-4px)}80%{transform:translate(-50%,-50%) translate(-3px,6px)}}
+@keyframes cf6{0%,100%{transform:translate(-50%,-50%) translate(0,0)}50%{transform:translate(-50%,-50%) translate(-7px,3px)}}
+@keyframes cf7{0%,100%{transform:translate(-50%,-50%) translate(0,0)}45%{transform:translate(-50%,-50%) translate(4px,8px)}}
+@keyframes cf8{0%,100%{transform:translate(-50%,-50%) translate(0,0)}55%{transform:translate(-50%,-50%) translate(-5px,-5px)}}
+@keyframes cf9{0%,100%{transform:translate(-50%,-50%) translate(0,0)}50%{transform:translate(-50%,-50%) translate(6px,-6px)}}
+@keyframes cf10{0%,100%{transform:translate(-50%,-50%) translate(0,0)}38%{transform:translate(-50%,-50%) translate(-4px,7px)}75%{transform:translate(-50%,-50%) translate(5px,-2px)}}
+.pdf-chip:nth-child(1){animation:cf1 3.2s ease-in-out infinite}
+.pdf-chip:nth-child(2){animation:cf2 4.1s ease-in-out infinite .5s}
+.pdf-chip:nth-child(3){animation:cf3 3.7s ease-in-out infinite 1s}
+.pdf-chip:nth-child(4){animation:cf4 4.5s ease-in-out infinite .3s}
+.pdf-chip:nth-child(5){animation:cf5 3.9s ease-in-out infinite .8s}
+.pdf-chip:nth-child(6){animation:cf6 4.2s ease-in-out infinite 1.5s}
+.pdf-chip:nth-child(7){animation:cf7 3.5s ease-in-out infinite .2s}
+.pdf-chip:nth-child(8){animation:cf8 4.8s ease-in-out infinite .7s}
+.pdf-chip:nth-child(9){animation:cf9 3.3s ease-in-out infinite 1.2s}
+.pdf-chip:nth-child(10){animation:cf10 4.4s ease-in-out infinite .4s}
+/* flow dot */
+.pdf-dot{position:absolute;width:7px;height:7px;border-radius:50%;background:rgba(199,157,240,.95);box-shadow:0 0 8px rgba(199,157,240,.65),0 0 20px rgba(199,157,240,.3);transform:translate(-50%,-50%);pointer-events:none}
+/* x flash when dot hits */
+@keyframes xFlash{0%,100%{}45%{filter:drop-shadow(0 0 10px #FF3B30) brightness(1.9)}}
+.pdf-x-g.flash{animation:xFlash .4s ease-out}
+/* SVG state transitions */
+.pdf-x-g{transform-box:fill-box;transform-origin:center;transition:opacity .3s,transform .35s}
+.pd-figure.lit .pdf-x-g{opacity:0;transform:scale(.25) rotate(45deg)}
+.pdf-bracket-g{opacity:0;transition:opacity .5s .2s}
+.pd-figure.lit .pdf-bracket-g{opacity:1}
+.pdf-line-blocked{transition:opacity .4s}
+.pd-figure.lit .pdf-line-blocked{opacity:0}
+.pdf-line-active{opacity:0;transition:opacity .55s .25s}
+.pd-figure.lit .pdf-line-active{opacity:1}
+.pdf-center-ring{transition:stroke .7s}
+.pd-figure.lit .pdf-center-ring{stroke:rgba(199,157,240,.35)}
+.pdf-bulb-off-g{transition:opacity .5s}
+.pd-figure.lit .pdf-bulb-off-g{opacity:0}
+.pdf-bulb-on-g{opacity:0}
+.pd-figure.lit .pdf-bulb-on-g{opacity:.15}
+.pdf-hint{position:absolute;bottom:12px;right:18px;font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(199,157,240,.22);transition:color .6s;pointer-events:none}
+.pd-figure.lit .pdf-hint{color:rgba(199,157,240,.45)}
+@media(max-width:640px){.pdf-chip{font-size:8.5px;padding:3px 8px}}
+
+/* ===== Theme toggle button ===== */
+.bc-theme-toggle{background:none;border:1px solid rgba(var(--p-lav),.18);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(239,233,242,.4);transition:color .25s,border-color .25s,background .25s;padding:0;flex-shrink:0}
+.bc-theme-toggle:hover{color:var(--lavender);border-color:rgba(var(--p-lav),.44);background:rgba(var(--p-lav),.07)}
+.bc-theme-toggle svg{width:15px;height:15px;pointer-events:none;transition:color .25s}
+html[data-theme="light"] .bc-theme-toggle{color:var(--lavender);border-color:rgba(var(--p-lav),.35);background:rgba(var(--p-lav),.08)}
+
+/* ===== Light mode ===== */
+html[data-theme="light"]{
+  --void:#f8f5ff;--void-2:#ede6fa;--void-3:#ffffff;
+  --paper:#18082a;--muted:#6b5880;--muted-2:#8a7a9e;--dim:#8a7a9e;
+  --cold:#7a6890;--cold-2:#9a88a8;
+  --aubergine:#7030b0;--aubergine-deep:#4a0a90;
+  --lavender:#7030b0;--lavender-hot:#4a0a90;--node:#9060c8;
+  --line:rgba(112,48,176,.16);--hair:rgba(112,48,176,.12);--ring-dim:rgba(112,48,176,.10);
+  --emph:#7030b0;
+  --bloom-1:rgba(112,48,176,.12);--bloom-2:rgba(80,20,150,.06);
+  --p-lav:112,48,176;--p-node:144,96,200;
+}
+html[data-theme="light"] .bc-nav-in{background:rgba(248,245,255,.92);border-color:rgba(112,48,176,.15);box-shadow:0 8px 32px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.8)}
+html[data-theme="light"] .bc-nav.bc-nav--scrolled .bc-nav-in{background:rgba(248,245,255,.97);border-color:rgba(112,48,176,.22)}
+/* Navbar text */
+html[data-theme="light"] .bc-nav-links a:not(.bc-btn){color:rgba(24,8,42,.6)}
+html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender)}
+
+/* Hero figure */
+html[data-theme="light"] .pd-figure{background:linear-gradient(160deg,#f5f0ff 0%,#ece5fa 100%)!important;border-color:rgba(112,48,176,.18)}
+html[data-theme="light"] .pd-figure.lit{border-color:rgba(112,48,176,.38);box-shadow:0 0 48px rgba(112,48,176,.09)}
+html[data-theme="light"] .pdf-chip{color:rgba(112,48,176,.9);background:rgba(248,245,255,.92);border-color:rgba(112,48,176,.28)}
+html[data-theme="light"] .pdf-chip.pulse{box-shadow:0 0 0 2px rgba(112,48,176,.5),0 0 14px rgba(112,48,176,.3);color:var(--lavender);border-color:rgba(112,48,176,.55)}
+html[data-theme="light"] .pdf-hint{color:rgba(112,48,176,.28)}
+html[data-theme="light"] .pd-figure.lit .pdf-hint{color:rgba(112,48,176,.5)}
+/* Semantic / Pragmatic context cards */
+html[data-theme="light"] .pd-prag-card{background:rgba(255,255,255,.88);border-color:rgba(112,48,176,.12)}
+html[data-theme="light"] .pd-prag-card.feat{background:linear-gradient(145deg,rgba(255,252,242,.95),rgba(255,249,234,.98));border-color:rgba(200,140,0,.28)}
+html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
+/* OS accordion */
+html[data-theme="light"] .pd-os-accordion{background:rgba(255,255,255,.75);border-color:rgba(112,48,176,.12)}
+html[data-theme="light"] .pd-os-item{border-bottom-color:rgba(112,48,176,.08)}
+html[data-theme="light"] .pd-os-hd:hover{background:rgba(112,48,176,.04)}
+html[data-theme="light"] .pd-os-badge{border-color:rgba(112,48,176,.2)}
+/* How It Works accordion */
+html[data-theme="light"] .hac-panel{background:rgba(255,255,255,.65);border-color:rgba(112,48,176,.12)}
+html[data-theme="light"] .hac-panel.active{background:rgba(248,245,255,.92);border-color:rgba(112,48,176,.2)}
+html[data-theme="light"] .hac-panel:not(.active):hover{background:rgba(244,240,255,.82);border-color:rgba(112,48,176,.2)}
+html[data-theme="light"] .hac-cnum{color:rgba(112,48,176,.5)}
+html[data-theme="light"] .hac-tab-title{color:rgba(24,8,42,.65)}
+/* Boxes / nodes */
+html[data-theme="light"] .pd-source-box,html[data-theme="light"] .pd-agent-box{background:rgba(255,255,255,.82);border-color:rgba(112,48,176,.16)}
+html[data-theme="light"] .pd-bcos-node{background:linear-gradient(135deg,rgba(218,200,255,.65),rgba(200,180,245,.75));border-color:rgba(112,48,176,.45)}
+html[data-theme="light"] .pd-bcos-node::before{background:radial-gradient(circle at 50% 0%,rgba(112,48,176,.14),transparent 60%)}
+html[data-theme="light"] .pd-layer{background:rgba(255,255,255,.72);border-color:rgba(112,48,176,.1)}
+html[data-theme="light"] .pd-layer.active{background:rgba(232,218,255,.9);border-color:rgba(112,48,176,.35)}
+html[data-theme="light"] .pd-q-node{background:rgba(255,255,255,.82);border-color:rgba(112,48,176,.15)}
+html[data-theme="light"] .pd-q-node.bcos{background:rgba(224,210,255,.85);border-color:rgba(112,48,176,.38)}
+html[data-theme="light"] .pd-q-result{background:rgba(240,255,245,.85);border-color:rgba(80,160,100,.25)}
+html[data-theme="light"] .pd-outcome-card{background:rgba(255,255,255,.72);border-color:rgba(112,48,176,.12)}
+html[data-theme="light"] .pd-tag-node{background:rgba(255,255,255,.82);border-color:rgba(112,48,176,.12)}
+html[data-theme="light"] .pd-tag-node:hover,html[data-theme="light"] .pd-tag-node.hl{background:rgba(238,228,255,.9)}
+html[data-theme="light"] .pd-arch-source,html[data-theme="light"] .pd-arch-agent{background:rgba(255,255,255,.82);border-color:rgba(112,48,176,.12)}
+html[data-theme="light"] .pd-arch-bcos{background:linear-gradient(135deg,rgba(218,200,255,.55),rgba(200,180,245,.65));border-color:rgba(112,48,176,.4)}
+html[data-theme="light"] .pd-panel{background:rgba(255,255,255,.72);border-color:rgba(112,48,176,.12)}
+html[data-theme="light"] .pd-bcos-mini{background:rgba(220,204,255,.45);border-color:rgba(112,48,176,.3)}
+html[data-theme="light"] .pd-ai-node{background:rgba(238,228,255,.55);border-color:rgba(112,48,176,.18)}
+html[data-theme="light"] .pd-acc-bar-bg{background:rgba(112,48,176,.08)}
+/* Hero figure SVG elements */
+html[data-theme="light"] .pdf-star{opacity:0}
+html[data-theme="light"] .pdf-drums-g rect{fill:#eee8fa;stroke:#d8d0f0}
+html[data-theme="light"] .pdf-drums-g > g ellipse:first-of-type{fill:#f4f0fd;stroke:#ddd8f4}
+html[data-theme="light"] .pdf-drums-g > g ellipse:last-of-type{fill:#e6e0f5;stroke:#d0c8ec}
+html[data-theme="light"] .pdf-center-ring{fill:rgba(232,224,255,.7);stroke:rgba(112,48,176,.22)}
+html[data-theme="light"] .pdf-bulb-off-g circle{fill:#eee8fb;stroke:#d4cced}
+html[data-theme="light"] .pdf-bulb-off-g rect{fill:#e8e2f6;stroke:#cec8e8}
+html[data-theme="light"] .pdf-bulb-off-g path{stroke:#c8c0e2}
+/* Bulb ON — full opacity + richer glow for light bg */
+html[data-theme="light"] .pd-figure.lit .pdf-bulb-on-g{opacity:1}
+html[data-theme="light"] .pdf-bulb-on-g circle:nth-child(1){fill:rgba(255,195,0,.18)}
+html[data-theme="light"] .pdf-bulb-on-g circle:nth-child(2){fill:rgba(255,210,0,.28)}
+html[data-theme="light"] .pdf-bulb-on-g circle:nth-child(3){fill:rgba(255,222,40,.72);stroke:rgba(210,155,0,.9)}
+html[data-theme="light"] .pdf-bulb-on-g circle:nth-child(4){fill:rgba(255,240,80,.88)}
+html[data-theme="light"] .pdf-bulb-on-g path{stroke:rgba(180,118,0,.95)}
+html[data-theme="light"] .pdf-bulb-on-g rect{fill:#b07c08;stroke:rgba(200,155,0,.55)}
+/* Theme ripple overlay */
+#themeRipple{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0;will-change:clip-path,opacity}
 </style>
+<script>try{var _t=localStorage.getItem('bc-theme');if(_t==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
 </head>
 <body>
 
 <!-- Nav -->
+<div class="bc-banner" id="bcBanner">
+  <div class="bc-banner-inner">
+    <p class="bc-banner-msg">Two leading context research labs, <a href="https://puller.ai/" target="_blank" rel="noopener">Puller AI</a> &amp; <a href="https://figlabs.ai/" target="_blank" rel="noopener">Fig Labs</a>, join forces to launch Big Context &amp; Company — the first AI data firm.</p>
+    <button class="bc-banner-close" id="bcBannerClose" aria-label="Dismiss">&times;</button>
+  </div>
+</div>
 <nav class="bc-nav" id="bcNav">
   <div class="bc-nav-in">
-    <a href="/" class="bc-wordmark">
-      <img class="bc-mark" src="/puller-ai-core.svg" alt="" aria-hidden="true" width="22" height="22" style="width:22px;height:22px;object-fit:contain;display:inline-block;vertical-align:middle">
-      Big Context<sup>&trade;</sup><span class="bc-wm-suf">&amp; Company</span>
-    </a>
+    <a href="/" class="bc-wordmark"><img src="/bc-wordmark.svg" alt="Big Context &amp; Company" class="bc-wm-img"></a>
     <div class="bc-nav-links">
-      <a href="/">Home</a>
-      <a href="/product">Platform</a>
       <a href="/services">Practice</a>
+      <a href="/pragmatics">Pragmatics</a>
       <a href="/get-started" class="bc-btn">Get Started</a>
     </div>
     <div class="bc-nav-prog" aria-hidden="true"><i id="bcNavProg"></i></div>
@@ -271,76 +505,181 @@ a{color:inherit;text-decoration:none}
 
 <!-- ─── 1. HERO ───────────────────────────────────────────────────── -->
 <section class="pd-hero" id="top">
-  <div class="bc-wrap" style="width:100%">
-    <div class="pd-hero-inner">
-
-      <div class="pd-hero-text">
-        <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Platform&nbsp;&nbsp;/&nbsp;&nbsp;01</div>
-        <h1 class="bc-reveal" style="transition-delay:.08s">BCOS — <em>The Pragmatic Context Layer.</em></h1>
-        <p class="bc-reveal" style="transition-delay:.18s">The operating system that makes your enterprise data legible to AI — without rebuilding your stack.</p>
-        <div class="pd-cta-row bc-reveal" style="transition-delay:.28s">
-          <a href="/get-started" class="bc-btn">Request a Demo &rarr;</a>
-          <a href="/get-started" class="bc-btn bc-btn-ghost">Read the Whitepaper</a>
-        </div>
-      </div>
-
-
+  <div class="bc-wrap" style="width:100%;max-width:var(--maxw);margin:0 auto;padding:0 28px">
+    <div class="sv-kicker bc-ln-i bc-d1">Big Context&trade;</div>
+    <h1 class="bc-name"><span class="bc-ln-i bc-d2">The operating system for enterprise data context.</span></h1>
+    <p class="bc-tag bc-fade" style="margin-top:10px;max-width:none"><em>Make your data truly legible to AI.</em></p>
+    <div class="bc-hero-cta bc-fade">
+      <a href="/get-started" class="bc-btn">Get Started &rarr;</a>
     </div>
   </div>
 </section>
 
-<div class="bc-divider"></div>
+<!-- ─── HERO FIGURE ───────────────────────────────────────────────── -->
+<div style="width:100%;max-width:var(--maxw);margin:40px auto 60px;padding:0 28px;box-sizing:border-box">
+<div class="pd-figure" id="pdFigure">
+
+  <!-- SVG layer -->
+  <svg class="pdf-bg-svg" viewBox="0 0 960 380" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="pdfGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="18" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="pdfSoftGlow" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="28"/>
+      </filter>
+    </defs>
+
+    <!-- Stars (dark only) -->
+    <circle class="pdf-star" cx="350" cy="55"  r="1.2" fill="rgba(199,157,240,.35)"/>
+    <circle class="pdf-star" cx="620" cy="40"  r="1"   fill="rgba(199,157,240,.25)"/>
+    <circle class="pdf-star" cx="720" cy="90"  r="1.5" fill="rgba(199,157,240,.3)"/>
+    <circle class="pdf-star" cx="260" cy="310" r="1"   fill="rgba(199,157,240,.2)"/>
+    <circle class="pdf-star" cx="860" cy="300" r="1.3" fill="rgba(199,157,240,.3)"/>
+    <circle class="pdf-star" cx="180" cy="80"  r="1"   fill="rgba(199,157,240,.2)"/>
+    <circle class="pdf-star" cx="840" cy="60"  r="1.2" fill="rgba(199,157,240,.28)"/>
+    <circle class="pdf-star" cx="430" cy="340" r="1"   fill="rgba(199,157,240,.2)"/>
+
+    <!-- 5 drums — back row (shorter) -->
+    <g class="pdf-drums-g">
+      <g transform="translate(72,184)">
+        <rect x="-16" y="-28" width="32" height="56" rx="3" fill="#1c1c28" stroke="#272738" stroke-width="1"/>
+        <ellipse cx="0" cy="-28" rx="16" ry="5.5" fill="#252538" stroke="#30304a" stroke-width="1"/>
+        <ellipse cx="0" cy="28"  rx="16" ry="5.5" fill="#13131e" stroke="#202030" stroke-width="1"/>
+      </g>
+      <g transform="translate(112,178)">
+        <rect x="-16" y="-28" width="32" height="56" rx="3" fill="#1c1c28" stroke="#272738" stroke-width="1"/>
+        <ellipse cx="0" cy="-28" rx="16" ry="5.5" fill="#252538" stroke="#30304a" stroke-width="1"/>
+        <ellipse cx="0" cy="28"  rx="16" ry="5.5" fill="#13131e" stroke="#202030" stroke-width="1"/>
+      </g>
+      <g transform="translate(152,183)">
+        <rect x="-16" y="-28" width="32" height="56" rx="3" fill="#1c1c28" stroke="#272738" stroke-width="1"/>
+        <ellipse cx="0" cy="-28" rx="16" ry="5.5" fill="#252538" stroke="#30304a" stroke-width="1"/>
+        <ellipse cx="0" cy="28"  rx="16" ry="5.5" fill="#13131e" stroke="#202030" stroke-width="1"/>
+      </g>
+      <!-- front row (2 larger drums, foreground) -->
+      <g transform="translate(90,220)">
+        <rect x="-20" y="-35" width="40" height="66" rx="3.5" fill="#20202e" stroke="#2c2c3e" stroke-width="1.2"/>
+        <ellipse cx="0" cy="-35" rx="20" ry="7" fill="#2c2c42" stroke="#383852" stroke-width="1.2"/>
+        <ellipse cx="0" cy="31"  rx="20" ry="7" fill="#161620" stroke="#222232" stroke-width="1.2"/>
+      </g>
+      <g transform="translate(138,216)">
+        <rect x="-20" y="-35" width="40" height="66" rx="3.5" fill="#20202e" stroke="#2c2c3e" stroke-width="1.2"/>
+        <ellipse cx="0" cy="-35" rx="20" ry="7" fill="#2c2c42" stroke="#383852" stroke-width="1.2"/>
+        <ellipse cx="0" cy="31"  rx="20" ry="7" fill="#161620" stroke="#222232" stroke-width="1.2"/>
+      </g>
+    </g>
+
+    <!-- Flow lines -->
+    <line x1="192" y1="205" x2="422" y2="205" class="pdf-line-blocked" stroke="rgba(199,157,240,.2)" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <line x1="538" y1="205" x2="762" y2="205" class="pdf-line-blocked" stroke="rgba(199,157,240,.2)" stroke-width="1.5" stroke-dasharray="7 5"/>
+    <line x1="192" y1="205" x2="762" y2="205" class="pdf-line-active" stroke="rgba(199,157,240,.4)" stroke-width="1.5"/>
+    <line x1="192" y1="205" x2="762" y2="205" class="pdf-line-active" stroke="rgba(199,157,240,.82)" stroke-width="1.5" stroke-dasharray="32 538" stroke-linecap="round">
+      <animate attributeName="stroke-dashoffset" from="570" to="-570" dur="2.4s" repeatCount="indefinite"/>
+    </line>
+
+    <!-- Center ring -->
+    <circle cx="480" cy="205" r="58" fill="rgba(12,6,22,.88)" stroke="rgba(199,157,240,.18)" stroke-width="1.2" class="pdf-center-ring"/>
+
+    <!-- X icon -->
+    <g class="pdf-x-g" id="pdfXIcon" transform="translate(480,205)">
+      <line x1="-20" y1="-20" x2="20" y2="20" stroke="#FF3B30" stroke-width="6" stroke-linecap="round"/>
+      <line x1="20"  y1="-20" x2="-20" y2="20" stroke="#FF3B30" stroke-width="6" stroke-linecap="round"/>
+    </g>
+
+    <!-- Bracket [—] active state — centered at (480,205) -->
+    <g class="pdf-bracket-g">
+      <g transform="translate(480,205) scale(0.28) translate(-600,-400)">
+        <g fill="none" stroke="#C89DF0" stroke-width="18">
+          <path d="M520 300 H476 V500 H520"/>
+          <path d="M680 300 H724 V500 H680"/>
+        </g>
+        <rect x="556" y="391" width="88" height="18" fill="#C89DF0"/>
+      </g>
+    </g>
+
+    <!-- Bulb OFF -->
+    <g class="pdf-bulb-off-g" transform="translate(806,195)">
+      <circle cx="0" cy="-16" r="42" fill="#181826" stroke="#24243a" stroke-width="1.2"/>
+      <rect x="-14" y="26" width="28" height="8"  rx="2.5" fill="#1e1e2c" stroke="#28283a" stroke-width="1"/>
+      <rect x="-11" y="34" width="22" height="6"  rx="2"   fill="#1a1a28" stroke="#242438" stroke-width="1"/>
+      <rect x="-8"  y="40" width="16" height="5"  rx="2"   fill="#161622" stroke="#202030" stroke-width="1"/>
+      <path d="M-7,12 Q-3,-5 0,12 Q3,-5 7,12" fill="none" stroke="#2a2a40" stroke-width="1.5"/>
+    </g>
+    <!-- Bulb ON -->
+    <g class="pdf-bulb-on-g" transform="translate(806,195)" id="pdfBulbOn">
+      <circle cx="0" cy="-16" r="110" fill="rgba(255,220,60,.04)" filter="url(#pdfSoftGlow)"/>
+      <circle cx="0" cy="-16" r="72"  fill="rgba(255,225,70,.07)"/>
+      <circle cx="0" cy="-16" r="42"  fill="rgba(255,235,100,.18)" stroke="rgba(255,215,70,.5)" stroke-width="1.5"/>
+      <circle cx="0" cy="-16" r="26"  fill="rgba(255,240,130,.25)"/>
+      <path d="M-7,12 Q-3,-5 0,12 Q3,-5 7,12" fill="none" stroke="rgba(255,240,80,.95)" stroke-width="2.2"/>
+      <rect x="-14" y="26" width="28" height="8"  rx="2.5" fill="#3c3010" stroke="rgba(255,215,70,.35)" stroke-width="1"/>
+      <rect x="-11" y="34" width="22" height="6"  rx="2"   fill="#322808" stroke="rgba(255,215,70,.2)"  stroke-width="1"/>
+      <rect x="-8"  y="40" width="16" height="5"  rx="2"   fill="#281e06" stroke="rgba(255,215,70,.15)" stroke-width="1"/>
+    </g>
+  </svg>
+
+  <!-- Chips: left zone, between drums and core -->
+  <div class="pdf-label-layer" id="pdfLabelLayer">
+    <div class="pdf-chip" data-sx="9%"  data-sy="20%">SQL Queries</div>
+    <div class="pdf-chip" data-sx="22%" data-sy="11%">Tribal Knowledge</div>
+    <div class="pdf-chip" data-sx="8%"  data-sy="44%">SOPs &amp; Docs</div>
+    <div class="pdf-chip" data-sx="26%" data-sy="30%">Data Models</div>
+    <div class="pdf-chip" data-sx="14%" data-sy="64%">Dictionaries</div>
+    <div class="pdf-chip" data-sx="34%" data-sy="18%">Schema History</div>
+    <div class="pdf-chip" data-sx="30%" data-sy="52%">BI Metadata</div>
+    <div class="pdf-chip" data-sx="38%" data-sy="38%">Business Logic</div>
+    <div class="pdf-chip" data-sx="20%" data-sy="78%">Emails &amp; Chats</div>
+    <div class="pdf-chip" data-sx="36%" data-sy="70%">Comments</div>
+  </div>
+
+  <div class="pdf-hint" id="pdfHint">click to unlock</div>
+</div>
+</div>
 
 <!-- ─── 2. THE GAP ───────────────────────────────────────────────── -->
-<section class="bc-section" id="gap">
+<section class="bc-section" id="gap" style="padding-top:40px">
   <div class="bc-wrap">
-    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>The Gap&nbsp;&nbsp;/&nbsp;&nbsp;02</div>
-    <h2 class="bc-h2 bc-reveal" style="max-width:22ch;margin-bottom:20px">Your stack was built for <em>a world without AI.</em></h2>
-    <p class="bc-body bc-reveal">Warehouses, semantic layers, ontologies — all painstakingly engineered by hand and always stale. AI needs living context, not static schemas.</p>
+    <h2 class="bc-h2 bc-reveal" style="max-width:22ch;margin-bottom:20px">Your data needs a translator.</h2>
+    <p class="bc-body bc-reveal">AI models and agents fail because they don't know what your data means, how it's used, or what to trust. Big Context turns your nuanced data knowledge &mdash; buried in people, systems, documents across your company &mdash; into a living graph any AI can read.</p>
+  </div>
+</section>
 
-    <div class="pd-gap-grid bc-reveal">
-      <!-- Before -->
-      <div class="pd-panel">
-        <div class="pd-panel-label before"><span class="pip"></span>Without BCOS</div>
-        <div class="pd-node-row">
-          <div class="pd-data-node"><span style="width:6px;height:6px;border-radius:50%;background:rgba(200,100,100,.4);flex-shrink:0"></span>Snowflake</div>
-          <div class="pd-data-node dim"><span style="width:6px;height:6px;border-radius:50%;background:rgba(200,100,100,.2);flex-shrink:0"></span>Salesforce</div>
-          <div class="pd-data-node dim"><span style="width:6px;height:6px;border-radius:50%;background:rgba(200,100,100,.2);flex-shrink:0"></span>Slack</div>
-        </div>
-        <div class="pd-conn-before">
-          <svg width="180" height="32" viewBox="0 0 180 32">
-            <path d="M30 16 L80 16" class="dashed"/>
-            <path d="M100 16 L150 16" class="dashed"/>
-            <circle cx="90" cy="16" r="6" fill="rgba(200,100,100,.15)" stroke="rgba(200,100,100,.3)" stroke-width="1"/>
-            <text x="90" y="17" text-anchor="middle" dominant-baseline="central" font-size="7" fill="rgba(200,100,100,.5)" font-family="monospace">?</text>
-          </svg>
-        </div>
-        <div class="pd-ai-node">AI Agent</div>
-        <div><span class="pd-tag stale">stale &bull; siloed &bull; hand-coded</span></div>
+<div class="bc-divider"></div>
+
+<!-- ─── 3. PRAGMATICS ───────────────────────────────────────────── -->
+<section class="bc-section" id="pragmatics">
+  <div class="bc-wrap">
+    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Pragmatics&nbsp;&nbsp;/&nbsp;&nbsp;03</div>
+    <h2 class="bc-h2 bc-reveal" style="max-width:28ch">The Semantic Layer is Dead.<br><em>Long live the semantic layer.</em></h2>
+    <p class="bc-body bc-reveal" style="max-width:58ch;margin-top:18px">Your data stack was built for a world without AI. It makes sense that legacy frameworks, like semantic layers, catalogs, ontologies, &amp; knowledge graphs, are proven to be insufficient for AI-scale data work. Big Context is built on the back of the Pragmatic Layer and captures how your data is actually used in the real world.</p>
+
+    <div class="pd-prag-grid bc-reveal" style="display:none">
+      <!-- Semantic -->
+      <div class="pd-prag-card">
+        <div class="pd-prag-label">Semantic Context</div>
+        <div class="pd-prag-h">How you <em>attempted</em> to define your data</div>
+        <p class="pd-prag-body">A hand-crafted partial snapshot of meaning intended to be used globally across its domain.</p>
+        <div class="pd-prag-rule"></div>
+        <div class="pd-prag-caption">Limited to what&rsquo;s been recorded. Almost always stale.</div>
       </div>
+      <!-- Pragmatic — always highlighted -->
+      <div class="pd-prag-card feat">
+        <div class="pd-prag-label"><span class="pd-prag-dot"></span>Pragmatic Context</div>
+        <div class="pd-prag-h">What your data means <em>in actual use</em></div>
+        <p class="pd-prag-body">A self-maintaining system of record and reliability engine that mirrors the contextual judgement of your best data experts.</p>
+        <div class="pd-prag-rule"></div>
+        <div class="pd-prag-caption">Dynamic, governed &mdash; ready for AI scale use.</div>
+      </div>
+    </div>
 
-      <!-- After -->
-      <div class="pd-panel">
-        <div class="pd-panel-label after"><span class="pip"></span>With BCOS</div>
-        <div class="pd-node-row">
-          <div class="pd-data-node"><span style="width:6px;height:6px;border-radius:50%;background:rgba(199,157,240,.5);flex-shrink:0"></span>Snowflake</div>
-          <div class="pd-data-node"><span style="width:6px;height:6px;border-radius:50%;background:rgba(199,157,240,.5);flex-shrink:0"></span>Salesforce</div>
-          <div class="pd-data-node"><span style="width:6px;height:6px;border-radius:50%;background:rgba(199,157,240,.5);flex-shrink:0"></span>Slack</div>
-        </div>
-        <div class="pd-conn-after">
-          <svg width="180" height="32" viewBox="0 0 180 32">
-            <path d="M30 16 L150 16" stroke="rgba(199,157,240,.4)" stroke-width="1.5" fill="none"/>
-            <circle cx="90" cy="16" r="8" fill="rgba(109,47,145,.35)" stroke="rgba(199,157,240,.5)" stroke-width="1.2"/>
-          </svg>
-        </div>
-        <div class="pd-bcos-mini">BCOS · Context Layer</div>
-        <div class="pd-conn-after">
-          <svg width="180" height="20" viewBox="0 0 180 20">
-            <path d="M90 0 L90 20" stroke="rgba(199,157,240,.4)" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-        <div class="pd-ai-node">AI Agent</div>
-        <div><span class="pd-tag live">living &bull; connected &bull; always fresh</span></div>
+    <!-- The Pragmatic Standard — sub-block -->
+    <div style="margin-top:64px;padding-top:56px;border-top:1px solid rgba(var(--p-lav),.12)">
+      <p class="pd-ops-intro bc-reveal">The Open Pragmatics Standard — the semantic vocabulary for enterprise AI.</p>
+      <p class="pd-ops-sub bc-reveal" style="max-width:58ch">OPS defines the full taxonomy of business context that AI needs to reason correctly over enterprise data. It's open, extensible, and vendor-neutral.</p>
+      <div class="bc-reveal" style="margin-top:40px">
+        <a href="/get-started" class="bc-btn" style="padding:14px 32px;font-size:13px">Join the Beta &rarr;</a>
       </div>
     </div>
   </div>
@@ -348,235 +687,238 @@ a{color:inherit;text-decoration:none}
 
 <div class="bc-divider"></div>
 
-<!-- ─── 3. HOW IT WORKS ──────────────────────────────────────────── -->
+<!-- ─── 4. THE OPERATING SYSTEM ────────────────────────────────── -->
+<section class="bc-section" id="the-os">
+  <div class="bc-wrap">
+    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>The Operating System&nbsp;&nbsp;/&nbsp;&nbsp;04</div>
+    <h2 class="bc-h2 bc-reveal">A peak under the hood</h2>
+
+    <div class="pd-os-accordion bc-reveal" id="osAccordion">
+
+      <!-- 01 Pragmatic Graphs -->
+      <div class="pd-os-item open">
+        <div class="pd-os-hd">
+          <div class="pd-os-badge">01</div>
+          <div class="pd-os-meta">
+            <div class="pd-os-title">Pragmatic Graphs &mdash; Situational awareness for every data query</div>
+          </div>
+          <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="pd-os-body">
+          <div class="pd-os-inner">
+            <p>A semantic layer is a static record of what data means. A pragmatic graph is a living record of how it&rsquo;s actually used in your business &mdash; it&rsquo;s situational awareness as a foundation. It&rsquo;s an AI-native representation of your company&rsquo;s live model of meaning.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 Context Agents -->
+      <div class="pd-os-item">
+        <div class="pd-os-hd">
+          <div class="pd-os-badge">02</div>
+          <div class="pd-os-meta">
+            <div class="pd-os-title">Context Agents &mdash; An always-on data workforce</div>
+          </div>
+          <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="pd-os-body">
+          <div class="pd-os-inner">
+            <p>Legacy records promised to stay current, but couldn&rsquo;t. Ad hoc queries were rarely reusable. Big Context agents watch how data is used, capture new caveats as they emerge, catch drift the moment a metric changes, and build your latent business context like a veteran on your team.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 Headless Delivery -->
+      <div class="pd-os-item">
+        <div class="pd-os-hd">
+          <div class="pd-os-badge">03</div>
+          <div class="pd-os-meta">
+            <div class="pd-os-title">Headless Delivery &mdash; Workflow-native, for your convenience</div>
+          </div>
+          <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="pd-os-body">
+          <div class="pd-os-inner">
+            <p>No new tools to adopt, nothing to migrate, completely yours to do as you wish. Context is delivered into the tools you already run through open protocols like MCP. The OS meets your stack where it is and disappears into it.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 Reliability Harness -->
+      <div class="pd-os-item">
+        <div class="pd-os-hd">
+          <div class="pd-os-badge">04</div>
+          <div class="pd-os-meta">
+            <div class="pd-os-title">Reliability Harness &mdash; SME parity and validatability</div>
+          </div>
+          <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="pd-os-body">
+          <div class="pd-os-inner">
+            <p>A wrong number that looks right is worse than no number &mdash; and 90% accurate, while a breakthrough in AI is catastrophic here. Before any answer or context leaves the OS, it&rsquo;s validated against evals, tests, and ground truth, traceable to its source, with low-confidence cases escalated to a human rather than guessed.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 Control Plane -->
+      <div class="pd-os-item">
+        <div class="pd-os-hd">
+          <div class="pd-os-badge">05</div>
+          <div class="pd-os-meta">
+            <div class="pd-os-title">Control Plane &mdash; Expert-grade governance out of the box</div>
+          </div>
+          <div class="pd-os-chev"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="pd-os-body">
+          <div class="pd-os-inner">
+            <p>Governance to your enterprise&rsquo;s standards &mdash; access, policy, PII handling, full audit trail &mdash; so every answer is permissioned and traceable. All backstopped by Experts-in-the-Loop. Comprehensive intervention frameworks so that the system follows the rules and your (or our) best data people can intervene at scale. Expert judgment becomes a permanent asset instead of walking out the door.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="bc-divider"></div>
+
+<!-- ─── 5. HOW IT WORKS ──────────────────────────────────────────── -->
 <section class="bc-section" id="how-it-works">
   <div class="bc-wrap">
-    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>How It Works&nbsp;&nbsp;/&nbsp;&nbsp;03</div>
-    <h2 class="bc-h2 bc-reveal" style="margin-bottom:0">Three steps. No rip-and-replace.</h2>
+    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>How It Works&nbsp;&nbsp;/&nbsp;&nbsp;05</div>
+    <h2 class="bc-h2 bc-reveal" style="margin-bottom:0">Three seamless steps.</h2>
 
-    <!-- Step 1: Connect -->
-    <div class="pd-step bc-reveal">
-      <div class="pd-step-text">
-        <div class="pd-step-num">01 &mdash; Connect</div>
-        <div class="pd-step-title">Plug into your existing stack.</div>
-        <p class="pd-step-body">BCOS connects to your data sources — warehouses, CRMs, productivity tools, knowledge bases — without requiring a migration. Your current investments stay intact.</p>
-      </div>
-      <div>
-        <!-- Spoke diagram -->
-        <div class="pd-spoke-wrap">
-          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-            <!-- spokes -->
-            <line x1="150" y1="150" x2="150" y2="30" class="spoke-track"/>
-            <line x1="150" y1="150" x2="253" y2="90" class="spoke-track"/>
-            <line x1="150" y1="150" x2="253" y2="210" class="spoke-track"/>
-            <line x1="150" y1="150" x2="150" y2="270" class="spoke-track"/>
-            <line x1="150" y1="150" x2="47" y2="210" class="spoke-track"/>
-            <line x1="150" y1="150" x2="47" y2="90" class="spoke-track"/>
-            <line x1="150" y1="150" x2="215" y2="48" class="spoke-track"/>
-            <line x1="150" y1="150" x2="215" y2="252" class="spoke-track"/>
-            <line x1="150" y1="150" x2="85" y2="252" class="spoke-track"/>
-            <line x1="150" y1="150" x2="85" y2="48" class="spoke-track"/>
-            <!-- pulses -->
-            <line x1="150" y1="150" x2="150" y2="30" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:0s;stroke-dashoffset:0"/>
-            <line x1="150" y1="150" x2="253" y2="90" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-.26s"/>
-            <line x1="150" y1="150" x2="253" y2="210" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-.52s"/>
-            <line x1="150" y1="150" x2="150" y2="270" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-.78s"/>
-            <line x1="150" y1="150" x2="47" y2="210" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-1.04s"/>
-            <line x1="150" y1="150" x2="47" y2="90" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-1.3s"/>
-            <line x1="150" y1="150" x2="215" y2="48" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-1.56s"/>
-            <line x1="150" y1="150" x2="215" y2="252" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-1.82s"/>
-            <line x1="150" y1="150" x2="85" y2="252" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-2.08s"/>
-            <line x1="150" y1="150" x2="85" y2="48" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-2.34s"/>
-            <!-- source nodes -->
-            <rect x="120" y="14" width="60" height="22" rx="5" class="spoke-node-bg"/><text x="150" y="25" class="spoke-node-text">Snowflake</text>
-            <rect x="226" y="78" width="54" height="22" rx="5" class="spoke-node-bg"/><text x="253" y="89" class="spoke-node-text">Databricks</text>
-            <rect x="226" y="198" width="54" height="22" rx="5" class="spoke-node-bg"/><text x="253" y="209" class="spoke-node-text">Salesforce</text>
-            <rect x="118" y="260" width="64" height="22" rx="5" class="spoke-node-bg"/><text x="150" y="271" class="spoke-node-text">Slack / Notion</text>
-            <rect x="20" y="198" width="54" height="22" rx="5" class="spoke-node-bg"/><text x="47" y="209" class="spoke-node-text">Confluence</text>
-            <rect x="20" y="78" width="54" height="22" rx="5" class="spoke-node-bg"/><text x="47" y="89" class="spoke-node-text">SAP</text>
-            <rect x="192" y="36" width="46" height="22" rx="5" class="spoke-node-bg"/><text x="215" y="47" class="spoke-node-text">Atlan</text>
-            <rect x="192" y="240" width="46" height="22" rx="5" class="spoke-node-bg"/><text x="215" y="251" class="spoke-node-text">dbt</text>
-            <rect x="62" y="240" width="46" height="22" rx="5" class="spoke-node-bg"/><text x="85" y="251" class="spoke-node-text">Cube</text>
-            <rect x="62" y="36" width="46" height="22" rx="5" class="spoke-node-bg"/><text x="85" y="47" class="spoke-node-text">Unity Cat.</text>
-            <!-- center -->
-            <circle cx="150" cy="150" r="34" class="spoke-center-glow"/>
-            <circle cx="150" cy="150" r="28" class="spoke-center-bg"/>
-            <text x="150" y="148" class="spoke-center-text">BCOS</text>
-            <text x="150" y="163" text-anchor="middle" font-size="7" fill="rgba(199,157,240,.5)" font-family="monospace" letter-spacing="0.5">context layer</text>
-          </svg>
+    <div class="hac-row bc-reveal" id="hacRow">
+
+      <!-- Panel 1: Connect -->
+      <div class="hac-panel active" data-hac="0">
+        <div class="hac-tab">
+          <span class="hac-tab-num">01</span>
+          <span class="hac-tab-title">Connect</span>
         </div>
-      </div>
-    </div>
-
-    <!-- Step 2: Contextualise -->
-    <div class="pd-step rev bc-reveal">
-      <div class="pd-step-text">
-        <div class="pd-step-num">02 &mdash; Contextualise</div>
-        <div class="pd-step-title">OPS builds living context — automatically.</div>
-        <p class="pd-step-body">The Open Pragmatics Standard captures the full semantic fabric of your business: metrics, entities, policies, decisions, and the tribal knowledge that never made it into a schema.</p>
-      </div>
-      <div>
-        <div class="pd-stack" id="pdStack">
-          <div class="pd-layer active"><span>Schema</span><span class="pd-layer-dot"></span></div>
-          <div class="pd-layer active"><span>Semantics</span><span class="pd-layer-dot"></span></div>
-          <div class="pd-layer active"><span>Metrics</span><span class="pd-layer-dot"></span></div>
-          <div class="pd-layer active"><span>Entities</span><span class="pd-layer-dot"></span></div>
-          <div class="pd-layer"><span>Policies</span><span class="pd-layer-dot"></span></div>
-          <div class="pd-layer"><span>Decision Traces</span><span class="pd-layer-dot"></span></div>
-          <div class="pd-layer"><span>Expertise &amp; Nuances</span><span class="pd-layer-dot"></span></div>
-          <div class="pd-layer"><span>Tribal Knowledge</span><span class="pd-layer-dot"></span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 3: Activate -->
-    <div class="pd-step bc-reveal">
-      <div class="pd-step-text">
-        <div class="pd-step-num">03 &mdash; Activate</div>
-        <div class="pd-step-title">AI agents get grounded answers — not hallucinations.</div>
-        <p class="pd-step-body">Every query an AI agent sends to your data gets answered with fresh, business-aware context from BCOS. No guessing. No stale snapshots.</p>
-      </div>
-      <div>
-        <div class="pd-query-wrap">
-          <div class="pd-q-node">
-            <div class="pd-q-node-label">Querying</div>
-            <div class="pd-q-node-name">AI Agent</div>
+        <div class="hac-content">
+          <div class="hac-ctext">
+            <div class="hac-cnum">01 &mdash; Connect</div>
+            <div class="hac-ctitle">Plug into your existing stack.</div>
+            <p class="hac-cbody">BCOS connects to your data sources — warehouses, CRMs, productivity tools, knowledge bases — without requiring a migration. Your current investments stay intact.</p>
           </div>
-          <div class="pd-q-arrows">
-            <div class="pd-q-arrow out">
-              <div class="pd-q-line">
-                <svg viewBox="0 0 100 16" preserveAspectRatio="none">
-                  <line x1="0" y1="8" x2="100" y2="8" class="arrow-out"/>
-                  <polygon points="95,4 100,8 95,12" fill="rgba(199,157,240,.5)"/>
-                </svg>
-              </div>
-              <span style="white-space:nowrap">query</span>
-            </div>
-            <div class="pd-q-arrow back">
-              <span style="white-space:nowrap">context</span>
-              <div class="pd-q-line">
-                <svg viewBox="0 0 100 16" preserveAspectRatio="none">
-                  <line x1="0" y1="8" x2="100" y2="8" class="arrow-back"/>
-                  <polygon points="5,4 0,8 5,12" fill="rgba(126,220,162,.5)"/>
-                </svg>
-              </div>
+          <div class="hac-cvisual">
+            <div class="pd-spoke-wrap">
+              <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                <line x1="150" y1="150" x2="150" y2="30" class="spoke-track"/>
+                <line x1="150" y1="150" x2="253" y2="90" class="spoke-track"/>
+                <line x1="150" y1="150" x2="253" y2="210" class="spoke-track"/>
+                <line x1="150" y1="150" x2="150" y2="270" class="spoke-track"/>
+                <line x1="150" y1="150" x2="47" y2="210" class="spoke-track"/>
+                <line x1="150" y1="150" x2="47" y2="90" class="spoke-track"/>
+                <line x1="150" y1="150" x2="215" y2="48" class="spoke-track"/>
+                <line x1="150" y1="150" x2="215" y2="252" class="spoke-track"/>
+                <line x1="150" y1="150" x2="85" y2="252" class="spoke-track"/>
+                <line x1="150" y1="150" x2="85" y2="48" class="spoke-track"/>
+                <line x1="150" y1="150" x2="150" y2="30" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:0s;stroke-dashoffset:0"/>
+                <line x1="150" y1="150" x2="253" y2="90" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-.26s"/>
+                <line x1="150" y1="150" x2="253" y2="210" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-.52s"/>
+                <line x1="150" y1="150" x2="150" y2="270" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-.78s"/>
+                <line x1="150" y1="150" x2="47" y2="210" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-1.04s"/>
+                <line x1="150" y1="150" x2="47" y2="90" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-1.3s"/>
+                <line x1="150" y1="150" x2="215" y2="48" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-1.56s"/>
+                <line x1="150" y1="150" x2="215" y2="252" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-1.82s"/>
+                <line x1="150" y1="150" x2="85" y2="252" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-2.08s"/>
+                <line x1="150" y1="150" x2="85" y2="48" class="spoke-pulse" style="animation:pdPulse 2.6s linear infinite;animation-delay:-2.34s"/>
+                <rect x="120" y="14" width="60" height="22" rx="5" class="spoke-node-bg"/><text x="150" y="25" class="spoke-node-text">Snowflake</text>
+                <rect x="226" y="78" width="54" height="22" rx="5" class="spoke-node-bg"/><text x="253" y="89" class="spoke-node-text">Databricks</text>
+                <rect x="226" y="198" width="54" height="22" rx="5" class="spoke-node-bg"/><text x="253" y="209" class="spoke-node-text">Salesforce</text>
+                <rect x="118" y="260" width="64" height="22" rx="5" class="spoke-node-bg"/><text x="150" y="271" class="spoke-node-text">Slack / Notion</text>
+                <rect x="20" y="198" width="54" height="22" rx="5" class="spoke-node-bg"/><text x="47" y="209" class="spoke-node-text">Confluence</text>
+                <rect x="20" y="78" width="54" height="22" rx="5" class="spoke-node-bg"/><text x="47" y="89" class="spoke-node-text">SAP</text>
+                <rect x="192" y="36" width="46" height="22" rx="5" class="spoke-node-bg"/><text x="215" y="47" class="spoke-node-text">Atlan</text>
+                <rect x="192" y="240" width="46" height="22" rx="5" class="spoke-node-bg"/><text x="215" y="251" class="spoke-node-text">dbt</text>
+                <rect x="62" y="240" width="46" height="22" rx="5" class="spoke-node-bg"/><text x="85" y="251" class="spoke-node-text">Cube</text>
+                <rect x="62" y="36" width="46" height="22" rx="5" class="spoke-node-bg"/><text x="85" y="47" class="spoke-node-text">Unity Cat.</text>
+                <circle cx="150" cy="150" r="34" class="spoke-center-glow"/>
+                <circle cx="150" cy="150" r="28" class="spoke-center-bg"/>
+                <text x="150" y="148" class="spoke-center-text">BCOS</text>
+                <text x="150" y="163" text-anchor="middle" font-size="7" fill="rgba(199,157,240,.5)" font-family="monospace" letter-spacing="0.5">context layer</text>
+              </svg>
             </div>
           </div>
-          <div class="pd-q-node bcos">
-            <div class="pd-q-node-label">Responding</div>
-            <div class="pd-q-node-name">BCOS</div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Contextualise -->
+      <div class="hac-panel" data-hac="1">
+        <div class="hac-tab">
+          <span class="hac-tab-num">02</span>
+          <span class="hac-tab-title">Contextualise</span>
+        </div>
+        <div class="hac-content">
+          <div class="hac-ctext">
+            <div class="hac-cnum">02 &mdash; Contextualise</div>
+            <div class="hac-ctitle">OPS builds living context — automatically.</div>
+            <p class="hac-cbody">The Open Pragmatics Standard captures the full semantic fabric of your business: metrics, entities, policies, decisions, and the tribal knowledge that never made it into a schema.</p>
+          </div>
+          <div class="hac-cvisual">
+            <div class="pd-stack" id="pdStack">
+              <div class="pd-layer active"><span>Schema</span><span class="pd-layer-dot"></span></div>
+              <div class="pd-layer active"><span>Semantics</span><span class="pd-layer-dot"></span></div>
+              <div class="pd-layer active"><span>Metrics</span><span class="pd-layer-dot"></span></div>
+              <div class="pd-layer active"><span>Entities</span><span class="pd-layer-dot"></span></div>
+              <div class="pd-layer"><span>Policies</span><span class="pd-layer-dot"></span></div>
+              <div class="pd-layer"><span>Decision Traces</span><span class="pd-layer-dot"></span></div>
+              <div class="pd-layer"><span>Expertise &amp; Nuances</span><span class="pd-layer-dot"></span></div>
+              <div class="pd-layer"><span>Tribal Knowledge</span><span class="pd-layer-dot"></span></div>
+            </div>
           </div>
         </div>
-        <div class="pd-q-result">↳ Grounded · Fresh · Business-aware</div>
       </div>
-    </div>
 
-  </div>
-</section>
-
-<div class="bc-divider"></div>
-
-<!-- ─── 4. THE OPEN PRAGMATICS STANDARD ─────────────────────────── -->
-<section class="bc-section" id="ops">
-  <div class="bc-wrap">
-    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>The Standard&nbsp;&nbsp;/&nbsp;&nbsp;04</div>
-    <div class="pd-ops-badge bc-reveal">
-      <span>Independent</span>
-      <span>Open</span>
-    </div>
-    <p class="pd-ops-intro bc-reveal">The Open Pragmatics Standard — the semantic vocabulary for enterprise AI.</p>
-    <p class="pd-ops-sub bc-reveal">OPS defines the full taxonomy of business context that AI needs to reason correctly over enterprise data. It's open, extensible, and vendor-neutral.</p>
-
-    <div class="pd-tag-cloud bc-reveal">
-      <div class="pd-tag-node hl">Tasks</div>
-      <div class="pd-tag-node hl">Metrics</div>
-      <div class="pd-tag-node hl">Entities</div>
-      <div class="pd-tag-node">Policies</div>
-      <div class="pd-tag-node">Definitions</div>
-      <div class="pd-tag-node hl">Business Logic</div>
-      <div class="pd-tag-node">Schema</div>
-      <div class="pd-tag-node hl">Semantics</div>
-      <div class="pd-tag-node">Decision Traces</div>
-      <div class="pd-tag-node">Expertise</div>
-      <div class="pd-tag-node">Nuances</div>
-      <div class="pd-tag-node hl">Tribal Knowledge</div>
-      <div class="pd-tag-node">Exceptions</div>
-      <div class="pd-tag-node">Preferences</div>
-    </div>
-  </div>
-</section>
-
-<div class="bc-divider"></div>
-
-<!-- ─── 5. INTEGRATIONS ──────────────────────────────────────────── -->
-<section class="bc-section" id="integrations">
-  <div class="bc-wrap">
-    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Integrations&nbsp;&nbsp;/&nbsp;&nbsp;05</div>
-    <h2 class="bc-h2 bc-reveal" style="margin-bottom:16px">BCOS sits between your stack and your AI.</h2>
-    <p class="bc-body bc-reveal">No rip-and-replace. BCOS connects to the data systems you already have and makes them instantly legible to every AI agent you deploy.</p>
-
-    <div class="pd-arch bc-reveal">
-      <!-- Row 1: Data Sources -->
-      <div class="pd-arch-row">
-        <div class="pd-arch-label">Data Sources</div>
-        <div class="pd-arch-sources">
-          <div class="pd-arch-source"><span class="dot"></span>Snowflake</div>
-          <div class="pd-arch-source"><span class="dot"></span>Databricks</div>
-          <div class="pd-arch-source"><span class="dot"></span>Salesforce</div>
-          <div class="pd-arch-source"><span class="dot"></span>SAP</div>
-          <div class="pd-arch-source"><span class="dot"></span>Slack</div>
-          <div class="pd-arch-source"><span class="dot"></span>Notion</div>
-          <div class="pd-arch-source"><span class="dot"></span>Confluence</div>
-          <div class="pd-arch-source"><span class="dot"></span>dbt</div>
-          <div class="pd-arch-source"><span class="dot"></span>Cube</div>
-          <div class="pd-arch-source"><span class="dot"></span>Atlan</div>
-          <div class="pd-arch-source"><span class="dot"></span>Unity Catalog</div>
+      <!-- Panel 3: Activate -->
+      <div class="hac-panel" data-hac="2">
+        <div class="hac-tab">
+          <span class="hac-tab-num">03</span>
+          <span class="hac-tab-title">Activate</span>
         </div>
-      </div>
-
-      <!-- Connector arrows down -->
-      <div class="pd-arch-connector">
-        <svg width="24" height="32" viewBox="0 0 24 32" fill="none">
-          <line x1="12" y1="0" x2="12" y2="24" stroke="rgba(199,157,240,.4)" stroke-width="1.5"/>
-          <polygon points="6,20 12,28 18,20" fill="rgba(199,157,240,.35)"/>
-        </svg>
-      </div>
-
-      <!-- Row 2: BCOS -->
-      <div class="pd-arch-row">
-        <div class="pd-arch-label" style="padding-top:22px">Platform</div>
-        <div class="pd-arch-bcos" style="flex:1">
-          <div class="pd-arch-bcos-text">
-            <div class="pd-arch-bcos-name">BCOS</div>
-            <div class="pd-arch-bcos-tag">Pragmatic Context Layer</div>
+        <div class="hac-content">
+          <div class="hac-ctext">
+            <div class="hac-cnum">03 &mdash; Activate</div>
+            <div class="hac-ctitle">Up and running in moments.</div>
+            <p class="hac-cbody">Every query an AI agent sends to your data gets answered with fresh, business-aware context from BCOS. No guessing. No stale snapshots.</p>
           </div>
-          <div class="pd-arch-bcos-badge">Independent &bull; Open &bull; Always Fresh</div>
+          <div class="hac-cvisual" style="flex-direction:column;gap:0">
+            <div class="pd-query-wrap">
+              <div class="pd-q-node">
+                <div class="pd-q-node-label">Querying</div>
+                <div class="pd-q-node-name">AI Agent</div>
+              </div>
+              <div class="pd-q-arrows">
+                <div class="pd-q-arrow out">
+                  <div class="pd-q-line">
+                    <svg viewBox="0 0 100 16" preserveAspectRatio="none">
+                      <line x1="0" y1="8" x2="100" y2="8" class="arrow-out"/>
+                      <polygon points="95,4 100,8 95,12" fill="rgba(199,157,240,.5)"/>
+                    </svg>
+                  </div>
+                  <span style="white-space:nowrap">query</span>
+                </div>
+                <div class="pd-q-arrow back">
+                  <span style="white-space:nowrap">context</span>
+                  <div class="pd-q-line">
+                    <svg viewBox="0 0 100 16" preserveAspectRatio="none">
+                      <line x1="0" y1="8" x2="100" y2="8" class="arrow-back"/>
+                      <polygon points="5,4 0,8 5,12" fill="rgba(126,220,162,.5)"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="pd-q-node bcos">
+                <div class="pd-q-node-label">Responding</div>
+                <div class="pd-q-node-name">BCOS</div>
+              </div>
+            </div>
+            <div class="pd-q-result">↳ Grounded · Fresh · Business-aware</div>
+          </div>
         </div>
       </div>
 
-      <!-- Connector arrows down -->
-      <div class="pd-arch-connector">
-        <svg width="24" height="32" viewBox="0 0 24 32" fill="none">
-          <line x1="12" y1="0" x2="12" y2="24" stroke="rgba(199,157,240,.4)" stroke-width="1.5"/>
-          <polygon points="6,20 12,28 18,20" fill="rgba(199,157,240,.35)"/>
-        </svg>
-      </div>
-
-      <!-- Row 3: AI Agents -->
-      <div class="pd-arch-row">
-        <div class="pd-arch-label">AI Agents</div>
-        <div class="pd-arch-agents">
-          <div class="pd-arch-agent">Finance</div>
-          <div class="pd-arch-agent">HR</div>
-          <div class="pd-arch-agent">Procurement</div>
-          <div class="pd-arch-agent">Support</div>
-          <div class="pd-arch-agent">Risk</div>
-          <div class="pd-arch-agent">Data</div>
-          <div class="pd-arch-agent">Analytics</div>
-          <div class="pd-arch-agent">Marketing</div>
-          <div class="pd-arch-agent">Strategy</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -586,7 +928,7 @@ a{color:inherit;text-decoration:none}
 <!-- ─── 6. OUTCOMES ──────────────────────────────────────────────── -->
 <section class="bc-section" id="outcomes">
   <div class="bc-wrap">
-    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Results&nbsp;&nbsp;/&nbsp;&nbsp;06</div>
+    <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Results&nbsp;&nbsp;/&nbsp;&nbsp;07</div>
     <h2 class="bc-h2 bc-reveal" style="margin-bottom:16px">Built for production. Proven in the field.</h2>
     <p class="bc-body bc-reveal">BCOS ships context that AI can actually use — not approximations, not hallucinations.</p>
 
@@ -631,6 +973,7 @@ a{color:inherit;text-decoration:none}
 
 <!-- ─── 7. CTA ────────────────────────────────────────────────────── -->
 <section class="bc-section bc-closeout" style="padding:clamp(120px,15vh,180px) 0;text-align:center">
+  <canvas id="pd-neural" class="pd-neural"></canvas>
   <div class="bc-wrap">
     <h2 class="bc-h2 bc-reveal" style="max-width:none">Ready to put your data to <em>work?</em></h2>
     <div class="bc-reveal" style="margin-top:30px">
@@ -644,7 +987,7 @@ a{color:inherit;text-decoration:none}
   <div class="bc-wrap">
     <div class="bc-foot-top">
       <div class="bc-foot-brand">
-        <div class="m"><img class="bc-mark" src="/puller-ai-core.svg" alt="" aria-hidden="true" width="20" height="20" style="width:20px;height:20px;object-fit:contain;display:inline-block;vertical-align:middle"/>Big Context<sup>&trade;</sup> &amp; Company</div>
+        <div class="m"><img src="/bc-wordmark.svg" alt="Big Context &amp; Company" class="bc-wm-img-ft"></div>
         <p>Make enterprise data work at AI-scale.</p>
       </div>
       <div class="bc-foot-nav">
@@ -675,6 +1018,233 @@ const barIO=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){
 const accWrap=document.getElementById('pdAccWrap');
 if(accWrap) barIO.observe(accWrap);
 
+/* Hero Figure — particle dots + smooth chip gather + orbit */
+(function(){
+  var fig=document.getElementById('pdFigure');
+  if(!fig) return;
+  var chips=Array.from(fig.querySelectorAll('.pdf-chip'));
+  var xIcon=document.getElementById('pdfXIcon');
+  var bulbOn=document.getElementById('pdfBulbOn');
+  var hint=document.getElementById('pdfHint');
+  var lit=false;
+  var orbitAngle=0;
+  var chipCount=chips.length;
+  var gatherDone=true; /* true = orbit moves chips; false = CSS transition is gathering */
+
+  /* SVG layout constants (viewBox 960×380) */
+  var SVG_W=960, SVG_H=380;
+  var LINE_X0=192, LINE_X1=762, LINE_Y=205;
+  var CENTER_X=480, CENTER_Y=205;
+  var blockP=(CENTER_X-LINE_X0)/(LINE_X1-LINE_X0);
+
+  /* init chip scatter positions */
+  chips.forEach(function(c){
+    c.style.left=c.dataset.sx;
+    c.style.top=c.dataset.sy;
+  });
+
+  /* ── Dots ───────────────────────────────────────── */
+  var dots=[], spawnAccum=0, SPAWN_MS=1500, lastTs=null;
+
+  function spawnDot(){
+    var el=document.createElement('div');
+    el.className='pdf-dot';
+    fig.appendChild(el);
+    dots.push({el:el,prog:0,spd:0.0030+Math.random()*0.0020,
+               blocked:false,arrived:false,fading:false,opacity:1,flashedX:false});
+  }
+  function clearDots(){
+    dots.forEach(function(d){if(d.el.parentNode)d.el.parentNode.removeChild(d.el);});
+    dots=[];
+  }
+  function flashX(){
+    if(!xIcon)return;
+    xIcon.classList.remove('flash');
+    void xIcon.offsetWidth;
+    xIcon.classList.add('flash');
+    setTimeout(function(){xIcon.classList.remove('flash');},420);
+  }
+  function pulseBulb(){
+    if(!bulbOn)return;
+    bulbOn.style.transition='opacity .12s';
+    bulbOn.style.opacity='1';
+    setTimeout(function(){bulbOn.style.transition='opacity 1.1s';bulbOn.style.opacity='';},240);
+  }
+
+  /* ── Chip gather + orbit ───────────────────────── */
+  var pulseAccum=0, PULSE_MS=860;
+
+  /* compute orbit (x,y) for chip i at current orbitAngle */
+  function orbitPos(i,W,H){
+    var cx=(CENTER_X/SVG_W)*W, cy=(CENTER_Y/SVG_H)*H;
+    var rx=W*0.15, ry=H*0.30;
+    var a=orbitAngle+(i/chipCount)*Math.PI*2;
+    return{x:cx+rx*Math.cos(a), y:cy+ry*Math.sin(a)};
+  }
+
+  function gatherChips(W,H){
+    /* send each chip to its initial orbit position with smooth CSS transition */
+    chips.forEach(function(c,i){
+      var p=orbitPos(i,W,H);
+      c.style.animation='none';
+      c.style.transition='left .9s cubic-bezier(.16,1,.3,1),top .9s cubic-bezier(.16,1,.3,1),box-shadow .3s,color .4s,border-color .4s';
+      c.style.left=p.x+'px';
+      c.style.top=p.y+'px';
+    });
+    gatherDone=false;
+    setTimeout(function(){
+      gatherDone=true;
+      /* drop position transition so RAF orbit runs fluidly */
+      chips.forEach(function(c){
+        c.style.transition='box-shadow .3s,color .4s,border-color .4s';
+      });
+    },950);
+  }
+
+  function orbitChips(W,H){
+    if(!gatherDone) return; /* CSS gather still running */
+    orbitAngle+=0.009;
+    chips.forEach(function(c,i){
+      var p=orbitPos(i,W,H);
+      c.style.left=p.x+'px';
+      c.style.top=p.y+'px';
+    });
+  }
+
+  function pulseSomeChips(){
+    chips.forEach(function(c){c.classList.remove('pulse');});
+    var n=2+Math.floor(Math.random()*3);
+    chips.slice().sort(function(){return Math.random()-.5;}).slice(0,n)
+      .forEach(function(c){c.classList.add('pulse');});
+  }
+
+  function resetChips(){
+    chips.forEach(function(c){
+      c.style.transition='left 1s cubic-bezier(.16,1,.3,1),top 1s cubic-bezier(.16,1,.3,1),box-shadow .4s,color .5s,border-color .5s';
+      c.style.animation='';
+      c.style.left=c.dataset.sx;
+      c.style.top=c.dataset.sy;
+      c.classList.remove('pulse');
+    });
+  }
+
+  /* ── Main RAF loop ─────────────────────────────── */
+  function loop(ts){
+    if(!lastTs)lastTs=ts;
+    var dt=ts-lastTs; lastTs=ts;
+    var r=fig.getBoundingClientRect();
+    var W=r.width, H=r.height;
+
+    spawnAccum+=dt;
+    if(spawnAccum>=SPAWN_MS){spawnAccum=0;spawnDot();}
+
+    if(lit){
+      orbitChips(W,H);
+      pulseAccum+=dt;
+      if(pulseAccum>=PULSE_MS){pulseAccum=0;pulseSomeChips();}
+    }
+
+    for(var i=dots.length-1;i>=0;i--){
+      var d=dots[i];
+      if(!d.blocked&&!d.arrived){
+        d.prog+=d.spd;
+        if(!lit&&d.prog>=blockP){
+          d.prog=blockP; d.blocked=true;
+          if(!d.flashedX){d.flashedX=true;flashX();}
+          setTimeout((function(dot){return function(){dot.fading=true;};})(d),560);
+        }
+        if(lit&&d.prog>=1){
+          d.prog=1; d.arrived=true;
+          pulseBulb();
+          setTimeout((function(dot){return function(){dot.fading=true;};})(d),320);
+        }
+      }
+      if(d.fading){
+        d.opacity-=0.022;
+        if(d.opacity<=0){
+          if(d.el.parentNode)d.el.parentNode.removeChild(d.el);
+          dots.splice(i,1); continue;
+        }
+      }
+      var svgX=LINE_X0+d.prog*(LINE_X1-LINE_X0);
+      d.el.style.left=((svgX/SVG_W)*W)+'px';
+      d.el.style.top=((LINE_Y/SVG_H)*H)+'px';
+      d.el.style.opacity=d.opacity;
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  /* ── Click toggle ──────────────────────────────── */
+  fig.addEventListener('click',function(){
+    lit=!lit;
+    clearDots(); spawnAccum=0;
+    if(lit){
+      fig.classList.add('lit');
+      if(hint)hint.textContent='click to reset';
+      pulseAccum=0;
+      var r=fig.getBoundingClientRect();
+      gatherChips(r.width,r.height);
+    } else {
+      fig.classList.remove('lit');
+      if(hint)hint.textContent='click to unlock';
+      gatherDone=true;
+      resetChips();
+      chips.forEach(function(c){c.classList.remove('pulse');});
+      if(bulbOn){bulbOn.style.transition='';bulbOn.style.opacity='';}
+    }
+  });
+})();
+
+/* How It Works — Horizontal Accordion */
+(function(){
+  var row=document.getElementById('hacRow');
+  if(!row) return;
+  var panels=row.querySelectorAll('.hac-panel');
+  panels.forEach(function(panel){
+    panel.addEventListener('mouseenter',function(){
+      if(panel.classList.contains('active')) return;
+      panels.forEach(function(p){p.classList.remove('active');});
+      panel.classList.add('active');
+      if(panel.dataset.hac==='1'){
+        panel.querySelectorAll('.pd-layer').forEach(function(l){l.classList.add('in');});
+      }
+    });
+  });
+})();
+
+/* OS Accordion */
+(function(){
+  var acc=document.getElementById('osAccordion');
+  if(!acc) return;
+  var items=acc.querySelectorAll('.pd-os-item');
+  function open(item){
+    item.classList.add('open');
+    var body=item.querySelector('.pd-os-body');
+    var inner=item.querySelector('.pd-os-inner');
+    if(body&&inner) body.style.height=inner.scrollHeight+'px';
+  }
+  function close(item){
+    item.classList.remove('open');
+    var body=item.querySelector('.pd-os-body');
+    if(body) body.style.height='0';
+  }
+  items.forEach(function(item){
+    item.querySelector('.pd-os-hd').addEventListener('click',function(){
+      var isOpen=item.classList.contains('open');
+      items.forEach(close);
+      if(!isOpen) open(item);
+    });
+  });
+  // init first open
+  var first=items[0];
+  if(first){
+    var b=first.querySelector('.pd-os-body');
+    var inn=first.querySelector('.pd-os-inner');
+    if(b&&inn) b.style.height=inn.scrollHeight+'px';
+  }
+})();
+
 /* Nav scroll behavior */
 (function(){
   const nav=document.getElementById('bcNav');
@@ -689,6 +1259,168 @@ if(accWrap) barIO.observe(accWrap);
   }
   addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(update);ticking=true;}},{passive:true});
   update();
+})();
+</script>
+<script>
+(function(){
+  const sec=document.querySelector('.bc-closeout'), cv=document.getElementById('pd-neural');
+  if(!sec||!cv) return;
+  const ctx=cv.getContext('2d');
+  const cs=getComputedStyle(document.documentElement);
+  const LAV=(cs.getPropertyValue('--p-lav').trim()||'199,157,240');
+  const NODE=(cs.getPropertyValue('--p-node').trim()||'217,179,255');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  let W=0,H=0,DPR=1,stars=[],shoots=[],trail=[],ripples=[],bgGlows=[];
+  let mx=-1e4,my=-1e4,have=false,shootAcc=1.2,hovering=false,ripAcc=0;
+  const cta=sec.querySelector('.bc-btn');
+  function build(){
+    stars=[];
+    const cap=W<720?220:380;
+    const n=Math.min(cap,Math.floor(W*H/1600));
+    for(let i=0;i<n;i++){const big=Math.random()<0.045;
+      stars.push({hx:Math.random()*W,hy:Math.random()*H,x:0,y:0,vx:0,vy:0,
+        r:big?(1.2+Math.random()*1.2):(0.4+Math.random()*0.9),
+        base:big?(0.7+Math.random()*0.3):(0.16+Math.random()*0.5),
+        tw:0.5+Math.random()*1.9,ph:Math.random()*6.28,lav:Math.random()<0.42,flash:0,big});}
+    stars.forEach(s=>{s.x=s.hx;s.y=s.hy;});
+  }
+  function size(){DPR=Math.min(1.5,window.devicePixelRatio||1);const r=sec.getBoundingClientRect();W=Math.max(1,r.width);H=Math.max(1,r.height);cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);build();
+    bgGlows=[[W*0.32,H*0.42,W*0.42],[W*0.74,H*0.6,W*0.40]].map(b=>{const g=ctx.createRadialGradient(b[0],b[1],0,b[0],b[1],b[2]);g.addColorStop(0,'rgba('+LAV+',.05)');g.addColorStop(1,'rgba('+LAV+',0)');return g;});}
+  function shoot(){const dir=Math.random()<0.5?1:-1;const ang=(0.16+Math.random()*0.22)*Math.PI;const sp=420+Math.random()*320;
+    shoots.push({x:dir>0?-30:W+30,y:Math.random()*H*0.55,vx:Math.cos(ang)*sp*dir,vy:Math.sin(ang)*sp,sp:sp,life:0,max:1.3+Math.random()*0.8,len:70+Math.random()*80});}
+  function emitRipple(str){const r=sec.getBoundingClientRect();let x=W*0.5,y=H*0.72;if(cta){const b=cta.getBoundingClientRect();x=b.left+b.width/2-r.left;y=b.top+b.height/2-r.top;}ripples.push({x:x,y:y,t0:performance.now(),speed:205,maxR:Math.hypot(W,H)*1.05,str:str});if(ripples.length>6)ripples.shift();}
+  sec.addEventListener('pointermove',e=>{const r=sec.getBoundingClientRect();const nx=e.clientX-r.left,ny=e.clientY-r.top;mx=nx;my=ny;have=true;trail.push({x:nx,y:ny,t:performance.now()});if(trail.length>30)trail.shift();});
+  sec.addEventListener('pointerleave',()=>{have=false;mx=my=-1e4;});
+  if(cta){cta.addEventListener('pointerenter',()=>{hovering=true;emitRipple(1.0);ripAcc=1.7;});cta.addEventListener('pointerleave',()=>{hovering=false;});}
+  function paintStatic(){ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';for(const s of stars){const a=s.base*0.8;ctx.fillStyle=(s.lav?'rgba('+NODE+',':'rgba(236,230,248,')+a.toFixed(3)+')';ctx.beginPath();ctx.arc(s.hx,s.hy,s.r,0,6.28);ctx.fill();}ctx.globalCompositeOperation='source-over';}
+  if(reduce){size();paintStatic();window.addEventListener('resize',()=>{size();paintStatic();});return;}
+  let t0=null,last=null;
+  const RET=0.0019, PULL=0.85, DAMP=0.975;
+  let visible=false,rafId=0,lastDraw=0;
+  const MIN_FRAME=1000/60-2;
+  function frame(ts){
+    if(!visible){rafId=0;return;}
+    if(ts-lastDraw<MIN_FRAME){rafId=requestAnimationFrame(frame);return;}
+    lastDraw=ts;
+    if(t0===null){t0=ts;last=ts;}
+    const t=(ts-t0)/1000, dt=Math.min(0.05,(ts-last)/1000); last=ts; const fs=Math.min(2.2,dt*60);
+    const R=Math.min(175,Math.max(120,W/6)); const now=performance.now();
+    const ripF=[];
+    for(let i=ripples.length-1;i>=0;i--){const rp=ripples[i];const rr=Math.max(0,(now-rp.t0)/1000*rp.speed);if(rr>rp.maxR){ripples.splice(i,1);continue;}ripF.push({x:rp.x,y:rp.y,R:rr,fade:1-rr/rp.maxR,str:rp.str});}
+    ctx.clearRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
+    for(const g of bgGlows){ctx.fillStyle=g;ctx.fillRect(0,0,W,H);}
+    for(const s of stars){
+      let ax=(s.hx-s.x)*RET, ay=(s.hy-s.y)*RET;
+      if(have){const dx=mx-s.x,dy=my-s.y,dist=Math.hypot(dx,dy)||1;if(dist<R){const prox=1-dist/R;ax+=(dx/dist)*PULL*prox;ay+=(dy/dist)*PULL*prox;}}
+      for(const rf of ripF){const dx2=s.x-rf.x,dy2=s.y-rf.y,d2=Math.hypot(dx2,dy2)||1,df=Math.abs(d2-rf.R);if(df<74){const p=(1-df/74)*rf.fade*rf.str;ax+=(dx2/d2)*p*24;ay+=(dy2/d2)*p*24;const fl=p*1.4;if(fl>s.flash)s.flash=fl;}}
+      s.vx=(s.vx+ax*fs)*Math.pow(DAMP,fs); s.vy=(s.vy+ay*fs)*Math.pow(DAMP,fs);
+      s.x+=s.vx*fs; s.y+=s.vy*fs;
+      const a=Math.min(1,s.base*(0.55+0.45*Math.sin(t*s.tw+s.ph))+s.flash);
+      s.flash*=Math.pow(0.88,fs);
+      ctx.fillStyle=(s.lav?'rgba('+NODE+',':'rgba(236,230,248,')+a.toFixed(3)+')';
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.28);ctx.fill();
+      if(s.flash>0.25){ctx.fillStyle='rgba('+LAV+','+(s.flash*0.35).toFixed(3)+')';ctx.beginPath();ctx.arc(s.x,s.y,s.r*2.6,0,6.28);ctx.fill();}
+    }
+    for(const rf of ripF){const f=rf.fade*rf.str;const band=80,outer=rf.R+band,r0=Math.max(0,(rf.R-band))/outer,r1=Math.max(r0+0.001,rf.R/outer);const g=ctx.createRadialGradient(rf.x,rf.y,0,rf.x,rf.y,outer);g.addColorStop(0,'rgba('+LAV+',0)');if(r0>0)g.addColorStop(r0,'rgba('+LAV+',0)');g.addColorStop(r1,'rgba('+NODE+','+(f*0.20).toFixed(3)+')');g.addColorStop(1,'rgba('+LAV+',0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(rf.x,rf.y,outer,0,6.28);ctx.fill();const youth=Math.max(0,1-rf.R/150);if(youth>0){const cg=ctx.createRadialGradient(rf.x,rf.y,0,rf.x,rf.y,115);cg.addColorStop(0,'rgba(245,233,255,'+(youth*rf.str*0.45).toFixed(3)+')');cg.addColorStop(1,'rgba('+LAV+',0)');ctx.fillStyle=cg;ctx.beginPath();ctx.arc(rf.x,rf.y,115,0,6.28);ctx.fill();}}
+    shootAcc-=dt; if(shootAcc<=0){shoot();shootAcc=1.5+Math.random()*3.2;}
+    for(let i=shoots.length-1;i>=0;i--){const sh=shoots[i];sh.life+=dt;sh.x+=sh.vx*dt;sh.y+=sh.vy*dt;
+      if(sh.life>sh.max||sh.x<-80||sh.x>W+80||sh.y>H+80){shoots.splice(i,1);continue;}
+      const al=Math.sin(Math.min(1,sh.life/sh.max)*Math.PI);
+      const tx=sh.x-sh.vx/sh.sp*sh.len, ty=sh.y-sh.vy/sh.sp*sh.len;
+      const g=ctx.createLinearGradient(sh.x,sh.y,tx,ty);g.addColorStop(0,'rgba(255,255,255,'+(0.9*al).toFixed(3)+')');g.addColorStop(0.4,'rgba('+NODE+','+(0.5*al).toFixed(3)+')');g.addColorStop(1,'rgba('+LAV+',0)');
+      ctx.strokeStyle=g;ctx.lineWidth=2;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(sh.x,sh.y);ctx.lineTo(tx,ty);ctx.stroke();
+      ctx.shadowColor='rgba('+LAV+',.95)';ctx.shadowBlur=8;ctx.fillStyle='rgba(255,255,255,'+(0.95*al).toFixed(3)+')';ctx.beginPath();ctx.arc(sh.x,sh.y,1.6,0,6.28);ctx.fill();ctx.shadowBlur=0;
+    }
+    if(trail.length){for(let i=trail.length-1;i>=0;i--){const tp=trail[i],age=(now-tp.t)/520;if(age>=1){trail.splice(i,1);continue;}const k=1-age,rr=5+18*k;const g=ctx.createRadialGradient(tp.x,tp.y,0,tp.x,tp.y,rr);g.addColorStop(0,'rgba('+LAV+','+(0.22*k).toFixed(3)+')');g.addColorStop(1,'rgba('+LAV+',0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(tp.x,tp.y,rr,0,6.28);ctx.fill();}}
+    ctx.globalCompositeOperation='source-over';
+    rafId=requestAnimationFrame(frame);
+  }
+  function start(){if(rafId||!visible)return;t0=null;last=null;lastDraw=0;rafId=requestAnimationFrame(frame);}
+  function stop(){if(rafId){cancelAnimationFrame(rafId);rafId=0;}trail.length=0;shoots.length=0;}
+  size(); window.addEventListener('resize',size);
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{visible=e.isIntersecting&&!document.hidden;if(visible)start();else stop();});},{threshold:0.01});
+  io.observe(sec);
+  document.addEventListener('visibilitychange',()=>{const r=sec.getBoundingClientRect();visible=!document.hidden&&r.bottom>0&&r.top<innerHeight;if(visible)start();else stop();});
+})();
+</script>
+<div id="themeRipple"></div>
+<script>
+(function(){
+  var ripple = document.getElementById('themeRipple');
+  var fig = document.getElementById('pdFigure');
+  var svg = fig ? fig.querySelector('.pdf-bg-svg') : null;
+  if(!fig || !ripple || !svg) return;
+
+  // Bulb sits at SVG coords (806, 195) in a 960×380 viewBox
+  var BULB_X_RATIO = 806 / 960;
+  var BULB_Y_RATIO = 195 / 380;
+
+  function getBulbScreen() {
+    var r = svg.getBoundingClientRect();
+    return {
+      x: r.left + r.width  * BULB_X_RATIO,
+      y: r.top  + r.height * BULB_Y_RATIO
+    };
+  }
+
+  function rippleTo(color, fromX, fromY, onMid, onDone) {
+    ripple.style.transition = 'none';
+    ripple.style.background = color;
+    ripple.style.clipPath   = 'circle(0px at ' + fromX + 'px ' + fromY + 'px)';
+    ripple.style.opacity    = '1';
+    // force reflow
+    ripple.offsetHeight;
+    // expand
+    ripple.style.transition = 'clip-path 0.72s cubic-bezier(.4,0,.2,1)';
+    ripple.style.clipPath   = 'circle(200vmax at ' + fromX + 'px ' + fromY + 'px)';
+    // switch theme at ~60% of expansion
+    setTimeout(onMid, 430);
+    // fade out overlay
+    setTimeout(function() {
+      ripple.style.transition = 'opacity 0.38s ease';
+      ripple.style.opacity    = '0';
+    }, 660);
+    setTimeout(function() {
+      ripple.style.clipPath = 'circle(0px at 0px 0px)';
+      if(onDone) onDone();
+    }, 1050);
+  }
+
+  // Patch the existing figure click to also drive the theme
+  fig.addEventListener('click', function() {
+    // The figure's own lit toggle already ran (earlier listener added it);
+    // read the NEW state after that toggle.
+    var nowLit = fig.classList.contains('lit');
+    var b = getBulbScreen();
+    if(nowLit) {
+      // → light mode: warm cream ripple from the bulb
+      rippleTo('rgba(255,248,220,1)', b.x, b.y, function() {
+        document.documentElement.dataset.theme = 'light';
+        try{ localStorage.setItem('bc-theme','light'); }catch(e){}
+      });
+    } else {
+      // → dark mode: deep-void ripple from the bulb
+      rippleTo('rgba(10,6,16,1)', b.x, b.y, function() {
+        document.documentElement.dataset.theme = 'dark';
+        try{ localStorage.setItem('bc-theme','dark'); }catch(e){}
+      });
+    }
+  });
+})();
+/* Banner dismiss */
+(function(){
+  var root=document.documentElement;
+  var banner=document.getElementById('bcBanner');
+  if(!banner)return;
+  function clearBanner(){
+    banner.classList.add('bc-banner--hidden');
+    root.style.setProperty('--banner-h','0px');
+    localStorage.setItem('bc-banner-v1-dismissed','1');
+  }
+  if(localStorage.getItem('bc-banner-v1-dismissed')==='1'){clearBanner();return;}
+  root.style.setProperty('--banner-h',banner.offsetHeight+'px');
+  document.getElementById('bcBannerClose').addEventListener('click',clearBanner);
 })();
 </script>
 </body>
