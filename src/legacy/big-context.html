@@ -1778,7 +1778,6 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     // 6. Core \u2192 agent: wire highlight + processed tile fly (no dot)
     setState('SEND');
     activate(wire, 1800);
-    spawnOrbitToken(wire, idx);
     document.dispatchEvent(new CustomEvent('cl:agent-response', {detail:{ri: idx}}));
     await sleep(400);
 
