@@ -214,9 +214,9 @@ a{color:inherit;text-decoration:none}
 /* Pragmatics section */
 .pd-prag-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
 .pd-prag-card{background:rgba(18,11,28,.8);border:1px solid rgba(199,157,240,.10);border-radius:14px;padding:28px 28px 24px;display:flex;flex-direction:column}
-.pd-prag-card.feat{background:linear-gradient(145deg,rgba(30,10,50,.88),rgba(18,8,32,.95));border-color:rgba(199,157,240,.32);box-shadow:0 0 36px rgba(199,157,240,.1),inset 0 0 40px rgba(199,157,240,.06)}
+.pd-prag-card.feat{background:linear-gradient(145deg,rgba(6,26,24,.9),rgba(4,18,17,.95));border-color:rgba(20,241,196,.24);box-shadow:0 0 32px rgba(20,241,196,.06),inset 0 0 40px rgba(20,241,196,.04)}
 .pd-prag-label{font-family:var(--mono);font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--lavender);font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px}
-.pd-prag-dot{width:7px;height:7px;border-radius:50%;background:var(--lavender-hot);box-shadow:0 0 8px rgba(199,157,240,.75);flex-shrink:0}
+.pd-prag-dot{width:7px;height:7px;border-radius:50%;background:#14F1C4;box-shadow:0 0 8px rgba(20,241,196,.65);flex-shrink:0}
 .pd-prag-h{font-family:var(--sans);font-weight:700;font-size:18px;color:var(--paper);margin-bottom:14px;line-height:1.3}
 .pd-prag-body{font-family:var(--sans);font-size:14px;color:var(--muted);line-height:1.68;flex:1}
 .pd-prag-rule{height:.5px;background:rgba(199,157,240,.12);margin:20px 0}
@@ -228,16 +228,14 @@ a{color:inherit;text-decoration:none}
 .pd-os-item:last-child{border-bottom:none}
 .pd-os-hd{display:flex;align-items:flex-start;gap:20px;padding:22px 24px;cursor:pointer;user-select:none;transition:background .2s}
 .pd-os-hd:hover{background:rgba(199,157,240,.03)}
-.pd-os-badge{width:34px;height:34px;border-radius:50%;border:1px solid rgba(199,157,240,.18);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--muted);flex-shrink:0;margin-top:2px;transition:width .35s cubic-bezier(.16,1,.3,1),height .35s cubic-bezier(.16,1,.3,1),font-size .3s,margin .3s,border-color .25s,color .25s,box-shadow .3s}
-.pd-os-item.open .pd-os-badge{width:50px;height:50px;font-size:13px;margin-top:0;border-color:rgba(199,157,240,.5);color:var(--lavender-hot);box-shadow:0 0 20px rgba(199,157,240,.2)}
-.pd-os-item.open .pd-os-hd{justify-content:center;align-items:center}
-.pd-os-item.open .pd-os-meta{display:none}
-.pd-os-item.open .pd-os-chev{display:none}
+.pd-os-badge{width:34px;height:34px;border-radius:50%;border:1px solid rgba(199,157,240,.18);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--muted);flex-shrink:0;margin-top:2px;transition:border-color .25s,color .25s}
+.pd-os-item.open .pd-os-badge{border-color:rgba(245,158,11,.5);color:#F59E0B}
 .pd-os-meta{flex:1;min-width:0}
 .pd-os-title{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--paper);line-height:1.2;transition:color .2s}
 .pd-os-sub{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted);margin-top:6px;text-transform:uppercase}
 .pd-os-chev{color:var(--muted);flex-shrink:0;margin-top:6px;transition:transform .35s cubic-bezier(.16,1,.3,1)}
 .pd-os-chev svg{display:block}
+.pd-os-item.open .pd-os-chev{transform:rotate(180deg)}
 .pd-os-body{height:0;overflow:hidden;transition:height .38s cubic-bezier(.16,1,.3,1)}
 .pd-os-inner{padding:4px 24px 28px 78px}
 .pd-os-lead{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--lavender-hot);line-height:1.4;margin-bottom:10px}
@@ -263,7 +261,7 @@ a{color:inherit;text-decoration:none}
 .bc-banner.bc-banner--hidden{display:none}
 .bc-banner-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:14px}
 .bc-banner-msg{font-family:var(--sans);font-size:12.5px;color:var(--muted);line-height:1.45;flex:1;text-align:center}
-.bc-banner-msg a{color:var(--lavender);text-decoration:none;transition:color .2s}
+.bc-banner-msg a{color:var(--lavender);text-decoration:underline;text-underline-offset:3px;transition:color .2s}
 .bc-banner-msg a:hover{color:var(--lavender-hot)}
 .bc-banner-close{background:none;border:none;cursor:pointer;color:var(--muted-2);font-size:18px;line-height:1;padding:2px 4px;flex-shrink:0;transition:color .2s}
 .bc-banner-close:hover{color:var(--paper)}
@@ -846,7 +844,7 @@ html[data-theme="light"] .bc-logo:hover{background:transparent;border-color:tran
 html[data-theme="light"] .bc-logo img{filter:none;opacity:.55}
 html[data-theme="light"] .bc-logo:hover img{opacity:.9}
 html[data-theme="light"] .pd-prag-card{background:rgba(255,255,255,.88);border-color:rgba(112,48,176,.12)}
-html[data-theme="light"] .pd-prag-card.feat{background:linear-gradient(145deg,rgba(245,238,255,.95),rgba(235,225,255,.98));border-color:rgba(112,48,176,.32)}
+html[data-theme="light"] .pd-prag-card.feat{background:linear-gradient(145deg,rgba(240,255,252,.95),rgba(230,255,248,.98));border-color:rgba(0,163,138,.32)}
 html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
 </style>
 <script>try{var _t=localStorage.getItem('bc-theme');if(_t==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
@@ -864,7 +862,7 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
     <a href="#top" class="bc-wordmark"><img src="/bc-wordmark.svg" alt="Big Context &amp; Company" class="bc-wm-img"></a>
     <div class="bc-nav-links">
       <a href="/services">Practice</a>
-      <a href="/pragmatics">Pragmatics</a>
+      <a href="/pragmatics" style="display:none">Pragmatics</a>
       <a href="/get-started" class="bc-btn">Get Started</a>
     </div>
     <div class="bc-nav-prog" aria-hidden="true"><i id="bcNavProg"></i></div>
@@ -905,10 +903,11 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
   </div>
 </section>
 
-<section class="bc-section" id="pragmatics" style="background:radial-gradient(120% 90% at 38% 46%, var(--void-2) 0%, var(--void) 58%, var(--void-3) 100%)">
+<section class="bc-section" id="pragmatics" style="background:radial-gradient(130% 120% at 50% 30%, var(--void-2) 0%, var(--void) 58%, var(--void-3) 100%)">
   <div class="bc-wrap">
     <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Pragmatics&nbsp;&nbsp;/&nbsp;&nbsp;02</div>
     <h2 class="bc-h2 bc-reveal" style="max-width:28ch">The Semantic Layer is Dead.<br><em>Long live the semantic layer.</em></h2>
+    <p class="bc-body bc-reveal" style="margin-top:18px">Your data stack was built for a world before AI. Legacy tools like semantic layers, catalogs, ontologies, &amp; knowledge graphs have proven insufficient for AI-scale data work. Big Context is built on a <a href="/pragmatics">Pragmatics</a> foundation and captures how your data is actually used in the real world.</p>
 
     <div class="pd-prag-grid bc-reveal">
       <div class="pd-prag-card">
@@ -926,8 +925,6 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         <div class="pd-prag-caption">Dynamic, governed &mdash; ready for AI scale use.</div>
       </div>
     </div>
-
-    <p class="bc-body bc-reveal" style="margin-top:36px">Your data stack was built for a world before AI. Legacy tools like semantic layers, catalogs, ontologies, &amp; knowledge graphs have proven insufficient for AI-scale data work. Big Context is built on a <a href="/pragmatics">Pragmatics</a> foundation and captures how your data is actually used in the real world.</p>
   </div>
 </section>
 
@@ -1012,7 +1009,7 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
 
 <div class="bc-divider"></div>
 
-<section class="bc-section" id="the-os" style="padding-top:clamp(56px,7vh,88px);padding-bottom:clamp(72px,10vh,120px);background:radial-gradient(120% 100% at 50% 30%, var(--void-2) 0%, var(--void) 60%, var(--void-3) 100%)">
+<section class="bc-section" id="the-os" style="padding-top:clamp(56px,7vh,88px);padding-bottom:clamp(72px,10vh,120px)">
   <div class="bc-wrap" style="margin-bottom:48px">
     <div class="bc-eyebrow bc-reveal"><span class="bar"></span>The Operating System&nbsp;&nbsp;/&nbsp;&nbsp;05</div>
   </div>
@@ -1499,7 +1496,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 <script>
 (function(){
   const el=document.getElementById('bc-flip'); if(!el) return;
-  const words=['work','reliable','accurate','powerful','governed','legible','correct','useful','consistent','unleashed'];
+  const words=['work','reliable','accurate','governed','legible','useful','unleashed'];
   if(matchMedia('(prefers-reduced-motion:reduce)').matches){el.textContent='work';return;}
   let wi=0,ci=0,del=false,started=false;
   function tick(){
