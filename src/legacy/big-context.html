@@ -602,7 +602,7 @@ svg.tl{width:100%;height:auto;display:block}
 
 /* Directional flow: dashes drift core-ward on left wires, agent-ward on right wires */
 @keyframes cl-flow{to{stroke-dashoffset:-32}}
-.cl-wires .cl-flowline{stroke-dasharray:1.5 5}
+.cl-wires .cl-flowline{stroke-dasharray:0 7;stroke-linecap:round;stroke-width:1}
 
 /* Core simplification */
 .cl-core-chip svg{width:72px;height:60px}
@@ -679,6 +679,9 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent:hover .cl-agent-label,.cl-agent.is-active .cl-agent-label{opacity:1;color:var(--lavender-hot)}
   .cl-agent-status{position:absolute;right:-1px;bottom:-1px;width:8px;height:8px;border-radius:50%;background:rgba(var(--p-lav),.25);border:1.5px solid rgba(10,6,16,1);transition:background .25s,box-shadow .25s;z-index:2}
   .cl-agent.is-active .cl-agent-status{background:var(--lavender-hot);box-shadow:0 0 8px rgba(var(--p-lav),.95)}
+  .cl-ag-label{position:absolute;left:50px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--lavender);opacity:.38;white-space:nowrap;pointer-events:none;z-index:3;transition:opacity .2s,color .2s}
+  .cl-ag-row.is-active .cl-ag-label{opacity:1;color:var(--lavender-hot)}
+  @media(max-width:880px){.cl-ag-label{display:none}}
   .cl-ag-row .cl-agent-status{display:none}
   /* Floating drift on agent chips */
   .cl-agent{animation:cl-float 6s ease-in-out infinite}
@@ -820,7 +823,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-wires{height:180px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
   .cl-wires>svg:not(.cl-mwire){display:none}
   .cl-wires .cl-mwire{display:none}
-  .cl-canvas .wire{stroke:rgba(var(--p-lav),.35);stroke-width:1;stroke-dasharray:1.5 5}
+  .cl-canvas .wire{stroke:rgba(var(--p-lav),.32);stroke-width:1;stroke-dasharray:0 7;stroke-linecap:round}
   .cl-canvas .wire.is-active{stroke:rgba(var(--p-lav),.82);stroke-dasharray:none;stroke-width:1.4;stroke-opacity:1}
   .cl-col.cl-silos{display:flex;flex-direction:column;align-items:center;padding:2px 0 0;overflow:visible;align-self:auto;gap:0}
   .cl-silo-grid{display:flex;flex-direction:row;justify-content:space-around;align-items:center;width:100%;overflow:visible;row-gap:0;column-gap:0;padding:0;flex:none}
@@ -839,8 +842,8 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-silos .cl-head,.cl-agents .cl-head{display:none}
   .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-family:var(--mono);color:var(--lavender);text-transform:uppercase;font-size:13px;letter-spacing:.14em;line-height:1.4;opacity:.9;margin:0 0 20px;padding:0}
   .cl-agents .cl-rail-header{display:block;order:99;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-family:var(--mono);color:var(--lavender);text-transform:uppercase;font-size:13px;letter-spacing:.14em;line-height:1.4;opacity:.9;margin:20px 0 0;padding:0}
-  @keyframes mwire-dash{to{stroke-dashoffset:-40}}
-  .cl-mwire path{stroke-dasharray:4 7;stroke-dashoffset:0;animation:mwire-dash 2s linear infinite}
+  @keyframes mwire-dash{to{stroke-dashoffset:-14}}
+  .cl-mwire path{stroke-dasharray:0 7;stroke-linecap:round;stroke-dashoffset:0;animation:mwire-dash 1s linear infinite}
 }
 @media (max-width:520px){
   .st-cl{padding:40px 14px}
@@ -2070,8 +2073,9 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         const t0 = performance.now();
         function stepM(now){
           const t = Math.min(1,(now-t0)/dur);
-          const tt = reverse ? 1-t : t;
-          const pt = cp.getPointAtLength(mlen*tt);
+          const ease = 1-Math.pow(1-t,2.5);
+          const tt = reverse ? 1-ease : ease;
+          const pt = cp.getPointAtLength(mlen*ease);
           const bRfD = body.getBoundingClientRect();
           dot.style.left=(bRfD.left+pt.x)+'px';
           dot.style.top=(bRfD.top+pt.y)+'px';
@@ -2092,7 +2096,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       const t0 = performance.now();
       function step(now){
         const t = Math.min(1,(now-t0)/dur);
-        const tt = reverse ? 1-t : t;
+        const ease = 1-Math.pow(1-t,2.5);
+        const tt = reverse ? 1-ease : ease;
         const pt = staticPath.getPointAtLength(len*tt);
         dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
         if(t<1) requestAnimationFrame(step);
@@ -2162,7 +2167,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     // 1. Agent sends request \u2192 core
     setState('REQ');
     activate(wire, 480);
-    await pulse(wire, 400, true, false);
+    await pulse(wire, 280, true, false);
 
     // 2. Core receives
     setState('RCV');
@@ -2192,7 +2197,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       }, i*110);
     });
     // Wait for all tile animations to reach core (~1800ms tile-fly + stagger)
-    await sleep(1800 + tileStagger);
+    await sleep(1300 + tileStagger);
 
     // 5. Core processes
     setState('PROC');
@@ -2224,7 +2229,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   let timer = null;
   function tick(){
     if(!running) return;
-    const delay = 1700 + Math.random()*900;
+    const delay = 1100 + Math.random()*500;
     timer = setTimeout(()=>{
       if(!queue.length) refill();
       const a = queue.shift();
@@ -2389,13 +2394,13 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       var mi=tile.querySelector('.cl-brand');
       if(mi){var mbv=mi.style.getPropertyValue('--brand');var mci=document.createElement('i');mci.style.cssText='display:block;width:44%;height:44%;background:var(--lavender);opacity:.72;-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat';mci.style.setProperty('--brand',mbv);mc.appendChild(mci);}
       document.body.appendChild(mc);
-      var mDur=1600,mT0=performance.now();
+      var mDur=1100,mT0=performance.now();
       var mfr=function(now){
         var t=Math.min((now-mT0)/mDur,1);
         var bRf=bodyEl?bodyEl.getBoundingClientRect():null;
         var bx,by;
         if(wp1&&mlen1&&bRf){
-          var raw1=wp1.getPointAtLength(mlen1*t);
+          var _eo1=1-Math.pow(1-t,2.5);var raw1=wp1.getPointAtLength(mlen1*_eo1);
           bx=bRf.left+raw1.x;by=bRf.top+raw1.y;
         }else{
           var tRf=tile.getBoundingClientRect();var cElf=document.querySelector('.cl-core');
@@ -2433,11 +2438,12 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       clone.appendChild(ci);
     }
     document.body.appendChild(clone);
-    var dur=1800,t0=performance.now();
+    var dur=1300,t0=performance.now();
     function frame(now){
       var t=Math.min((now-t0)/dur,1);
+      var eo=1-Math.pow(1-t,2.5);
       var sr=wireSvg.getBoundingClientRect();
-      var raw=wp.getPointAtLength(wpLen*t);
+      var raw=wp.getPointAtLength(wpLen*eo);
       var bx=sr.left+(raw.x/58)*sr.width;
       var by=sr.top+(raw.y/300)*sr.height;
       var sz=Math.max(sz0*(1-t*0.94),1);
@@ -2553,7 +2559,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     var tf=makeTile(pick());
     var _s1=SA[1];tf.style.cssText='position:absolute;transition:none;left:'+_s1.l+'px;top:'+(_s1.t!=null?_s1.t:Math.round((ROW_H-_s1.s)/2))+'px;width:'+_s1.s+'px;height:'+_s1.s+'px;opacity:'+_s1.o+';z-index:'+_s1.z;
     row.appendChild(tf);
-    agRows.push({row:row,active:ta,fading:tf});
+    var lbl=document.createElement('span');lbl.className='cl-ag-label';lbl.textContent=ta.title;row.appendChild(lbl);
+  agRows.push({row:row,active:ta,fading:tf,label:lbl});
   }
   function launchAgentTile(ri){
     if(window.innerWidth<=880){
@@ -2569,13 +2576,13 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       var mc=document.createElement('div');
       mc.style.cssText='position:fixed;border-radius:50%;background:radial-gradient(circle,rgba(160,130,230,.55) 0%,rgba(100,70,190,.18) 55%,transparent 100%);border:1.5px solid rgba(160,130,230,.75);box-shadow:0 0 7px 2px rgba(130,100,200,.45);pointer-events:none;z-index:500;opacity:0';
       document.body.appendChild(mc);
-      var mDur=1600,mT0=performance.now();
+      var mDur=1100,mT0=performance.now();
       var mfrA=function(now){
         var t=Math.min((now-mT0)/mDur,1);
         var bRf2=bodyEl2?bodyEl2.getBoundingClientRect():null;
         var bx,by;
         if(wp2&&mlen2&&bRf2){
-          var raw2=wp2.getPointAtLength(mlen2*t);
+          var _eo2=1-Math.pow(1-t,2.5);var raw2=wp2.getPointAtLength(mlen2*_eo2);
           bx=bRf2.left+raw2.x;by=bRf2.top+raw2.y;
         }else{
           var cElb=document.querySelector('.cl-core');
@@ -2590,7 +2597,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         mc.style.left=(bx-sz/2)+'px';mc.style.top=(by-sz/2)+'px';
         mc.style.opacity=t<0.12?String(t/0.12):t>0.88?String(1-(t-0.88)/0.12):'1';
         if(t<1){requestAnimationFrame(mfrA);}
-        else{mc.remove();var _sm0=SA[0],_sm1=SA[1],_tm0=(_sm0.t!=null?_sm0.t:Math.round((ROW_H-_sm0.s)/2)),_tm1=(_sm1.t!=null?_sm1.t:Math.round((ROW_H-_sm1.s)/2));var _ofx=rd.fading,_oax=rd.active;_ofx.style.transition='opacity 0.2s ease';_ofx.style.opacity='0';var _rx=_ofx;setTimeout(function(){if(rd.row.contains(_rx))rd.row.removeChild(_rx);},250);_oax.style.transition='left .38s ease,top .38s ease,width .38s ease,height .38s ease,opacity .38s ease';_oax.style.left=_sm1.l+'px';_oax.style.top=_tm1+'px';_oax.style.width=_sm1.s+'px';_oax.style.height=_sm1.s+'px';_oax.style.opacity=String(_sm1.o);rd.fading=_oax;var _nm=makeTile(newTool);_nm.style.cssText='position:absolute;transition:none;left:'+_sm0.l+'px;top:'+_tm0+'px;width:'+_sm0.s+'px;height:'+_sm0.s+'px;opacity:0;z-index:'+_sm0.z;rd.row.appendChild(_nm);rd.active=_nm;requestAnimationFrame(function(){requestAnimationFrame(function(){_nm.style.transition='opacity 0.3s ease';_nm.style.opacity='1';});});}}
+        else{mc.remove();var _sm0=SA[0],_sm1=SA[1],_tm0=(_sm0.t!=null?_sm0.t:Math.round((ROW_H-_sm0.s)/2)),_tm1=(_sm1.t!=null?_sm1.t:Math.round((ROW_H-_sm1.s)/2));var _ofx=rd.fading,_oax=rd.active;_ofx.style.transition='opacity 0.2s ease';_ofx.style.opacity='0';var _rx=_ofx;setTimeout(function(){if(rd.row.contains(_rx))rd.row.removeChild(_rx);},250);_oax.style.transition='left .38s ease,top .38s ease,width .38s ease,height .38s ease,opacity .38s ease';_oax.style.left=_sm1.l+'px';_oax.style.top=_tm1+'px';_oax.style.width=_sm1.s+'px';_oax.style.height=_sm1.s+'px';_oax.style.opacity=String(_sm1.o);rd.fading=_oax;var _nm=makeTile(newTool);_nm.style.cssText='position:absolute;transition:none;left:'+_sm0.l+'px;top:'+_tm0+'px;width:'+_sm0.s+'px;height:'+_sm0.s+'px;opacity:0;z-index:'+_sm0.z;rd.row.appendChild(_nm);rd.active=_nm;if(rd.label)rd.label.textContent=newTool.n;requestAnimationFrame(function(){requestAnimationFrame(function(){_nm.style.transition='opacity 0.3s ease';_nm.style.opacity='1';});});}}
       ;
       requestAnimationFrame(mfrA);
       return;
@@ -2606,11 +2613,12 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     var clone=document.createElement('div');
     clone.style.cssText='position:fixed;border-radius:50%;background:radial-gradient(circle,rgba(160,130,230,.55) 0%,rgba(100,70,190,.18) 55%,transparent 100%);border:1.5px solid rgba(160,130,230,.75);box-shadow:0 0 7px 2px rgba(130,100,200,.45);pointer-events:none;z-index:500;opacity:0';
     document.body.appendChild(clone);
-    var dur=1800,t0=performance.now();
+    var dur=1300,t0=performance.now();
     function frame(now){
       var t=Math.min((now-t0)/dur,1);
+      var eo2=1-Math.pow(1-t,2.5);
       var sr=wireSvg.getBoundingClientRect();
-      var raw=wp2.getPointAtLength(wpLen2*t);
+      var raw=wp2.getPointAtLength(wpLen2*eo2);
       var bx=sr.left+(raw.x/58)*sr.width;
       var by=sr.top+(raw.y/300)*sr.height;
       var sz=8+(40-8)*t;
@@ -2643,6 +2651,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         nel.style.cssText='position:absolute;transition:none;left:2px;top:2px;width:40px;height:40px;opacity:0;z-index:2';
         rd.row.appendChild(nel);
         rd.active=nel;
+        if(rd.label)rd.label.textContent=newTool.n;
         requestAnimationFrame(function(){requestAnimationFrame(function(){
           nel.style.transition='opacity 0.3s ease';
           nel.style.opacity='1';
