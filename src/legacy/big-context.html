@@ -237,8 +237,8 @@ a{color:inherit;text-decoration:none}
 .pd-os-chev svg{display:block}
 .pd-os-item.open .pd-os-chev{transform:rotate(180deg)}
 .pd-os-body{height:0;overflow:hidden;transition:height .38s cubic-bezier(.16,1,.3,1)}
-.pd-os-inner{padding:4px 24px 28px 78px}
-.pd-os-lead{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--lavender-hot);line-height:1.4;margin-bottom:10px}
+.pd-os-inner{padding:20px 24px 28px 78px}
+.pd-os-lead{font-family:var(--sans);font-weight:700;font-size:15px;color:var(--lavender-hot);line-height:1.4;margin-bottom:18px}
 .pd-os-inner p{font-family:var(--sans);font-size:14px;color:var(--muted);line-height:1.7;max-width:64ch}
 .pd-os-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .pd-os-tag{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);border:1px solid rgba(199,157,240,.15);border-radius:999px;padding:4px 12px}
@@ -251,7 +251,7 @@ a{color:inherit;text-decoration:none}
 .pd-os-item.open .pd-os-lead{opacity:1;transform:none}
 .pd-os-inner p{opacity:0;transform:translateY(5px);transition:opacity .28s ease .28s,transform .28s ease .28s}
 .pd-os-item.open .pd-os-inner p{opacity:1;transform:none}
-@media(max-width:640px){.pd-os-hd{gap:14px;padding:18px 16px}.pd-os-inner{padding:4px 16px 22px 16px}.pd-os-badge{width:28px;height:28px;font-size:9px}}
+@media(max-width:640px){.pd-os-hd{gap:14px;padding:18px 16px}.pd-os-inner{padding:20px 16px 22px 16px}.pd-os-badge{width:28px;height:28px;font-size:9px}}
 
 /* OS icons — animated marks (ported from hood-icons-v5, recolored to brand purple) */
 .pdi-mark{display:block}
@@ -318,15 +318,16 @@ a{color:inherit;text-decoration:none}
 .pdi-5 .pdi-k5{animation-delay:5s}
 .pd-os-icon-sm{flex:none;align-self:center;width:34px;height:34px}
 .pd-os-icon-sm svg{display:block;width:100%;height:100%}
-.pd-os-inner-flex{display:flex;align-items:center;gap:32px}
+.pd-os-inner-flex{display:flex;align-items:flex-start;gap:40px}
 .pd-os-inner-flex p{flex:1;margin:0}
-.pd-os-icon-lg{flex:none}
-.pd-os-icon-lg svg{display:block;width:120px;height:120px}
+.pd-os-text{flex:1;min-width:0}
+.pd-os-icon-lg{flex:none;display:flex;justify-content:center;align-self:center;min-width:180px}
+.pd-os-icon-lg svg{display:block;width:160px;height:160px}
 @media(max-width:640px){
   .pd-os-icon-sm{display:none}
   .pd-os-inner-flex{flex-direction:column;align-items:flex-start;gap:18px}
-  .pd-os-icon-lg{align-self:center}
-  .pd-os-icon-lg svg{width:96px;height:96px}
+  .pd-os-icon-lg{align-self:center;min-width:auto}
+  .pd-os-icon-lg svg{width:110px;height:110px}
 }
 .pd-os-accordion:has(.pd-os-item.open) .pd-os-item:not(.open) .pdi-mark,
 .pd-os-accordion:has(.pd-os-item.open) .pd-os-item:not(.open) .pdi-mark *{
@@ -1159,10 +1160,12 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
-            <div class="pd-os-lead">Situational awareness for every data query</div>
             <div class="pd-os-inner-flex">
-              <p>A semantic layer is a static record of what data means. A pragmatic graph is a living record of how it&rsquo;s actually used in your business &mdash; it&rsquo;s situational awareness as a foundation. It&rsquo;s an AI-native representation of your company&rsquo;s live model of meaning.</p>
-              <div class="pd-os-icon-lg">
+              <div class="pd-os-text">
+                <div class="pd-os-lead">Situational awareness for every data query</div>
+                <p>A semantic layer is a static record of what data means. A pragmatic graph is a living record of how it&rsquo;s actually used in your business &mdash; it&rsquo;s situational awareness as a foundation. It&rsquo;s an AI-native representation of your company&rsquo;s live model of meaning.</p>
+              </div>
+                            <div class="pd-os-icon-lg">
                 <svg class="pdi-mark pdi-1" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <circle class="pdi-star" cx="78" cy="12" r="1.3"/>
                   <circle class="pdi-star" cx="14" cy="40" r="1.3"/>
@@ -1226,10 +1229,12 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
-            <div class="pd-os-lead">An always-on data workforce</div>
             <div class="pd-os-inner-flex">
-              <p>Legacy records promised to stay current, but couldn&rsquo;t. Ad hoc queries were rarely reusable. Big Context agents watch how data is used, capture new caveats as they emerge, catch drift the moment a metric changes, and build your latent business context like a veteran on your team.</p>
-              <div class="pd-os-icon-lg">
+              <div class="pd-os-text">
+                <div class="pd-os-lead">An always-on data workforce</div>
+                <p>Legacy records promised to stay current, but couldn&rsquo;t. Ad hoc queries were rarely reusable. Big Context agents watch how data is used, capture new caveats as they emerge, catch drift the moment a metric changes, and build your latent business context like a veteran on your team.</p>
+              </div>
+                            <div class="pd-os-icon-lg">
                 <svg class="pdi-mark pdi-2" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path class="pdi-hair" d="M60,26 L91.2,80 L28.8,80 Z"/>
                   <path class="pdi-hair" d="M60,26 L60,49"/>
@@ -1289,10 +1294,12 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
-            <div class="pd-os-lead">Workflow-native, for your convenience</div>
             <div class="pd-os-inner-flex">
-              <p>No new tools to adopt, nothing to migrate, completely yours to do as you wish. Context is delivered into the tools you already run through open protocols like MCP. The OS meets your stack where it is and disappears into it.</p>
-              <div class="pd-os-icon-lg">
+              <div class="pd-os-text">
+                <div class="pd-os-lead">Workflow-native, for your convenience</div>
+                <p>No new tools to adopt, nothing to migrate, completely yours to do as you wish. Context is delivered into the tools you already run through open protocols like MCP. The OS meets your stack where it is and disappears into it.</p>
+              </div>
+                            <div class="pd-os-icon-lg">
                 <svg class="pdi-mark pdi-3" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path class="pdi-hair" d="M16,62.5 L40,62.5"/>
                   <path class="pdi-hair" d="M40,62.5 Q66,28 102,22"/>
@@ -1343,10 +1350,12 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
-            <div class="pd-os-lead">SME parity and validatability</div>
             <div class="pd-os-inner-flex">
-              <p>A wrong number that looks right is worse than no number &mdash; and 90% accurate, while a breakthrough in AI is catastrophic here. Before any answer or context leaves the OS, it&rsquo;s validated against evals, tests, and ground truth, traceable to its source, with low-confidence cases escalated to a human rather than guessed.</p>
-              <div class="pd-os-icon-lg">
+              <div class="pd-os-text">
+                <div class="pd-os-lead">SME parity and validatability</div>
+                <p>A wrong number that looks right is worse than no number &mdash; and 90% accurate, while a breakthrough in AI is catastrophic here. Before any answer or context leaves the OS, it&rsquo;s validated against evals, tests, and ground truth, traceable to its source, with low-confidence cases escalated to a human rather than guessed.</p>
+              </div>
+                            <div class="pd-os-icon-lg">
                 <svg class="pdi-mark pdi-4" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <g class="pdi-ringO pdi-spinbox"><circle class="pdi-hair pdi-dotring pdi-gauge" cx="60" cy="60" r="42"/></g>
                   <g class="pdi-ringI pdi-spinbox"><circle class="pdi-hair pdi-dotring pdi-gauge" cx="60" cy="60" r="27"/></g>
@@ -1400,10 +1409,12 @@ html[data-theme="light"] .pd-prag-rule{background:rgba(112,48,176,.1)}
         </div>
         <div class="pd-os-body">
           <div class="pd-os-inner">
-            <div class="pd-os-lead">Expert-grade governance out of the box</div>
             <div class="pd-os-inner-flex">
-              <p>Governance to your enterprise&rsquo;s standards &mdash; access, policy, PII handling, full audit trail &mdash; so every answer is permissioned and traceable. All backstopped by Experts-in-the-Loop. Comprehensive intervention frameworks so that the system follows the rules and your (or our) best data people can intervene at scale. Expert judgment becomes a permanent asset instead of walking out the door.</p>
-              <div class="pd-os-icon-lg">
+              <div class="pd-os-text">
+                <div class="pd-os-lead">Expert-grade governance out of the box</div>
+                <p>Governance to your enterprise&rsquo;s standards &mdash; access, policy, PII handling, full audit trail &mdash; so every answer is permissioned and traceable. All backstopped by Experts-in-the-Loop. Comprehensive intervention frameworks so that the system follows the rules and your (or our) best data people can intervene at scale. Expert judgment becomes a permanent asset instead of walking out the door.</p>
+              </div>
+                            <div class="pd-os-icon-lg">
                 <svg class="pdi-mark pdi-5" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path class="pdi-hair" d="M60,20 L94.64,40 L94.64,80 L60,100 L25.36,80 L25.36,40 Z"/>
                   <path class="pdi-hair" d="M60,60 L60,20"/>
