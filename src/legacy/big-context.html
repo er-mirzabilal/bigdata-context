@@ -1570,7 +1570,6 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     var body=item.querySelector('.pd-os-body');
     var inner=item.querySelector('.pd-os-inner');
     if(!body||!inner) return;
-    // Measure start (sm icon) and destination (lg icon) rects before animating
     var smRect=smEl?smEl.getBoundingClientRect():null;
     var lgRect=null;
     if(lgEl&&smRect){
@@ -1578,32 +1577,40 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       lgRect=lgEl.getBoundingClientRect();
       body.style.visibility='';body.style.height='0';
     }
-    // Open: add class + animate body height
     item.classList.add('open');
     body.style.height=inner.scrollHeight+'px';
-    // Ghost clone: sm icon flies and grows to lg icon position
-    if(smRect&&lgRect&&smEl){
+    if(smRect&&lgEl&&smEl){
       var svgEl=smEl.querySelector('svg');
       if(svgEl){
         var ghost=document.createElement('div');
         ghost.setAttribute('aria-hidden','true');
-        ghost.style.cssText='position:fixed;left:'+smRect.left+'px;top:'+smRect.top+'px;width:'+smRect.width+'px;height:'+smRect.height+'px;pointer-events:none;z-index:200;overflow:hidden;opacity:1';
+        ghost.style.cssText='position:fixed;left:'+smRect.left+'px;top:'+smRect.top+'px;width:'+smRect.width+'px;height:'+smRect.height+'px;pointer-events:none;z-index:200;overflow:hidden;opacity:1;will-change:left,top,width,height,opacity';
         var clone=svgEl.cloneNode(true);
         clone.style.cssText='width:100%;height:100%;display:block';
         ghost.appendChild(clone);
         document.body.appendChild(ghost);
-        requestAnimationFrame(function(){requestAnimationFrame(function(){
-          ghost.style.transition='left .42s cubic-bezier(.16,1,.3,1),top .42s cubic-bezier(.16,1,.3,1),width .42s cubic-bezier(.16,1,.3,1),height .42s cubic-bezier(.16,1,.3,1),opacity .18s ease .3s';
-          ghost.style.left=lgRect.left+'px';
-          ghost.style.top=lgRect.top+'px';
-          ghost.style.width=lgRect.width+'px';
-          ghost.style.height=lgRect.height+'px';
-          ghost.style.opacity='0';
-        });});
-        setTimeout(function(){ghost.remove();},520);
+        if(activeGhost&&activeGhost!==ghost) activeGhost.remove();
+        activeGhost=ghost;
+        var startTs=null;var dur=420;
+        function easeOut(t){return 1-Math.pow(1-t,3);}
+        function step(ts){
+          if(!startTs) startTs=ts;
+          var p=Math.min((ts-startTs)/dur,1);
+          var e=easeOut(p);
+          var lgR=lgEl.getBoundingClientRect();
+          ghost.style.left=(smRect.left+(lgR.left-smRect.left)*e)+'px';
+          ghost.style.top=(smRect.top+(lgR.top-smRect.top)*e)+'px';
+          ghost.style.width=(smRect.width+(lgR.width-smRect.width)*e)+'px';
+          ghost.style.height=(smRect.height+(lgR.height-smRect.height)*e)+'px';
+          ghost.style.opacity=p>0.72?String(1-(p-0.72)/0.28):'1';
+          if(p<1){requestAnimationFrame(step);}
+          else{if(activeGhost===ghost){ghost.remove();activeGhost=null;}}
+        }
+        requestAnimationFrame(step);
       }
     }
   }
+  var activeGhost=null;
   function close(item){
     item.classList.remove('open');
     var body=item.querySelector('.pd-os-body');
@@ -1612,6 +1619,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
   items.forEach(function(item){
     item.querySelector('.pd-os-hd').addEventListener('click',function(){
       var isOpen=item.classList.contains('open');
+      if(activeGhost){activeGhost.remove();activeGhost=null;}
       items.forEach(close);
       if(!isOpen) open(item);
     });
