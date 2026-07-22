@@ -2436,7 +2436,7 @@
     }
 
     .st-cl {
-      padding: 64px 56px;
+      padding: 28px 56px 64px;
       background: transparent;
       position: static
     }
@@ -2757,7 +2757,7 @@
 
     @media (min-width:881px) and (max-width:1120px) {
       .st-cl {
-        padding: 50px 30px
+        padding: 24px 30px 50px
       }
 
       .cl-body {
@@ -4086,26 +4086,31 @@
     .cl-ag-label {
       position: absolute;
       left: 22px;
-      bottom: calc(100% + 6px);
+      bottom: calc(100% + 2px);
       transform: translateX(-50%);
       font-family: var(--mono);
       font-size: 9px;
-      letter-spacing: .14em;
+      letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--lavender-hot);
       background: rgba(10, 6, 16, .92);
       border: 1px solid rgba(var(--p-lav), .3);
-      padding: 3px 8px;
-      border-radius: 6px;
+      padding: 2px 6px;
+      border-radius: 4px;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
       white-space: nowrap;
       z-index: 8;
       transition: opacity .2s, visibility .2s;
-      max-width: 120px;
+      max-width: 108px;
       overflow: hidden;
-      text-overflow: ellipsis
+      text-overflow: ellipsis;
+      line-height: 1.25;
+      /* Integer px size + subpixel AA: %-translate can otherwise look soft */
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+      text-rendering: geometricPrecision
     }
 
     .cl-ag-row.is-active .cl-ag-label {
@@ -4140,9 +4145,9 @@
       .cl-ag-label {
         left: 31px;
         font-size: 8px;
-        padding: 2px 6px;
-        letter-spacing: .12em;
-        max-width: 88px
+        padding: 2px 5px;
+        letter-spacing: .1em;
+        max-width: 84px
       }
     }
 
@@ -4155,6 +4160,7 @@
     /* ===== Vertical-rail redesign (3 rails + orbiting core) ===== */
     @media (min-width:881px) {
       .st-cl {
+        padding-top: 12px;
         padding-left: 28px;
         padding-right: 28px
       }
@@ -4250,14 +4256,14 @@
 
       .cl-silos .cl-rail-header {
         display: block;
-        position: absolute;
-        top: -52px;
+        position: relative;
+        top: auto;
         /* Center on main batch tile (slot l:68, s:40 → center 88px), not the fading stack */
         left: 88px;
         transform: translateX(-50%);
         text-align: center;
         width: max-content;
-        margin: 0;
+        margin: 0 0 22px;
         font-size: 12px;
         letter-spacing: .14em;
         line-height: 1.35;
@@ -4266,15 +4272,16 @@
 
       .cl-agents .cl-rail-header {
         display: block;
-        position: absolute;
-        top: -52px;
+        position: relative;
+        top: auto;
         /* Center on main batch tile (slot l:2, s:40 → center 22px), not the loading stack */
         left: 22px;
         right: auto;
         transform: translateX(-50%);
         text-align: center;
         width: max-content;
-        margin: 0;
+        /* Net ~22px above first row after the column's 30px flex gap */
+        margin: 0 0 -8px;
         font-size: 12px;
         letter-spacing: .14em;
         line-height: 1.35;
@@ -4282,6 +4289,9 @@
       }
 
       .cl-col.cl-silos {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         padding: 0;
         gap: 0;
         overflow: visible
@@ -4294,9 +4304,10 @@
       .cl-silo-grid {
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: flex-start;
-        flex: 1 1 0;
+        flex: 0 0 auto;
+        gap: 30px;
         overflow: visible
       }
 
@@ -4389,14 +4400,14 @@
         display: none
       }
 
-      /* Agents rail */
+      /* Agents rail — header + rows stay one centered group */
       .cl-agents {
         display: flex;
         flex-direction: column;
-        gap: 0;
+        gap: 30px;
         align-items: flex-start;
-        justify-content: space-around;
-        padding: 18px 0 0;
+        justify-content: center;
+        padding: 0;
         overflow: visible
       }
 
@@ -6084,8 +6095,8 @@
   <div class="bc-divider"></div>
 
   <section class="bc-section" id="the-os"
-    style="padding-top:clamp(56px,7vh,88px);padding-bottom:clamp(72px,10vh,120px);background:radial-gradient(120% 100% at 50% 30%, var(--void-2) 0%, var(--void) 60%, var(--void-3) 100%)">
-    <div class="bc-wrap" style="margin-bottom:48px">
+    style="padding-top:clamp(48px,6vh,72px);padding-bottom:clamp(72px,10vh,120px);background:radial-gradient(120% 100% at 50% 30%, var(--void-2) 0%, var(--void) 60%, var(--void-3) 100%)">
+    <div class="bc-wrap" style="margin-bottom:16px">
       <div class="bc-eyebrow bc-reveal"><span class="bar"></span>The Operating System&nbsp;&nbsp;/&nbsp;&nbsp;05</div>
     </div>
     <section class="stage st-cl" aria-labelledby="cl-figure-title">
@@ -7149,10 +7160,10 @@
 
         /* Outer → core fan — identical control ratios on both sides so L/R curves match */
         function fanCurve(x0, y0, x1, y1) {
-          const dx = x1 - x0, dy = y1 - y0;
-          // Longer hold on the outer heading, then a soft settle into the core
-          const c1x = x0 + dx * 0.52, c1y = y0 + dy * 0.06;
-          const c2x = x0 + dx * 0.94, c2y = y1;
+          const dx = x1 - x0;
+          // Leave tiles nearly horizontal, bend mid-span, arrive at core gently (no late kink)
+          const c1x = x0 + dx * 0.38, c1y = y0;
+          const c2x = x0 + dx * 0.68, c2y = y1;
           return 'M' + x0 + ',' + y0 + ' C' + c1x + ',' + c1y + ' ' + c2x + ',' + c2y + ' ' + x1 + ',' + y1;
         }
 
