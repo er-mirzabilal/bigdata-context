@@ -316,7 +316,7 @@ function GetStarted() {
             <span style={{ color: "var(--muted)", fontWeight: 400 }}>&amp; Company</span>
           </Link>
           <div className="gs-nav-links">
-            <Link to="/#pragmatics">Pragmatics</Link>
+            <Link to="/pragmatics">Pragmatics</Link>
             <Link to="/#what">Platform</Link>
             <Link to="/services">Practice</Link>
           </div>

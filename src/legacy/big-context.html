@@ -5922,7 +5922,7 @@
           class="bc-wm-img"></a>
       <div class="bc-nav-links">
         <a href="/services">Practice</a>
-        <a href="/pragmatics" style="display:none">Pragmatics</a>
+        <a href="/pragmatics">Pragmatics</a>
         <a href="/get-started" class="bc-btn">Get Started</a>
       </div>
       <div class="bc-nav-prog" aria-hidden="true"><i id="bcNavProg"></i></div>
@@ -7158,10 +7158,16 @@
           return side === 'silo' ? { l: 68, t: 2, s: 40 } : { l: 2, t: 2, s: 40 };
         }
 
-        /* Outer → core fan — identical control ratios on both sides so L/R curves match */
+        /* Outer → core fan — same control ratios desktop (horizontal) & mobile (vertical) */
         function fanCurve(x0, y0, x1, y1) {
-          const dx = x1 - x0;
-          // Leave tiles nearly horizontal, bend mid-span, arrive at core gently (no late kink)
+          const dx = x1 - x0, dy = y1 - y0;
+          // Mobile stack travels mainly in Y; desktop rails travel mainly in X.
+          // Mirror the same leave / mid-bend / soft-settle shape on the dominant axis.
+          if (Math.abs(dy) > Math.abs(dx)) {
+            const c1x = x0, c1y = y0 + dy * 0.38;
+            const c2x = x1, c2y = y0 + dy * 0.68;
+            return 'M' + x0 + ',' + y0 + ' C' + c1x + ',' + c1y + ' ' + c2x + ',' + c2y + ' ' + x1 + ',' + y1;
+          }
           const c1x = x0 + dx * 0.38, c1y = y0;
           const c2x = x0 + dx * 0.68, c2y = y1;
           return 'M' + x0 + ',' + y0 + ' C' + c1x + ',' + c1y + ' ' + c2x + ',' + c2y + ' ' + x1 + ',' + y1;
