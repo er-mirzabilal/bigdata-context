@@ -22,6 +22,7 @@
   --sans:"Hanken Grotesk",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace;
   --maxw:1160px;
+  --h:108px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -110,33 +111,52 @@ main,footer,.bc-nav{position:relative;z-index:2}
 .bc-reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.bc-reveal{opacity:1;transform:none;transition:none}}
 
-/* Toggle cards — identical to home page */
+/* Toggle cards — failure-mode switch (from home) */
 .bc-toggle{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px;margin-bottom:22px}
 .bc-tcard{text-align:left;background:rgba(20,12,30,.5);border:1px solid var(--line);border-radius:16px;padding:30px 30px;cursor:pointer;color:inherit;font-family:inherit;transition:all .3s;opacity:.62}
 .bc-tcard:hover{border-color:rgba(var(--p-lav),.45);transform:translateY(-4px);box-shadow:0 16px 40px -18px rgba(0,0,0,.7)}
 .bc-tcard[aria-pressed="true"]{opacity:1}
-.bc-tcard .ct{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
 .bc-tcard .tt{font-family:var(--serif);font-size:clamp(1.8rem,3.2vw,2.6rem);font-weight:400;letter-spacing:-.02em;line-height:1.04;margin-bottom:12px;color:var(--paper)}
 .bc-tcard .dd{font-family:var(--sans);font-size:.98rem;color:var(--muted);line-height:1.55}
 .bc-tcard .dd em{font-style:italic}
-.bc-tcard#opsSem[aria-pressed="true"]{border-color:rgba(var(--p-lav),.5)}
+.bc-tcard#bSem[aria-pressed="true"]{border-color:rgba(var(--p-lav),.5)}
 .bc-tcard.feat{background:linear-gradient(160deg,rgba(109,47,145,.2),rgba(20,12,30,.5))}
-.bc-tcard.feat .ct{color:var(--lavender)}
+.bc-tcard.feat .tt{color:var(--paper)}
 .bc-tcard.feat[aria-pressed="true"]{background:linear-gradient(160deg,rgba(109,47,145,.24),rgba(109,47,145,.06));border-color:var(--lavender)}
 .bc-tcard.feat[aria-pressed="true"] .tt{color:var(--lavender-hot)}
 @media(max-width:760px){.bc-tcard{padding:20px 18px}.bc-tcard .tt{font-size:clamp(1.35rem,4.6vw,1.9rem);margin-bottom:8px;white-space:nowrap}.bc-tcard .dd{font-size:.9rem}.bc-toggle{gap:12px;margin-bottom:18px}}
 @media(max-width:440px){.bc-toggle{grid-template-columns:1fr}}
 
-/* Swap panel */
-.ops-swap{margin-top:0;border:1px solid var(--line);border-radius:14px;background:rgba(10,6,16,.38);padding:32px 30px}
-.ops-pane{display:none}
-.ops-pane.is-active{display:block}
-.ops-pane-label{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
-.ops-list{list-style:none;display:grid;gap:14px}
-.ops-list li{display:flex;align-items:flex-start;gap:14px;font-size:1rem;color:var(--muted);line-height:1.55}
-.ops-list--prob li::before{content:"↗";font-family:var(--mono);font-size:.85em;color:rgba(var(--p-lav),.45);flex-shrink:0;margin-top:3px}
-.ops-list--sol li::before{content:"✦";font-family:var(--mono);font-size:.7em;color:var(--lavender);flex-shrink:0;margin-top:5px}
-@media(max-width:640px){.ops-swap{padding:22px 18px}}
+/* Failure-mode 12-card grid */
+.stateline{font-family:var(--sans);font-size:14px;color:var(--muted);transition:color .4s;text-align:center}
+.stateline .lav{color:var(--lavender)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.pcard{position:relative;height:var(--h);border-radius:12px;overflow:hidden;border:1px solid rgba(138,124,156,.20);background:rgba(20,12,30,.5);transition:border-color .6s ease,background .6s ease,transform .3s ease,box-shadow .3s ease}
+.grid.on .pcard{border-color:rgba(var(--p-lav),.34);background:rgba(124,58,142,.08)}
+.roll{position:absolute;left:0;top:0;width:100%;display:flex;flex-direction:column;transition:transform .6s cubic-bezier(.3,.7,.25,1)}
+.grid.on .roll{transform:translateY(calc(var(--h) * -1))}
+.row{height:var(--h);padding:17px 18px;display:flex;flex-direction:column;justify-content:center}
+.row .idx{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted-2);margin-bottom:7px}
+.row .term{font-family:var(--serif);font-style:italic;font-size:clamp(18px,2.1vw,23px);line-height:1.04;margin-bottom:7px}
+.row .desc{font-family:var(--sans);font-size:13.5px;line-height:1.38}
+.row.prob .term{color:var(--muted)}
+.row.prob .desc{color:var(--muted-2)}
+.row.sol{position:relative}
+.row.sol .term{color:var(--lavender-hot)}
+.row.sol .desc{color:#cdbfe0}
+.row.sol .tick{position:absolute;left:0;top:17px;bottom:17px;width:2px;border-radius:2px;background:linear-gradient(180deg,var(--lavender),transparent)}
+.row.sol .pad{padding-left:14px}
+.pcard:hover{transform:translateY(-4px)}
+.grid:not(.on) .pcard:hover{border-color:rgba(var(--p-lav),.28);background:rgba(20,12,30,.85);box-shadow:0 16px 36px -16px rgba(0,0,0,.78)}
+.grid:not(.on) .pcard:hover .row.prob .term{color:var(--paper)}
+.grid:not(.on) .pcard:hover .row.prob .desc{color:var(--muted)}
+.grid.on .pcard:hover{border-color:var(--lavender);background:rgba(124,58,142,.18);box-shadow:0 16px 36px -14px rgba(var(--p-lav),.3)}
+@media(max-width:820px){
+  .grid{grid-template-columns:1fr;position:relative}
+  .grid:not(.bc-expanded) .pcard:nth-child(n+5){display:none}
+  .bc-expand-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;width:100%;min-height:44px;padding:12px 18px;border-radius:999px;background:transparent;border:1px solid rgba(var(--p-lav),.4);color:var(--lavender);font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+  .bc-expand-btn:hover,.bc-expand-btn:focus-visible{background:rgba(var(--p-lav),.08);color:var(--lavender-hot)}
+}
 
 /* Cards — identical to home page bc-card */
 .bc-card{background:rgba(20,12,30,.5);border:1px solid var(--line);border-radius:16px;padding:34px 30px;transition:border-color .25s}
@@ -232,12 +252,10 @@ main,footer,.bc-nav{position:relative;z-index:2}
 .bc-hero{position:relative;min-height:100vh;display:flex;align-items:center;padding-top:80px;overflow:hidden}
 .bc-hero .bc-wrap{position:relative;z-index:2;width:100%}
 .bc-hero-inner{max-width:100%;text-align:left;display:flex;flex-direction:column;align-items:flex-start}
-.bc-hero-eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);display:inline-flex;align-items:center;gap:12px;margin-bottom:26px;opacity:0;animation:bcUp .9s ease forwards .04s}
-.bc-hero-eyebrow .bar{width:28px;height:1px;background:var(--lavender);box-shadow:0 0 8px rgba(var(--p-lav),.5)}
+/* Introducing — smaller than the header, not an eyelid */
+.bc-hero-intro{font-family:var(--serif);font-weight:400;font-size:clamp(1.2rem,2.4vw,1.75rem);line-height:1.2;letter-spacing:-.01em;color:var(--muted);margin-bottom:16px;opacity:0;animation:bcUp .9s ease forwards .04s}
 .bc-name{font-family:var(--serif);font-weight:400;font-size:clamp(2.5rem,6.2vw,7.5rem);line-height:.98;letter-spacing:-.03em;color:var(--paper)}
-.bc-tag{margin-top:24px;font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,2.9vw,2.6rem);line-height:1.2;letter-spacing:-.01em;color:var(--paper);max-width:28ch}
-.bc-tag em{font-style:italic;color:var(--emph)}
-.bc-hero-cta{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.bc-hero-cta{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
 .bc-ln-i{display:inline-block;opacity:0;transform:translateY(26px);animation:bcUp .9s cubic-bezier(.16,1,.3,1) forwards}
 .bc-d1{animation-delay:.08s}.bc-d2{animation-delay:.2s}.bc-d3{animation-delay:.42s}
 .bc-fade{opacity:0;animation:bcUp .9s ease forwards .6s}
@@ -248,8 +266,8 @@ main,footer,.bc-nav{position:relative;z-index:2}
 @keyframes bcUp{to{opacity:1;transform:none}}
 @keyframes bcF{to{opacity:1}}
 @keyframes bcRun{0%{top:-50%}100%{top:100%}}
-@media(prefers-reduced-motion:reduce){.bc-ln-i,.bc-fade,.bc-cue,.bc-hero-eyebrow{animation:none;opacity:1;transform:none}.bc-cue .l:after{animation:none}}
-@media(max-width:640px){.bc-hero{padding-top:64px;min-height:auto;padding-bottom:100px}.bc-name{font-size:clamp(2.2rem,9.5vw,3rem);line-height:1.05}.bc-tag{margin-top:20px;font-size:clamp(1.15rem,5vw,1.4rem)}.bc-hero-cta{gap:10px;margin-top:28px}}
+@media(prefers-reduced-motion:reduce){.bc-ln-i,.bc-fade,.bc-cue,.bc-hero-intro{animation:none;opacity:1;transform:none}.bc-cue .l:after{animation:none}}
+@media(max-width:640px){.bc-hero{padding-top:64px;min-height:auto;padding-bottom:100px}.bc-name{font-size:clamp(2.2rem,9.5vw,3rem);line-height:1.05}.bc-hero-intro{font-size:clamp(1.05rem,4.2vw,1.25rem);margin-bottom:12px}.bc-hero-cta{gap:10px;margin-top:28px}}
 
 /* Light mode */
 html[data-theme="light"]{
@@ -264,6 +282,12 @@ html[data-theme="light"] .bc-nav-in{background:rgba(248,245,255,.92);border-colo
 html[data-theme="light"] .bc-nav.bc-nav--scrolled .bc-nav-in{background:rgba(248,245,255,.97);border-color:rgba(112,48,176,.22)}
 html[data-theme="light"] .bc-nav-links a:not(.bc-btn){color:rgba(24,8,42,.6)}
 html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender)}
+html[data-theme="light"] .pcard{background:rgba(255,255,255,.78);border-color:rgba(112,48,176,.14)}
+html[data-theme="light"] .grid.on .pcard{background:rgba(220,202,255,.28);border-color:rgba(112,48,176,.26)}
+html[data-theme="light"] .grid:not(.on) .pcard:hover{background:rgba(248,245,255,.97);border-color:rgba(112,48,176,.28);box-shadow:0 16px 36px -16px rgba(112,48,176,.18)}
+html[data-theme="light"] .grid.on .pcard:hover{background:rgba(218,200,255,.5);border-color:var(--lavender);box-shadow:0 16px 36px -14px rgba(112,48,176,.22)}
+html[data-theme="light"] .row.sol .desc{color:#5c3a8e}
+html[data-theme="light"] .ops-carousel-outer::after{background:linear-gradient(to left,rgba(248,245,255,.85),transparent)}
 </style>
 <script>try{var _t=localStorage.getItem('bc-theme');if(_t==='light')document.documentElement.dataset.theme='light';}catch(e){}</script>
 </head>
@@ -292,9 +316,8 @@ html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender
   <section class="bc-hero">
     <div class="bc-wrap">
       <div class="bc-hero-inner">
-        <div class="bc-hero-eyebrow"><span class="bar"></span>Introducing</div>
+        <div class="bc-hero-intro">Introducing</div>
         <h1 class="bc-name bc-ln-i bc-d1">The Open<br>Pragmatics Standard</h1>
-        <p class="bc-tag bc-ln-i bc-d2">A shared vocabulary for enterprise data context &mdash; the meaning that makes AI <em>actually reliable</em> at scale.</p>
         <div class="bc-hero-cta bc-fade">
           <a href="#what-is-ops" class="bc-btn bc-btn-ghost">Learn more &darr;</a>
           <a href="#ecosystem" class="bc-btn">Request an invite &rarr;</a>
@@ -313,43 +336,21 @@ html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender
   <section class="bc-section" id="what-is-ops">
     <div class="bc-wrap bc-reveal">
       <div class="bc-eyebrow"><span class="bar"></span>What is OPS</div>
-      <h2 class="bc-h2">Why your data still <em>can&rsquo;t carry</em> AI.</h2>
-      <p class="bc-body" style="margin-top:22px">Most enterprises have data. Very few have data that AI can reliably reason from. The gap isn&rsquo;t schema coverage or tooling &mdash; it&rsquo;s pragmatic context: the judgement, constraints, and institutional knowledge that live in people&rsquo;s heads, never in a schema. The Open Pragmatics Standard is the infrastructure to close that gap, permanently and in the open.</p>
-      <a href="#resources" class="bc-prag-link">Read the whitepaper: Pragmatics &amp; Enterprise AI &rarr;</a>
+      <p class="bc-body" style="margin-top:8px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+      <a href="#" class="bc-prag-link">Read the whitepaper: Pragmatics &amp; the post-modern data stack &rarr;</a>
 
       <div class="bc-toggle" role="group" aria-label="Compare approaches">
-        <button class="bc-tcard" id="opsSem" aria-pressed="false">
-          <div class="ct">The failure mode</div>
-          <div class="tt">Semantic Context</div>
-          <div class="dd">How you attempted to define your data &mdash; <em>a hand-crafted partial snapshot of meaning intended to be used globally across its domain.</em></div>
+        <button class="bc-tcard" id="bSem" aria-pressed="true">
+          <div class="tt">Legacy Tools</div>
+          <div class="dd">API, MCP, or RAG to your siloed, legacy stack means your AI can&rsquo;t be trusted.</div>
         </button>
-        <button class="bc-tcard feat" id="opsNew" aria-pressed="true">
-          <div class="ct">The standard</div>
+        <button class="bc-tcard feat" id="bPrag" aria-pressed="false">
           <div class="tt">Pragmatics OS</div>
-          <div class="dd">A self-maintaining system of record and reliability engine that mirrors the contextual judgement of your best data experts &mdash; <em>in actual use.</em></div>
+          <div class="dd">AI-native enterprise data context, built to make data agents and AI workflows reliable.</div>
         </button>
       </div>
-
-      <div class="ops-swap" id="opsSwap">
-        <div class="ops-pane" id="opsPaneSem">
-          <div class="ops-pane-label">Why semantic context breaks down at AI-scale</div>
-          <ul class="ops-list ops-list--prob">
-            <li>Context defined for humans gets misread by AI systems trained to generalise across all domains, not just yours.</li>
-            <li>Hand-crafted definitions rot as your business evolves &mdash; no agent updates them when the meaning shifts.</li>
-            <li>Coverage gaps compound: undocumented fields, tribal-knowledge edge cases, and contradictions between systems.</li>
-            <li>Global schemas assume a single truth that doesn&rsquo;t exist across the silos, teams, and timelines of real enterprises.</li>
-          </ul>
-        </div>
-        <div class="ops-pane is-active" id="opsPaneNew">
-          <div class="ops-pane-label">How Pragmatics OS closes the gap</div>
-          <ul class="ops-list ops-list--sol">
-            <li>A living system of record that tracks what data means <em>in use</em> &mdash; not in theory.</li>
-            <li>Mirrors the institutional judgement of your best data experts, captured and made reproducible.</li>
-            <li>Open vocabulary ensures your context layer works with any AI system, any vendor, any stack.</li>
-            <li>Built to be maintained &mdash; benchmarks and tests surface drift before it becomes an AI reliability failure.</li>
-          </ul>
-        </div>
-      </div>
+      <div class="stateline" id="stateline">A dozen failure modes if you try to repurpose legacy frameworks and tools for AI-scale data work.</div>
+      <div class="grid" id="grid"></div>
     </div>
   </section>
 
@@ -359,29 +360,28 @@ html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender
   <section class="bc-section" id="resources">
     <div class="bc-wrap bc-reveal">
       <div class="bc-eyebrow"><span class="bar"></span>Resources</div>
-      <h2 class="bc-h2">Everything you need to <em>build in the open.</em></h2>
-      <p class="bc-body" style="margin-top:22px">The Open Pragmatics Standard is designed to help all data practitioners build a performant data context layer that works with AI. It&rsquo;s a toolkit that includes:</p>
+      <p class="bc-body" style="margin-top:8px">The Open Pragmatics Standard is to help all data practitioners build a performant data context layers that work with AI. It&rsquo;s a toolkit that includes:</p>
 
       <ul class="ops-bullets">
         <li><div><strong>The standard</strong> &mdash; an open, vendor-neutral vocabulary for enterprise context: metrics, entities, policies, decisions, and the tribal knowledge that never made it into a schema.</div></li>
         <li><div><strong>Evaluation tools</strong> &mdash; open benchmarks and tests to measure how legible your data actually is to AI, and whether a change made it better.</div></li>
         <li><div><strong>Reference architectures</strong> &mdash; proven blueprints for standing up a pragmatic context layer on the stack you already run.</div></li>
-        <li><div><strong>Playbooks</strong> &mdash; the patterns, step by step, for the work: migrations, metric harmonisation, keeping context current.</div></li>
-        <li><div><strong>Community</strong> &mdash; of like-minded contributors working on the mission.</div></li>
+        <li><div><strong>Playbooks</strong> &mdash; the patterns, step by step, for the work: migrations, metric harmonization, keeping context current.</div></li>
+        <li><div><strong>Ecosystem</strong> &mdash; of likeminded contributors working on the mission.</div></li>
       </ul>
 
       <p class="bc-closer">Published in the open, so your agents are never locked to anyone&rsquo;s implementation &mdash; <em>including ours.</em></p>
 
       <div class="bc-cta-rows">
-        <a href="#ecosystem" class="bc-cta-row">
+        <a href="#" class="bc-cta-row">
           <div class="ct-top">
             <span class="n">01 &nbsp;/&nbsp; White Paper</span>
             <span class="ar">&rarr;</span>
           </div>
-          <div class="tt">Pragmatics &amp; Enterprise AI</div>
+          <div class="tt">Pragmatics &amp; the Post-Modern Data Stack</div>
           <div class="bc-body" style="font-size:.93rem">The case for open pragmatic context &mdash; what it is, why semantic context fails at AI-scale, and how the standard closes the gap.</div>
         </a>
-        <a href="#ecosystem" class="bc-cta-row">
+        <a href="#" class="bc-cta-row">
           <div class="ct-top">
             <span class="n">02 &nbsp;/&nbsp; Evaluation</span>
             <span class="ar">&rarr;</span>
@@ -407,34 +407,28 @@ html[data-theme="light"] .bc-nav-links a:not(.bc-btn):hover{color:var(--lavender
   <section class="bc-section" id="field-notes">
     <div class="bc-wrap bc-reveal">
       <div class="bc-eyebrow"><span class="bar"></span>Field Notes</div>
-      <h2 class="bc-h2">Practitioners <em>in the wild.</em></h2>
-      <p class="bc-body" style="margin-top:22px">How the world&rsquo;s leading data teams are building context layers that actually work with AI.</p>
     </div>
     <div class="bc-wrap bc-reveal" style="padding-right:0">
       <div class="ops-carousel-outer">
         <div class="ops-carousel">
           <div class="ops-note">
             <div class="n">Playbook</div>
-            <div class="tt">How OpenAI structured internal data agents around a shared context layer</div>
-            <div class="meta">Enterprise Context &nbsp;&middot;&nbsp; Data Agents</div>
+            <div class="tt">OpenAI&rsquo;s internal data agents</div>
             <div class="ar">&rarr;</div>
           </div>
           <div class="ops-note">
             <div class="n">Playbook</div>
-            <div class="tt">GitHub&rsquo;s data team built a pragmatic context layer for BI agents</div>
-            <div class="meta">BI Agents &nbsp;&middot;&nbsp; Context Engineering</div>
+            <div class="tt">GitHub&rsquo;s data team built a context layer for BI agents</div>
             <div class="ar">&rarr;</div>
           </div>
           <div class="ops-note">
             <div class="n">Playbook</div>
-            <div class="tt">Anthropic&rsquo;s business context layer for internal analytics agents</div>
-            <div class="meta">Analytics Agents &nbsp;&middot;&nbsp; Internal AI</div>
+            <div class="tt">Anthropic&rsquo;s business context insight for internal analytics agents</div>
             <div class="ar">&rarr;</div>
           </div>
-          <div class="ops-note ops-note--blank">
-            <div class="n">Coming Soon</div>
-            <div class="tt">The next field note is in progress.</div>
-            <div class="meta">Submit your story</div>
+          <div class="ops-note ops-note--blank" aria-hidden="true">
+            <div class="n">&nbsp;</div>
+            <div class="tt">&nbsp;</div>
           </div>
         </div>
       </div>
@@ -566,14 +560,75 @@ var nprog=document.getElementById('bcNavProg');
 function updateNav(){var y=window.scrollY||window.pageYOffset||0;if(y>60)nav.classList.add('bc-nav--scrolled');else nav.classList.remove('bc-nav--scrolled');if(nprog){var doc=document.documentElement;var span=Math.max(1,doc.scrollHeight-window.innerHeight);nprog.style.setProperty('--p',Math.min(100,y/span*100)+'%');}}
 window.addEventListener('scroll',updateNav,{passive:true});updateNav();
 
-/* ── Toggle ── */
-var btnSem=document.getElementById('opsSem');
-var btnNew=document.getElementById('opsNew');
-var paneSem=document.getElementById('opsPaneSem');
-var paneNew=document.getElementById('opsPaneNew');
-function activatePane(which){if(which==='sem'){btnSem.setAttribute('aria-pressed','true');btnNew.setAttribute('aria-pressed','false');paneSem.classList.add('is-active');paneNew.classList.remove('is-active');}else{btnNew.setAttribute('aria-pressed','true');btnSem.setAttribute('aria-pressed','false');paneNew.classList.add('is-active');paneSem.classList.remove('is-active');}}
-btnSem.addEventListener('click',function(){activatePane('sem');});
-btnNew.addEventListener('click',function(){activatePane('ops');});
+/* ── Failure-mode toggle + 12 cards ── */
+var cards=[
+  ['01','context drift','business meaning shifts, uncaptured','self-maintained context','versioned & resolved'],
+  ['02','context sprawl','every agent defines its own terms','unified context','one definition, shared everywhere'],
+  ['03','context silos','sources fragmented, never reached','virtualized context','every source, reachable in place'],
+  ['04','context rot','freshness goes unmanaged','fresh context','continuously up-to-date'],
+  ['05','context voids','missing context like tribal knowledge','complete context','latent knowledge, captured'],
+  ['06','context bleed','meaning leaks across boundaries','scoped context','boundaries, enforced'],
+  ['07','context hallucination','determinism lost where it matters','grounded context','deterministic where it matters'],
+  ['08','context pollution','quality goes unmanaged','clean context','quality, continuously managed'],
+  ['09','context lock-in','bound to one vendor','portable context','independent of any vendor'],
+  ['10','context generalization','generic; blind to who is asking','personalized context','tuned to each user, team, org'],
+  ['11','context latency','retrieval too slow when it matters','real-time context','resolved at query speed'],
+  ['12','context opacity','answers you cannot trace or trust','traceable context','every answer, auditable to source']
+];
+var grid=document.getElementById('grid');
+var stateline=document.getElementById('stateline');
+var bSem=document.getElementById('bSem');
+var bPrag=document.getElementById('bPrag');
+if(grid&&bSem&&bPrag){
+  cards.forEach(function(c,i){
+    var idx=c[0],pt=c[1],pd=c[2],st=c[3],sd=c[4];
+    var r=Math.floor(i/3),col=i%3,delay=(r+col)*0.07;
+    var d=document.createElement('div');d.className='pcard';
+    d.innerHTML='<div class="roll" style="transition-delay:'+delay+'s">'
+      +'<div class="row prob"><div class="idx">'+idx+' · failure</div><div class="term">'+pt+'</div><div class="desc">'+pd+'</div></div>'
+      +'<div class="row sol"><div class="tick"></div><div class="pad"><div class="idx" style="color:var(--lavender);opacity:.7">'+idx+' · managed</div><div class="term">'+st+'</div><div class="desc">'+sd+'</div></div></div>'
+      +'</div>';
+    d.style.transitionDelay=delay+'s';
+    grid.appendChild(d);
+  });
+  var on=false;
+  function set(v){
+    on=v;grid.classList.toggle('on',on);
+    bSem.setAttribute('aria-pressed',String(!on));
+    bPrag.setAttribute('aria-pressed',String(on));
+    if(stateline)stateline.innerHTML=on
+      ? 'The pragmatic layer solves for <span class="lav">data meaning in context</span>.'
+      : 'A dozen failure modes if you try to repurpose legacy frameworks and tools for AI-scale data work.';
+  }
+  bSem.addEventListener('click',function(){set(false);});
+  bPrag.addEventListener('click',function(){set(true);});
+  bSem.addEventListener('mouseenter',function(){set(false);});
+  bPrag.addEventListener('mouseenter',function(){set(true);});
+
+  /* Mobile: collapse behind "Show all" */
+  (function(){
+    var mq=matchMedia('(max-width:820px)');
+    var btn=null;
+    function mount(){
+      if(!mq.matches){if(btn){btn.remove();btn=null;}grid.classList.remove('bc-expanded');return;}
+      if(btn)return;
+      if(grid.children.length<=4)return;
+      btn=document.createElement('button');
+      btn.type='button';btn.className='bc-expand-btn';
+      btn.setAttribute('aria-expanded','false');
+      btn.textContent='Show all 12 ↓';
+      btn.addEventListener('click',function(){
+        var open=grid.classList.toggle('bc-expanded');
+        btn.setAttribute('aria-expanded',String(open));
+        btn.textContent=open?'Show less ↑':'Show all 12 ↓';
+        if(!open)grid.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      grid.after(btn);
+    }
+    mount();
+    if(mq.addEventListener)mq.addEventListener('change',mount);else if(mq.addListener)mq.addListener(mount);
+  })();
+}
 })();
 </script>
 </body>
