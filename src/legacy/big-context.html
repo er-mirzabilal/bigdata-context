@@ -600,9 +600,9 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-silo-tile.cl-latent{border-style:dashed;border-color:rgba(var(--p-lav),.38);background:rgba(20,12,30,.35)}
 .cl-silo-tile.cl-text .cl-glyph{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--lavender);opacity:.78;text-transform:uppercase}
 
-/* Directional flow: dashes drift core-ward on left wires, agent-ward on right wires */
-@keyframes cl-flow{to{stroke-dashoffset:-32}}
-.cl-wires .cl-flowline{stroke-dasharray:0 7;stroke-linecap:round;stroke-width:1}
+/* Directional flow: dense pixel-space dots (canvas wires — not stretched SVG) */
+@keyframes cl-flow{to{stroke-dashoffset:-12}}
+.cl-wires .cl-flowline{stroke-dasharray:0 2.75;stroke-linecap:round;stroke-width:1.2}
 
 /* Core simplification */
 .cl-core-chip svg{width:72px;height:60px}
@@ -620,11 +620,11 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-agent.span2{grid-column:auto}
 .cl-agents .cl-more{grid-column:1 / -1;text-align:center;margin-top:4px}
 
-/* Cycle canvas + state overlays */
+/* Cycle canvas + state overlays — pixel-space dotted wires (avoids dash stretch from preserveAspectRatio=none) */
 .cl-body{position:relative}
 .cl-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
-.cl-canvas .wire{fill:none;stroke:none;stroke-width:0}
-.cl-canvas .wire.is-active{stroke:none}
+.cl-canvas .wire{fill:none;stroke:rgba(var(--p-lav),.40);stroke-width:1.35;stroke-linecap:round;stroke-dasharray:0 2.75;animation:cl-flow 1.05s linear infinite}
+.cl-canvas .wire.is-active{stroke:rgba(var(--p-lav),.88);stroke-width:1.55;stroke-dasharray:0 2.75;stroke-opacity:1}
 .cl-canvas .arrow{display:none}
 .cl-canvas .dot{fill:var(--lavender-hot);filter:drop-shadow(0 0 4px rgba(var(--p-lav),.9))}
 .cl-wires svg:not(.cl-mwire) path{transition:stroke-opacity .22s,stroke .22s}
@@ -638,14 +638,20 @@ svg.tl{width:100%;height:auto;display:block}
 .cl-core-ops{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--muted-2);text-transform:uppercase;white-space:nowrap;z-index:3}
 .cl-agent.is-active{border-color:rgba(var(--p-lav),.6);background:rgba(50,22,76,.55);box-shadow:0 8px 24px -10px rgba(var(--p-lav),.6)}
 .cl-agent.is-active .ico{background:rgba(var(--p-lav),.3);color:var(--lavender-hot);border-color:rgba(var(--p-lav),.5)}
+/* Agent-in-progress label: only the active agent shows its name, clear of the tile */
+.cl-ag-label{position:absolute;left:22px;bottom:calc(100% + 6px);transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--lavender-hot);background:rgba(10,6,16,.92);border:1px solid rgba(var(--p-lav),.3);padding:3px 8px;border-radius:6px;opacity:0;visibility:hidden;pointer-events:none;white-space:nowrap;z-index:8;transition:opacity .2s,visibility .2s;max-width:120px;overflow:hidden;text-overflow:ellipsis}
+.cl-ag-row.is-active .cl-ag-label{opacity:1;visibility:visible}
 @media (prefers-reduced-motion:reduce){.cl-canvas .dot,.cl-core-ring{display:none}.cl-agent.is-active{transition:none}}
-@media (max-width:880px){.cl-core-state,.cl-core-ops,.cl-core-ring{display:none}.cl-rail-header{display:none}}
+@media (max-width:880px){.cl-core-state,.cl-core-ops,.cl-core-ring{display:none}.cl-rail-header{display:none}.cl-ag-label{left:31px;font-size:8px;padding:2px 6px;letter-spacing:.12em;max-width:88px}}
+@media (max-width:520px){.cl-ag-label{max-width:72px}}
 
 /* ===== Vertical-rail redesign (3 rails + orbiting core) ===== */
 @media (min-width:881px){
-  .cl-body{grid-template-columns:110px 1fr 240px 1fr 110px;align-items:stretch;min-height:480px;gap:0}
+  .cl-body{grid-template-columns:110px minmax(150px,1.7fr) 220px minmax(150px,1.7fr) 110px;align-items:stretch;min-height:520px;gap:0;column-gap:18px}
   .cl-wires{position:relative;overflow:visible}
-  .cl-wires svg:not(.cl-mwire){position:absolute;top:0;height:100%;overflow:visible}
+  /* Hide stretched static SVGs — canvas wires render true dots in pixel space */
+  .cl-wires svg:not(.cl-mwire){position:absolute;top:0;height:100%;overflow:visible;opacity:0;pointer-events:none}
+  .cl-wires .cl-mwire{display:none}
   .cl-body>div:nth-child(2) svg:not(.cl-mwire){width:calc(100% + 5px);left:-3px}
   .cl-body>div:nth-child(4) svg:not(.cl-mwire){width:calc(100% + 3px);left:-1px}
   .cl-col.cl-silos{justify-content:center;align-self:stretch}
@@ -669,7 +675,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-silo-tile:hover .cl-silo-label,.cl-silo-tile.cl-row-active .cl-silo-label{opacity:1}
   .cl-more{display:none}
   /* Agents rail */
-  .cl-agents{display:flex;flex-direction:column;gap:0;align-items:flex-start;justify-content:space-around;padding:0;overflow:visible}
+  .cl-agents{display:flex;flex-direction:column;gap:0;align-items:flex-start;justify-content:space-around;padding:18px 0 0;overflow:visible}
   .cl-agents::before{display:none}
   .cl-agent{width:36px;height:36px;min-height:0;padding:0;border-radius:50%;flex:0 0 36px;flex-direction:row;justify-content:center;gap:0;background:rgba(20,12,30,.85);position:relative;z-index:1}
   .cl-agent.span2{grid-column:auto}
@@ -679,9 +685,6 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent:hover .cl-agent-label,.cl-agent.is-active .cl-agent-label{opacity:1;color:var(--lavender-hot)}
   .cl-agent-status{position:absolute;right:-1px;bottom:-1px;width:8px;height:8px;border-radius:50%;background:rgba(var(--p-lav),.25);border:1.5px solid rgba(10,6,16,1);transition:background .25s,box-shadow .25s;z-index:2}
   .cl-agent.is-active .cl-agent-status{background:var(--lavender-hot);box-shadow:0 0 8px rgba(var(--p-lav),.95)}
-  .cl-ag-label{position:absolute;left:50px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--lavender);opacity:.38;white-space:nowrap;pointer-events:none;z-index:3;transition:opacity .2s,color .2s}
-  .cl-ag-row.is-active .cl-ag-label{opacity:1;color:var(--lavender-hot)}
-  @media(max-width:880px){.cl-ag-label{display:none}}
   .cl-ag-row .cl-agent-status{display:none}
   /* Floating drift on agent chips */
   .cl-agent{animation:cl-float 6s ease-in-out infinite}
@@ -690,7 +693,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-agent:nth-child(5n){animation-delay:-4.2s}
   /* Core: hex frame + glyph + orbit rings */
   .cl-core-col{display:flex;align-items:center;justify-content:center}
-  .cl-core{background:none;border:none;box-shadow:none;padding:0;width:240px;height:240px;display:flex;align-items:center;justify-content:center;overflow:visible;border-radius:50%}
+  .cl-core{background:none;border:none;box-shadow:none;padding:0;width:220px;height:220px;display:flex;align-items:center;justify-content:center;overflow:visible;border-radius:50%}
   .cl-core::before,.cl-core::after{display:none}
   .cl-core-tag,.cl-core-title,.cl-core-tagline,.cl-core-state,.cl-core-ops,.cl-core-ring{display:none!important}
   .cl-core-col{flex-direction:column;position:relative}
@@ -698,16 +701,16 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-core-caption-top{font-family:var(--mono);font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--lavender);opacity:.85;margin-bottom:5px}
   .cl-core-caption-name{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--lavender-hot)}
   .cl-core-chip{background:none;border:none;box-shadow:none;padding:0}
-  .cl-core-chip img{width:96px!important;height:96px!important;transition:filter .7s ease-out}
+  .cl-core-chip img{width:88px!important;height:88px!important;transition:filter .7s ease-out}
   .cl-core.is-active .cl-core-chip img{filter:drop-shadow(0 0 36px rgba(199,157,240,1)) drop-shadow(0 0 18px rgba(240,224,255,.9));transition:filter .15s ease-in}
   .cl-core-glyph{position:relative;margin:0;z-index:3;display:flex}
-  .cl-core-hex{position:absolute;inset:0;margin:auto;width:118px;height:118px;display:flex;align-items:center;justify-content:center;z-index:2;animation:cl-breath 3.4s ease-in-out infinite}
+  .cl-core-hex{position:absolute;inset:0;margin:auto;width:108px;height:108px;display:flex;align-items:center;justify-content:center;z-index:2;animation:cl-breath 3.4s ease-in-out infinite}
   .cl-core-hex svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
   .cl-hex-frame{stroke:rgba(var(--p-lav),.5);stroke-width:1;fill:rgba(var(--p-lav),.04)}
   .cl-hex-pulse{stroke:rgba(var(--p-lav),.9);stroke-width:1;fill:none;opacity:0;transform-origin:50% 50%;transform-box:fill-box}
   .cl-core.is-active .cl-hex-pulse{animation:cl-hexpulse .65s ease-out}
   .cl-core.is-active .cl-hex-frame{stroke:rgba(var(--p-lav),.95)}
-  .cl-core-orbit{position:absolute;inset:0;margin:auto;width:240px;height:240px;overflow:visible;pointer-events:none;z-index:1;display:block}
+  .cl-core-orbit{position:absolute;inset:0;margin:auto;width:220px;height:220px;overflow:visible;pointer-events:none;z-index:1;display:block}
   .cl-orbit-out,.cl-orbit-mid,.cl-orbit-in{transform-box:fill-box;transform-origin:50% 50%}
   .cl-orbit-out{animation:cl-rot 90s linear infinite}
   .cl-orbit-mid{animation:cl-rot-rev 68s linear infinite}
@@ -823,11 +826,11 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-wires{height:180px;min-height:0;width:100%;display:block;position:relative;align-self:auto}
   .cl-wires>svg:not(.cl-mwire){display:none}
   .cl-wires .cl-mwire{display:none}
-  .cl-canvas .wire{stroke:rgba(var(--p-lav),.32);stroke-width:1;stroke-dasharray:0 7;stroke-linecap:round}
-  .cl-canvas .wire.is-active{stroke:rgba(var(--p-lav),.82);stroke-dasharray:none;stroke-width:1.4;stroke-opacity:1}
+  .cl-canvas .wire{stroke:rgba(var(--p-lav),.36);stroke-width:1.3;stroke-dasharray:0 2.75;stroke-linecap:round}
+  .cl-canvas .wire.is-active{stroke:rgba(var(--p-lav),.88);stroke-dasharray:0 2.75;stroke-width:1.55;stroke-opacity:1}
   .cl-col.cl-silos{display:flex;flex-direction:column;align-items:center;padding:2px 0 0;overflow:visible;align-self:auto;gap:0}
   .cl-silo-grid{display:flex;flex-direction:row;justify-content:space-around;align-items:center;width:100%;overflow:visible;row-gap:0;column-gap:0;padding:0;flex:none}
-  .cl-col.cl-agents{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-around;align-items:center;align-content:flex-start;padding:0 0 2px;overflow:visible;align-self:auto;gap:0}
+  .cl-col.cl-agents{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-around;align-items:center;align-content:flex-start;padding:22px 0 2px;overflow:visible;align-self:auto;gap:0}
   .cl-sq-row,.cl-ag-row{position:relative;width:62px;height:62px;flex-shrink:0;overflow:visible}
   .cl-sq-row .cl-silo-tile,.cl-ag-row .cl-silo-tile{position:absolute;border-radius:50%;background:rgba(20,12,30,.72);border:1px solid rgba(var(--p-lav),.22);display:flex;align-items:center;justify-content:center;will-change:transform,opacity;transition:left .48s cubic-bezier(.4,0,.2,1),width .48s ease,height .48s ease,opacity .48s ease}
   .cl-sq-row .cl-silo-tile .cl-brand,.cl-ag-row .cl-silo-tile .cl-brand{display:block;width:44%;height:44%;background:var(--lavender);opacity:.65;-webkit-mask:var(--brand) center/contain no-repeat;mask:var(--brand) center/contain no-repeat}
@@ -843,7 +846,7 @@ svg.tl{width:100%;height:auto;display:block}
   .cl-silos .cl-rail-header{display:block;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-family:var(--mono);color:var(--lavender);text-transform:uppercase;font-size:13px;letter-spacing:.14em;line-height:1.4;opacity:.9;margin:0 0 20px;padding:0}
   .cl-agents .cl-rail-header{display:block;order:99;flex-basis:100%;position:static;top:auto;left:auto;right:auto;width:100%;text-align:center;font-family:var(--mono);color:var(--lavender);text-transform:uppercase;font-size:13px;letter-spacing:.14em;line-height:1.4;opacity:.9;margin:20px 0 0;padding:0}
   @keyframes mwire-dash{to{stroke-dashoffset:-14}}
-  .cl-mwire path{stroke-dasharray:0 7;stroke-linecap:round;stroke-dashoffset:0;animation:mwire-dash 1s linear infinite}
+  .cl-mwire path{stroke-dasharray:0 3.2;stroke-linecap:round;stroke-dashoffset:0;animation:mwire-dash 1s linear infinite}
 }
 @media (max-width:520px){
   .st-cl{padding:40px 14px}
@@ -904,7 +907,7 @@ html[data-theme="light"] .cl-agent.is-active{background:rgba(230,218,255,.95)!im
 html[data-theme="light"] .cl-agent .ico{background:rgba(112,48,176,.09)}
 html[data-theme="light"] .cl-agent-status{border-color:rgba(248,245,255,1)!important}
 /* Captions / labels */
-html[data-theme="light"] .cl-cluster-caption,html[data-theme="light"] .cl-silo-label,html[data-theme="light"] .cl-agent-label{background:rgba(248,245,255,.96)!important;border-color:rgba(112,48,176,.18)!important}
+html[data-theme="light"] .cl-cluster-caption,html[data-theme="light"] .cl-silo-label,html[data-theme="light"] .cl-agent-label,html[data-theme="light"] .cl-ag-label{background:rgba(248,245,255,.96)!important;border-color:rgba(112,48,176,.18)!important}
 html[data-theme="light"] .cl-silo-grid > .cl-cluster-caption{background:rgba(248,245,255,.94)!important}
 html[data-theme="light"] .cl-silo-tile .cl-silo-label{background:rgba(248,245,255,.99)!important}
 html[data-theme="light"] .cl-core-state{background:rgba(248,245,255,.85)}
@@ -1968,6 +1971,15 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     });
   }
 
+  /* Outer → core fan — identical control ratios on both sides so L/R curves match */
+  function fanCurve(x0, y0, x1, y1){
+    const dx = x1 - x0;
+    // Hold outer heading longer, then settle into the hub
+    const c1x = x0 + dx * 0.62, c1y = y0;
+    const c2x = x0 + dx * 0.90, c2y = y1;
+    return 'M'+x0+','+y0+' C'+c1x+','+c1y+' '+c2x+','+c2y+' '+x1+','+y1;
+  }
+
   function layout(){
     const br = body.getBoundingClientRect();
     if(br.width<10 || br.height<10) return;
@@ -1979,79 +1991,51 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       // Mobile = vertical stack: silos ABOVE core, agents BELOW core.
       const cx = cr.left-br.left + cr.width/2;
       const cy = cr.top-br.top + cr.height/2;
-      // End wires at the outer orbit ring boundary (radius 120 in -130→130 viewBox = 260 units wide)
       const orbitRad = (120/260) * cr.height;
-      const coreTop = {x: cx, y: cy - orbitRad};
-      const coreBot = {x: cx, y: cy + orbitRad};
+      const gap = 10; // margin between orbit and wire tip
+      const coreTop = {x: cx, y: cy - orbitRad - gap};
+      const coreBot = {x: cx, y: cy + orbitRad + gap};
       coreL = coreTop; coreR = coreBot;
       leftWires.forEach(w=>{
         const sr = w.tile.getBoundingClientRect();
         const x = sr.left-br.left + sr.width/2;
         const y = sr.top-br.top + sr.height;
-        const dx = coreTop.x - x, dy = coreTop.y - y;
-        w.path.setAttribute('d','M'+x+','+y+' C'+x+','+(y+dy*0.3)+' '+coreTop.x+','+(y+dy*0.7)+' '+coreTop.x+','+coreTop.y);
+        // Outer (silo) → core — same as right
+        w.path.setAttribute('d', fanCurve(x, y, coreTop.x, coreTop.y));
         w.arrow.setAttribute('cx', coreTop.x); w.arrow.setAttribute('cy', coreTop.y-4);
       });
       rightWires.forEach(w=>{
         const ar = w.agent.getBoundingClientRect();
         const x = ar.left-br.left + ar.width/2;
         const y = ar.top-br.top;
-        const dx = x - coreBot.x, dy = y - coreBot.y;
-        w.path.setAttribute('d','M'+coreBot.x+','+coreBot.y+' C'+coreBot.x+','+(coreBot.y+dy*0.3)+' '+(x+dx*0.25)+','+(coreBot.y+dy*0.7)+' '+x+','+y);
+        // Outer (agent) → core — mirrors left
+        w.path.setAttribute('d', fanCurve(x, y, coreBot.x, coreBot.y));
         w.arrow.setAttribute('cx', x); w.arrow.setAttribute('cy', y-4);
       });
       return;
     }
-    coreL = {x: cr.left-br.left, y: cr.top-br.top + cr.height/2};
-    coreR = {x: cr.right-br.left, y: cr.top-br.top + cr.height/2};
+    // Desktop: attach just outside the outer orbit so curves have room to settle
+    const cx = cr.left-br.left + cr.width/2;
+    const cy = cr.top-br.top + cr.height/2;
+    const orbitRad = (120/260) * cr.width;
+    const gap = 14;
+    coreL = {x: cx - orbitRad - gap, y: cy};
+    coreR = {x: cx + orbitRad + gap, y: cy};
     leftWires.forEach(w=>{
       const sr = w.tile.getBoundingClientRect();
       const x = sr.right-br.left, y = sr.top-br.top + sr.height/2;
-      const dx = coreL.x - x, dy = coreL.y - y;
-      w.path.setAttribute('d','M'+x+','+y+' C'+(x+dx*0.3)+','+(y-dy*0.25)+' '+(x+dx*0.7)+','+coreL.y+' '+coreL.x+','+coreL.y);
+      // Outer (silo) → core
+      w.path.setAttribute('d', fanCurve(x, y, coreL.x, coreL.y));
       w.arrow.setAttribute('cx', coreL.x-4); w.arrow.setAttribute('cy', coreL.y);
     });
     rightWires.forEach(w=>{
       const ar = w.agent.getBoundingClientRect();
       const x = ar.left-br.left, y = ar.top-br.top + ar.height/2;
-      const dx = x - coreR.x, dy = y - coreR.y;
-      w.path.setAttribute('d','M'+coreR.x+','+coreR.y+' C'+(coreR.x+dx*0.3)+','+coreR.y+' '+(coreR.x+dx*0.7)+','+(y+dy*0.25)+' '+x+','+y);
+      // Outer (agent) → core — same fanCurve as left, mirrored by geometry
+      w.path.setAttribute('d', fanCurve(x, y, coreR.x, coreR.y));
       w.arrow.setAttribute('cx', x-4); w.arrow.setAttribute('cy', y);
     });
-    // Sync static SVG wire paths to actual core & tile positions so lines converge exactly
-    if(leftWireSvg && staticLeftPaths.length && rightWireSvg && staticRightPaths.length){
-      const lsvg = leftWireSvg.getBoundingClientRect();
-      const rsvg = rightWireSvg.getBoundingClientRect();
-      if(lsvg.width>0 && lsvg.height>0 && rsvg.width>0 && rsvg.height>0){
-        const lCx = (cr.left  - lsvg.left) / lsvg.width  * 58;
-        const lCy = (cr.top + cr.height/2 - lsvg.top) / lsvg.height * 300;
-        const rCx = (cr.right - rsvg.left) / rsvg.width  * 58;
-        const rCy = (cr.top + cr.height/2 - rsvg.top) / rsvg.height * 300;
-        leftWires.forEach((w, i) => {
-          if(!staticLeftPaths[i]) return;
-          const sr = w.tile.getBoundingClientRect();
-          const sy = (sr.top + sr.height/2 - lsvg.top) / lsvg.height * 300;
-          const cx1 = lCx * 0.3, cy1 = sy, cx2 = lCx * 0.7;
-          staticLeftPaths[i].setAttribute('d','M0 '+sy.toFixed(1)+' C'+cx1.toFixed(1)+' '+cy1.toFixed(1)+' '+cx2.toFixed(1)+' '+lCy.toFixed(1)+' '+lCx.toFixed(1)+' '+lCy.toFixed(1));
-        });
-        staticRightPaths.forEach((path, i) => {
-          if(!rightWires[i]) return;
-          const ar = rightWires[i].agent.getBoundingClientRect();
-          const ey = (ar.top + ar.height/2 - rsvg.top) / rsvg.height * 300;
-          const cx1x = rCx + (58 - rCx) * 0.3, cx2x = rCx + (58 - rCx) * 0.7;
-          const cy2 = ey + (ey - rCy) * 0.25;
-          path.setAttribute('d','M'+rCx.toFixed(1)+' '+rCy.toFixed(1)+' C'+cx1x.toFixed(1)+' '+rCy.toFixed(1)+' '+cx2x.toFixed(1)+' '+cy2.toFixed(1)+' 58 '+ey.toFixed(1));
-        });
-      }
-    }
   }
-
-  // Static wire SVG references — declared before layout() so dynamic path sync runs correctly
-  const wireEls = Array.from(body.querySelectorAll('.cl-wires'));
-  const leftWireSvg  = wireEls[0] ? wireEls[0].querySelector('svg:not(.cl-mwire)') : null;
-  const rightWireSvg = wireEls[1] ? wireEls[1].querySelector('svg:not(.cl-mwire)') : null;
-  const staticLeftPaths  = leftWireSvg  ? Array.from(leftWireSvg.querySelectorAll('path'))  : [];
-  const staticRightPaths = rightWireSvg ? Array.from(rightWireSvg.querySelectorAll('path')) : [];
 
   buildWires();
   layout();
@@ -2060,61 +2044,38 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
 
   function pulse(wire, dur, reverse, big){
     return new Promise(res=>{
-      const li = leftWires.indexOf(wire), ri = rightWires.indexOf(wire);
-      if(isMobile()){
-        const cp = wire.path;
-        let mlen; try{ mlen = cp.getTotalLength(); }catch(e){ res(); return; }
-        if(!mlen){ res(); return; }
-        // Use a fixed div at high z-index so it renders above all column/core elements
-        const dot = document.createElement('div');
-        const sz = big ? 7 : 5;
-        dot.style.cssText='position:fixed;border-radius:50%;width:'+sz+'px;height:'+sz+'px;background:var(--lavender-hot);box-shadow:0 0 6px 2px rgba(var(--p-lav),.85);pointer-events:none;z-index:600;transform:translate(-50%,-50%)';
-        document.body.appendChild(dot);
-        const t0 = performance.now();
-        function stepM(now){
-          const t = Math.min(1,(now-t0)/dur);
-          const ease = 1-Math.pow(1-t,2.5);
-          const tt = reverse ? 1-ease : ease;
-          const pt = cp.getPointAtLength(mlen*ease);
-          const bRfD = body.getBoundingClientRect();
-          dot.style.left=(bRfD.left+pt.x)+'px';
-          dot.style.top=(bRfD.top+pt.y)+'px';
-          if(t<1) requestAnimationFrame(stepM);
-          else { dot.remove(); res(); }
-        }
-        requestAnimationFrame(stepM);
-        return;
-      }
-      const staticSvg  = li >= 0 ? leftWireSvg  : (ri >= 0 ? rightWireSvg  : null);
-      const staticPath = li >= 0 ? staticLeftPaths[li] : (ri >= 0 ? staticRightPaths[ri] : null);
-      if(!staticSvg || !staticPath){ res(); return; }
-      let len; try{ len = staticPath.getTotalLength(); }catch(e){ res(); return; }
-      if(!len){ res(); return; }
-      const dot = document.createElementNS(NS,'circle');
-      dot.setAttribute('class','dot'); dot.setAttribute('r', big?3.0:1.5);
-      staticSvg.appendChild(dot);
+      const cp = wire.path;
+      let mlen; try{ mlen = cp.getTotalLength(); }catch(e){ res(); return; }
+      if(!mlen){ res(); return; }
+      // Same processed-tile visual used for core → agent responses
+      const tile = document.createElement('div');
+      const sz0 = big ? 10 : 8;
+      const sz1 = big ? 28 : 22;
+      tile.style.cssText='position:fixed;border-radius:50%;background:radial-gradient(circle,rgba(160,130,230,.55) 0%,rgba(100,70,190,.18) 55%,transparent 100%);border:1.5px solid rgba(160,130,230,.75);box-shadow:0 0 7px 2px rgba(130,100,200,.45);pointer-events:none;z-index:600;opacity:0';
+      document.body.appendChild(tile);
       const t0 = performance.now();
       function step(now){
         const t = Math.min(1,(now-t0)/dur);
         const ease = 1-Math.pow(1-t,2.5);
         const tt = reverse ? 1-ease : ease;
-        const pt = staticPath.getPointAtLength(len*tt);
-        dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+        const pt = cp.getPointAtLength(mlen*tt);
+        const bRf = body.getBoundingClientRect();
+        // Path is outer→core: forward = toward core (shrink), reverse = toward agent (grow)
+        const sz = reverse ? (sz0 + (sz1 - sz0) * ease) : (sz1 + (sz0 - sz1) * ease);
+        tile.style.width=sz+'px';
+        tile.style.height=sz+'px';
+        tile.style.left=(bRf.left+pt.x-sz/2)+'px';
+        tile.style.top=(bRf.top+pt.y-sz/2)+'px';
+        tile.style.opacity=t<0.12?String(t/0.12):t>0.85?String(1-(t-0.85)/0.15):'1';
         if(t<1) requestAnimationFrame(step);
-        else { dot.remove(); res(); }
+        else { tile.remove(); res(); }
       }
       requestAnimationFrame(step);
     });
   }
 
   function activate(w, ms){
-    let sp;
-    if(isMobile()){
-      sp = w.path;
-    } else {
-      const li = leftWires.indexOf(w), ri = rightWires.indexOf(w);
-      sp = li >= 0 ? staticLeftPaths[li] : (ri >= 0 ? staticRightPaths[ri] : null);
-    }
+    const sp = w.path;
     if(sp){ sp.classList.add('is-active'); setTimeout(()=>sp.classList.remove('is-active'), ms); }
   }
   function setState(s){ stateEl.textContent = s; }
@@ -2164,10 +2125,10 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     const wire = rightWires[idx];
     agent.classList.add('is-active');
 
-    // 1. Agent sends request \u2192 core
+    // 1. Agent sends request → core (path is agent→core, travel forward)
     setState('REQ');
-    activate(wire, 480);
-    await pulse(wire, 280, true, false);
+    activate(wire, 700);
+    await pulse(wire, 520, false, false);
 
     // 2. Core receives
     setState('RCV');
@@ -2212,13 +2173,25 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     setState('SEND');
     activate(wire, 1800);
     document.dispatchEvent(new CustomEvent('cl:agent-response', {detail:{ri: idx}}));
-    await sleep(400);
+
+    // Keep the agent label visible until the response tile lands
+    await new Promise(resolve => {
+      const done = (e) => {
+        if(e.detail && e.detail.ri === idx){
+          document.removeEventListener('cl:agent-response-done', done);
+          resolve();
+        }
+      };
+      document.addEventListener('cl:agent-response-done', done);
+      setTimeout(() => {
+        document.removeEventListener('cl:agent-response-done', done);
+        resolve();
+      }, 2200);
+    });
 
     recordOp();
-    setTimeout(()=>{
-      agent.classList.remove('is-active');
-      if(inFlight<=1) setState('\u00b7 \u00b7 \u00b7');
-    }, 480);
+    agent.classList.remove('is-active');
+    if(inFlight<=1) setState('\u00b7 \u00b7 \u00b7');
     inFlight--;
   }
 
@@ -2418,10 +2391,10 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       requestAnimationFrame(mfr);
       return;
     }
-    var wireSvg=document.querySelector('.cl-body>div:nth-child(2) svg:not(.cl-mwire)');
-    if(!wireSvg||wireSvg.getBoundingClientRect().width===0)return;
-    var allLPaths=Array.from(wireSvg.querySelectorAll('path'));
-    var wp=allLPaths[ri]||null;
+    var bodyElD=document.querySelector('.st-cl .cl-body');
+    var canvasSvgD=bodyElD?bodyElD.querySelector('.cl-canvas'):null;
+    var leftPathsD=canvasSvgD?Array.from(canvasSvgD.querySelectorAll('path.wire')).filter(function(p){return !p.classList.contains('req');}):[];
+    var wp=leftPathsD[ri]||null;
     if(!wp)return;
     var wpLen=wp.getTotalLength()||0;
     if(!wpLen)return;
@@ -2442,10 +2415,10 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     function frame(now){
       var t=Math.min((now-t0)/dur,1);
       var eo=1-Math.pow(1-t,2.5);
-      var sr=wireSvg.getBoundingClientRect();
+      var bRf=bodyElD.getBoundingClientRect();
       var raw=wp.getPointAtLength(wpLen*eo);
-      var bx=sr.left+(raw.x/58)*sr.width;
-      var by=sr.top+(raw.y/300)*sr.height;
+      var bx=bRf.left+raw.x;
+      var by=bRf.top+raw.y;
       var sz=Math.max(sz0*(1-t*0.94),1);
       clone.style.width=sz+'px';clone.style.height=sz+'px';
       clone.style.left=(bx-sz/2)+'px';clone.style.top=(by-sz/2)+'px';
@@ -2562,6 +2535,13 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     var lbl=document.createElement('span');lbl.className='cl-ag-label';lbl.textContent=ta.title;row.appendChild(lbl);
   agRows.push({row:row,active:ta,fading:tf,label:lbl});
   }
+  function signalAgentResponseDone(ri){
+    document.dispatchEvent(new CustomEvent('cl:agent-response-done',{detail:{ri:ri}}));
+  }
+  function setAgentLabelDeferred(rd, name){
+    if(!rd||!rd.label) return;
+    setTimeout(function(){ if(rd.label) rd.label.textContent=name; }, 240);
+  }
   function launchAgentTile(ri){
     if(window.innerWidth<=880){
       var rd=agRows[ri];
@@ -2572,7 +2552,7 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
       var wp2=rightPaths[ri]||null;
       var mlen2=wp2?wp2.getTotalLength():0;
       var cEl=document.querySelector('.cl-core');
-      if(!cEl){var ic2=rd.active.querySelector('.cl-brand');if(ic2){rd.active.style.transition='opacity 0.25s ease';rd.active.style.opacity='0';setTimeout(function(){ic2.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');rd.active.style.transition='opacity 0.3s ease';rd.active.style.opacity='1';},280);}return;}
+      if(!cEl){ var ic2=rd.active.querySelector('.cl-brand');if(ic2){rd.active.style.transition='opacity 0.25s ease';rd.active.style.opacity='0';setTimeout(function(){ic2.style.setProperty('--brand','url(\''+(newTool.u||CDN+newTool.i+'.svg')+'\')');rd.active.style.transition='opacity 0.3s ease';rd.active.style.opacity='1';signalAgentResponseDone(ri);setAgentLabelDeferred(rd,newTool.n);},280);}else{signalAgentResponseDone(ri);setAgentLabelDeferred(rd,newTool.n);}return;}
       var mc=document.createElement('div');
       mc.style.cssText='position:fixed;border-radius:50%;background:radial-gradient(circle,rgba(160,130,230,.55) 0%,rgba(100,70,190,.18) 55%,transparent 100%);border:1.5px solid rgba(160,130,230,.75);box-shadow:0 0 7px 2px rgba(130,100,200,.45);pointer-events:none;z-index:500;opacity:0';
       document.body.appendChild(mc);
@@ -2582,7 +2562,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         var bRf2=bodyEl2?bodyEl2.getBoundingClientRect():null;
         var bx,by;
         if(wp2&&mlen2&&bRf2){
-          var _eo2=1-Math.pow(1-t,2.5);var raw2=wp2.getPointAtLength(mlen2*_eo2);
+          // Path is agent→core; response flies core→agent (reverse)
+          var _eo2=1-Math.pow(1-t,2.5);var raw2=wp2.getPointAtLength(mlen2*(1-_eo2));
           bx=bRf2.left+raw2.x;by=bRf2.top+raw2.y;
         }else{
           var cElb=document.querySelector('.cl-core');
@@ -2597,18 +2578,18 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         mc.style.left=(bx-sz/2)+'px';mc.style.top=(by-sz/2)+'px';
         mc.style.opacity=t<0.12?String(t/0.12):t>0.88?String(1-(t-0.88)/0.12):'1';
         if(t<1){requestAnimationFrame(mfrA);}
-        else{mc.remove();var _sm0=SA[0],_sm1=SA[1],_tm0=(_sm0.t!=null?_sm0.t:Math.round((ROW_H-_sm0.s)/2)),_tm1=(_sm1.t!=null?_sm1.t:Math.round((ROW_H-_sm1.s)/2));var _ofx=rd.fading,_oax=rd.active;_ofx.style.transition='opacity 0.2s ease';_ofx.style.opacity='0';var _rx=_ofx;setTimeout(function(){if(rd.row.contains(_rx))rd.row.removeChild(_rx);},250);_oax.style.transition='left .38s ease,top .38s ease,width .38s ease,height .38s ease,opacity .38s ease';_oax.style.left=_sm1.l+'px';_oax.style.top=_tm1+'px';_oax.style.width=_sm1.s+'px';_oax.style.height=_sm1.s+'px';_oax.style.opacity=String(_sm1.o);rd.fading=_oax;var _nm=makeTile(newTool);_nm.style.cssText='position:absolute;transition:none;left:'+_sm0.l+'px;top:'+_tm0+'px;width:'+_sm0.s+'px;height:'+_sm0.s+'px;opacity:0;z-index:'+_sm0.z;rd.row.appendChild(_nm);rd.active=_nm;if(rd.label)rd.label.textContent=newTool.n;requestAnimationFrame(function(){requestAnimationFrame(function(){_nm.style.transition='opacity 0.3s ease';_nm.style.opacity='1';});});}}
+        else{mc.remove();var _sm0=SA[0],_sm1=SA[1],_tm0=(_sm0.t!=null?_sm0.t:Math.round((ROW_H-_sm0.s)/2)),_tm1=(_sm1.t!=null?_sm1.t:Math.round((ROW_H-_sm1.s)/2));var _ofx=rd.fading,_oax=rd.active;_ofx.style.transition='opacity 0.2s ease';_ofx.style.opacity='0';var _rx=_ofx;setTimeout(function(){if(rd.row.contains(_rx))rd.row.removeChild(_rx);},250);_oax.style.transition='left .38s ease,top .38s ease,width .38s ease,height .38s ease,opacity .38s ease';_oax.style.left=_sm1.l+'px';_oax.style.top=_tm1+'px';_oax.style.width=_sm1.s+'px';_oax.style.height=_sm1.s+'px';_oax.style.opacity=String(_sm1.o);rd.fading=_oax;var _nm=makeTile(newTool);_nm.style.cssText='position:absolute;transition:none;left:'+_sm0.l+'px;top:'+_tm0+'px;width:'+_sm0.s+'px;height:'+_sm0.s+'px;opacity:0;z-index:'+_sm0.z;rd.row.appendChild(_nm);rd.active=_nm;signalAgentResponseDone(ri);setAgentLabelDeferred(rd,newTool.n);requestAnimationFrame(function(){requestAnimationFrame(function(){_nm.style.transition='opacity 0.3s ease';_nm.style.opacity='1';});});}}
       ;
       requestAnimationFrame(mfrA);
       return;
     }
-    var wireSvg=document.querySelector('.cl-body>div:nth-child(4) svg:not(.cl-mwire)');
-    if(!wireSvg||wireSvg.getBoundingClientRect().width===0)return;
-    var allRPaths=Array.from(wireSvg.querySelectorAll('path'));
-    var wp2=allRPaths[ri]||null;
-    if(!wp2)return;
+    var bodyElR=document.querySelector('.st-cl .cl-body');
+    var canvasSvgR=bodyElR?bodyElR.querySelector('.cl-canvas'):null;
+    var rightPathsR=canvasSvgR?Array.from(canvasSvgR.querySelectorAll('path.wire.req')):[];
+    var wp2=rightPathsR[ri]||null;
+    if(!wp2){signalAgentResponseDone(ri);return;}
     var wpLen2=wp2.getTotalLength()||0;
-    if(!wpLen2)return;
+    if(!wpLen2){signalAgentResponseDone(ri);return;}
     var newTool=pick();
     var clone=document.createElement('div');
     clone.style.cssText='position:fixed;border-radius:50%;background:radial-gradient(circle,rgba(160,130,230,.55) 0%,rgba(100,70,190,.18) 55%,transparent 100%);border:1.5px solid rgba(160,130,230,.75);box-shadow:0 0 7px 2px rgba(130,100,200,.45);pointer-events:none;z-index:500;opacity:0';
@@ -2617,10 +2598,11 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
     function frame(now){
       var t=Math.min((now-t0)/dur,1);
       var eo2=1-Math.pow(1-t,2.5);
-      var sr=wireSvg.getBoundingClientRect();
-      var raw=wp2.getPointAtLength(wpLen2*eo2);
-      var bx=sr.left+(raw.x/58)*sr.width;
-      var by=sr.top+(raw.y/300)*sr.height;
+      var bRfR=bodyElR.getBoundingClientRect();
+      // Path is agent→core; response flies core→agent (reverse)
+      var raw=wp2.getPointAtLength(wpLen2*(1-eo2));
+      var bx=bRfR.left+raw.x;
+      var by=bRfR.top+raw.y;
       var sz=8+(40-8)*t;
       clone.style.width=sz+'px';clone.style.height=sz+'px';
       clone.style.left=(bx-sz/2)+'px';clone.style.top=(by-sz/2)+'px';
@@ -2651,7 +2633,8 @@ document.querySelectorAll('.bc-reveal').forEach(el=>bcIO.observe(el));
         nel.style.cssText='position:absolute;transition:none;left:2px;top:2px;width:40px;height:40px;opacity:0;z-index:2';
         rd.row.appendChild(nel);
         rd.active=nel;
-        if(rd.label)rd.label.textContent=newTool.n;
+        signalAgentResponseDone(ri);
+        setAgentLabelDeferred(rd,newTool.n);
         requestAnimationFrame(function(){requestAnimationFrame(function(){
           nel.style.transition='opacity 0.3s ease';
           nel.style.opacity='1';
