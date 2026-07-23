@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProductRouteImport } from './routes/product'
 import { Route as PragmaticsRouteImport } from './routes/pragmatics'
+import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as GetStartedRouteImport } from './routes/get-started'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -30,6 +31,11 @@ const PragmaticsRoute = PragmaticsRouteImport.update({
   path: '/pragmatics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PracticeRoute = PracticeRouteImport.update({
+  id: '/practice',
+  path: '/practice',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GetStartedRoute = GetStartedRouteImport.update({
   id: '/get-started',
   path: '/get-started',
@@ -44,6 +50,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/get-started': typeof GetStartedRoute
+  '/practice': typeof PracticeRoute
   '/pragmatics': typeof PragmaticsRoute
   '/product': typeof ProductRoute
   '/services': typeof ServicesRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/get-started': typeof GetStartedRoute
+  '/practice': typeof PracticeRoute
   '/pragmatics': typeof PragmaticsRoute
   '/product': typeof ProductRoute
   '/services': typeof ServicesRoute
@@ -59,19 +67,33 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/get-started': typeof GetStartedRoute
+  '/practice': typeof PracticeRoute
   '/pragmatics': typeof PragmaticsRoute
   '/product': typeof ProductRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/get-started' | '/pragmatics' | '/product' | '/services'
+  fullPaths:
+    | '/'
+    | '/get-started'
+    | '/practice'
+    | '/pragmatics'
+    | '/product'
+    | '/services'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/get-started' | '/pragmatics' | '/product' | '/services'
+  to:
+    | '/'
+    | '/get-started'
+    | '/practice'
+    | '/pragmatics'
+    | '/product'
+    | '/services'
   id:
     | '__root__'
     | '/'
     | '/get-started'
+    | '/practice'
     | '/pragmatics'
     | '/product'
     | '/services'
@@ -80,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GetStartedRoute: typeof GetStartedRoute
+  PracticeRoute: typeof PracticeRoute
   PragmaticsRoute: typeof PragmaticsRoute
   ProductRoute: typeof ProductRoute
   ServicesRoute: typeof ServicesRoute
@@ -108,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PragmaticsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/practice': {
+      id: '/practice'
+      path: '/practice'
+      fullPath: '/practice'
+      preLoaderRoute: typeof PracticeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/get-started': {
       id: '/get-started'
       path: '/get-started'
@@ -128,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GetStartedRoute: GetStartedRoute,
+  PracticeRoute: PracticeRoute,
   PragmaticsRoute: PragmaticsRoute,
   ProductRoute: ProductRoute,
   ServicesRoute: ServicesRoute,
