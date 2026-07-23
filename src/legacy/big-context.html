@@ -3568,10 +3568,12 @@
       background: rgba(20, 12, 30, .55);
       border: 1px solid rgba(var(--p-lav), .14);
       border-radius: 16px;
-      padding: 26px 24px 24px;
+      padding: 28px 22px 26px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      align-items: center;
+      text-align: center;
+      gap: 0;
       transition: border-color .28s, background .28s, transform .28s, box-shadow .28s
     }
 
@@ -3583,8 +3585,8 @@
     }
 
     .bc-edge-mark {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       border: 1px solid rgba(var(--p-lav), .45);
       background: rgba(var(--p-lav), .1);
@@ -3594,30 +3596,32 @@
       justify-content: center;
       color: var(--lavender-hot);
       flex-shrink: 0;
-      align-self: center;
-      margin-bottom: 4px
+      margin-bottom: 18px
     }
 
     .bc-edge-mark svg {
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       display: block
     }
 
     .bc-edge-title {
       font-family: var(--serif);
-      font-weight: 400;
-      font-size: clamp(1.15rem, 1.8vw, 1.35rem);
-      line-height: 1.25;
+      font-weight: 500;
+      font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+      line-height: 1.3;
       letter-spacing: -.01em;
-      color: var(--lavender-hot)
+      color: var(--lavender-hot);
+      margin: 0 0 8px
     }
 
     .bc-edge-body {
       font-family: var(--sans);
-      font-size: .98rem;
-      line-height: 1.6;
-      color: var(--muted)
+      font-size: .9rem;
+      line-height: 1.5;
+      color: var(--muted);
+      margin: 0;
+      max-width: 28ch
     }
 
     .bc-edge-body em {
@@ -6038,7 +6042,7 @@
       <a href="#top" class="bc-wordmark"><img src="/bc-wordmark.svg" alt="Big Context &amp; Company"
           class="bc-wm-img"></a>
       <div class="bc-nav-links">
-        <a href="/services">Practice</a>
+        <a href="/practice">Practice</a>
         <a href="/pragmatics">Pragmatics</a>
         <a href="/get-started" class="bc-btn">Get Started</a>
       </div>
@@ -6120,7 +6124,7 @@
 
   <section class="stage st-atom" id="what">
     <div class="bc-wrap">
-      <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Operating System&nbsp;&nbsp;/&nbsp;&nbsp;04</div>
+      <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Operating System&nbsp;&nbsp;/&nbsp;&nbsp;03</div>
       <h2 class="bc-h2 bc-reveal">Get your data <em>AI ready.</em></h2>
     </div>
     <div class="layout">
@@ -6202,7 +6206,7 @@
           </div>
           <p class="tier-desc">Accelerated data transformations led by elite data experts &amp; forward-deployed context
             engineers and architects. At your services.</p>
-          <a class="tier-cta" href="/services" onclick="event.stopPropagation()">Explore our AI-native data services
+          <a class="tier-cta" href="/practice" onclick="event.stopPropagation()">Explore our AI-native data services
             &rarr;</a>
         </div>
       </div>
@@ -6214,7 +6218,7 @@
   <section class="bc-section" id="the-os"
     style="padding-top:clamp(48px,6vh,72px);padding-bottom:clamp(72px,10vh,120px);background:radial-gradient(120% 100% at 50% 30%, var(--void-2) 0%, var(--void) 60%, var(--void-3) 100%)">
     <div class="bc-wrap" style="margin-bottom:16px">
-      <div class="bc-eyebrow bc-reveal"><span class="bar"></span>The Operating System&nbsp;&nbsp;/&nbsp;&nbsp;05</div>
+      <div class="bc-eyebrow bc-reveal"><span class="bar"></span>The Operating System&nbsp;&nbsp;/&nbsp;&nbsp;04</div>
     </div>
     <section class="stage st-cl" aria-labelledby="cl-figure-title">
       <div class="wrap">
@@ -6726,7 +6730,7 @@
 
   <section class="bc-section bc-edge" id="our-edge" aria-labelledby="edge-title">
     <div class="bc-wrap">
-      <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Our Edge&nbsp;&nbsp;/&nbsp;&nbsp;06</div>
+      <div class="bc-eyebrow bc-reveal"><span class="bar"></span>Our Edge&nbsp;&nbsp;/&nbsp;&nbsp;05</div>
       <div class="bc-edge-layout">
         <h2 class="bc-h2 bc-reveal" id="edge-title">The leader in enterprise data <em>context.</em></h2>
         <div class="bc-edge-grid">
@@ -6735,32 +6739,32 @@
               <!-- modular blocks: build / buy, stack flexibility -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="8" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
             </span>
-            <h3 class="bc-edge-title">Full stack and modular.</h3>
-            <p class="bc-edge-body">Build or buy &mdash; experts in the room for whichever path and stack you take.</p>
+            <h3 class="bc-edge-title">Full stack and modular</h3>
+            <p class="bc-edge-body">Build or buy. Experts in the room for whichever path and stack you take.</p>
           </article>
           <article class="bc-edge-card bc-reveal">
             <span class="bc-edge-mark" aria-hidden="true" title="Unlocked / vendor-neutral">
               <!-- open lock: vendor-neutral, no lock-in -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V8a4 4 0 0 1 7.5-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="16" r="1.4" fill="currentColor"/></svg>
             </span>
-            <h3 class="bc-edge-title">Neutrality to the core.</h3>
-            <p class="bc-edge-body">Vendor-neutral by design &mdash; we win only when your outcome is achieved.</p>
+            <h3 class="bc-edge-title">Neutrality to the core</h3>
+            <p class="bc-edge-body">Vendor-neutral by design. We win only when your outcome is achieved.</p>
           </article>
           <article class="bc-edge-card bc-reveal">
             <span class="bc-edge-mark" aria-hidden="true" title="AI spark">
               <!-- AI spark: AI-native -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.5L13.6 8.4L19.5 10L13.6 11.6L12 17.5L10.4 11.6L4.5 10L10.4 8.4L12 2.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18.5 15.5L19.3 18.2L22 19L19.3 19.8L18.5 22.5L17.7 19.8L15 19L17.7 18.2L18.5 15.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
             </span>
-            <h3 class="bc-edge-title">AI-native pragmatics.</h3>
-            <p class="bc-edge-body">Full context lifecycle reliability &mdash; deeper and broader than storage alone.</p>
+            <h3 class="bc-edge-title">AI-native pragmatics</h3>
+            <p class="bc-edge-body">Full context lifecycle reliability, deeper and broader than storage alone.</p>
           </article>
           <article class="bc-edge-card bc-reveal">
             <span class="bc-edge-mark" aria-hidden="true" title="Speed">
               <!-- stopwatch: accelerated outcomes -->
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M12 13V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9 3.5H15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 3.5V5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.5 7L19 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
             </span>
-            <h3 class="bc-edge-title">Accelerated outcomes.</h3>
-            <p class="bc-edge-body">No slow pre-work tax &mdash; mechanized process and tools to get you there <em>fast</em>.</p>
+            <h3 class="bc-edge-title">Accelerated outcomes</h3>
+            <p class="bc-edge-body">No slow pre-work tax. Mechanized process and tools to get you there <em>fast</em>.</p>
           </article>
         </div>
       </div>
@@ -6788,8 +6792,8 @@
         </div>
         <div class="bc-foot-nav">
           <div class="bc-foot-col">
-            <h4>Product</h4><a href="#">BCOS Platform</a><a href="#">The Transformation Firm</a><a href="#">Open
-              Pragmatics Standard</a>
+            <h4>Offering</h4><a href="/#pragmatics">Pragmatics OS</a><a href="/practice">The Practice</a><a
+              href="/pragmatics">Open Pragmatics Standard</a>
           </div>
           <div class="bc-foot-col">
             <h4>Resources</h4><a href="#">Whitepaper</a><a href="#">AI Readiness Test</a><a href="#">Ecosystem</a>

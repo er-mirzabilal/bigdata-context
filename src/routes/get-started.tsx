@@ -74,18 +74,15 @@ const css = `
     gap: 18px;
   }
   .gs-wordmark {
-    font-family: var(--serif);
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--paper);
-    text-decoration: none;
-    letter-spacing: -.02em;
     display: flex;
     align-items: center;
-    gap: 8px;
+    text-decoration: none;
     white-space: nowrap;
   }
-  .gs-wordmark sup { font-size: 10px; opacity: .7; }
+  .gs-wordmark img {
+    height: 22px;
+    width: auto;
+  }
   .gs-nav-links { display: flex; align-items: center; gap: 28px; }
   .gs-nav-links a {
     font-family: var(--mono);
@@ -312,13 +309,11 @@ function GetStarted() {
       <nav className="gs-nav">
         <div className="gs-nav-in">
           <Link to="/" className="gs-wordmark">
-            Big Context<sup>™</sup>
-            <span style={{ color: "var(--muted)", fontWeight: 400 }}>&amp; Company</span>
+            <img src="/bc-wordmark.svg" alt="Big Context & Company" />
           </Link>
           <div className="gs-nav-links">
+            <Link to="/practice">Practice</Link>
             <Link to="/pragmatics">Pragmatics</Link>
-            <Link to="/#what">Platform</Link>
-            <Link to="/services">Practice</Link>
           </div>
         </div>
       </nav>
